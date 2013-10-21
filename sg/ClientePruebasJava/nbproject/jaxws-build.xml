@@ -33,5 +33,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/Service1"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-Service1"/>
+    <target name="wsimport-client-GestionTaller" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/GestionTaller"/>
+        <property name="wsdl-GestionTaller" location="xml-resources/web-service-references/GestionTaller/wsdl/localhost_2489/GestionTaller.svc.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GestionTaller" destdir="${build.generated.dir}/jax-wsCache/GestionTaller" wsdl="${wsdl-GestionTaller}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:2489/GestionTaller.svc?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-GestionTaller}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/GestionTaller"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/GestionTaller">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-GestionTaller" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/GestionTaller"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-Service1, wsimport-client-GestionTaller"/>
 </project>

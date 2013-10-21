@@ -25,16 +25,16 @@ public class ClientePruebasJava {
             System.out.println("Enter number");
             eid= Integer.parseInt(br.readLine());
 
-            System.out.println(addNewEmployee(eid));
+            System.out.println(addNewTaller("Taller 1"));
         } catch (Exception e1) {
             System.out.println(e1.getMessage());
         }
     }
 
-    private static String addNewEmployee(java.lang.Integer n) {
-        org.tempuri.Service1 service = new org.tempuri.Service1();
-        org.tempuri.IService1 port = service.getBasicHttpBindingIService1();
-        return port.getData(n);
+    private static Integer addNewTaller(String name) {
+        org.tempuri.GestionTaller service = new org.tempuri.GestionTaller();
+        org.tempuri.IGestionTaller port = service.getBasicHttpBindingIGestionTaller();
+        return port.addNewTaller(name);
     }
 
 }

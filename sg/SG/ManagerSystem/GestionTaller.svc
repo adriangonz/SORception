@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="ManagerSystem.GestionTaller" CodeBehind="GestionTaller.svc.cs" %>
