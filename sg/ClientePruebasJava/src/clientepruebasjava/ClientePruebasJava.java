@@ -7,6 +7,7 @@ package clientepruebasjava;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import org.datacontract.schemas._2004._07.managersystem.Taller;
 
 /**
  *
@@ -19,19 +20,15 @@ public class ClientePruebasJava {
      */
     public static void main(String[] args) {
         try {
-            Integer eid;
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-            System.out.println("Enter number");
-            eid= Integer.parseInt(br.readLine());
-
-            System.out.println(addNewTaller("Taller 1"));
+            Taller tall = addNewTaller("Taller 1");
+            System.out.println(tall.getId());
+            System.out.println(tall.getNombre().getValue());
         } catch (Exception e1) {
             System.out.println(e1.getMessage());
         }
     }
 
-    private static Integer addNewTaller(String name) {
+    private static Taller addNewTaller(String name) {
         org.tempuri.GestionTaller service = new org.tempuri.GestionTaller();
         org.tempuri.IGestionTaller port = service.getBasicHttpBindingIGestionTaller();
         return port.addNewTaller(name);

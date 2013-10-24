@@ -11,13 +11,17 @@ namespace ManagerSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select GestionTaller.svc or GestionTaller.svc.cs at the Solution Explorer and start debugging.
     public class GestionTaller : IGestionTaller
     {
-        public int addNewTaller(string nombre)
+        public Taller addNewTaller(string nombre)
         {
             if (nombre != "")
             {
-                return 1;
+                Taller tall = new Taller();
+                tall.Nombre = nombre;
+                return tall;
             }
-            return 0;
+            return null;
         }
+
+
     }
 }

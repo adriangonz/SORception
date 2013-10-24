@@ -16,23 +16,6 @@
             <classpath path="${libs.jaxws21.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsimport-client-Service1" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/Service1"/>
-        <property name="wsdl-Service1" location="xml-resources/web-service-references/Service1/wsdl/localhost_2489/Service1.svc.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Service1" destdir="${build.generated.dir}/jax-wsCache/Service1" wsdl="${wsdl-Service1}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:2489/Service1.svc?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${wsdl-Service1}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/Service1"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/Service1">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-Service1" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/Service1"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
-    </target>
     <target name="wsimport-client-GestionTaller" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/GestionTaller"/>
         <property name="wsdl-GestionTaller" location="xml-resources/web-service-references/GestionTaller/wsdl/localhost_2489/GestionTaller.svc.wsdl"/>
@@ -50,5 +33,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/GestionTaller"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-Service1, wsimport-client-GestionTaller"/>
+    <target name="wsimport-client-GestionDesguace" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/GestionDesguace"/>
+        <property name="wsdl-GestionDesguace" location="xml-resources/web-service-references/GestionDesguace/wsdl/localhost_2489/GestionDesguace.svc.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/GestionDesguace" destdir="${build.generated.dir}/jax-wsCache/GestionDesguace" wsdl="${wsdl-GestionDesguace}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:2489/GestionDesguace.svc?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-GestionDesguace}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/GestionDesguace"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/GestionDesguace">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-GestionDesguace" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/GestionDesguace"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-GestionTaller, wsimport-client-GestionDesguace"/>
 </project>
