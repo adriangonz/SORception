@@ -76,6 +76,7 @@ Release/
 Debug/
 bin/
 obj/
+target/
 
 # -- Sistemas Operativos ------------------------------
 # Windows
