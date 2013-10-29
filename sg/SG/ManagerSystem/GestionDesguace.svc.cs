@@ -13,10 +13,61 @@ namespace ManagerSystem
     {
         public int addNewDesguace(string nombre)
         {
-            if (nombre != "")
-            {
-                return 1;
+            using (managersystemEntities ms_ent = new managersystemEntities()) {
+                var d = ms_ent.DesguaceConjunto.Create();
+                d.name = nombre;
+                ms_ent.DesguaceConjunto.Add(d);
+                ms_ent.SaveChanges();
             }
+            return 0;
+        }
+
+        public Desguace getById(int desguaceId)
+        {
+            using (managersystemEntities ms_ent = new managersystemEntities()) {
+                Desguace d = new Desguace();
+                var desguace = (from db_d in ms_ent.DesguaceConjunto
+                                where db_d.id == desguaceId
+                                select db_d).First();
+
+                d.id = desguace.id;
+                d.name = desguace.name;
+                d.active = desguace.active;
+
+                return d;
+            }
+        }
+
+        public List<Desguace> getAll()
+        {
+            using (managersystemEntities ms_ent = new managersystemEntities())
+            {
+                List<Desguace> l = new List<Desguace>();
+
+                var lq_l = from d in ms_ent.DesguaceConjunto select d;
+                foreach (var singleDesguace in lq_l)
+                {
+                    Desguace d = new Desguace();
+                    d.id = singleDesguace.id;
+                    d.active = singleDesguace.active;
+                    d.name = singleDesguace.name;
+
+                    l.Add(d);
+                }
+                return l;
+            }
+        }
+
+        public int activateDesguace(int desguaceId)
+        {
+            using (managersystemEntities ms_ent = new managersystemEntities()) {
+                var desguace = (from d in ms_ent.DesguaceConjunto
+                                where d.id == desguaceId
+                                select d).First();
+                desguace.active = true;
+                ms_ent.SaveChanges();
+            }
+
             return 0;
         }
     }

@@ -13,5 +13,14 @@ namespace ManagerSystem
     {
         [OperationContract]
         int addNewDesguace(string nombre);
+
+        [OperationContract]
+        Desguace getById(int desguaceId);
+
+        [OperationContract]
+        List<Desguace> getAll();
+
+        [OperationContract]
+        int activateDesguace(int desguaceId);
     }
 }
