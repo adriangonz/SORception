@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = {"","/"}, method=RequestMethod.GET)
 	@ResponseBody
-	public String getIndex() {
+	public String get() {
 		LOG.debug("This should return some text...");
 		return "Ola ke ase!";
 	}
