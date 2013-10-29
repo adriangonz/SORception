@@ -11,9 +11,11 @@ namespace AdminManager.Controllers
         
         public ActionResult Index()
         {
+            ServiceReference1.GestionDesguaceClient gd = new ServiceReference1.GestionDesguaceClient();
+            var desguaces = gd.getAll();
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            return View();
+            return View(desguaces.ToList());
         }
     }
 }

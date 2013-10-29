@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerSystem", "ManagerSystem\ManagerSystem.csproj", "{DF48A3F2-B134-4C3E-937A-3269EF8E0FAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminManager", "AdminManager\AdminManager.csproj", "{67A7AC83-2090-4263-9D16-1804BB9D5605}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF48A3F2-B134-4C3E-937A-3269EF8E0FAD} = {DF48A3F2-B134-4C3E-937A-3269EF8E0FAD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
