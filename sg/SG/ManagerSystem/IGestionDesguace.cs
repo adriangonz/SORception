@@ -17,10 +17,11 @@ namespace ManagerSystem
         [OperationContract]
         Desguace getById(int desguaceId);
 
+        /*
         [OperationContract]
         List<Desguace> getAll();
 
         [OperationContract]
-        int activateDesguace(int desguaceId);
+        int activateDesguace(int desguaceId);*/
     }
 }

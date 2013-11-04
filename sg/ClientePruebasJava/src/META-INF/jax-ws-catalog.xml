@@ -11,4 +11,5 @@
     <system systemId="http://localhost:2489/GestionDesguace.svc?xsd=xsd0" uri="wsdl/localhost_2489/GestionDesguace.svc.xsd_xsd0.xsd"/>
     <system systemId="http://localhost:2489/GestionDesguace.svc?xsd=xsd1" uri="wsdl/localhost_2489/GestionDesguace.svc.xsd_xsd1.xsd"/>
     <system systemId="http://localhost:2489/GestionTaller.svc?xsd=xsd2" uri="wsdl/localhost_2489/GestionTaller.svc.xsd_xsd2.xsd"/>
+    <system systemId="http://localhost:2489/GestionDesguace.svc?xsd=xsd2" uri="wsdl/localhost_2489/GestionDesguace.svc.xsd_xsd2.xsd"/>
 </catalog>

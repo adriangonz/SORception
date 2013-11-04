@@ -23,6 +23,8 @@ public class ClientePruebasJava {
             Taller tall = addNewTaller("Taller 1");
             System.out.println(tall.getId());
             System.out.println(tall.getNombre().getValue());
+            
+            System.out.println(addNewDesguace("asdf"));
         } catch (Exception e1) {
             System.out.println(e1.getMessage());
         }
@@ -32,6 +34,12 @@ public class ClientePruebasJava {
         org.tempuri.GestionTaller service = new org.tempuri.GestionTaller();
         org.tempuri.IGestionTaller port = service.getBasicHttpBindingIGestionTaller();
         return port.addNewTaller(name);
+    }
+    
+    private static Integer addNewDesguace(String name) {
+        org.tempuri.GestionDesguace service = new org.tempuri.GestionDesguace();
+        org.tempuri.IGestionDesguace port = service.getBasicHttpBindingIGestionDesguace();
+        return port.addNewDesguace(name);
     }
 
 }

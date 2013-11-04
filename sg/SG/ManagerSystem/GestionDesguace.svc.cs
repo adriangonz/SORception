@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.Text;
 
 namespace ManagerSystem
@@ -13,13 +15,18 @@ namespace ManagerSystem
     {
         public int addNewDesguace(string nombre)
         {
-            using (managersystemEntities ms_ent = new managersystemEntities()) {
-                var d = ms_ent.DesguaceConjunto.Create();
-                d.name = nombre;
-                ms_ent.DesguaceConjunto.Add(d);
-                ms_ent.SaveChanges();
+            if (nombre != "")
+            {
+                using (managersystemEntities ms_ent = new managersystemEntities())
+                {
+                    var d = ms_ent.DesguaceConjunto.Create();
+                    d.name = nombre;
+                    ms_ent.DesguaceConjunto.Add(d);
+                    ms_ent.SaveChanges();
+                    return d.id;
+                }
             }
-            return 0;
+            return 0;// throw new WebFaultException<string>("Nombre can't be empty", HttpStatusCode.InternalServerError);
         }
 
         public Desguace getById(int desguaceId)
@@ -37,7 +44,7 @@ namespace ManagerSystem
                 return d;
             }
         }
-
+        /*
         public List<Desguace> getAll()
         {
             using (managersystemEntities ms_ent = new managersystemEntities())
@@ -69,6 +76,6 @@ namespace ManagerSystem
             }
 
             return 0;
-        }
+        }*/
     }
 }
