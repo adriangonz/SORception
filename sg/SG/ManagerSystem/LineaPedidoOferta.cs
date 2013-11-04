@@ -12,17 +12,14 @@ namespace ManagerSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class Desguace
+    public partial class LineaPedidoOferta
     {
-        public Desguace()
-        {
-            this.Oferta = new HashSet<Oferta>();
-        }
-    
         public int id { get; set; }
-        public bool active { get; set; }
-        public string name { get; set; }
+        public int id_en_desguace { get; set; }
+        public int price { get; set; }
+        public int quantity { get; set; }
+        public int Oferta_id { get; set; }
     
-        public virtual ICollection<Oferta> Oferta { get; set; }
+        public virtual Oferta Oferta { get; set; }
     }
 }

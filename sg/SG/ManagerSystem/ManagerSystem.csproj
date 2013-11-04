@@ -92,14 +92,19 @@
     <Compile Include="Desguace.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DesguaceRepository.cs" />
     <Compile Include="GestionDesguace.svc.cs">
       <DependentUpon>GestionDesguace.svc</DependentUpon>
     </Compile>
     <Compile Include="GestionTaller.svc.cs">
       <DependentUpon>GestionTaller.svc</DependentUpon>
     </Compile>
+    <Compile Include="IDesguaceRepository.cs" />
     <Compile Include="IGestionDesguace.cs" />
     <Compile Include="IGestionTaller.cs" />
+    <Compile Include="LineaPedidoOferta.cs">
+      <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ManagerSystemEntityModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,6 +119,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagerSystemEntityModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Oferta.cs">
+      <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
