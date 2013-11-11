@@ -4,7 +4,7 @@
 <div class="hero-unit">
     <h1><s:message code="view.index.title" /></h1>
     <p>
-        Welcome to the Spring MVC Quickstart application!
+        Welcome Ola ke ase to the Spring MVC Quickstart application!
         Get started quickly	by signing up.
     </p>
     <p>

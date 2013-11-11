@@ -64,7 +64,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
+		registry.addResourceHandler("/assets/**").addResourceLocations("/resources/");
 	}
 
 	@Override
