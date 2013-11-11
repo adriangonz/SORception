@@ -10,6 +10,7 @@
 namespace ManagerSystem
 {
     using System;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
     
     public partial class Oferta

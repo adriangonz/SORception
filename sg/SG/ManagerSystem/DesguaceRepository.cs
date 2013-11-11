@@ -10,9 +10,18 @@ namespace ManagerSystem
     {
         static managersystemEntities ms_ent = new managersystemEntities();
 
+        static private Desguace Copy(Desguace tmp) {
+            Desguace d = new Desguace();
+            d.id = tmp.id;
+            d.name = tmp.name;
+            d.active = tmp.active;
+            d.Oferta = tmp.Oferta;
+            return d;
+        }
+
         static public Desguace Find(int id)
         {
-            return ms_ent.DesguaceConjunto.Find(id);
+            return Copy(ms_ent.DesguaceConjunto.Find(id));
         }
 
         static public void InsertOrUpdate(Desguace desguace)

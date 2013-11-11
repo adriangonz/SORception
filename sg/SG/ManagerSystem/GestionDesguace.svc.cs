@@ -28,7 +28,7 @@ namespace ManagerSystem
 
         public Desguace getDesguace(int id)
         {
-            return DesguaceRepository.Find(id);
+            return DesguaceRepository.Find(id);;
         }
 
         public int putDesguace(Desguace d)
