@@ -7,6 +7,16 @@
     <Schema Namespace="managersystemModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="managersystemModelStoreContainer">
     <EntitySet Name="DesguaceConjunto" EntityType="managersystemModel.Store.DesguaceConjunto" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OfertaConjunto" EntityType="managersystemModel.Store.OfertaConjunto" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineaPedidoOfertaConjunto" EntityType="managersystemModel.Store.LineaPedidoOfertaConjunto" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="OfertaLineaPedidoOferta" Association="managersystemModel.Store.OfertaLineaPedidoOferta">
+      <End Role="Oferta" EntitySet="OfertaConjunto" />
+      <End Role="LineaPedidoOferta" EntitySet="LineaPedidoOfertaConjunto" />
+    </AssociationSet>
+    <AssociationSet Name="DesguaceOferta" Association="managersystemModel.Store.DesguaceOferta">
+      <End Role="Desguace" EntitySet="DesguaceConjunto" />
+      <End Role="Oferta" EntitySet="OfertaConjunto" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="DesguaceConjunto">
     <Key>
@@ -16,12 +26,67 @@
     <Property Name="active" Type="bit" Nullable="false" />
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="OfertaConjunto">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Desguace_id" Type="int" Nullable="false" />
+    <Property Name="id_en_desguace" Type="int" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Desguace_id1" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="LineaPedidoOfertaConjunto">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_en_desguace" Type="int" Nullable="false" />
+    <Property Name="price" Type="int" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="Oferta_id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="OfertaLineaPedidoOferta">
+    <End Role="Oferta" Type="managersystemModel.Store.OfertaConjunto" Multiplicity="1" />
+    <End Role="LineaPedidoOferta" Type="managersystemModel.Store.LineaPedidoOfertaConjunto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Oferta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="LineaPedidoOferta">
+        <PropertyRef Name="Oferta_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DesguaceOferta">
+    <End Role="Desguace" Type="managersystemModel.Store.DesguaceConjunto" Multiplicity="0..1" />
+    <End Role="Oferta" Type="managersystemModel.Store.OfertaConjunto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Desguace">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Oferta">
+        <PropertyRef Name="Desguace_id1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="managersystemModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="managersystemEntities" p1:LazyLoadingEnabled="true" >
           <EntitySet Name="DesguaceConjunto" EntityType="managersystemModel.Desguace" />
+          <EntitySet Name="OfertaConjunto" EntityType="managersystemModel.Oferta" />
+          <EntitySet Name="LineaPedidoOfertaConjunto" EntityType="managersystemModel.LineaPedidoOferta" />
+          <AssociationSet Name="OfertaLineaPedidoOferta" Association="managersystemModel.OfertaLineaPedidoOferta">
+            <End Role="Oferta" EntitySet="OfertaConjunto" />
+            <End Role="LineaPedidoOferta" EntitySet="LineaPedidoOfertaConjunto" />
+          </AssociationSet>
+          <AssociationSet Name="DesguaceOferta" Association="managersystemModel.DesguaceOferta">
+            <End Role="Desguace" EntitySet="DesguaceConjunto" />
+            <End Role="Oferta" EntitySet="OfertaConjunto" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Desguace">
           <Key>
@@ -29,8 +94,57 @@
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Boolean" Name="active" Nullable="false" />
-          <Property Type="String" Name="name" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Oferta" Relationship="managersystemModel.DesguaceOferta" FromRole="Desguace" ToRole="Oferta" />
         </EntityType>
+        <EntityType Name="Oferta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Desguace_id" Nullable="false" Type="Int32" />
+          <Property Type="Int32" Name="id_en_desguace" Nullable="false" />
+          <Property Type="DateTime" Name="date" Nullable="false" />
+          <Property Type="String" Name="state" Nullable="false" />
+          <NavigationProperty Name="LineaPedidoOferta" Relationship="managersystemModel.OfertaLineaPedidoOferta" FromRole="Oferta" ToRole="LineaPedidoOferta" />
+          <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceOferta" FromRole="Oferta" ToRole="Desguace" />
+          <Property Type="Int32" Name="Desguace_id1" Nullable="true" />
+        </EntityType>
+        <EntityType Name="LineaPedidoOferta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="id_en_desguace" Nullable="false" />
+          <Property Type="Int32" Name="price" Nullable="false" />
+          <Property Type="Int32" Name="quantity" Nullable="false" />
+          <NavigationProperty Name="Oferta" Relationship="managersystemModel.OfertaLineaPedidoOferta" FromRole="LineaPedidoOferta" ToRole="Oferta" />
+          <Property Type="Int32" Name="Oferta_id" Nullable="false" />
+        </EntityType>
+        <Association Name="OfertaLineaPedidoOferta">
+          <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="1" />
+          <End Type="managersystemModel.LineaPedidoOferta" Role="LineaPedidoOferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oferta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LineaPedidoOferta">
+              <PropertyRef Name="Oferta_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DesguaceOferta">
+          <End Type="managersystemModel.Desguace" Role="Desguace" Multiplicity="0..1" />
+          <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Desguace">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="Desguace_id1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -43,6 +157,29 @@
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="active" ColumnName="active" />
           <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OfertaConjunto">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Oferta)">
+        <MappingFragment StoreEntitySet="OfertaConjunto">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Desguace_id" ColumnName="Desguace_id" />
+          <ScalarProperty Name="id_en_desguace" ColumnName="id_en_desguace" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="Desguace_id1" ColumnName="Desguace_id1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LineaPedidoOfertaConjunto">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.LineaPedidoOferta)">
+        <MappingFragment StoreEntitySet="LineaPedidoOfertaConjunto">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_en_desguace" ColumnName="id_en_desguace" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="Oferta_id" ColumnName="Oferta_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -59,7 +196,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>

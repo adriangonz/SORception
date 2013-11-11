@@ -26,5 +26,7 @@ namespace ManagerSystem
         }
     
         public DbSet<Desguace> DesguaceConjunto { get; set; }
+        public DbSet<Oferta> OfertaConjunto { get; set; }
+        public DbSet<LineaPedidoOferta> LineaPedidoOfertaConjunto { get; set; }
     }
 }
