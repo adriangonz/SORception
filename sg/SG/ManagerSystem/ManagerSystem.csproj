@@ -103,7 +103,7 @@
     <Content Include="App_Data\managersystem_log.ldf">
       <DependentUpon>managersystem.mdf</DependentUpon>
     </Content>
-    <Content Include="DesguaceService.svc" />
+    <Content Include="GestionAdmin.svc" />
     <Content Include="GestionDesguace.svc" />
     <Content Include="GestionTaller.svc" />
     <Content Include="ManagerSystemEntityModel.edmx.sql" />
@@ -114,8 +114,8 @@
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DesguaceRepository.cs" />
-    <Compile Include="DesguaceService.svc.cs">
-      <DependentUpon>DesguaceService.svc</DependentUpon>
+    <Compile Include="GestionAdmin.svc.cs">
+      <DependentUpon>GestionAdmin.svc</DependentUpon>
     </Compile>
     <Compile Include="GestionDesguace.svc.cs">
       <DependentUpon>GestionDesguace.svc</DependentUpon>
@@ -123,6 +123,7 @@
     <Compile Include="GestionTaller.svc.cs">
       <DependentUpon>GestionTaller.svc</DependentUpon>
     </Compile>
+    <Compile Include="IGestionAdmin.cs" />
     <Compile Include="IGestionDesguace.cs" />
     <Compile Include="IGestionTaller.cs" />
     <Compile Include="LineaPedidoOferta.cs">
