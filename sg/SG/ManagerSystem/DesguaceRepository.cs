@@ -23,6 +23,22 @@ namespace ManagerSystem
         {
             return Copy(ms_ent.DesguaceConjunto.Find(id));
         }
+        static public List<Desguace> FindAll()
+        {
+            List<Desguace> l = new List<Desguace>();
+
+            var lq_l = from d in ms_ent.DesguaceConjunto select d;
+            foreach (var singleDesguace in lq_l)
+            {
+                Desguace d = new Desguace();
+                d.id = singleDesguace.id;
+                d.active = singleDesguace.active;
+                d.name = singleDesguace.name;
+
+                l.Add(d);
+            }
+            return l;
+        }
 
         static public void InsertOrUpdate(Desguace desguace)
         {

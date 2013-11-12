@@ -1,0 +1,11 @@
+﻿@model List<AdminManager.ServiceAdmin.Desguace>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+@section featured {
+    @foreach (var item in Model)
+    {
+        <li>@item.name</li>
+    }
+}

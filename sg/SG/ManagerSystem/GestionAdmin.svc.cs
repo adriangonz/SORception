@@ -11,12 +11,12 @@ namespace ManagerSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select GestionAdmin.svc or GestionAdmin.svc.cs at the Solution Explorer and start debugging.
     public class GestionAdmin : IGestionAdmin
     {
-        public Desguace getDesguaces()
+        public List<Desguace> getDesguaces()
         {
-            return null;
+            return DesguaceRepository.FindAll();
         }
 
-        public Taller getTalleres()
+        public List<Taller> getTalleres()
         {
             return null;
         }
