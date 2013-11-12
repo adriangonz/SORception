@@ -19,14 +19,6 @@ namespace AdminManager.Controllers
         // GET api/desguace/5
         public string Get(int id)
         {
-            /*using (managersystemEntities ms_ent = new managersystemEntities())
-            {
-                var desguace = (from d in ms_ent.DesguaceConjunto
-                                where d.id == id
-                                select d).First();
-                desguace.active = true;
-                ms_ent.SaveChanges();
-            }*/
             return "value";
         }
 
