@@ -1,11 +1,55 @@
 ﻿@model List<AdminManager.ServiceAdmin.Desguace>
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Desguaces";
 }
 @section featured {
-    @foreach (var item in Model)
-    {
-        <li>@item.name</li>
-    }
+    
 }
+<h2>Gestor de desguaces</h2>
+<p>Desde aquí puede gestionar los desguaces del sistema</p>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Deguaces registrados</div>
+
+  <!-- Table -->
+  <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Fecha de registro</th>
+              <th>Activo</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+              @foreach (var item in Model)
+                {
+                    <tr>
+                      <td>@item.id</td>
+                      <td>@item.name</td>
+                      <td>@DateTime.Today</td>
+                      <td>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default @(item.active ? "active" : "")">
+                            <input type="radio" name="options" id="option1"> On
+                            </label>
+                            <label class="btn btn-default @(item.active ? "" : "active")">
+                            <input type="radio" name="options" id="option2"> Off
+                            </label>
+                        </div>
+                      </td>
+                      <td>
+                          <button type="button" class="btn btn-default">
+                              <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+
+                      </td>
+                    </tr>
+                }
+          </tbody>
+        
+  </table>
+</div>

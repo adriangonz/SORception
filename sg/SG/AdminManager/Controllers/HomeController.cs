@@ -18,7 +18,7 @@ namespace AdminManager.Controllers
             return View();
         }
 
-        public ActionResult Deguaces()
+        public ActionResult Desguaces()
         {
             ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
             var desguaces = gd.getDesguaces();

@@ -6,6 +6,7 @@
         <title>@ViewBag.Title - Sorception</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/bootstrap.min.css", "~/Content/bootstrap-theme.min.css","//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css")
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
@@ -21,7 +22,7 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Inicio","Index","Home")</li>
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("Desguaces","Desguaces","Home")</li>
                             <li>@Html.ActionLink("Talleres","Talleres","Home")</li>
                         </ul>
@@ -44,6 +45,7 @@
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/Scripts/bootstrap.min.js")
         @RenderSection("scripts", required: false)
     </body>
 </html>
