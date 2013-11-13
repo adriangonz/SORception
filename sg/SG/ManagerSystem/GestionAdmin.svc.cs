@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.Text;
 
 namespace ManagerSystem
@@ -23,7 +25,15 @@ namespace ManagerSystem
 
         public int activeDesguace(int id, bool active)
         {
-            return 0;
+            Desguace d = DesguaceRepository.Find(id);
+            if (d == null)
+            {
+                throw new WebFaultException<string>("Desguace not found", HttpStatusCode.NotFound);
+            }
+            d.active = active;
+            DesguaceRepository.InsertOrUpdate(d);
+            DesguaceRepository.Save();
+            return 1;
         }
 
         public int activeTaller(int id, bool active)
@@ -38,6 +48,8 @@ namespace ManagerSystem
 
         public int deleteDesguace(int id)
         {
+            DesguaceRepository.Delete(id);
+            DesguaceRepository.Save();
             return 0;
         }
     }
