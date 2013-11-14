@@ -8,7 +8,7 @@ namespace AdminManager.Controllers
 {
     public class HomeController : Controller
     {
-        
+        [Authorize]
         public ActionResult Index()
         {
             ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
@@ -18,12 +18,15 @@ namespace AdminManager.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Desguaces()
         {
             ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
             var desguaces = gd.getDesguaces();
             return View(desguaces.ToList());
         }
+
+        [Authorize]
         public ActionResult Talleres()
         {
             return View();
