@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-	<title>Hello World!</title>
+	<title>Desguace Java</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" media="screen" />
 	<link href="<c:url value="/resources/css/core.css" />" rel="stylesheet" media="screen" />
@@ -24,7 +24,7 @@
     <![endif]-->
     
 </head>
-<body>
+<body ng-app="junkyard.module">
 	
 	<tiles:insertAttribute name="header"  defaultValue="" />
 	<!-- Page content -->
@@ -52,5 +52,9 @@
 	
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="/resources/app/services/junkyardService.js"></script>
+    <script src="/resources/app/directives/junkyardDirective.js"></script>
+    <script src="/resources/app/controllers/junkyardController.js"></script>
 </body>
 </html>
