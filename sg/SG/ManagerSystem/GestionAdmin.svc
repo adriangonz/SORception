@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="ManagerSystem.GestionAdmin" CodeBehind="GestionAdmin.svc.cs" %>

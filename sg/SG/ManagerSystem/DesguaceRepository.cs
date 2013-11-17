@@ -21,7 +21,30 @@ namespace ManagerSystem
 
         static public Desguace Find(int id)
         {
-            return Copy(ms_ent.DesguaceConjunto.Find(id));
+            return ms_ent.DesguaceConjunto.Find(id);
+        }
+
+        static public Desguace Sanitize(Desguace d)
+        {
+            return Copy(d);
+        }
+
+
+        static public List<Desguace> FindAll()
+        {
+            List<Desguace> l = new List<Desguace>();
+
+            var lq_l = from d in ms_ent.DesguaceConjunto select d;
+            foreach (var singleDesguace in lq_l)
+            {
+                Desguace d = new Desguace();
+                d.id = singleDesguace.id;
+                d.active = singleDesguace.active;
+                d.name = singleDesguace.name;
+
+                l.Add(d);
+            }
+            return l;
         }
 
         static public void InsertOrUpdate(Desguace desguace)
@@ -34,6 +57,7 @@ namespace ManagerSystem
             else
             {
                 // Existing entity
+                //ms_ent.DesguaceConjunto.Attach(desguace);
                 ms_ent.Entry(desguace).State = EntityState.Modified;
             }
         }

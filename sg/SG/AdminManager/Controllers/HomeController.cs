@@ -8,14 +8,28 @@ namespace AdminManager.Controllers
 {
     public class HomeController : Controller
     {
-        
+        [Authorize]
         public ActionResult Index()
         {
-            ServiceReference1.GestionDesguaceClient gd = new ServiceReference1.GestionDesguaceClient();
-            var desguaces = gd.getAll();
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
+            var desguaces = gd.getDesguaces();
+            ViewBag.Message = "Tenemos "+desguaces.Count()+ " deguaces y  32 talleres";
 
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Desguaces()
+        {
+            ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
+            var desguaces = gd.getDesguaces();
             return View(desguaces.ToList());
+        }
+
+        [Authorize]
+        public ActionResult Talleres()
+        {
+            return View();
         }
     }
 }
