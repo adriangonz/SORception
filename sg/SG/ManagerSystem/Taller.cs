@@ -13,17 +13,17 @@ namespace ManagerSystem
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     
-    public partial class Desguace
+    public partial class Taller
     {
-        public Desguace()
+        public Taller()
         {
-            this.Oferta = new HashSet<Oferta>();
+            this.Ofertas = new HashSet<Oferta>();
         }
     
-        public int id { get; set; }
+        public int Id { get; set; }
         public bool active { get; set; }
         public string name { get; set; }
     
-        public virtual ICollection<Oferta> Oferta { get; set; }
+        public virtual ICollection<Oferta> Ofertas { get; set; }
     }
 }
