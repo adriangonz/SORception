@@ -103,10 +103,8 @@
     <Content Include="App_Data\managersystem_log.ldf">
       <DependentUpon>managersystem.mdf</DependentUpon>
     </Content>
-    <Content Include="DesguaceService.svc" />
     <Content Include="GestionDesguace.svc" />
     <Content Include="GestionTaller.svc" />
-    <Content Include="ManagerSystemEntityModel.edmx.sql" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +112,6 @@
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DesguaceRepository.cs" />
-    <Compile Include="DesguaceService.svc.cs">
-      <DependentUpon>DesguaceService.svc</DependentUpon>
-    </Compile>
     <Compile Include="GestionDesguace.svc.cs">
       <DependentUpon>GestionDesguace.svc</DependentUpon>
     </Compile>
@@ -143,6 +138,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagerSystemEntityModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Oferta.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
