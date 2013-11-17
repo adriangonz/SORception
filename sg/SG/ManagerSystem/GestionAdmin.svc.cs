@@ -53,7 +53,7 @@ namespace ManagerSystem
         {
             TallerRepository.Delete(id);
             TallerRepository.Save();
-            return 0;
+            return 1;
         }
 
         public int deleteDesguace(int id)
