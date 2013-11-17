@@ -20,7 +20,7 @@ namespace ManagerSystem
 
         public List<Taller> getTalleres()
         {
-            return null;
+            return TallerRepository.FindAll();
         }
 
         public int activeDesguace(int id, bool active)
@@ -38,19 +38,29 @@ namespace ManagerSystem
 
         public int activeTaller(int id, bool active)
         {
-            return 0;
+            Taller t = TallerRepository.Find(id);
+            if (t == null)
+            {
+                throw new WebFaultException<string>("Taller not found", HttpStatusCode.NotFound);
+            }
+            t.active = active;
+            TallerRepository.InsertOrUpdate(t);
+            TallerRepository.Save();
+            return 1;
         }
 
         public int deleteTaller(int id)
         {
-            return 0;
+            TallerRepository.Delete(id);
+            TallerRepository.Save();
+            return 1;
         }
 
         public int deleteDesguace(int id)
         {
             DesguaceRepository.Delete(id);
             DesguaceRepository.Save();
-            return 0;
+            return 1;
         }
     }
 }
