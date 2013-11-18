@@ -52,9 +52,13 @@
 	
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+    <script type="text/javascript">
+        var r_main = "<c:url value="/resources/app/templates/main.html" />";
+        var r_config = "<c:url value="/resources/app/templates/config.html" />";
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="/resources/app/services/junkyardService.js"></script>
-    <script src="/resources/app/directives/junkyardDirective.js"></script>
-    <script src="/resources/app/controllers/junkyardController.js"></script>
+    <script src="<c:url value="/resources/app/services/junkyardService.js" />"></script>
+    <script src="<c:url value="/resources/app/directives/junkyardDirective.js" />"></script>
+    <script src="<c:url value="/resources/app/controllers/junkyardController.js" />"></script>
 </body>
 </html>

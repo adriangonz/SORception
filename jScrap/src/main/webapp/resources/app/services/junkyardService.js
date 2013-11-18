@@ -18,12 +18,12 @@ module.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/main', {
-        templateUrl: '/resources/app/templates/main.html',
+        templateUrl: r_main,
         controller: 'JunkyardCtrl'
       }).
-      when('/add_agent', {
-        templateUrl: '/resources/app/templates/add_agent.html',
-        controller: 'AgentCtrl'
+      when('/config', {
+        templateUrl: r_config,
+        controller: 'JunkyardCtrl'
       }).
       otherwise({
         redirectTo: '/main'
