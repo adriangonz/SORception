@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.Text;
 
 namespace ManagerSystem
@@ -18,27 +20,47 @@ namespace ManagerSystem
 
         public List<Taller> getTalleres()
         {
-            return null;
+            return TallerRepository.FindAll();
         }
 
         public int activeDesguace(int id, bool active)
         {
-            return 0;
+            Desguace d = DesguaceRepository.Find(id);
+            if (d == null)
+            {
+                throw new WebFaultException<string>("Desguace not found", HttpStatusCode.NotFound);
+            }
+            d.active = active;
+            DesguaceRepository.InsertOrUpdate(d);
+            DesguaceRepository.Save();
+            return 1;
         }
 
         public int activeTaller(int id, bool active)
         {
-            return 0;
+            Taller t = TallerRepository.Find(id);
+            if (t == null)
+            {
+                throw new WebFaultException<string>("Taller not found", HttpStatusCode.NotFound);
+            }
+            t.active = active;
+            TallerRepository.InsertOrUpdate(t);
+            TallerRepository.Save();
+            return 1;
         }
 
         public int deleteTaller(int id)
         {
-            return 0;
+            TallerRepository.Delete(id);
+            TallerRepository.Save();
+            return 1;
         }
 
         public int deleteDesguace(int id)
         {
-            return 0;
+            DesguaceRepository.Delete(id);
+            DesguaceRepository.Save();
+            return 1;
         }
     }
 }

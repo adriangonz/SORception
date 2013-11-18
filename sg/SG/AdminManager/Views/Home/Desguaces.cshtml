@@ -12,7 +12,8 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">Deguaces registrados</div>
-
+    <div class="alert alert-success" id="succes" style="display: none;">Datos modificados correctament</div>
+    <div class="alert alert-danger" id="error" style="display: none;">Error al modificar los datos</div>
   <!-- Table -->
   <table class="table">
           <thead>
@@ -27,17 +28,17 @@
           <tbody>
               @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr id="row@(item.id)">
                       <td>@item.id</td>
                       <td>@item.name</td>
                       <td>@DateTime.Today</td>
                       <td>
-                        <div class="btn-group" data-toggle="buttons">
+                        <div class="btn-group" data-toggle="buttons" >
                             <label class="btn btn-default @(item.active ? "active" : "")">
-                            <input type="radio" name="options" id="option1"> On
+                                <input type="radio" name="options1@(item.id)" id="option1@(item.id)" value="true" onchange="changeStatus($(this),@item.id)"> On
                             </label>
                             <label class="btn btn-default @(item.active ? "" : "active")">
-                            <input type="radio" name="options" id="option2"> Off
+                            <input type="radio" name="options2@(item.id)" id="option2@(item.id)"  value="false" onchange="changeStatus($(this),@item.id)"> Off
                             </label>
                         </div>
                       </td>
@@ -53,3 +54,9 @@
         
   </table>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+}
+@section ScriptsPersonal {
+    @Scripts.Render("~/Scripts/desguaces.js")
+}

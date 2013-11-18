@@ -8,25 +8,31 @@ namespace AdminManager.Controllers
 {
     public class HomeController : Controller
     {
-        
+        [Authorize]
         public ActionResult Index()
         {
             ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
             var desguaces = gd.getDesguaces();
-            ViewBag.Message = "Tenemos "+desguaces.Count()+ " deguaces y  32 talleres";
+            var talleres = gd.getTalleres();
+            ViewBag.Message = "Tenemos " + desguaces.Count() + " deguaces y  " + talleres.Count() + " talleres";
 
             return View();
         }
 
+        [Authorize]
         public ActionResult Desguaces()
         {
             ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
             var desguaces = gd.getDesguaces();
             return View(desguaces.ToList());
         }
+
+        [Authorize]
         public ActionResult Talleres()
         {
-            return View();
+            ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
+            var talleres = gd.getTalleres();
+            return View(talleres.ToList());
         }
     }
 }

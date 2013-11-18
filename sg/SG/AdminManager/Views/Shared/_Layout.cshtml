@@ -45,7 +45,9 @@
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/Scripts/bootstrap.min.js")
         @RenderSection("scripts", required: false)
+        @Scripts.Render("~/Scripts/bootstrap.min.js")
+        @RenderSection("scriptsPersonal", required: false)
+        
     </body>
 </html>
