@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ManagerSystem" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ManagerSystem" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfDesguace">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Desguace" nillable="true" type="tns:Desguace" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDesguace" nillable="true" type="tns:ArrayOfDesguace" />
+  <xs:complexType name="Desguace">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Oferta" nillable="true" type="tns:ArrayOfOferta" />
+      <xs:element minOccurs="0" name="active" type="xs:boolean" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Desguace" nillable="true" type="tns:Desguace" />
+  <xs:complexType name="ArrayOfOferta">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Oferta" nillable="true" type="tns:Oferta" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOferta" nillable="true" type="tns:ArrayOfOferta" />
+  <xs:complexType name="Oferta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Desguace" nillable="true" type="tns:Desguace" />
+      <xs:element minOccurs="0" name="Desguace_id" type="xs:int" />
+      <xs:element minOccurs="0" name="Desguace_id1" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="LineaPedidoOferta" nillable="true" type="tns:ArrayOfLineaPedidoOferta" />
+      <xs:element minOccurs="0" name="Taller" nillable="true" type="tns:Taller" />
+      <xs:element minOccurs="0" name="TallerId" type="xs:int" />
+      <xs:element minOccurs="0" name="TallerId1" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="id_en_desguace" type="xs:int" />
+      <xs:element minOccurs="0" name="state" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Oferta" nillable="true" type="tns:Oferta" />
+  <xs:complexType name="ArrayOfLineaPedidoOferta">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LineaPedidoOferta" nillable="true" type="tns:LineaPedidoOferta" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLineaPedidoOferta" nillable="true" type="tns:ArrayOfLineaPedidoOferta" />
+  <xs:complexType name="LineaPedidoOferta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Oferta" nillable="true" type="tns:Oferta" />
+      <xs:element minOccurs="0" name="Oferta_id" type="xs:int" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="id_en_desguace" type="xs:int" />
+      <xs:element minOccurs="0" name="price" type="xs:int" />
+      <xs:element minOccurs="0" name="quantity" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LineaPedidoOferta" nillable="true" type="tns:LineaPedidoOferta" />
+  <xs:complexType name="Taller">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Ofertas" nillable="true" type="tns:ArrayOfOferta" />
+      <xs:element minOccurs="0" name="active" type="xs:boolean" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Taller" nillable="true" type="tns:Taller" />
+  <xs:complexType name="ArrayOfTaller">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Taller" nillable="true" type="tns:Taller" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTaller" nillable="true" type="tns:ArrayOfTaller" />
+</xs:schema>

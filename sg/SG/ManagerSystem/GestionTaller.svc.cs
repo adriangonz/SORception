@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -11,15 +12,25 @@ namespace ManagerSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select GestionTaller.svc or GestionTaller.svc.cs at the Solution Explorer and start debugging.
     public class GestionTaller : IGestionTaller
     {
-        public Taller addNewTaller(string nombre)
+        public int addNewTaller(string nombre)
         {
             if (nombre != "")
             {
-                Taller tall = new Taller();
-                tall.Nombre = nombre;
-                return tall;
+                try
+                {
+                    Taller tall = new Taller();
+                    tall.name = nombre;
+                    TallerRepository.InsertOrUpdate(tall);
+                    TallerRepository.Save();
+                    return 1;
+                }
+                catch (Exception e)
+                {
+                    
+                    throw;
+                }
             }
-            return null;
+            return 0;
         }
 
 

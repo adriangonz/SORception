@@ -9,12 +9,17 @@
     <EntitySet Name="DesguaceConjunto" EntityType="managersystemModel.Store.DesguaceConjunto" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OfertaConjunto" EntityType="managersystemModel.Store.OfertaConjunto" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LineaPedidoOfertaConjunto" EntityType="managersystemModel.Store.LineaPedidoOfertaConjunto" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tallers" EntityType="managersystemModel.Store.Tallers" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="OfertaLineaPedidoOferta" Association="managersystemModel.Store.OfertaLineaPedidoOferta">
       <End Role="Oferta" EntitySet="OfertaConjunto" />
       <End Role="LineaPedidoOferta" EntitySet="LineaPedidoOfertaConjunto" />
     </AssociationSet>
     <AssociationSet Name="DesguaceOferta" Association="managersystemModel.Store.DesguaceOferta">
       <End Role="Desguace" EntitySet="DesguaceConjunto" />
+      <End Role="Oferta" EntitySet="OfertaConjunto" />
+    </AssociationSet>
+    <AssociationSet Name="TallerOferta" Association="managersystemModel.Store.TallerOferta">
+      <End Role="Taller" EntitySet="Tallers" />
       <End Role="Oferta" EntitySet="OfertaConjunto" />
     </AssociationSet>
   </EntityContainer>
@@ -36,6 +41,8 @@
     <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="state" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Desguace_id1" Type="int" Nullable="true" />
+    <Property Name="TallerId" Type="int" Nullable="false" />
+    <Property Name="TallerId1" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="LineaPedidoOfertaConjunto">
     <Key>
@@ -46,6 +53,14 @@
     <Property Name="price" Type="int" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="Oferta_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tallers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="active" Type="bit" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="OfertaLineaPedidoOferta">
     <End Role="Oferta" Type="managersystemModel.Store.OfertaConjunto" Multiplicity="1" />
@@ -71,6 +86,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="TallerOferta">
+    <End Role="Taller" Type="managersystemModel.Store.Tallers" Multiplicity="0..1" />
+    <End Role="Oferta" Type="managersystemModel.Store.OfertaConjunto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Taller">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Oferta">
+        <PropertyRef Name="TallerId1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -85,6 +112,11 @@
           </AssociationSet>
           <AssociationSet Name="DesguaceOferta" Association="managersystemModel.DesguaceOferta">
             <End Role="Desguace" EntitySet="DesguaceConjunto" />
+            <End Role="Oferta" EntitySet="OfertaConjunto" />
+          </AssociationSet>
+          <EntitySet Name="Tallers" EntityType="managersystemModel.Taller" />
+          <AssociationSet Name="TallerOferta" Association="managersystemModel.TallerOferta">
+            <End Role="Taller" EntitySet="Tallers" />
             <End Role="Oferta" EntitySet="OfertaConjunto" />
           </AssociationSet>
         </EntityContainer>
@@ -109,6 +141,9 @@
           <NavigationProperty Name="LineaPedidoOferta" Relationship="managersystemModel.OfertaLineaPedidoOferta" FromRole="Oferta" ToRole="LineaPedidoOferta" />
           <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceOferta" FromRole="Oferta" ToRole="Desguace" />
           <Property Type="Int32" Name="Desguace_id1" Nullable="true" />
+          <Property Type="Int32" Name="TallerId" Nullable="false" />
+          <NavigationProperty Name="Taller" Relationship="managersystemModel.TallerOferta" FromRole="Oferta" ToRole="Taller" />
+          <Property Type="Int32" Name="TallerId1" Nullable="true" />
         </EntityType>
         <EntityType Name="LineaPedidoOferta">
           <Key>
@@ -145,6 +180,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Taller">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="active" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" />
+          <NavigationProperty Name="Ofertas" Relationship="managersystemModel.TallerOferta" FromRole="Taller" ToRole="Oferta" />
+        </EntityType>
+        <Association Name="TallerOferta">
+          <End Type="managersystemModel.Taller" Role="Taller" Multiplicity="0..1" />
+          <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Taller">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="TallerId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -169,6 +225,8 @@
           <ScalarProperty Name="date" ColumnName="date" />
           <ScalarProperty Name="state" ColumnName="state" />
           <ScalarProperty Name="Desguace_id1" ColumnName="Desguace_id1" />
+          <ScalarProperty Name="TallerId" ColumnName="TallerId" />
+          <ScalarProperty Name="TallerId1" ColumnName="TallerId1" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -180,6 +238,15 @@
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="Oferta_id" ColumnName="Oferta_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tallers">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Taller)">
+        <MappingFragment StoreEntitySet="Tallers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

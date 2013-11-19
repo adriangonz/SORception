@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="managersystemModel.LineaPedidoOferta" Width="1.5" PointX="8.25" PointY="1" />
         <AssociationConnector Association="managersystemModel.OfertaLineaPedidoOferta" />
         <AssociationConnector Association="managersystemModel.DesguaceOferta" />
+        <EntityTypeShape EntityType="managersystemModel.Taller" Width="1.5" PointX="5.5" PointY="5.25" />
+        <AssociationConnector Association="managersystemModel.TallerOferta" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

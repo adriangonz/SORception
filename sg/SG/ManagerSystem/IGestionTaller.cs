@@ -12,30 +12,8 @@ namespace ManagerSystem
     public interface IGestionTaller
     {
         [OperationContract]
-        Taller addNewTaller(string nombre);
+        int addNewTaller(string nombre);
 
         
-    }
-
-    [DataContract]
-    public class Taller
-    {
-        int id;
-
-        [DataMember]
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
-        string nombre;
-
-        [DataMember]
-        public string Nombre
-        {
-            get { return nombre; }
-            set { nombre = value; }
-        }
     }
 }
