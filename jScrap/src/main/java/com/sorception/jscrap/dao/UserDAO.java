@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sorception.jscrap.models.UserEntity;
+import java.io.Serializable;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,8 @@ public class UserDAO {
     @Autowired
     private SessionFactory sessionFactory;
     
-    public void addUser(UserEntity user) {
-        this.sessionFactory.getCurrentSession().save(user);
+    public Long addUser(UserEntity user) {
+        return (Long)this.sessionFactory.getCurrentSession().save(user);
     }
     
     @SuppressWarnings("unchecked")

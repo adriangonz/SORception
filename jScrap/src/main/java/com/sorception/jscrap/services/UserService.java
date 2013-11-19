@@ -25,4 +25,12 @@ public class UserService {
     public List<UserEntity> getAllUsers() {
         return userDAO.getAllUsers();
     }
+    
+    @Transactional
+    public UserEntity addUser(String name) {
+        UserEntity user = new UserEntity(name);
+        Long id = userDAO.addUser(user);
+        user.setId(id);
+        return user;
+    }
 }

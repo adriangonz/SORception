@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -26,8 +27,15 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    @RequestMapping(value="", method=RequestMethod.GET)
+    @RequestMapping(value="/", method=RequestMethod.GET)
+    @ResponseBody
     public List<UserEntity> getUser() {
         return userService.getAllUsers();
+    }
+    
+    @RequestMapping(value="/", method=RequestMethod.POST)
+    @ResponseBody
+    public UserEntity addUser() {
+        return userService.addUser("prueba");
     }
 }

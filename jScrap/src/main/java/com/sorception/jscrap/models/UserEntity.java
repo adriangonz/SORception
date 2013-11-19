@@ -26,4 +26,22 @@ public class UserEntity {
     
     @Column(name="Name")
     private String _name;
+
+    protected UserEntity() {}
+    
+    public UserEntity(String name) {
+        _name = name;
+    }
+    
+    public void setId(Long id) {
+        _id = id;
+    }
+    
+    public Long getId() {
+        return _id;
+    }
+    
+    public String getName() {
+        return _name;
+    }
 }
