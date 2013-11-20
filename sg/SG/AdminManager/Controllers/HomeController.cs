@@ -14,7 +14,7 @@ namespace AdminManager.Controllers
             ServiceAdmin.GestionAdminClient gd = new ServiceAdmin.GestionAdminClient();
             var desguaces = gd.getDesguaces();
             var talleres = gd.getTalleres();
-            ViewBag.Message = "Tenemos " + desguaces.Count() + " deguaces y  " + talleres.Count() + " talleres";
+            ViewBag.Message = "Tenemos " + desguaces.Count() + " desguaces y  " + talleres.Count() + " talleres";
 
             return View();
         }
