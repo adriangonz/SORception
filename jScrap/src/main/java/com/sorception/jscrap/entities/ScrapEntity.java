@@ -12,25 +12,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 
 /**
  *
  * @author kaseyo
  */
 @Entity
-@Table(name="User")
-public class UserEntity extends AbstractEntity {
+@Table(name = "Scrap")
+public class ScrapEntity extends AbstractEntity {
     @Column(name = "Name")
     private String _name;
 
-    public UserEntity() {}
+    public ScrapEntity() {}
 
-    public UserEntity(String name) {
-        _name = name;
+    public ScrapEntity(String _name) {
+        this._name = _name;
     }
 
     public String getName() {
