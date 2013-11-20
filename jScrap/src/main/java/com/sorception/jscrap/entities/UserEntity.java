@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.sorception.jscrap.models;
+package com.sorception.jscrap.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -9,10 +9,10 @@ package com.sorception.jscrap.dao;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sorception.jscrap.models.UserEntity;
-import java.io.Serializable;
+import com.sorception.jscrap.entities.UserEntity;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -33,11 +33,18 @@ public class UserDAO {
                 .getCurrentSession().createQuery("from UserEntity").list();
     }
     
-    public void deleteUser(Long userId) {
+    public Boolean deleteUser(Long userId) {
         UserEntity user = (UserEntity) this.sessionFactory
                 .getCurrentSession().load(UserEntity.class, userId);
         if (null != user) {
             this.sessionFactory.getCurrentSession().delete(user);
+            return false;
         }
+        return true;
+    }
+    
+    public UserEntity getUser(Long userId) {
+        return (UserEntity)this.sessionFactory
+                .getCurrentSession().get(UserEntity.class, userId);
     }
 }

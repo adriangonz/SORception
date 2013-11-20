@@ -6,16 +6,19 @@
 
 package com.sorception.jscrap.api;
 
+import com.sorception.jscrap.dao.UserDAO;
 import org.springframework.stereotype.Controller;
 
-import com.sorception.jscrap.models.UserEntity;
+import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.services.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -29,13 +32,27 @@ public class UserController {
     
     @RequestMapping(value="/", method=RequestMethod.GET)
     @ResponseBody
-    public List<UserEntity> getUser() {
+    public List<UserEntity> listUsers() {
         return userService.getAllUsers();
+    }
+    
+    @RequestMapping(value="/{userId}", method=RequestMethod.GET)
+    @ResponseBody
+    public UserEntity getUser(@PathVariable Long userId) {
+        return userService.getUser(userId);
     }
     
     @RequestMapping(value="/", method=RequestMethod.POST)
     @ResponseBody
-    public UserEntity addUser() {
-        return userService.addUser("prueba");
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addUser() {
+        userService.addUser("prueba");
+    }
+    
+    @RequestMapping(value="/{userId}", method=RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable Long userId) {
+        userService.removeUser(userId);
     }
 }
