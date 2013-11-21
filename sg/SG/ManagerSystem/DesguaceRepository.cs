@@ -1,8 +1,8 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
+using System.Runtime.Serialization;
 
 namespace ManagerSystem
 {
@@ -76,6 +76,23 @@ namespace ManagerSystem
         static public void Dispose()
         {
             ms_ent.Dispose();
+        }
+
+        static public object ToXML(Desguace d)
+        {
+            using (MemoryStream memStr = new MemoryStream())
+            {
+                var serializer = new DataContractSerializer(d.GetType());
+                serializer.WriteObject(memStr, d);
+
+                memStr.Seek(0, SeekOrigin.Begin);
+
+                using (var streamReader = new StreamReader(memStr))
+                {
+                    string result = streamReader.ReadToEnd();
+                    return result;
+                }
+            }
         }
     }
 }
