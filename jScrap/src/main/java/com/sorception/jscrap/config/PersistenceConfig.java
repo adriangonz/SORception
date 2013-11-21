@@ -1,14 +1,19 @@
 package com.sorception.jscrap.config;
 
 import java.util.Properties;
+import javax.annotation.Resource;
 
 import javax.sql.DataSource;
+import org.hibernate.SessionFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -35,7 +40,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	private String hbm2ddlAuto;
 
 	@Bean
-	public DataSource configureDataSource() {
+	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(driver);
 		dataSource.setUrl(url);
@@ -47,7 +52,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	@Bean
 	public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		entityManagerFactoryBean.setDataSource(configureDataSource());
+		entityManagerFactoryBean.setDataSource(dataSource());
 		entityManagerFactoryBean.setPackagesToScan("com.sorception.jscrap");
 		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		
@@ -58,10 +63,24 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 		
 		return entityManagerFactoryBean;
 	}
+        
+        @Bean
+        public HibernateTransactionManager transactionManager() {
+            SessionFactory sessionFactory = sessionFactory().getObject();
+            HibernateTransactionManager manager = new HibernateTransactionManager(sessionFactory);
+            return manager;
+        }
+        
+        @Bean
+        public LocalSessionFactoryBean sessionFactory() {
+            LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
+            factory.setDataSource(dataSource());
+            factory.setPackagesToScan("com.sorception.jscrap");
+            return factory;
+        }
 
-	@Bean	
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		return new JpaTransactionManager();
-	}
-
+        @Override
+        public PlatformTransactionManager annotationDrivenTransactionManager() {
+            return transactionManager();
+        }
 }
