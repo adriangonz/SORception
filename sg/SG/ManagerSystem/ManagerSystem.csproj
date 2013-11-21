@@ -154,9 +154,14 @@
     <Compile Include="Taller.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TopicPublisher.cs" />
+    <Compile Include="TallerRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ActiveMQHelper\ActiveMQHelper.csproj">
+      <Project>{2dd8b149-c0e1-478b-a51a-397daf74ea20}</Project>
+      <Name>ActiveMQHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <EntityDeploy Include="ManagerSystemEntityModel.edmx">

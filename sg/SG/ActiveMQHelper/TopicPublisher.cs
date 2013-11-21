@@ -17,6 +17,17 @@ namespace ActiveMQHelper
         public IMessageProducer Producer { get; private set; }
         public string DestinationName { get; private set; }
 
+        public static TopicPublisher MakePublisher(string broker, string client_id, string topic)
+        {
+            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id);
+            IConnection connection = connectionFactory.CreateConnection();
+            connection.Start();
+            ISession session = connection.CreateSession();
+
+            TopicPublisher publisher = new TopicPublisher(session, topic);
+            return publisher;
+        }
+
         public TopicPublisher(ISession session, string topicName)
         {
             _session = session;

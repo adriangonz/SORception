@@ -21,6 +21,17 @@ namespace ActiveMQHelper
         public delegate void MessageReceivedDelegate(string message);
         public event MessageReceivedDelegate OnMessageReceived;
 
+        public static TopicSubscriber MakeSubscriber(string broker, string client_id, string topic)
+        {
+            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id);
+            IConnection connection = connectionFactory.CreateConnection();
+            connection.Start();
+            ISession session = connection.CreateSession();
+
+            TopicSubscriber subscriber = new TopicSubscriber(session, topic);
+            return subscriber;
+        }
+
         public TopicSubscriber(ISession session, string destination)
         {
             _session = session;
