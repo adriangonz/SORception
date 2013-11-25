@@ -5,6 +5,12 @@ import javax.annotation.Resource;
 
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
+import org.hibernate.ejb.event.EJB3PersistEventListener;
+import org.hibernate.ejb.event.EntityCallbackHandler;
+import org.hibernate.event.service.spi.EventListenerRegistry;
+import org.hibernate.event.spi.EventType;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -76,6 +82,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
             LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
             factory.setDataSource(dataSource());
             factory.setPackagesToScan("com.sorception.jscrap");
+            
             return factory;
         }
 

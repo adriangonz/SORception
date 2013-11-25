@@ -6,7 +6,6 @@
 
 package com.sorception.jscrap.api;
 
-import com.sorception.jscrap.dao.UserDAO;
 import org.springframework.stereotype.Controller;
 
 import com.sorception.jscrap.entities.UserEntity;
