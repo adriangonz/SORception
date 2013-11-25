@@ -16,7 +16,6 @@ namespace ManagerSystem
             d.Id = tmp.Id;
             d.name = tmp.name;
             d.active = tmp.active;
-            d.Ofertas = tmp.Ofertas;
             return d;
         }
 
@@ -58,7 +57,6 @@ namespace ManagerSystem
             else
             {
                 // Existing entity
-                //ms_ent.DesguaceConjunto.Attach(desguace);
                 ms_ent.Entry(taller).State = EntityState.Modified;
             }
         }

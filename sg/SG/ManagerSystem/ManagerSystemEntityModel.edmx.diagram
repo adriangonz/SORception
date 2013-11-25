@@ -6,12 +6,19 @@
     <edmx:Diagrams>
       <Diagram DiagramId="32bfa663a3d9473aa4d832a7cf0d8428" Name="Diagrama1" ZoomLevel="74" >
         <EntityTypeShape EntityType="managersystemModel.Desguace" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="managersystemModel.Oferta" Width="1.5" PointX="5.625" PointY="1" />
-        <EntityTypeShape EntityType="managersystemModel.LineaPedidoOferta" Width="1.5" PointX="8.25" PointY="1" />
-        <AssociationConnector Association="managersystemModel.OfertaLineaPedidoOferta" />
+        <EntityTypeShape EntityType="managersystemModel.Oferta" Width="1.5" PointX="5.625" PointY="1.125" />
+        <EntityTypeShape EntityType="managersystemModel.LineaOferta" Width="1.5" PointX="8.25" PointY="1" />
+        <EntityTypeShape EntityType="managersystemModel.Taller" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="managersystemModel.Solicitud" Width="1.5" PointX="5.625" PointY="4.875" />
+        <AssociationConnector Association="managersystemModel.TallerSolicitud" />
         <AssociationConnector Association="managersystemModel.DesguaceOferta" />
-        <EntityTypeShape EntityType="managersystemModel.Taller" Width="1.5" PointX="5.5" PointY="5.25" />
-        <AssociationConnector Association="managersystemModel.TallerOferta" />
+        <AssociationConnector Association="managersystemModel.OfertaLineaPedidoOferta" />
+        <AssociationConnector Association="managersystemModel.SolicitudOferta" />
+        <EntityTypeShape EntityType="managersystemModel.LineaSolicitud" Width="1.5" PointX="8.25" PointY="4.875" />
+        <AssociationConnector Association="managersystemModel.SolicitudLineaSolicitud" />
+        <EntityTypeShape EntityType="managersystemModel.LineaOfertaSeleccionada" Width="1.5" PointX="10.75" PointY="3.5" />
+        <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" />
+        <AssociationConnector Association="managersystemModel.LineaOfertaSeleccionadaLineaOferta" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
