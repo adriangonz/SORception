@@ -1,0 +1,8 @@
+<form action="#" method="POST">
+	<input type="checkbox" name="active" value="active" ng-model="junkyard.active" disabled="true">Activo<br>
+	<label for="token">Token</label><input type="text" ng-model="junkyard.token" id="token" name="token"><br>
+	<label for="name">Nombre</label><input type="text" ng-model="junkyard.name"  id="name" name="name"><br>
+	<input type="submit" id="submit" value="Solicitar Token">
+</form>
+
+{{junkyard | json}}
