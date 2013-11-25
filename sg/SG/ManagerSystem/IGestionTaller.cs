@@ -12,7 +12,34 @@ namespace ManagerSystem
     public interface IGestionTaller
     {
         [OperationContract]
-        int addNewTaller(string nombre);
+        Taller getTaller(int id);
+
+        [OperationContract]
+        int addTaller(string nombre);
+
+        [OperationContract]
+        int putTaller(Taller t);
+
+        [OperationContract]
+        int deleteTaller(int id);
+        
+        [OperationContract]
+        Solicitud getSolicitud(int id);
+
+        [OperationContract]
+        int addSolicitud(Solicitud s);
+
+        [OperationContract]
+        int putSolicitud(Solicitud s);
+
+        [OperationContract]
+        int deleteSolicitud(int id);
+
+        [OperationContract]
+        List<Solicitud> getSolicitudes();
+        /*
+        [OperationContract]
+        int sendCompra(Respuesta r);*/
 
         
     }
