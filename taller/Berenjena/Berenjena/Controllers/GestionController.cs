@@ -12,7 +12,9 @@ namespace Berenjena.Controllers
         // GET api/gestion
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            ServiceTaller.GestionTallerClient svcTaller= new ServiceTaller.GestionTallerClient();
+            int resp = svcTaller.addNewTaller("Talleres juan");
+            return new string[] { "value1", resp.ToString() };
         }
 
         // POST api/gestion
