@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,27 +10,40 @@ namespace Berenjena.Controllers
 {
     public class GestionController : ApiController
     {
+        // TODO: HAY QUE SACAR EL ID DE LAS COOKIES
+
+        ServiceTaller.GestionTallerClient svcTaller = new ServiceTaller.GestionTallerClient();
         // GET api/gestion
-        public IEnumerable<string> Get()
+        public object Get()
         {
-            ServiceTaller.GestionTallerClient svcTaller= new ServiceTaller.GestionTallerClient();
-            int resp = svcTaller.addNewTaller("Talleres juan");
-            return new string[] { "value1", resp.ToString() };
+            ServiceTaller.Taller t = svcTaller.getTaller(1);
+            return (new { id= t.Id, name= t.name, active=t.active });
         }
 
         // POST api/gestion
-        public void Post([FromBody]string value)
+        public void Post([FromBody]JObject value)
         {
+            svcTaller.addTaller(value["nombre"].ToString());
         }
 
-        // PUT api/gestion/5
-        public void Put(int id, [FromBody]string value)
+        // PUT api/gestion
+        public void Put([FromBody]JObject value)
         {
+            ServiceTaller.Taller t = svcTaller.getTaller(1);
+            t.name = value["nombre"].ToString();
+            svcTaller.putTaller(t);
         }
 
-        // DELETE api/gestion/5
-        public void Delete(int id)
+        // DELETE api/gestion
+        public void Delete()
         {
+            svcTaller.deleteTaller(1);
+        }
+
+        // GET api/gestion/token
+        [Route("api/gestion/token")]
+        public string GetToken() { 
+            return "asdfasdfTomaTokenInventao";
         }
     }
 }
