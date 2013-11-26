@@ -13,7 +13,7 @@ namespace ManagerSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select GestionTaller.svc or GestionTaller.svc.cs at the Solution Explorer and start debugging.
     public class GestionTaller : IGestionTaller
     {
-        Taller getTaller(int id)
+        public Taller getTaller(int id)
         {
             var tmp = TallerRepository.Find(id);
             Taller t = null;
@@ -24,7 +24,7 @@ namespace ManagerSystem
             return t;
         }
 
-        int addTaller(string nombre)
+        public int addTaller(string nombre)
         {
             if (nombre != "" && nombre != null)
             {
@@ -45,7 +45,7 @@ namespace ManagerSystem
             return 0;
         }
 
-        int putTaller(Taller t)
+        public int putTaller(Taller t)
         {
             if (t != null)
             {
@@ -54,20 +54,20 @@ namespace ManagerSystem
             return 0;
         }
 
-        int deleteTaller(int id)
+        public int deleteTaller(int id)
         {
             TallerRepository.Delete(id);
             return 0;
         }
 
-        Solicitud getSolicitud(int id)
+        public Solicitud getSolicitud(int id)
         {
             var tmp = SolicitudRepository.Find(id);
             Solicitud s = SolicitudRepository.Sanitize(tmp);
             return s;
         }
 
-        int addSolicitud(Solicitud s)
+        public int addSolicitud(Solicitud s)
         {
             if (s != null)
             {
@@ -78,7 +78,7 @@ namespace ManagerSystem
             return 1;
         }
 
-        int putSolicitud(Solicitud s)
+        public int putSolicitud(Solicitud s)
         {
             if (s != null)
             {
@@ -87,13 +87,13 @@ namespace ManagerSystem
             return 0;
         }
 
-        int deleteSolicitud(int id)
+        public int deleteSolicitud(int id)
         {
             SolicitudRepository.Delete(id);
             return 0;
         }
 
-        List<Solicitud> getSolicitudes()
+        public List<Solicitud> getSolicitudes()
         {
             List<Solicitud> l = new List<Solicitud>();
             foreach (var tmp in SolicitudRepository.FindAll())
