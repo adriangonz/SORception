@@ -21,6 +21,9 @@ namespace ManagerSystem
                 d.name = nombre;
                 DesguaceRepository.InsertOrUpdate(d);
                 DesguaceRepository.Save();
+
+                var s = DesguaceRepository.ToXML(d);
+
                 return d.id;
             }
             throw new WebFaultException<string>("Nombre can't be empty", HttpStatusCode.InternalServerError);

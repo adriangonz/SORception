@@ -17,13 +17,13 @@ namespace ManagerSystem
     {
         public Desguace()
         {
-            this.Oferta = new HashSet<Oferta>();
+            this.Ofertas = new HashSet<Oferta>();
         }
     
         public int id { get; set; }
         public bool active { get; set; }
         public string name { get; set; }
     
-        public virtual ICollection<Oferta> Oferta { get; set; }
+        public virtual ICollection<Oferta> Ofertas { get; set; }
     }
 }

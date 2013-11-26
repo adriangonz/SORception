@@ -17,13 +17,13 @@ namespace ManagerSystem
     {
         public Taller()
         {
-            this.Ofertas = new HashSet<Oferta>();
+            this.Solicitudes = new HashSet<Solicitud>();
         }
     
         public int Id { get; set; }
         public bool active { get; set; }
         public string name { get; set; }
     
-        public virtual ICollection<Oferta> Ofertas { get; set; }
+        public virtual ICollection<Solicitud> Solicitudes { get; set; }
     }
 }

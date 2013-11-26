@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ActiveMQHelper;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -12,9 +13,20 @@ namespace ManagerSystem
     // NOTE: In order to launch WCF Test Client for testing this service, please select GestionTaller.svc or GestionTaller.svc.cs at the Solution Explorer and start debugging.
     public class GestionTaller : IGestionTaller
     {
-        public int addNewTaller(string nombre)
+        public Taller getTaller(int id)
         {
-            if (nombre != "")
+            var tmp = TallerRepository.Find(id);
+            Taller t = null;
+            if (tmp != null)
+            {
+                t = TallerRepository.Sanitize(tmp);
+            }
+            return t;
+        }
+
+        public int addTaller(string nombre)
+        {
+            if (nombre != "" && nombre != null)
             {
                 try
                 {
@@ -26,13 +38,69 @@ namespace ManagerSystem
                 }
                 catch (Exception e)
                 {
-                    
+
                     throw;
                 }
             }
             return 0;
         }
 
+        public int putTaller(Taller t)
+        {
+            if (t != null)
+            {
+                TallerRepository.InsertOrUpdate(t);
+            }
+            return 0;
+        }
 
+        public int deleteTaller(int id)
+        {
+            TallerRepository.Delete(id);
+            return 0;
+        }
+
+        public Solicitud getSolicitud(int id)
+        {
+            var tmp = SolicitudRepository.Find(id);
+            Solicitud s = SolicitudRepository.Sanitize(tmp);
+            return s;
+        }
+
+        public int addSolicitud(Solicitud s)
+        {
+            if (s != null)
+            {
+                SolicitudRepository.InsertOrUpdate(s);
+                SolicitudRepository.Save();
+                return 0;
+            }
+            return 1;
+        }
+
+        public int putSolicitud(Solicitud s)
+        {
+            if (s != null)
+            {
+                SolicitudRepository.InsertOrUpdate(s);
+            }
+            return 0;
+        }
+
+        public int deleteSolicitud(int id)
+        {
+            SolicitudRepository.Delete(id);
+            return 0;
+        }
+
+        public List<Solicitud> getSolicitudes()
+        {
+            List<Solicitud> l = new List<Solicitud>();
+            foreach (var tmp in SolicitudRepository.FindAll())
+            {
+                l.Add(SolicitudRepository.Sanitize(tmp));
+            }
+            return l;
+        }
     }
 }

@@ -17,20 +17,18 @@ namespace ManagerSystem
     {
         public Oferta()
         {
-            this.LineaPedidoOferta = new HashSet<LineaPedidoOferta>();
+            this.LineasOferta = new HashSet<LineaOferta>();
         }
     
         public int id { get; set; }
-        public int Desguace_id { get; set; }
         public int id_en_desguace { get; set; }
         public System.DateTime date { get; set; }
         public string state { get; set; }
-        public Nullable<int> Desguace_id1 { get; set; }
-        public int TallerId { get; set; }
-        public Nullable<int> TallerId1 { get; set; }
+        public int Desguace_id { get; set; }
+        public int Solicitud_id { get; set; }
     
-        public virtual ICollection<LineaPedidoOferta> LineaPedidoOferta { get; set; }
         public virtual Desguace Desguace { get; set; }
-        public virtual Taller Taller { get; set; }
+        public virtual ICollection<LineaOferta> LineasOferta { get; set; }
+        public virtual Solicitud Solicitud { get; set; }
     }
 }
