@@ -18,15 +18,13 @@ import javax.persistence.Table;
  *
  * @author kaseyo
  */
-@Entity
-@Table(name = "Scrap")
-public class ScrapEntity extends AbstractEntity {
-    @Column(name = "Name")
-    private String _name;
+public class SettingsEntity {
+    // Dummy entity which holds information.
+    // It is not persisted in the database,
+    // because it is loaded from jscrap.properties
+    final private String _name;
 
-    public ScrapEntity() {}
-
-    public ScrapEntity(String _name) {
+    public SettingsEntity(String _name) {
         this._name = _name;
     }
 
