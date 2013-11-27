@@ -129,7 +129,13 @@
     </Compile>
     <Compile Include="IGestionDesguace.cs" />
     <Compile Include="IGestionTaller.cs" />
-    <Compile Include="LineaPedidoOferta.cs">
+    <Compile Include="LineaOferta.cs">
+      <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LineaOfertaSeleccionada.cs">
+      <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LineaSolicitud.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ManagerSystemEntityModel.Context.cs">
@@ -151,6 +157,10 @@
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solicitud.cs">
+      <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SolicitudRepository.cs" />
     <Compile Include="Taller.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
