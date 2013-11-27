@@ -1,7 +1,6 @@
 package com.sorception.jscrap.config;
 
 import java.util.Properties;
-import javax.annotation.Resource;
 
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
@@ -10,11 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -76,6 +73,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
             LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
             factory.setDataSource(dataSource());
             factory.setPackagesToScan("com.sorception.jscrap");
+            
             return factory;
         }
 

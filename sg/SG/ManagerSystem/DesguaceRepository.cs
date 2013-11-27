@@ -15,7 +15,7 @@ namespace ManagerSystem
             d.id = tmp.id;
             d.name = tmp.name;
             d.active = tmp.active;
-            d.Oferta = tmp.Oferta;
+            //d.Oferta = tmp.Oferta;
             return d;
         }
 

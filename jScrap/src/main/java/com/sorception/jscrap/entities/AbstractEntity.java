@@ -9,43 +9,37 @@ package com.sorception.jscrap.entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 /**
  *
  * @author kaseyo
  */
-@Entity
-abstract class AbstractEntity implements Serializable {
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class AbstractEntity implements Serializable {
     @Id
     @Column(name = "Id")
     @GeneratedValue
     protected Long _id;
     
-    @Column(name = "Created")
     @Temporal(TemporalType.TIMESTAMP)
-    protected Date _created;
+    @Column(name = "Created", nullable = false)
+    final private Date _created;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "Updated")
-    protected Date _updated;
-
-    protected AbstractEntity() {}
-    
-    @PrePersist
-    protected void onCreate() {
-        _updated = _created = new Date();
+    protected AbstractEntity() {
+        _created = new Date();
     }
-
-    @PreUpdate
-    protected void onUpdate() {
-        _updated = new Date();
+    
+    public Date getCreated() {
+        return _created;
     }
     
     public void setId(Long id) {
@@ -54,13 +48,5 @@ abstract class AbstractEntity implements Serializable {
     
     public Long getId() {
         return _id;
-    }
-    
-    public Date getCreated() {
-        return _created;
-    }
-
-    public Date getUpdated() {
-        return _updated;
     }
 }

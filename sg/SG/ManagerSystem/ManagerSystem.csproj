@@ -40,10 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Apache.NMS">
-      <HintPath>..\packages\Apache.NMS.1.5.1\lib\net40\Apache.NMS.dll</HintPath>
+      <HintPath>..\packages\Apache.NMS.1.6.0\lib\net40\Apache.NMS.dll</HintPath>
     </Reference>
     <Reference Include="Apache.NMS.ActiveMQ">
-      <HintPath>..\packages\Apache.NMS.ActiveMQ.1.5.6\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
+      <HintPath>..\packages\Apache.NMS.ActiveMQ.1.6.0\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -109,6 +109,7 @@
     <Content Include="App_Data\managersystem_log.ldf">
       <DependentUpon>managersystem.mdf</DependentUpon>
     </Content>
+    <Content Include="GestionAdmin.svc" />
     <Content Include="GestionDesguace.svc" />
     <Content Include="GestionTaller.svc" />
     <Content Include="ManagerSystemEntityModel.edmx.sql" />
@@ -121,12 +122,16 @@
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DesguaceRepository.cs" />
+    <Compile Include="GestionAdmin.svc.cs">
+      <DependentUpon>GestionAdmin.svc</DependentUpon>
+    </Compile>
     <Compile Include="GestionDesguace.svc.cs">
       <DependentUpon>GestionDesguace.svc</DependentUpon>
     </Compile>
     <Compile Include="GestionTaller.svc.cs">
       <DependentUpon>GestionTaller.svc</DependentUpon>
     </Compile>
+    <Compile Include="IGestionAdmin.cs" />
     <Compile Include="IGestionDesguace.cs" />
     <Compile Include="IGestionTaller.cs" />
     <Compile Include="LineaOferta.cs">

@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="32bfa663a3d9473aa4d832a7cf0d8428" Name="Diagrama1" ZoomLevel="74" >
-        <EntityTypeShape EntityType="managersystemModel.Desguace" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="managersystemModel.Desguace" Width="1.5" PointX="2.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="managersystemModel.Oferta" Width="1.5" PointX="5.625" PointY="1.125" />
         <EntityTypeShape EntityType="managersystemModel.LineaOferta" Width="1.5" PointX="8.25" PointY="1" />
         <EntityTypeShape EntityType="managersystemModel.Taller" Width="1.5" PointX="3" PointY="4.875" />
