@@ -8,6 +8,7 @@ package com.sorception.jscrap.services;
 
 import com.sorception.jscrap.dao.TokenDAO;
 import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class TokenService {
     @Autowired
     TokenDAO tokenDAO;
     
-    public void saveRequest() {
+    public void requestToken() {
         TokenEntity tokenEntity = new TokenEntity("", TokenEntity.TokenStatus.REQUESTED);
         tokenDAO.save(tokenEntity);
     }
@@ -34,7 +35,10 @@ public class TokenService {
     }
     
     public TokenEntity getValid() {
-        return tokenDAO.getValid();
+        TokenEntity tokenEntity = tokenDAO.getValid();
+        if(null == tokenEntity) 
+            throw new ResourceNotFoundException();
+        return tokenEntity;
     }
     
     public List<TokenEntity> list() {

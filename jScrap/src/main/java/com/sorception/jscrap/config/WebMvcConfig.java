@@ -15,7 +15,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import org.springframework.web.servlet.view.tiles3.*;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
@@ -43,18 +43,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		return messageSource;
 	}
 	
-	@Bean
-	public TilesViewResolver configureTilesViewResolver() {
-		return new TilesViewResolver();
-	}
-	
-	@Bean
-	public TilesConfigurer configureTilesConfigurer() {
-		TilesConfigurer configurer = new TilesConfigurer();
-		configurer.setDefinitions(new String[] {TILES, VIEWS});
-		return configurer;
-	}
-	
 	@Override
 	public Validator getValidator() {
 		LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
@@ -71,6 +59,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
+        
+        @Bean
+        public InternalResourceViewResolver getInternalResourceViewResolver() {
+                InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+                resolver.setPrefix("/WEB-INF/");
+                resolver.setSuffix(".html");
+                return resolver;
+        }
 	
 	@Override
 	protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

@@ -17,7 +17,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 		context.setConfigLocation("com.sorception.jscrap.config");
-                context.scan("com.sorception.jscrap.api");
+                context.scan("com.sorception.jscrap");
 		
 		/*FilterRegistration.Dynamic securityFilter = servletContext.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"));
 		securityFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");*/
@@ -33,7 +33,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		DispatcherServlet servlet = new DispatcherServlet();
 		// no explicit configuration reference here: everything is configured in the root container for simplicity
 		servlet.setContextConfigLocation("");
-		
+
 		ServletRegistration.Dynamic appServlet = servletContext.addServlet("appServlet", servlet);
 		appServlet.setLoadOnStartup(1);
 		appServlet.setAsyncSupported(true);
