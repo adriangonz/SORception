@@ -12,37 +12,10 @@ namespace ManagerSystem
     public interface IGestionDesguace
     {
         [OperationContract]
-        int addDesguace(string nombre);
+        int singUp(string nombre);
 
         [OperationContract]
-        Desguace getDesguace(int id);
-
-        [OperationContract]
-        int putDesguace(Desguace d);
-
-        [OperationContract]
-        int deleteDesgauce(int id);
-
-        /*[OperationContract]
-        List<Solicitud> getSolicitudes();
-
-        [OperationContract]
-        int addOferta(Oferta o);
-
-        [OperationContract]
-        Oferta getOferta(int id);
-
-        [OperationContract]
-        int putOferta(Oferta o);
-
-        [OperationContract]
-        int deleteOferta(int id);
-
-        [OperationContract]
-        List<Oferta> getOfertas();
-
-        [OperationContract]
-        int resolveOferta(int id, bool acepted);*/
+        bool getState(int id);
 
     }
 }
