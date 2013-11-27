@@ -15,7 +15,7 @@ namespace ManagerSystem
         int singUp(string nombre);
 
         [OperationContract]
-        Desguace getToken(string temporal_token);
+        bool getState(int id);
 
     }
 }
