@@ -35,20 +35,12 @@ public class TokenController {
     }
     
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void requestToken() {
-        tokenService.requestToken();
+    @ResponseBody
+    public TokenEntity requestToken() {
+        return tokenService.requestToken();
     }
     
-    /* Only for testing 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
-    public void saveToken() {
-        tokenService.saveValid("NewToken");
-    }
-    */
-    
-    @RequestMapping("/record")
+    @RequestMapping("/list")
     @ResponseBody
     public List<TokenEntity> list() {
         return tokenService.list();
