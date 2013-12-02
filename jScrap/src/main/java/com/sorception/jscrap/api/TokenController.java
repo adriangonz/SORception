@@ -28,13 +28,13 @@ public class TokenController {
     @Autowired
     TokenService tokenService;
     
-    @RequestMapping("/")
+    @RequestMapping("")
     @ResponseBody
     public TokenEntity getValid() {
         return tokenService.getValid();
     }
     
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public TokenEntity requestToken() {
         return tokenService.requestToken();

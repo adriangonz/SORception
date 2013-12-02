@@ -29,7 +29,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    @RequestMapping(value="/", method=RequestMethod.GET)
+    @RequestMapping(value="", method=RequestMethod.GET)
     @ResponseBody
     public List<UserEntity> listUsers() {
         return userService.getAllUsers();
@@ -41,7 +41,7 @@ public class UserController {
         return userService.getUser(userId);
     }
     
-    @RequestMapping(value="/", method=RequestMethod.POST)
+    @RequestMapping(value="", method=RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser() {
