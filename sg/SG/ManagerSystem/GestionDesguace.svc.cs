@@ -13,28 +13,28 @@ namespace ManagerSystem
     // NOTA: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione GestionDesguace.svc o GestionDesguace.svc.cs en el Explorador de soluciones e inicie la depuración.
     public class GestionDesguace : IGestionDesguace
     {
-        public string singUp(string nombre)
+        public int signUp(Desguace d)
         {
-            if (nombre != null && nombre != "")
+            if (d != null)
             {
-                Desguace d = new Desguace();
-                d.name = nombre;
+                d.active = false;
                 DesguaceRepository.InsertOrUpdate(d);
                 DesguaceRepository.Save();
-                return d.id.ToString();
+                return d.id;
             }
-            return "-1";
+            return -1;
         }
 
-        public bool getState(string id)
+        public int getState(int id)
         {
-            if (id != null && id != "")
+            if (id >= 0)
             {
                 var tmp = DesguaceRepository.Find(Convert.ToInt32(id));
                 Desguace d = DesguaceRepository.Sanitize(tmp);
-                return d.active;
+                if (d.active)
+                    return id;
             }
-            return false;
+            return -1;
         }
     }
 }

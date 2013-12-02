@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Data;
 
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using System.IO;
 
 namespace ActiveMQHelper
 {
@@ -36,11 +39,11 @@ namespace ActiveMQHelper
             Producer = session.CreateProducer(_topic);
         }
 
-        public void SendMessage(string message)
+        public void SendMessage(object o)
         {
+            string message = ToXML(o);
             if (_disposed) throw new ObjectDisposedException(GetType().Name);
             var textMessage = Producer.CreateTextMessage(message);
-            //Producer.Send(textMessage, MsgDeliveryMode.Persistent, MsgPriority.Low, new TimeSpan(0,0,10));
             Producer.Send(textMessage);
         }
 
@@ -50,6 +53,23 @@ namespace ActiveMQHelper
             Producer.Close();
             Producer.Dispose();
             _disposed = true;
+        }
+
+        static public string ToXML(object d)
+        {
+            using (MemoryStream memStr = new MemoryStream())
+            {
+                var serializer = new DataContractSerializer(d.GetType());
+                serializer.WriteObject(memStr, d);
+
+                memStr.Seek(0, SeekOrigin.Begin);
+
+                using (var streamReader = new StreamReader(memStr))
+                {
+                    string result = streamReader.ReadToEnd();
+                    return result;
+                }
+            }
         }
     }
 }
