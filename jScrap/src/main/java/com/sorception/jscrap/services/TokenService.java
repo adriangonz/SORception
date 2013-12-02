@@ -25,6 +25,7 @@ public class TokenService {
     TokenDAO tokenDAO;
     
     public void requestToken() {
+        // Access to web service
         TokenEntity tokenEntity = new TokenEntity("", TokenEntity.TokenStatus.REQUESTED);
         tokenDAO.save(tokenEntity);
     }
