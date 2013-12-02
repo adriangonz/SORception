@@ -77,22 +77,5 @@ namespace ManagerSystem
         {
             ms_ent.Dispose();
         }
-
-        static public object ToXML(Desguace d)
-        {
-            using (MemoryStream memStr = new MemoryStream())
-            {
-                var serializer = new DataContractSerializer(d.GetType());
-                serializer.WriteObject(memStr, d);
-
-                memStr.Seek(0, SeekOrigin.Begin);
-
-                using (var streamReader = new StreamReader(memStr))
-                {
-                    string result = streamReader.ReadToEnd();
-                    return result;
-                }
-            }
-        }
     }
 }
