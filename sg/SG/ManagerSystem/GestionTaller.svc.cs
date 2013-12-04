@@ -71,10 +71,10 @@ namespace ManagerSystem
         {
             if (s != null)
             {
-                TopicPublisher publisher = TopicPublisher.MakePublisher("tcp:\\MartinLaptop:61616", "GestionTaller", "Solicitudes");
-                publisher.SendMessage(s);
                 SolicitudRepository.InsertOrUpdate(s);
                 SolicitudRepository.Save();
+                TopicPublisher publisher = TopicPublisher.MakePublisher("tcp://MartinLaptop:61616", "GestionTaller", "Solicitudes");
+                publisher.SendMessage(s);
                 return 0;
             }
             return 1;
