@@ -24,7 +24,7 @@ public class SettingsController {
     @Autowired
     SettingsService settingsService;
     
-    @RequestMapping("/")
+    @RequestMapping("")
     @ResponseBody
     public SettingsEntity getSettings() {
         return settingsService.getGlobalSettings();

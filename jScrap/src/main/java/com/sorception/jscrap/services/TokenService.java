@@ -9,6 +9,8 @@ package com.sorception.jscrap.services;
 import com.sorception.jscrap.dao.TokenDAO;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
+import com.sorception.jscrap.generated.Desguace;
+import com.sorception.jscrap.webservices.SGClient;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,21 +26,41 @@ public class TokenService {
     @Autowired
     TokenDAO tokenDAO;
     
-    public void requestToken() {
-        // Access to web service
-        TokenEntity tokenEntity = new TokenEntity("", TokenEntity.TokenStatus.REQUESTED);
-        tokenDAO.save(tokenEntity);
+    @Autowired
+    SGClient sgClient;
+    
+    private TokenEntity saveValid(String token) {
+        TokenEntity tokenEntity = new TokenEntity(
+                token, TokenEntity.TokenStatus.VALID);
+        Long id = tokenDAO.save(tokenEntity);
+        tokenEntity.setId(id);
+        return tokenEntity;
     }
     
-    public void saveValid(String token) {
-        TokenEntity tokenEntity = new TokenEntity(token, TokenEntity.TokenStatus.VALID);
-        tokenDAO.save(tokenEntity);
+    public TokenEntity requestToken() {
+        // Access to web service
+        String temporalToken = sgClient.signUp();
+        // Save temporal token
+        TokenEntity tokenEntity = new TokenEntity(
+                temporalToken, TokenEntity.TokenStatus.REQUESTED);
+        Long id = tokenDAO.save(tokenEntity);
+        tokenEntity.setId(id);
+        // Return token with Id
+        return tokenEntity;
     }
     
     public TokenEntity getValid() {
         TokenEntity tokenEntity = tokenDAO.getValid();
-        if(null == tokenEntity) 
-            throw new ResourceNotFoundException();
+        if(null == tokenEntity) {
+            // Check if we have requested one
+            tokenEntity = tokenDAO.getRequest();
+            if(null == tokenEntity) // If not, throw 404
+                throw new ResourceNotFoundException();
+            // Check if new token is available
+            // Method getState will throw NotFound if not valid
+            String newToken = sgClient.getState(tokenEntity.getToken());
+            tokenEntity = this.saveValid(newToken);
+        }
         return tokenEntity;
     }
     

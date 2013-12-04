@@ -28,27 +28,19 @@ public class TokenController {
     @Autowired
     TokenService tokenService;
     
-    @RequestMapping("/")
+    @RequestMapping("")
     @ResponseBody
     public TokenEntity getValid() {
         return tokenService.getValid();
     }
     
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void requestToken() {
-        tokenService.requestToken();
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    @ResponseBody
+    public TokenEntity requestToken() {
+        return tokenService.requestToken();
     }
     
-    /* Only for testing 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
-    public void saveToken() {
-        tokenService.saveValid("NewToken");
-    }
-    */
-    
-    @RequestMapping("/record")
+    @RequestMapping("/list")
     @ResponseBody
     public List<TokenEntity> list() {
         return tokenService.list();

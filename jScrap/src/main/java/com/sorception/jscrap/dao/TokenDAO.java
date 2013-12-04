@@ -22,7 +22,8 @@ public class TokenDAO {
     SessionFactory sessionFactory;
     
     public Long save(TokenEntity tokenEntity) {
-        if(tokenEntity.getStatus() == TokenEntity.TokenStatus.VALID) {
+        if(tokenEntity.getStatus() == TokenEntity.TokenStatus.VALID
+                || tokenEntity.getStatus() == TokenEntity.TokenStatus.REQUESTED) {
             // Set to expired any previous valid token
             sessionFactory
                     .getCurrentSession()
@@ -51,6 +52,19 @@ public class TokenDAO {
                                         .createQuery("FROM TokenEntity WHERE Status = 'VALID'")
                                         .list();
         // Return null or first token
+        if(tokenList.isEmpty())
+            return null;
+        else
+            return tokenList.get(0);
+    }
+    
+    public TokenEntity getRequest() {
+        // Get last requested token
+        List<TokenEntity> tokenList = sessionFactory
+                                        .getCurrentSession()
+                                        .createQuery("FROM TokenEntity WHERE Status = 'REQUESTED'"
+                                                + " ORDER BY Created DESC")
+                                        .list();
         if(tokenList.isEmpty())
             return null;
         else

@@ -61,6 +61,11 @@
             <artifactId>spring-ws-core</artifactId>
             <version>2.1.4.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.1</version>
+        </dependency>
         <!-- Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -235,6 +240,25 @@
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaFiles>GestionDesguace.svc</schemaFiles>
+                    <wsdl>true</wsdl>
+                    <xmlschema>false</xmlschema>
+                    <packageName>com.sorception.jscrap.generated</packageName> <!-- The name of your generated source package -->
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>

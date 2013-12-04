@@ -1,6 +1,6 @@
-var module = angular.module( "junkyard.module", [] );
+var module = angular.module( "scrap.module", [] );
 
-module.service( 'Junkyard', [ '$rootScope', function( $rootScope ) {
+module.service( 'Scrap', [ '$rootScope', function( $rootScope ) {
    var service = {
      parts: [ 	
      ],
@@ -14,18 +14,19 @@ module.service( 'Junkyard', [ '$rootScope', function( $rootScope ) {
    return service;
 }]);
 
+
 module.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/main', {
-        templateUrl: r_main,
-        controller: 'JunkyardCtrl'
+        templateUrl: 'assets/app/templates/main.html',
+        controller: 'ScrapCtrl'
       }).
       when('/config', {
-        templateUrl: r_config,
-        controller: 'JunkyardCtrl'
+        templateUrl: 'assets/app/templates/config.html',
+        controller: 'ScrapCtrl'
       }).
       otherwise({
-        redirectTo: '/main'
+        redirectTo: '/config'
       });
   }]);
