@@ -24,10 +24,10 @@ namespace ManagerSystem
         int deleteTaller(int id);
         
         [OperationContract]
-        Solicitud getSolicitud(int id);
+        ExposedSolicitud getSolicitud(int id);
 
         [OperationContract]
-        int addSolicitud(Solicitud s);
+        int addSolicitud(ExposedSolicitud s);
 
         [OperationContract]
         int putSolicitud(Solicitud s);

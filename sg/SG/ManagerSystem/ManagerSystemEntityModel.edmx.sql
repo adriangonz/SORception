@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/26/2013 11:59:23
--- Generated from EDMX file: C:\Users\Ruben\Documents\sorception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
+-- Date Created: 12/04/2013 18:45:56
+-- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,26 +17,26 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_TallerSolicitud]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Solicituds] DROP CONSTRAINT [FK_TallerSolicitud];
-GO
 IF OBJECT_ID(N'[dbo].[FK_DesguaceOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OfertaConjunto] DROP CONSTRAINT [FK_DesguaceOferta];
 GO
-IF OBJECT_ID(N'[dbo].[FK_OfertaLineaPedidoOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_OfertaLineaPedidoOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SolicitudOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[OfertaConjunto] DROP CONSTRAINT [FK_SolicitudOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaSolicituds] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
+IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
 GO
 IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOfertaSeleccionada]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineasOfertaSeleccionada] DROP CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada];
 GO
-IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
+IF OBJECT_ID(N'[dbo].[FK_OfertaLineaPedidoOferta]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_OfertaLineaPedidoOferta];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaSolicituds] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SolicitudOferta]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OfertaConjunto] DROP CONSTRAINT [FK_SolicitudOferta];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TallerSolicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Solicituds] DROP CONSTRAINT [FK_TallerSolicitud];
 GO
 
 -- --------------------------------------------------
@@ -46,23 +46,23 @@ GO
 IF OBJECT_ID(N'[dbo].[DesguaceConjunto]', 'U') IS NOT NULL
     DROP TABLE [dbo].[DesguaceConjunto];
 GO
-IF OBJECT_ID(N'[dbo].[OfertaConjunto]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[OfertaConjunto];
-GO
 IF OBJECT_ID(N'[dbo].[LineaPedidoOfertaConjunto]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LineaPedidoOfertaConjunto];
 GO
-IF OBJECT_ID(N'[dbo].[Tallers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Tallers];
-GO
-IF OBJECT_ID(N'[dbo].[Solicituds]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Solicituds];
+IF OBJECT_ID(N'[dbo].[LineasOfertaSeleccionada]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LineasOfertaSeleccionada];
 GO
 IF OBJECT_ID(N'[dbo].[LineaSolicituds]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LineaSolicituds];
 GO
-IF OBJECT_ID(N'[dbo].[LineasOfertaSeleccionada]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LineasOfertaSeleccionada];
+IF OBJECT_ID(N'[dbo].[OfertaConjunto]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OfertaConjunto];
+GO
+IF OBJECT_ID(N'[dbo].[Solicituds]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Solicituds];
+GO
+IF OBJECT_ID(N'[dbo].[Tallers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tallers];
 GO
 
 -- --------------------------------------------------
@@ -120,10 +120,10 @@ GO
 -- Creating table 'LineaSolicituds'
 CREATE TABLE [dbo].[LineaSolicituds] (
     [id] int IDENTITY(1,1) NOT NULL,
-    [price] int  NOT NULL,
     [quantity] int  NOT NULL,
-    [id_en_taller] nvarchar(max)  NOT NULL,
-    [Solicitud_id] int  NOT NULL
+    [id_en_taller] int  NOT NULL,
+    [Solicitud_id] int  NOT NULL,
+    [description] nvarchar(max)  NOT NULL
 );
 GO
 
