@@ -6,12 +6,15 @@
 
 package com.sorception.jscrap.services;
 
+import com.sorception.jscrap.api.TokenController;
 import com.sorception.jscrap.dao.TokenDAO;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.generated.Desguace;
 import com.sorception.jscrap.webservices.SGClient;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -17,6 +17,7 @@ import com.sorception.jscrap.generated.SignUpResponse;
 import com.sorception.jscrap.services.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 /**
@@ -32,6 +33,9 @@ public class SGClient extends WebServiceGatewaySupport {
     @Autowired
     ObjectFactory objectFactory;
     
+    @Autowired
+    WebServiceTemplate webServiceTemplate;
+    
     private Desguace desguace() {
         SettingsEntity settings = settingsService.getGlobalSettings();
         Desguace desguace = new Desguace();
@@ -42,15 +46,17 @@ public class SGClient extends WebServiceGatewaySupport {
     public String signUp() {
         SignUp signUpRequest = new SignUp();
         signUpRequest.setD(objectFactory.createDesguace(desguace()));
-        SignUpResponse response = (SignUpResponse) getWebServiceTemplate()
+        logger.debug("Intentamos acceder a servicio en " + webServiceTemplate.getDefaultUri() + "...");
+        SignUpResponse response = (SignUpResponse) webServiceTemplate
                 .marshalSendAndReceive(signUpRequest);
+        logger.debug("Servicio accedido...");
         return response.getSignUpResult().toString();
     }
     
     public String getState(String temporalToken) {
         GetState getStateRequest = new GetState();
         getStateRequest.setId(Integer.parseInt(temporalToken));
-        GetStateResponse response = (GetStateResponse) getWebServiceTemplate()
+        GetStateResponse response = (GetStateResponse) webServiceTemplate
                 .marshalSendAndReceive(getStateRequest);
         String state = response.getGetStateResult().toString();
         if("-1".equals(state))
