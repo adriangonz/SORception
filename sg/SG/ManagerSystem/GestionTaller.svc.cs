@@ -9,10 +9,63 @@ using System.Text;
 
 namespace ManagerSystem
 {
+    [DataContract]
+    public class AMQSolicitudMessage
+    {
+        public enum Code { New, Update, Delete };
+
+        [DataMember]
+        public Code code;
+
+        [DataMember]
+        public Solicitud solicitud = null;
+
+        [DataMember]
+        public int solicitud_id = -1;
+
+        public AMQSolicitudMessage(Solicitud s, Code c)
+        {
+            code = c;
+            solicitud = s;
+        }
+
+        public AMQSolicitudMessage(int id, Code c)
+        {
+            code = c;
+            solicitud_id = id;
+        }
+        
+    }
+
+    [DataContract]
+    public class ExposedLineaSolicitud 
+    {
+        [DataMember]
+        public int id;
+        
+        [DataMember]
+        public string description;
+
+        [DataMember]
+        public int quantity;
+    }
+
+    [DataContract]
+    public class ExposedSolicitud
+    {
+        [DataMember]
+        public int taller_id;
+
+        [DataMember]
+        public List<ExposedLineaSolicitud> lineas;
+    }
+
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "GestionTaller" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select GestionTaller.svc or GestionTaller.svc.cs at the Solution Explorer and start debugging.
     public class GestionTaller : IGestionTaller
     {
+        TopicPublisher _publisher = null;
+
         public Taller getTaller(int id)
         {
             var tmp = TallerRepository.Find(id);
@@ -60,21 +113,21 @@ namespace ManagerSystem
             return 0;
         }
 
-        public Solicitud getSolicitud(int id)
+        public ExposedSolicitud getSolicitud(int id)
         {
             var tmp = SolicitudRepository.Find(id);
-            Solicitud s = SolicitudRepository.Sanitize(tmp);
+            ExposedSolicitud s = SolicitudRepository.ToExposed(tmp);
             return s;
         }
 
-        public int addSolicitud(Solicitud s)
+        public int addSolicitud(ExposedSolicitud es)
         {
-            if (s != null)
+            if (es != null)
             {
-                TopicPublisher publisher = TopicPublisher.MakePublisher("tcp:\\MartinLaptop:61616", "GestionTaller", "Solicitudes");
-                publisher.SendMessage(s);
+                Solicitud s = SolicitudRepository.FromExposed(es);
                 SolicitudRepository.InsertOrUpdate(s);
                 SolicitudRepository.Save();
+                SendMessage(new AMQSolicitudMessage(s, AMQSolicitudMessage.Code.New));
                 return 0;
             }
             return 1;
@@ -85,6 +138,7 @@ namespace ManagerSystem
             if (s != null)
             {
                 SolicitudRepository.InsertOrUpdate(s);
+                SendMessage(new AMQSolicitudMessage(s, AMQSolicitudMessage.Code.Update));
             }
             return 0;
         }
@@ -92,6 +146,7 @@ namespace ManagerSystem
         public int deleteSolicitud(int id)
         {
             SolicitudRepository.Delete(id);
+            SendMessage(new AMQSolicitudMessage(id, AMQSolicitudMessage.Code.Delete));
             return 0;
         }
 
@@ -103,6 +158,13 @@ namespace ManagerSystem
                 l.Add(SolicitudRepository.Sanitize(tmp));
             }
             return l;
+        }
+
+        private void SendMessage(AMQSolicitudMessage sm)
+        {
+            if (_publisher == null)
+                _publisher = TopicPublisher.MakePublisher("tcp://MartinLaptop:61616", "GestionTaller", "Solicitudes");
+            _publisher.SendMessage(sm);
         }
     }
 }

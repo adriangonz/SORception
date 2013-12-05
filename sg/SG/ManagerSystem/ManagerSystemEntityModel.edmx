@@ -95,10 +95,10 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="price" Type="int" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
-    <Property Name="id_en_taller" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="id_en_taller" Type="int" Nullable="false" />
     <Property Name="Solicitud_id" Type="int" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="LineasOfertaSeleccionada">
     <Key>
@@ -248,8 +248,8 @@
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="id_en_desguace" Nullable="false" />
-          <Property Type="DateTime" Name="date" Nullable="false" />
-          <Property Type="String" Name="state" Nullable="false" />
+          <Property Type="DateTime" Name="date" Nullable="false" Precision="3" />
+          <Property Type="String" Name="state" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceOferta" FromRole="Oferta" ToRole="Desguace" />
           <Property Type="Int32" Name="Desguace_id" Nullable="false" />
           <NavigationProperty Name="LineasOferta" Relationship="managersystemModel.OfertaLineaPedidoOferta" FromRole="Oferta" ToRole="LineaPedidoOferta" />
@@ -275,7 +275,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Boolean" Name="active" Nullable="false" />
-          <Property Type="String" Name="name" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Solicitudes" Relationship="managersystemModel.TallerSolicitud" FromRole="Taller" ToRole="Solicitud" />
         </EntityType>
         <EntityType Name="Solicitud">
@@ -284,8 +284,8 @@
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="id_en_taller" Nullable="false" />
-          <Property Type="DateTime" Name="date" Nullable="false" />
-          <Property Type="String" Name="state" Nullable="false" />
+          <Property Type="DateTime" Name="date" Nullable="false" Precision="3" />
+          <Property Type="String" Name="state" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Taller" Relationship="managersystemModel.TallerSolicitud" FromRole="Solicitud" ToRole="Taller" />
           <Property Type="Int32" Name="TallerId" Nullable="false" />
           <NavigationProperty Name="Ofertas" Relationship="managersystemModel.SolicitudOferta" FromRole="Solicitud" ToRole="Oferta" />
@@ -344,12 +344,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="price" Nullable="false" />
           <Property Type="Int32" Name="quantity" Nullable="false" />
-          <Property Type="String" Name="id_en_taller" Nullable="false" />
+          <Property Type="Int32" Name="id_en_taller" Nullable="false" />
           <NavigationProperty Name="Solicitud" Relationship="managersystemModel.SolicitudLineaSolicitud" FromRole="LineaSolicitud" ToRole="Solicitud" />
           <Property Type="Int32" Name="Solicitud_id" Nullable="false" />
           <NavigationProperty Name="LineasOfertaSeleccionada" Relationship="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" FromRole="LineaSolicitud" ToRole="LineaOfertaSeleccionada" />
+          <Property Type="String" Name="description" Nullable="false" />
         </EntityType>
         <Association Name="SolicitudLineaSolicitud">
           <End Type="managersystemModel.Solicitud" Role="Solicitud" Multiplicity="1" />
@@ -368,7 +368,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="quantity" Nullable="false" />
+          <Property Type="String" Name="quantity" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="LineaSolicitud" Relationship="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" FromRole="LineaOfertaSeleccionada" ToRole="LineaSolicitud" />
           <Property Type="Int32" Name="LineaSolicitud_id" Nullable="false" />
           <NavigationProperty Name="LineasOferta" Relationship="managersystemModel.LineaOfertaSeleccionadaLineaOferta" FromRole="LineaOfertaSeleccionada" ToRole="LineaOferta" />
@@ -460,10 +460,10 @@
       <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.LineaSolicitud)">
         <MappingFragment StoreEntitySet="LineaSolicituds">
           <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="id_en_taller" ColumnName="id_en_taller" />
           <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
+          <ScalarProperty Name="description" ColumnName="description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

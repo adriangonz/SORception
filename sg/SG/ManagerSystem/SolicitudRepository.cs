@@ -27,6 +27,39 @@ namespace ManagerSystem
             return Copy(s);
         }
 
+        static public ExposedSolicitud ToExposed(Solicitud s) {
+            ExposedSolicitud es = new ExposedSolicitud();
+            es.taller_id = s.TallerId;
+            foreach (var l in s.LineasSolicitud)
+            {
+                ExposedLineaSolicitud ls = new ExposedLineaSolicitud();
+                ls.id = l.id;
+                ls.description = "SolicitudRepository.cs:37";
+                ls.quantity = l.quantity;
+                es.lineas.Add(ls);
+            }
+
+            return es;
+        }
+
+        static public Solicitud FromExposed(ExposedSolicitud es)
+        {
+            Solicitud s = new Solicitud();
+
+            s.TallerId = es.taller_id;
+            s.LineasSolicitud = new List<LineaSolicitud>();
+            foreach(var els in es.lineas) {
+                LineaSolicitud ls = new LineaSolicitud();
+                ls.id_en_taller = els.id;
+                ls.quantity = els.quantity;
+                s.LineasSolicitud.Add(ls);
+            }
+            s.id_en_taller = -1;
+            s.state = "ASD";
+            s.date = DateTime.Now;
+
+            return s;
+        }
 
         static public List<Solicitud> FindAll()
         {
