@@ -13,7 +13,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
        		$rootScope.$broadcast( 'settings.update' );
 		  }).
 		  error(function(data, status, headers, config) {
-		  	alert(status+"Valores por defecto");
+		  	alert(status+" Valores por defecto");
 		  	service.settings.name="DesguaceGET";
 		  	service.settings.tokens = [
 			   {

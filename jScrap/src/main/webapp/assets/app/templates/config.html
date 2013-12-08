@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="token in settings.tokens" ng-class="{'active': token.Status == 'VALID'}">
+      <tr ng-repeat="token in settings.tokens" ng-class="{'success': token.Status == 'VALID', 'danger': token.Status == 'EXPIRED', 'warning': token.Status == 'REQUESTED'}">
         <td>{{token.Id}}</td>
         <td>{{token.Token}}</td>
         <td>{{token.Status}}</td>
