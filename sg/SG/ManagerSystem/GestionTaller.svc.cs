@@ -138,7 +138,7 @@ namespace ManagerSystem
 
         public int putSolicitud(ExposedSolicitud es)
         {
-            if (s != null)
+            if (es != null)
             {
                 Solicitud s = SolicitudRepository.FromExposed(es);
                 SolicitudRepository.InsertOrUpdate(s);
