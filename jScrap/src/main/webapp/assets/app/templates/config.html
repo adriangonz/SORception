@@ -1,8 +1,22 @@
-<form action="#" method="POST">
-	<input type="checkbox" name="active" value="active" ng-model="scrap.status" disabled="true">Activo<br>
-	<label for="token">Token</label><input type="text" ng-model="scrap.token" id="token" name="token"><br>
-	<label for="name">Nombre</label><input type="text" ng-model="scrap.name"  id="name" name="name"><br>
-</form>
-<button request-token-button="scrap">Request Token</button>
+<h2>{{settings.name}}</h2>
 
-{{scrap | json}}
+<table class="table">
+	<thead>
+      <tr>
+        <th>#</th>
+        <th>Token</th>
+        <th>Status</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="token in settings.tokens" ng-class="{'success': token.Status == 'VALID', 'danger': token.Status == 'EXPIRED', 'warning': token.Status == 'REQUESTED'}">
+        <td>{{token.Id}}</td>
+        <td>{{token.Token}}</td>
+        <td>{{token.Status}}</td>
+        <td>{{token.Created}}</td>
+      </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-success" request-token-button>Request Token</button>
