@@ -4,5 +4,6 @@ module.controller( "ScrapCtrl", [ '$scope', 'Scrap', function( $scope, Scrap ) {
   });
 
   $scope.scrap;
+  
 
 }]);

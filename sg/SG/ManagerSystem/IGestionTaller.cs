@@ -18,6 +18,9 @@ namespace ManagerSystem
         int addTaller(string nombre);
 
         [OperationContract]
+        int getState(int id);
+
+        [OperationContract]
         int putTaller(Taller t);
 
         [OperationContract]
@@ -30,13 +33,13 @@ namespace ManagerSystem
         int addSolicitud(ExposedSolicitud s);
 
         [OperationContract]
-        int putSolicitud(Solicitud s);
+        int putSolicitud(ExposedSolicitud s);
 
         [OperationContract]
         int deleteSolicitud(int id);
 
         [OperationContract]
-        List<Solicitud> getSolicitudes();
+        List<ExposedSolicitud> getSolicitudes();
         /*
         [OperationContract]
         int sendCompra(Respuesta r);*/

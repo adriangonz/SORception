@@ -18,12 +18,12 @@ namespace ManagerSystem
         public Code code;
 
         [DataMember]
-        public Solicitud solicitud = null;
+        public ExposedSolicitud solicitud = null;
 
         [DataMember]
         public int solicitud_id = -1;
 
-        public AMQSolicitudMessage(Solicitud s, Code c)
+        public AMQSolicitudMessage(ExposedSolicitud s, Code c)
         {
             code = c;
             solicitud = s;
@@ -53,6 +53,9 @@ namespace ManagerSystem
     [DataContract]
     public class ExposedSolicitud
     {
+        [DataMember]
+        public int id;
+
         [DataMember]
         public int taller_id;
 
@@ -98,6 +101,27 @@ namespace ManagerSystem
             return 0;
         }
 
+        public int getState(int id)
+        {
+            try
+            {
+                var tmp = TallerRepository.Find(id);
+                Taller t = null;
+                if (tmp != null)
+                {
+                    t = TallerRepository.Sanitize(tmp);
+                    return t.Id;
+                }
+                
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            return -1;
+        }
+
         public int putTaller(Taller t)
         {
             if (t != null)
@@ -127,18 +151,19 @@ namespace ManagerSystem
                 Solicitud s = SolicitudRepository.FromExposed(es);
                 SolicitudRepository.InsertOrUpdate(s);
                 SolicitudRepository.Save();
-                SendMessage(new AMQSolicitudMessage(s, AMQSolicitudMessage.Code.New));
+                SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.New));
                 return 0;
             }
             return 1;
         }
 
-        public int putSolicitud(Solicitud s)
+        public int putSolicitud(ExposedSolicitud es)
         {
-            if (s != null)
+            if (es != null)
             {
+                Solicitud s = SolicitudRepository.FromExposed(es);
                 SolicitudRepository.InsertOrUpdate(s);
-                SendMessage(new AMQSolicitudMessage(s, AMQSolicitudMessage.Code.Update));
+                SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Update));
             }
             return 0;
         }
@@ -150,12 +175,12 @@ namespace ManagerSystem
             return 0;
         }
 
-        public List<Solicitud> getSolicitudes()
+        public List<ExposedSolicitud> getSolicitudes()
         {
-            List<Solicitud> l = new List<Solicitud>();
+            List<ExposedSolicitud> l = new List<ExposedSolicitud>();
             foreach (var tmp in SolicitudRepository.FindAll())
             {
-                l.Add(SolicitudRepository.Sanitize(tmp));
+                l.Add(SolicitudRepository.ToExposed(tmp));
             }
             return l;
         }
