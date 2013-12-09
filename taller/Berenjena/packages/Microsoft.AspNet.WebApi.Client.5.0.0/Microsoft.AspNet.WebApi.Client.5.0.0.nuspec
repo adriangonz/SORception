@@ -27,8 +27,5 @@
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.5" />
     </frameworkAssemblies>
-    <references>
-      <reference file="System.Net.Http.Formatting.dll" />
-    </references>
   </metadata>
 </package>
