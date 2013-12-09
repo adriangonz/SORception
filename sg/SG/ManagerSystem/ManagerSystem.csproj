@@ -39,12 +39,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Apache.NMS">
-      <HintPath>..\packages\Apache.NMS.1.6.0\lib\net40\Apache.NMS.dll</HintPath>
-    </Reference>
-    <Reference Include="Apache.NMS.ActiveMQ">
-      <HintPath>..\packages\Apache.NMS.ActiveMQ.1.6.0\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -196,6 +190,8 @@
       <DependentUpon>ManagerSystemEntityModel.edmx</DependentUpon>
       <LastGenOutput>ManagerSystemEntityModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\sorception - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sorception - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -219,7 +215,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>46937</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2489/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

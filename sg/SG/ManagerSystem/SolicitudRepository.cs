@@ -29,6 +29,8 @@ namespace ManagerSystem
 
         static public ExposedSolicitud ToExposed(Solicitud s) {
             ExposedSolicitud es = new ExposedSolicitud();
+
+            es.id = s.id;
             es.taller_id = s.TallerId;
             foreach (var l in s.LineasSolicitud)
             {
@@ -51,11 +53,12 @@ namespace ManagerSystem
             foreach(var els in es.lineas) {
                 LineaSolicitud ls = new LineaSolicitud();
                 ls.id_en_taller = els.id;
+                ls.description = els.description;
                 ls.quantity = els.quantity;
                 s.LineasSolicitud.Add(ls);
             }
-            s.id_en_taller = -1;
-            s.state = "ASD";
+            s.id_en_taller = es.taller_id;
+            s.state = "TODO";
             s.date = DateTime.Now;
 
             return s;
