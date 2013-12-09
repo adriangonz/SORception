@@ -13,6 +13,7 @@ import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.webservices.SGClient;
 import java.util.List;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,8 @@ public class TokenService {
     @Autowired
     SGClient sgClient;
     
+    final static Logger logger = LoggerFactory.getLogger(TokenService.class);
+    
     private TokenEntity saveValid(String token) {
         TokenEntity tokenEntity = new TokenEntity(
                 token, TokenEntity.TokenStatus.VALID);
@@ -39,19 +42,13 @@ public class TokenService {
     }
     
     public TokenEntity requestToken() {
-        TokenEntity tokenEntity = null;
-        try {
-            // Access to web service
-            String temporalToken = sgClient.signUp();
-            // Save temporal token
-            tokenEntity = new TokenEntity(
-                    temporalToken, TokenEntity.TokenStatus.REQUESTED);
-            Long id = tokenDAO.save(tokenEntity);
-            tokenEntity.setId(id);
-        } catch(ResourceNotFoundException ex) {
-            LOG.debug("Ola ke ase");
-            LOG.error(Throwables.getStackTraceAsString(ex));
-        }
+        // Access to web service
+        String temporalToken = sgClient.signUp();
+        // Save temporal token
+        TokenEntity tokenEntity = new TokenEntity(
+                temporalToken, TokenEntity.TokenStatus.REQUESTED);
+        Long id = tokenDAO.save(tokenEntity);
+        tokenEntity.setId(id);
         // Return token with Id
         return tokenEntity;
     }

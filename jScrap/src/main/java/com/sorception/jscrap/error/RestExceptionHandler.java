@@ -23,7 +23,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	/**
 	 * Handle exceptions thrown by handlers.
 	 */
-        @ExceptionHandler(value = ResourceNotFoundException.class)
+        @ExceptionHandler(value = {ResourceNotFoundException.class, ServiceUnavailableException.class})
         @ResponseBody
         public ResponseEntity<Object> notFoundException(RuntimeException ex, WebRequest request) {
             HttpHeaders httpHeaders = new HttpHeaders();

@@ -25,7 +25,16 @@ public class SettingsService {
     
     public SettingsEntity getGlobalSettings() {
         SettingsEntity settingsEntity = settingsDAO.getGlobalSettings();
-        settingsEntity.setValidToken(tokenService.getValid());
+        return settingsEntity;
+    }
+    
+    public SettingsEntity getExtendedSettings() {
+        SettingsEntity settingsEntity = this.getGlobalSettings();
+        try {
+            settingsEntity.setValidToken(tokenService.getValid());
+        } catch (Exception ex) {
+            settingsEntity.setValidToken(null);
+        }
         settingsEntity.setTokenList(tokenService.list());
         return settingsEntity;
     }

@@ -27,6 +27,6 @@ public class SettingsController {
     @RequestMapping("")
     @ResponseBody
     public SettingsEntity getSettings() {
-        return settingsService.getGlobalSettings();
+        return settingsService.getExtendedSettings();
     }
 }
