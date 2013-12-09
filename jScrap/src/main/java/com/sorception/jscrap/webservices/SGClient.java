@@ -60,7 +60,7 @@ public class SGClient extends WebServiceGatewaySupport {
                 .marshalSendAndReceive(getStateRequest);
         String state = response.getGetStateResult().toString();
         if("-1".equals(state))
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("Web Service returned -1");
         return state;
     }
 }

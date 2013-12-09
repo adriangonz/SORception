@@ -16,7 +16,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 
 /**
  *
@@ -26,19 +25,19 @@ import javax.persistence.Version;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class AbstractEntity implements Serializable {
     @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     @GeneratedValue
     protected Long _id;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "Created", nullable = false)
+    @Column(name = "creationDate", nullable = false)
     final private Date _created;
     
     protected AbstractEntity() {
         _created = new Date();
     }
     
-    public Date getCreated() {
+    public Date getCreationDate() {
         return _created;
     }
     

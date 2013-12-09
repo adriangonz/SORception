@@ -1,5 +1,6 @@
 package com.sorception.jscrap.error;
 
+import org.jboss.logging.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
@@ -8,23 +9,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
  * General error handler for the application.
  */
 @ControllerAdvice
-class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+        private static Logger LOG = Logger.getLogger(RestExceptionHandler.class);
+    
 	/**
 	 * Handle exceptions thrown by handlers.
 	 */
         @ExceptionHandler(value = ResourceNotFoundException.class)
+        @ResponseBody
         public ResponseEntity<Object> notFoundException(RuntimeException ex, WebRequest request) {
-            String message = "{\"message\": \"Resource not found\"}";
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            LOG.info("Ola ke ase");
             return this.handleExceptionInternal(
-                    ex, message, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+                    ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
         }
 }

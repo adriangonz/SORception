@@ -6,11 +6,8 @@
 
 package com.sorception.jscrap.entities;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -20,8 +17,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name="User")
 public class UserEntity extends AbstractEntity {
-    @Column(name = "Name")
+    @Column(name = "name")
     private String _name;
+    
+    @Column(name = "isAdmin")
+    private Boolean _admin = false;
 
     public UserEntity() {}
 
@@ -31,5 +31,9 @@ public class UserEntity extends AbstractEntity {
 
     public String getName() {
         return _name;
+    }
+    
+    public Boolean getIsAdmin() {
+        return _admin;
     }
 }

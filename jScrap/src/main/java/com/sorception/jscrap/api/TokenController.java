@@ -28,7 +28,7 @@ public class TokenController {
     @Autowired
     TokenService tokenService;
     
-    @RequestMapping("")
+    @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public TokenEntity getValid() {
         return tokenService.getValid();

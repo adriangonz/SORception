@@ -27,8 +27,8 @@ public class TokenDAO {
             // Set to expired any previous valid token
             sessionFactory
                     .getCurrentSession()
-                    .createQuery("UPDATE TokenEntity SET Status = 'EXPIRED' "
-                            + "WHERE Status = 'VALID'")
+                    .createQuery("UPDATE TokenEntity SET status = 'EXPIRED' "
+                            + "WHERE status = 'VALID'")
                     .executeUpdate();
         }
         
@@ -49,7 +49,7 @@ public class TokenDAO {
         // Get Valid tokens (there should only be one)
         List<TokenEntity> tokenList = sessionFactory
                                         .getCurrentSession()
-                                        .createQuery("FROM TokenEntity WHERE Status = 'VALID'")
+                                        .createQuery("FROM TokenEntity WHERE status = 'VALID'")
                                         .list();
         // Return null or first token
         if(tokenList.isEmpty())
@@ -62,8 +62,8 @@ public class TokenDAO {
         // Get last requested token
         List<TokenEntity> tokenList = sessionFactory
                                         .getCurrentSession()
-                                        .createQuery("FROM TokenEntity WHERE Status = 'REQUESTED'"
-                                                + " ORDER BY Created DESC")
+                                        .createQuery("FROM TokenEntity WHERE status = 'REQUESTED'"
+                                                + " ORDER BY creationDate DESC")
                                         .list();
         if(tokenList.isEmpty())
             return null;

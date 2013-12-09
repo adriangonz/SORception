@@ -20,7 +20,13 @@ public class SettingsService {
     @Autowired
     private SettingsDAO settingsDAO;
     
+    @Autowired
+    private TokenService tokenService;
+    
     public SettingsEntity getGlobalSettings() {
-        return settingsDAO.getGlobalSettings();
+        SettingsEntity settingsEntity = settingsDAO.getGlobalSettings();
+        settingsEntity.setValidToken(tokenService.getValid());
+        settingsEntity.setTokenList(tokenService.list());
+        return settingsEntity;
     }
 }

@@ -37,12 +37,12 @@ public class UserService {
     public UserEntity getUser(Long userId) {
         UserEntity user = userDAO.getUser(userId);
         if(null == user)
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("User does not exist");
         return user;
     }
 
     public void removeUser(Long userId) {
         if(!userDAO.deleteUser(userId))
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("User does not exist");
     }
 }
