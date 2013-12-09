@@ -101,6 +101,27 @@ namespace ManagerSystem
             return 0;
         }
 
+        public int getState(int id)
+        {
+            try
+            {
+                var tmp = TallerRepository.Find(id);
+                Taller t = null;
+                if (tmp != null)
+                {
+                    t = TallerRepository.Sanitize(tmp);
+                    return t.Id;
+                }
+                
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            return -1;
+        }
+
         public int putTaller(Taller t)
         {
             if (t != null)
