@@ -52,6 +52,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -127,6 +128,21 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BDBerenjena.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BDBerenjena.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BDBerenjena.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BDBerenjena.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BDBerenjena.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BDBerenjena.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -138,6 +154,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Tokens.cs">
+      <DependentUpon>BDBerenjena.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controllers\tallerController.js" />
@@ -145,6 +164,7 @@
     <Content Include="app\services\tallerService.js" />
     <Content Include="app\templates\config.html" />
     <Content Include="app\templates\main.html" />
+    <Content Include="BDBerenjena.edmx.sql" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -203,6 +223,23 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="BDBerenjena.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BDBerenjena.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="BDBerenjena.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BDBerenjena.edmx</DependentUpon>
+      <LastGenOutput>BDBerenjena.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BDBerenjena.edmx.diagram">
+      <DependentUpon>BDBerenjena.edmx</DependentUpon>
+    </Content>
+    <Content Include="BDBerenjena.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BDBerenjena.edmx</DependentUpon>
+      <LastGenOutput>BDBerenjena.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -218,19 +255,19 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Service References\ServiceTaller\Berenjena.ServiceTaller.Solicitud.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\ServiceTaller\Berenjena.ServiceTaller.Taller.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\ServiceTaller\GestionTaller.disco" />
-    <Content Include="Service References\ServiceTaller\configuration91.svcinfo" />
-    <Content Include="Service References\ServiceTaller\configuration.svcinfo" />
-    <Content Include="Service References\ServiceTaller\Reference.svcmap">
+    <Content Include="Service References\ServiceTaller\Berenjena.ServiceTaller.ExposedSolicitud.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\ServiceTaller\GestionTaller.disco" />
+    <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
+    <None Include="Service References\ServiceTaller\configuration.svcinfo" />
+    <None Include="Service References\ServiceTaller\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -258,7 +295,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Service References\ServiceTaller\GestionTaller.wsdl" />
+    <None Include="Service References\ServiceTaller\GestionTaller.wsdl" />
     <None Include="Service References\ServiceTaller\GestionTaller.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -281,6 +318,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ServiceTaller\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
