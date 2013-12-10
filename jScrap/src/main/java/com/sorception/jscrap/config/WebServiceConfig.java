@@ -46,7 +46,7 @@ public class WebServiceConfig {
     @Bean
     public SaajSoapMessageFactory messageFactory() {
         SaajSoapMessageFactory messageFactory = new SaajSoapMessageFactory();
-        messageFactory.setSoapVersion(SoapVersion.SOAP_12);
+        messageFactory.setSoapVersion(SoapVersion.SOAP_11);
         return messageFactory;
     }
     

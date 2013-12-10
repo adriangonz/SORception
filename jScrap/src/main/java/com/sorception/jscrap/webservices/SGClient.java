@@ -61,9 +61,10 @@ public class SGClient extends WebServiceGatewaySupport {
         signUpRequest.setD(objectFactory.createDesguace(desguace()));
         SignUpResponse response = (SignUpResponse)
                 this.marshalWithSoapActionHeader(signUpRequest, "IGestionDesguace/signUp");
-        if("-1".equals(response))
+        String temporalToken = response.getSignUpResult().toString();
+        if("-1".equals(temporalToken))
             throw new ServiceUnavailableException("Web Service returned -1");
-        return response.getSignUpResult().toString();
+        return temporalToken;
     }
     
     public String getState(String temporalToken) {
