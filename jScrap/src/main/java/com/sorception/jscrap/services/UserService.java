@@ -34,9 +34,7 @@ public class UserService {
     
     public UserEntity addUser(String username, String name) {
         UserEntity user = new UserEntity(username, name);
-        Long id = userDAO.addUser(user);
-        user.setId(id);
-        return user;
+        return userDAO.addUser(user);
     }
 
     public UserEntity getUser(Long userId) {

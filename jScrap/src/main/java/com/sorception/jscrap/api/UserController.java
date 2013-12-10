@@ -45,9 +45,9 @@ public class UserController {
     @RequestMapping(value="", method=RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public void addUser(@RequestParam("username") String username, 
+    public UserEntity addUser(@RequestParam("username") String username, 
             @RequestParam("name") String name) {
-        userService.addUser(username, name);
+        return userService.addUser(username, name);
     }
     
     @RequestMapping(value="/{userId}", method=RequestMethod.DELETE)

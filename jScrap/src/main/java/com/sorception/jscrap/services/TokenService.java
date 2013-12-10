@@ -36,21 +36,17 @@ public class TokenService {
     private TokenEntity saveValid(String token) {
         TokenEntity tokenEntity = new TokenEntity(
                 token, TokenEntity.TokenStatus.VALID);
-        Long id = tokenDAO.save(tokenEntity);
-        tokenEntity.setId(id);
-        return tokenEntity;
+        return tokenDAO.save(tokenEntity);
     }
     
     public TokenEntity requestToken() {
+        logger.info("Save valid token");
         // Access to web service
         String temporalToken = sgClient.signUp();
         // Save temporal token
         TokenEntity tokenEntity = new TokenEntity(
                 temporalToken, TokenEntity.TokenStatus.REQUESTED);
-        Long id = tokenDAO.save(tokenEntity);
-        tokenEntity.setId(id);
-        // Return token with Id
-        return tokenEntity;
+        return tokenDAO.save(tokenEntity);
     }
     
     public TokenEntity getValid() {
