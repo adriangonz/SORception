@@ -61,6 +61,8 @@ public class SGClient extends WebServiceGatewaySupport {
         signUpRequest.setD(objectFactory.createDesguace(desguace()));
         SignUpResponse response = (SignUpResponse)
                 this.marshalWithSoapActionHeader(signUpRequest, "IGestionDesguace/signUp");
+        if("-1".equals(response))
+            throw new ServiceUnavailableException("Web Service returned -1");
         return response.getSignUpResult().toString();
     }
     
