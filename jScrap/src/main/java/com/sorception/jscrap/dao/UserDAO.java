@@ -22,8 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author kaseyo
  */
 @Repository
+@Transactional
 public class UserDAO {
-    @PersistenceContext
+    @PersistenceContext(name = "entityManagerFactory")
     private EntityManager entityManager;
     
     public UserEntity addUser(UserEntity user) {

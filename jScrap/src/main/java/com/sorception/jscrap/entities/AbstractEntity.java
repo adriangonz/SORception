@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,18 +33,30 @@ public abstract class AbstractEntity implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creationDate", nullable = false)
-    final private Date _created;
+    private Date _created;
     
-    protected AbstractEntity() {
-        _created = new Date();
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updateDate", nullable = false)
+    private Date _updated;
+    
+    protected AbstractEntity() {}
+    
+    @PrePersist
+    protected void onCreate() {
+        _updated = _created = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        _updated = new Date();
     }
     
     public Date getCreationDate() {
         return _created;
     }
     
-    public void setId(Long id) {
-        _id = id;
+    public Date getUpdatedDate() {
+        return _updated;
     }
     
     public Long getId() {

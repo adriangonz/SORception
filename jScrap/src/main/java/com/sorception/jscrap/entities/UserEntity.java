@@ -37,6 +37,10 @@ public class UserEntity extends AbstractEntity {
         return _name;
     }
     
+    public String getUsername() {
+        return _username;
+    }
+    
     public Boolean getIsAdmin() {
         return _admin;
     }

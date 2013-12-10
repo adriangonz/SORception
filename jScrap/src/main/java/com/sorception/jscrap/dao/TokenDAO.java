@@ -14,14 +14,16 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author kaseyo
  */
 @Repository
+@Transactional
 public class TokenDAO {
-    @PersistenceContext
+    @PersistenceContext(name = "entityManagerFactory")
     EntityManager entityManager;
     
     public TokenEntity save(TokenEntity tokenEntity) {

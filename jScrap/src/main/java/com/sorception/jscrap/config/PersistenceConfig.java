@@ -48,7 +48,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	}
 	
 	@Bean
-	public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
 		entityManagerFactoryBean.setPackagesToScan("com.sorception.jscrap");
@@ -64,6 +64,6 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
         
         @Override
         public PlatformTransactionManager annotationDrivenTransactionManager() {
-            return new JpaTransactionManager(configureEntityManagerFactory().getObject());
+            return new JpaTransactionManager(entityManagerFactory().getObject());
         }
 }
