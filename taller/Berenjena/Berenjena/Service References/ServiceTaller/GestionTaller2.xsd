@@ -29,6 +29,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="getState">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getStateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="getStateResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="putTaller">
     <xs:complexType>
       <xs:sequence>
@@ -67,14 +81,14 @@
   <xs:element name="getSolicitudResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="getSolicitudResult" nillable="true" type="q3:Solicitud" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="getSolicitudResult" nillable="true" type="q3:ExposedSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="addSolicitud">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="s" nillable="true" type="q4:Solicitud" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="s" nillable="true" type="q4:ExposedSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -88,7 +102,7 @@
   <xs:element name="putSolicitud">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="s" nillable="true" type="q5:Solicitud" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="s" nillable="true" type="q5:ExposedSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -121,7 +135,7 @@
   <xs:element name="getSolicitudesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="getSolicitudesResult" nillable="true" type="q6:ArrayOfSolicitud" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="getSolicitudesResult" nillable="true" type="q6:ArrayOfExposedSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

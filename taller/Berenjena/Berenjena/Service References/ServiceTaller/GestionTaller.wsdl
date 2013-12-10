@@ -19,6 +19,12 @@
   <wsdl:message name="IGestionTaller_addTaller_OutputMessage">
     <wsdl:part name="parameters" element="tns:addTallerResponse" />
   </wsdl:message>
+  <wsdl:message name="IGestionTaller_getState_InputMessage">
+    <wsdl:part name="parameters" element="tns:getState" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getStateResponse" />
+  </wsdl:message>
   <wsdl:message name="IGestionTaller_putTaller_InputMessage">
     <wsdl:part name="parameters" element="tns:putTaller" />
   </wsdl:message>
@@ -70,6 +76,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/addTaller" message="tns:IGestionTaller_addTaller_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/addTallerResponse" message="tns:IGestionTaller_addTaller_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="getState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getState" message="tns:IGestionTaller_getState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getStateResponse" message="tns:IGestionTaller_getState_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="putTaller">
       <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/putTaller" message="tns:IGestionTaller_putTaller_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/putTallerResponse" message="tns:IGestionTaller_putTaller_OutputMessage" />
@@ -112,6 +122,15 @@
     </wsdl:operation>
     <wsdl:operation name="addTaller">
       <soap:operation soapAction="http://tempuri.org/IGestionTaller/addTaller" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getState">
+      <soap:operation soapAction="http://tempuri.org/IGestionTaller/getState" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
