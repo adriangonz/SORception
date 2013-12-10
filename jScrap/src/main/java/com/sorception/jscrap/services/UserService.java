@@ -12,6 +12,8 @@ import com.sorception.jscrap.error.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 /**
  *
@@ -23,12 +25,15 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
     
+    final static Logger logger = LoggerFactory.getLogger(TokenService.class);
+    
     public List<UserEntity> getAllUsers() {
+        logger.info("Obtenemos todos los usuarios");
         return userDAO.getAllUsers();
     }
     
-    public UserEntity addUser(String name) {
-        UserEntity user = new UserEntity(name);
+    public UserEntity addUser(String username, String name) {
+        UserEntity user = new UserEntity(username, name);
         Long id = userDAO.addUser(user);
         user.setId(id);
         return user;

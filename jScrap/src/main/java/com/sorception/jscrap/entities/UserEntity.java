@@ -23,9 +23,13 @@ public class UserEntity extends AbstractEntity {
     @Column(name = "isAdmin")
     private Boolean _admin = false;
 
+    @Column(name = "username", unique = true)
+    private String _username;
+    
     public UserEntity() {}
 
-    public UserEntity(String name) {
+    public UserEntity(String username, String name) {
+        _username = username;
         _name = name;
     }
 
