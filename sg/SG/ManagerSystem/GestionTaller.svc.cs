@@ -179,7 +179,7 @@ namespace ManagerSystem
         private void SendMessage(AMQSolicitudMessage sm)
         {
             if (_publisher == null)
-                _publisher = TopicPublisher.MakePublisher("tcp://MartinLaptop:61616", "GestionTaller", "Solicitudes");
+                _publisher = TopicPublisher.MakePublisher(Constants.ActiveMQ.Broker, Constants.ActiveMQ.Solicitud.Client_ID, Constants.ActiveMQ.Solicitud.Topic);
             _publisher.SendMessage(sm);
         }
     }

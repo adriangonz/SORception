@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
@@ -9,14 +11,21 @@ using System.Text;
 
 namespace ManagerSystem
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "GestionDesguace" en el código, en svc y en el archivo de configuración a la vez.
-    // NOTA: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione GestionDesguace.svc o GestionDesguace.svc.cs en el Explorador de soluciones e inicie la depuración.
+    [DataContract(Namespace = Constants.Namespace)]
+    public class ExposedDesguace
+    {
+        [DataMember]
+        public string name;
+    }
+
+    [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        public int signUp(Desguace d)
+        public int signUp(ExposedDesguace ed)
         {
-            if (d != null)
+            if (ed != null)
             {
+                Desguace d = DesguaceRepository.FromExposed(ed);
                 d.active = false;
                 DesguaceRepository.InsertOrUpdate(d);
                 DesguaceRepository.Save();
@@ -27,6 +36,9 @@ namespace ManagerSystem
 
         public int getState(int id)
         {
+            if (id == default(int))
+                return 38;
+
             if (id >= 0)
             {
                 var tmp = DesguaceRepository.Find(Convert.ToInt32(id));
