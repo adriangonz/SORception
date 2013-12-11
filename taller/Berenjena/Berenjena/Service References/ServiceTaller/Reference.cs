@@ -282,13 +282,13 @@ namespace Berenjena.ServiceTaller {
         private int Solicitud_idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string descriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string id_en_tallerField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int priceField;
+        private int id_en_tallerField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int quantityField;
@@ -343,6 +343,19 @@ namespace Berenjena.ServiceTaller {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
+                    this.descriptionField = value;
+                    this.RaisePropertyChanged("description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public int id {
             get {
                 return this.idField;
@@ -356,27 +369,14 @@ namespace Berenjena.ServiceTaller {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string id_en_taller {
+        public int id_en_taller {
             get {
                 return this.id_en_tallerField;
             }
             set {
-                if ((object.ReferenceEquals(this.id_en_tallerField, value) != true)) {
+                if ((this.id_en_tallerField.Equals(value) != true)) {
                     this.id_en_tallerField = value;
                     this.RaisePropertyChanged("id_en_taller");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int price {
-            get {
-                return this.priceField;
-            }
-            set {
-                if ((this.priceField.Equals(value) != true)) {
-                    this.priceField = value;
-                    this.RaisePropertyChanged("price");
                 }
             }
         }
@@ -936,6 +936,160 @@ namespace Berenjena.ServiceTaller {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExposedSolicitud", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
+    [System.SerializableAttribute()]
+    public partial class ExposedSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Berenjena.ServiceTaller.ExposedLineaSolicitud[] lineasField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int taller_idField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Berenjena.ServiceTaller.ExposedLineaSolicitud[] lineas {
+            get {
+                return this.lineasField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.lineasField, value) != true)) {
+                    this.lineasField = value;
+                    this.RaisePropertyChanged("lineas");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int taller_id {
+            get {
+                return this.taller_idField;
+            }
+            set {
+                if ((this.taller_idField.Equals(value) != true)) {
+                    this.taller_idField = value;
+                    this.RaisePropertyChanged("taller_id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExposedLineaSolicitud", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
+    [System.SerializableAttribute()]
+    public partial class ExposedLineaSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string descriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int quantityField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
+                    this.descriptionField = value;
+                    this.RaisePropertyChanged("description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int quantity {
+            get {
+                return this.quantityField;
+            }
+            set {
+                if ((this.quantityField.Equals(value) != true)) {
+                    this.quantityField = value;
+                    this.RaisePropertyChanged("quantity");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceTaller.IGestionTaller")]
     public interface IGestionTaller {
@@ -952,6 +1106,12 @@ namespace Berenjena.ServiceTaller {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/addTaller", ReplyAction="http://tempuri.org/IGestionTaller/addTallerResponse")]
         System.Threading.Tasks.Task<int> addTallerAsync(string nombre);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getState", ReplyAction="http://tempuri.org/IGestionTaller/getStateResponse")]
+        int getState(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getState", ReplyAction="http://tempuri.org/IGestionTaller/getStateResponse")]
+        System.Threading.Tasks.Task<int> getStateAsync(int id);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/putTaller", ReplyAction="http://tempuri.org/IGestionTaller/putTallerResponse")]
         int putTaller(Berenjena.ServiceTaller.Taller t);
         
@@ -965,22 +1125,22 @@ namespace Berenjena.ServiceTaller {
         System.Threading.Tasks.Task<int> deleteTallerAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudResponse")]
-        Berenjena.ServiceTaller.Solicitud getSolicitud(int id);
+        Berenjena.ServiceTaller.ExposedSolicitud getSolicitud(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudResponse")]
-        System.Threading.Tasks.Task<Berenjena.ServiceTaller.Solicitud> getSolicitudAsync(int id);
+        System.Threading.Tasks.Task<Berenjena.ServiceTaller.ExposedSolicitud> getSolicitudAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/addSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/addSolicitudResponse")]
-        int addSolicitud(Berenjena.ServiceTaller.Solicitud s);
+        int addSolicitud(Berenjena.ServiceTaller.ExposedSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/addSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/addSolicitudResponse")]
-        System.Threading.Tasks.Task<int> addSolicitudAsync(Berenjena.ServiceTaller.Solicitud s);
+        System.Threading.Tasks.Task<int> addSolicitudAsync(Berenjena.ServiceTaller.ExposedSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/putSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/putSolicitudResponse")]
-        int putSolicitud(Berenjena.ServiceTaller.Solicitud s);
+        int putSolicitud(Berenjena.ServiceTaller.ExposedSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/putSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/putSolicitudResponse")]
-        System.Threading.Tasks.Task<int> putSolicitudAsync(Berenjena.ServiceTaller.Solicitud s);
+        System.Threading.Tasks.Task<int> putSolicitudAsync(Berenjena.ServiceTaller.ExposedSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/deleteSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/deleteSolicitudResponse")]
         int deleteSolicitud(int id);
@@ -989,10 +1149,10 @@ namespace Berenjena.ServiceTaller {
         System.Threading.Tasks.Task<int> deleteSolicitudAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitudes", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudesResponse")]
-        Berenjena.ServiceTaller.Solicitud[] getSolicitudes();
+        Berenjena.ServiceTaller.ExposedSolicitud[] getSolicitudes();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitudes", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudesResponse")]
-        System.Threading.Tasks.Task<Berenjena.ServiceTaller.Solicitud[]> getSolicitudesAsync();
+        System.Threading.Tasks.Task<Berenjena.ServiceTaller.ExposedSolicitud[]> getSolicitudesAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1038,6 +1198,14 @@ namespace Berenjena.ServiceTaller {
             return base.Channel.addTallerAsync(nombre);
         }
         
+        public int getState(int id) {
+            return base.Channel.getState(id);
+        }
+        
+        public System.Threading.Tasks.Task<int> getStateAsync(int id) {
+            return base.Channel.getStateAsync(id);
+        }
+        
         public int putTaller(Berenjena.ServiceTaller.Taller t) {
             return base.Channel.putTaller(t);
         }
@@ -1054,27 +1222,27 @@ namespace Berenjena.ServiceTaller {
             return base.Channel.deleteTallerAsync(id);
         }
         
-        public Berenjena.ServiceTaller.Solicitud getSolicitud(int id) {
+        public Berenjena.ServiceTaller.ExposedSolicitud getSolicitud(int id) {
             return base.Channel.getSolicitud(id);
         }
         
-        public System.Threading.Tasks.Task<Berenjena.ServiceTaller.Solicitud> getSolicitudAsync(int id) {
+        public System.Threading.Tasks.Task<Berenjena.ServiceTaller.ExposedSolicitud> getSolicitudAsync(int id) {
             return base.Channel.getSolicitudAsync(id);
         }
         
-        public int addSolicitud(Berenjena.ServiceTaller.Solicitud s) {
+        public int addSolicitud(Berenjena.ServiceTaller.ExposedSolicitud s) {
             return base.Channel.addSolicitud(s);
         }
         
-        public System.Threading.Tasks.Task<int> addSolicitudAsync(Berenjena.ServiceTaller.Solicitud s) {
+        public System.Threading.Tasks.Task<int> addSolicitudAsync(Berenjena.ServiceTaller.ExposedSolicitud s) {
             return base.Channel.addSolicitudAsync(s);
         }
         
-        public int putSolicitud(Berenjena.ServiceTaller.Solicitud s) {
+        public int putSolicitud(Berenjena.ServiceTaller.ExposedSolicitud s) {
             return base.Channel.putSolicitud(s);
         }
         
-        public System.Threading.Tasks.Task<int> putSolicitudAsync(Berenjena.ServiceTaller.Solicitud s) {
+        public System.Threading.Tasks.Task<int> putSolicitudAsync(Berenjena.ServiceTaller.ExposedSolicitud s) {
             return base.Channel.putSolicitudAsync(s);
         }
         
@@ -1086,11 +1254,11 @@ namespace Berenjena.ServiceTaller {
             return base.Channel.deleteSolicitudAsync(id);
         }
         
-        public Berenjena.ServiceTaller.Solicitud[] getSolicitudes() {
+        public Berenjena.ServiceTaller.ExposedSolicitud[] getSolicitudes() {
             return base.Channel.getSolicitudes();
         }
         
-        public System.Threading.Tasks.Task<Berenjena.ServiceTaller.Solicitud[]> getSolicitudesAsync() {
+        public System.Threading.Tasks.Task<Berenjena.ServiceTaller.ExposedSolicitud[]> getSolicitudesAsync() {
             return base.Channel.getSolicitudesAsync();
         }
     }

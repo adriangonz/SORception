@@ -100,7 +100,7 @@ namespace ManagerSystem
                     tall.name = nombre;
                     TallerRepository.InsertOrUpdate(tall);
                     TallerRepository.Save();
-                    return 1;
+                    return tall.Id;
                 }
                 catch (Exception e)
                 {
@@ -109,6 +109,28 @@ namespace ManagerSystem
                 }
             }
             return 0;
+        }
+
+        public int getState(int id)
+        {
+            try
+            {
+                var tmp = TallerRepository.Find(id);
+                Taller t = null;
+                if (tmp != null)
+                {
+                    t = TallerRepository.Sanitize(tmp);
+                    if (t.active)
+                        return t.Id;
+                }
+                
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            return -1;
         }
 
         public int putTaller(ExposedTaller et)

@@ -8,49 +8,50 @@ package com.sorception.jscrap.dao;
 
 import com.sorception.jscrap.entities.TokenEntity;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author kaseyo
  */
-@Service
+@Repository
+@Transactional
 public class TokenDAO {
-    @Autowired
-    SessionFactory sessionFactory;
+    @PersistenceContext(name = "entityManagerFactory")
+    EntityManager entityManager;
     
-    public Long save(TokenEntity tokenEntity) {
+    public TokenEntity save(TokenEntity tokenEntity) {
         if(tokenEntity.getStatus() == TokenEntity.TokenStatus.VALID
                 || tokenEntity.getStatus() == TokenEntity.TokenStatus.REQUESTED) {
             // Set to expired any previous valid token
-            sessionFactory
-                    .getCurrentSession()
-                    .createQuery("UPDATE TokenEntity SET Status = 'EXPIRED' "
-                            + "WHERE Status = 'VALID'")
+            this.entityManager
+                    .createQuery("UPDATE TokenEntity SET status = 'EXPIRED' "
+                            + "WHERE status = 'VALID'")
                     .executeUpdate();
         }
         
         // Save and return Id
-        return (Long) sessionFactory
-                        .getCurrentSession()
-                        .save(tokenEntity);
+        this.entityManager.persist(tokenEntity);
+        return tokenEntity;
     }
     
     public List<TokenEntity> list() {
-        return sessionFactory
-                .getCurrentSession()
-                .createQuery("FROM TokenEntity")
-                .list();
+        return this.entityManager
+                .createQuery("FROM TokenEntity ORDER BY creationDate DESC")
+                .getResultList();
     }
     
     public TokenEntity getValid() {
         // Get Valid tokens (there should only be one)
-        List<TokenEntity> tokenList = sessionFactory
-                                        .getCurrentSession()
-                                        .createQuery("FROM TokenEntity WHERE Status = 'VALID'")
-                                        .list();
+        List<TokenEntity> tokenList = this.entityManager
+                                        .createQuery("FROM TokenEntity WHERE status = 'VALID'")
+                                        .getResultList();
         // Return null or first token
         if(tokenList.isEmpty())
             return null;
@@ -60,11 +61,10 @@ public class TokenDAO {
     
     public TokenEntity getRequest() {
         // Get last requested token
-        List<TokenEntity> tokenList = sessionFactory
-                                        .getCurrentSession()
-                                        .createQuery("FROM TokenEntity WHERE Status = 'REQUESTED'"
-                                                + " ORDER BY Created DESC")
-                                        .list();
+        List<TokenEntity> tokenList = this.entityManager
+                                        .createQuery("FROM TokenEntity WHERE status = 'REQUESTED'"
+                                                + " ORDER BY creationDate DESC")
+                                        .getResultList();
         if(tokenList.isEmpty())
             return null;
         else

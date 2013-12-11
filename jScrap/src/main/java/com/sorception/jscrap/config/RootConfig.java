@@ -13,7 +13,8 @@ public class RootConfig {
 		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
                 ppc.setLocations(new ClassPathResource[] {
                     new ClassPathResource("/persistence.properties"),
-                    new ClassPathResource("/jscrap.properties")
+                    new ClassPathResource("/jscrap.properties"),
+                    new ClassPathResource("/webservice.properties")
                 });
 		return ppc;
 	}

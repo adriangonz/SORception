@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sorception.jscrap.entities.UserEntity;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,33 +21,33 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author kaseyo
  */
-@Service
+@Repository
+@Transactional
 public class UserDAO {
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext(name = "entityManagerFactory")
+    private EntityManager entityManager;
     
-    public Long addUser(UserEntity user) {
-        return (Long)this.sessionFactory.getCurrentSession().save(user);
+    public UserEntity addUser(UserEntity user) {
+        this.entityManager.persist(user);
+        return user;
     }
     
     @SuppressWarnings("unchecked")
     public List<UserEntity> getAllUsers() {
-        return this.sessionFactory
-                .getCurrentSession().createQuery("from UserEntity").list();
+        return this.entityManager.createQuery("from UserEntity").getResultList();
     }
     
     public Boolean deleteUser(Long userId) {
-        UserEntity user = (UserEntity) this.sessionFactory
-                .getCurrentSession().load(UserEntity.class, userId);
+        UserEntity user = (UserEntity) this.entityManager
+                .getReference(UserEntity.class, userId);
         if (null != user) {
-            this.sessionFactory.getCurrentSession().delete(user);
+            this.entityManager.remove(user);
             return false;
         }
         return true;
     }
     
     public UserEntity getUser(Long userId) {
-        return (UserEntity)this.sessionFactory
-                .getCurrentSession().get(UserEntity.class, userId);
+        return (UserEntity)this.entityManager.find(UserEntity.class, userId);
     }
 }

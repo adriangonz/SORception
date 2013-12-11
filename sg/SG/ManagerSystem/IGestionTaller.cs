@@ -18,6 +18,9 @@ namespace ManagerSystem
         int addTaller(string nombre);
 
         [OperationContract]
+        int getState(int id);
+
+        [OperationContract]
         int putTaller(ExposedTaller t);
 
         [OperationContract]

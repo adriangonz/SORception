@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -47,7 +48,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	}
 	
 	@Bean
-	public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
 		entityManagerFactoryBean.setPackagesToScan("com.sorception.jscrap");
@@ -61,24 +62,8 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 		return entityManagerFactoryBean;
 	}
         
-        @Bean
-        public HibernateTransactionManager transactionManager() {
-            SessionFactory sessionFactory = sessionFactory().getObject();
-            HibernateTransactionManager manager = new HibernateTransactionManager(sessionFactory);
-            return manager;
-        }
-        
-        @Bean
-        public LocalSessionFactoryBean sessionFactory() {
-            LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
-            factory.setDataSource(dataSource());
-            factory.setPackagesToScan("com.sorception.jscrap");
-            
-            return factory;
-        }
-
         @Override
         public PlatformTransactionManager annotationDrivenTransactionManager() {
-            return transactionManager();
+            return new JpaTransactionManager(entityManagerFactory().getObject());
         }
 }

@@ -39,9 +39,9 @@
       <xs:element minOccurs="0" name="LineasOfertaSeleccionada" nillable="true" type="tns:ArrayOfLineaOfertaSeleccionada" />
       <xs:element minOccurs="0" name="Solicitud" nillable="true" type="tns:Solicitud" />
       <xs:element minOccurs="0" name="Solicitud_id" type="xs:int" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="id" type="xs:int" />
-      <xs:element minOccurs="0" name="id_en_taller" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="price" type="xs:int" />
+      <xs:element minOccurs="0" name="id_en_taller" type="xs:int" />
       <xs:element minOccurs="0" name="quantity" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
@@ -110,4 +110,32 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfOferta" nillable="true" type="tns:ArrayOfOferta" />
+  <xs:complexType name="ExposedSolicitud">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="lineas" nillable="true" type="tns:ArrayOfExposedLineaSolicitud" />
+      <xs:element minOccurs="0" name="taller_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExposedSolicitud" nillable="true" type="tns:ExposedSolicitud" />
+  <xs:complexType name="ArrayOfExposedLineaSolicitud">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ExposedLineaSolicitud" nillable="true" type="tns:ExposedLineaSolicitud" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfExposedLineaSolicitud" nillable="true" type="tns:ArrayOfExposedLineaSolicitud" />
+  <xs:complexType name="ExposedLineaSolicitud">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="quantity" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExposedLineaSolicitud" nillable="true" type="tns:ExposedLineaSolicitud" />
+  <xs:complexType name="ArrayOfExposedSolicitud">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ExposedSolicitud" nillable="true" type="tns:ExposedSolicitud" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfExposedSolicitud" nillable="true" type="tns:ArrayOfExposedSolicitud" />
 </xs:schema>

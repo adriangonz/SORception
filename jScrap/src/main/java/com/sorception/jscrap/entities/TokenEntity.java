@@ -6,13 +6,10 @@
 
 package com.sorception.jscrap.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -22,10 +19,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Token")
 public class TokenEntity extends AbstractEntity {
-    @Column(name = "Token")
+    @Column(name = "token")
     private String _token;
     
-    @Column(name = "Status")
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private TokenStatus _status;
     
