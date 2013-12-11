@@ -43,7 +43,7 @@ public class TokenDAO {
     
     public List<TokenEntity> list() {
         return this.entityManager
-                .createQuery("FROM TokenEntity")
+                .createQuery("FROM TokenEntity ORDER BY creationDate DESC")
                 .getResultList();
     }
     

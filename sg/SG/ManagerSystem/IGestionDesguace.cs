@@ -8,11 +8,11 @@ using System.Text;
 namespace ManagerSystem
 {
     // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de interfaz "IGestionDesguace" en el código y en el archivo de configuración a la vez.
-    [ServiceContract]
+    [ServiceContract(Namespace = Constants.Namespace)]
     public interface IGestionDesguace
     {
         [OperationContract]
-        int signUp(Desguace d);
+        int signUp(ExposedDesguace d);
 
         [OperationContract]
         int getState(int id);

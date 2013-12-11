@@ -19,6 +19,24 @@ namespace ManagerSystem
             return d;
         }
 
+        static public Desguace FromExposed(ExposedDesguace ed) 
+        {
+            Desguace d = new Desguace();
+
+            d.name = ed.name;
+
+            return d;
+        }
+
+        static public ExposedDesguace ToExposed(Desguace d)
+        {
+            ExposedDesguace ed = new ExposedDesguace();
+
+            ed.name = d.name;
+
+            return ed;
+        }
+
         static public Desguace Find(int id)
         {
             return ms_ent.DesguaceConjunto.Find(id);

@@ -201,7 +201,7 @@ publish/
 
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
-#packages/
+packages/
 
 # Windows Azure Build Output
 csx
@@ -258,6 +258,7 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
 sg/SG/packages/Apache.NMS.1.6.0/Apache.NMS.1.6.0.nuspec
 sg/SG/packages/Apache.NMS.1.6.0/lib/net20-cf/Apache.NMS.dll
 sg/SG/packages/Apache.NMS.1.6.0/lib/net20/Apache.NMS.dll

@@ -19,6 +19,26 @@ namespace ManagerSystem
             return d;
         }
 
+        static public ExposedTaller ToExposed(Taller t)
+        {
+            ExposedTaller et = new ExposedTaller();
+
+            et.id = t.Id;
+            et.name = t.name;
+
+            return et;
+        }
+
+        static public Taller FromExposed(ExposedTaller et)
+        {
+            Taller t = new Taller();
+
+            t.Id = et.id;
+            t.name = et.name;
+
+            return t;
+        }
+
         static public Taller Find(int id)
         {
             return ms_ent.Tallers.Find(id);
@@ -57,7 +77,11 @@ namespace ManagerSystem
             else
             {
                 // Existing entity
-                ms_ent.Entry(taller).State = EntityState.Modified;
+                Taller t = Find(taller.Id);
+                if (taller.name != null)
+                {
+                    t.name = taller.name;
+                }
             }
         }
 
