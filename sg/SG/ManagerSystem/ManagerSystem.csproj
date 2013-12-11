@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -99,10 +101,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\managersystem.mdf" />
-    <Content Include="App_Data\managersystem_log.ldf">
-      <DependentUpon>managersystem.mdf</DependentUpon>
-    </Content>
     <Content Include="GestionAdmin.svc" />
     <Content Include="GestionDesguace.svc" />
     <Content Include="GestionTaller.svc" />
@@ -112,6 +110,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Desguace.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
@@ -190,7 +189,9 @@
       <DependentUpon>ManagerSystemEntityModel.edmx</DependentUpon>
       <LastGenOutput>ManagerSystemEntityModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\sorception - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorception - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sorception - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorception - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -201,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -227,6 +231,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

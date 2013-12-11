@@ -12,7 +12,7 @@ namespace ManagerSystem
     public interface IGestionTaller
     {
         [OperationContract]
-        Taller getTaller(int id);
+        ExposedTaller getTaller(int id);
 
         [OperationContract]
         int addTaller(string nombre);
@@ -21,7 +21,7 @@ namespace ManagerSystem
         int getState(int id);
 
         [OperationContract]
-        int putTaller(Taller t);
+        int putTaller(ExposedTaller t);
 
         [OperationContract]
         int deleteTaller(int id);

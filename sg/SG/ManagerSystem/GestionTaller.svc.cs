@@ -63,19 +63,29 @@ namespace ManagerSystem
         public List<ExposedLineaSolicitud> lineas;
     }
 
+    [DataContract]
+    public class ExposedTaller
+    {
+        [DataMember]
+        public int id;
+
+        [DataMember]
+        public string name;
+    }
+
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "GestionTaller" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select GestionTaller.svc or GestionTaller.svc.cs at the Solution Explorer and start debugging.
     public class GestionTaller : IGestionTaller
     {
         TopicPublisher _publisher = null;
 
-        public Taller getTaller(int id)
+        public ExposedTaller getTaller(int id)
         {
             var tmp = TallerRepository.Find(id);
-            Taller t = null;
+            ExposedTaller t = null;
             if (tmp != null)
             {
-                t = TallerRepository.Sanitize(tmp);
+                t = TallerRepository.ToExposed(tmp);
             }
             return t;
         }
@@ -123,11 +133,13 @@ namespace ManagerSystem
             return -1;
         }
 
-        public int putTaller(Taller t)
+        public int putTaller(ExposedTaller et)
         {
-            if (t != null)
+            if (et != null)
             {
+                Taller t = TallerRepository.FromExposed(et);
                 TallerRepository.InsertOrUpdate(t);
+                TallerRepository.Save();
             }
             return 0;
         }
@@ -189,7 +201,7 @@ namespace ManagerSystem
         private void SendMessage(AMQSolicitudMessage sm)
         {
             if (_publisher == null)
-                _publisher = TopicPublisher.MakePublisher("tcp://MartinLaptop:61616", "GestionTaller", "Solicitudes");
+                _publisher = TopicPublisher.MakePublisher(Constants.ActiveMQ.Broker, Constants.ActiveMQ.Solicitud.Client_ID, Constants.ActiveMQ.Solicitud.Topic);
             _publisher.SendMessage(sm);
         }
     }
