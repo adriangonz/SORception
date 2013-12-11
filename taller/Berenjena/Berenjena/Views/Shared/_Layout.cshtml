@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="es" ng-app="Taller.module">
+<html lang="es" ng-app="taller.module">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - Sorception</title>
+        <title>Sorception</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/bootstrap.min.css", "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css")
@@ -47,8 +47,11 @@
         @Scripts.Render("~/Scripts/bootstrap.min.js")
         @RenderSection("scriptsPersonal", required: false)
         @Scripts.Render("https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js",
+                 "~/app/app.js",
                  "~/app/services/tallerService.js",
-                 "~/app/directives/tallerDirective.js",
-                 "~/app/controllers/tallerController.js")
+                 "~/app/services/settingsService.js",
+                 "~/app/directives/settingsDirective.js",
+                 "~/app/controllers/tallerController.js",
+                 "~/app/controllers/settingsController.js")
     </body>
 </html>

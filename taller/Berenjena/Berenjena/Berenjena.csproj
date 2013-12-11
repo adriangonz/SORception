@@ -159,12 +159,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.js" />
+    <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
+    <Content Include="app\directives\settingsDirective.js" />
     <Content Include="app\directives\tallerDirective.js" />
+    <Content Include="app\services\settingsService.js" />
     <Content Include="app\services\tallerService.js" />
     <Content Include="app\templates\config.html" />
     <Content Include="app\templates\main.html" />
-    <Content Include="BDBerenjena.edmx.sql" />
+    <Content Include="BDBerenjena.edmx.sql">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -268,6 +274,15 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Views\Home\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -290,11 +305,6 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Service References\ServiceTaller\GestionTaller.wsdl" />
     <None Include="Service References\ServiceTaller\GestionTaller.xsd">
       <SubType>Designer</SubType>
