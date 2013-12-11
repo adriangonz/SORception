@@ -69,8 +69,9 @@ namespace ManagerSystem
     {
         TopicPublisher _publisher = null;
 
-        public Taller getTaller(int id)
+        public Taller getTaller(string token)
         {
+            int id = int.Parse(token);
             var tmp = TallerRepository.Find(id);
             Taller t = null;
             if (tmp != null)
@@ -80,7 +81,7 @@ namespace ManagerSystem
             return t;
         }
 
-        public int addTaller(string nombre)
+        public string addTaller(string nombre)
         {
             if (nombre != "" && nombre != null)
             {
@@ -90,7 +91,7 @@ namespace ManagerSystem
                     tall.name = nombre;
                     TallerRepository.InsertOrUpdate(tall);
                     TallerRepository.Save();
-                    return tall.Id;
+                    return tall.Id.ToString();
                 }
                 catch (Exception e)
                 {
@@ -98,11 +99,12 @@ namespace ManagerSystem
                     throw;
                 }
             }
-            return 0;
+            return "";
         }
 
-        public int getState(int id)
+        public int getState(string token)
         {
+            int id = int.Parse(token);
             try
             {
                 var tmp = TallerRepository.Find(id);
@@ -132,8 +134,9 @@ namespace ManagerSystem
             return 0;
         }
 
-        public int deleteTaller(int id)
+        public int deleteTaller(string token)
         {
+            int id = int.Parse(token);
             TallerRepository.Delete(id);
             return 0;
         }

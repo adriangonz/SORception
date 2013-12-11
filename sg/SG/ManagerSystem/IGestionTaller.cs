@@ -12,19 +12,19 @@ namespace ManagerSystem
     public interface IGestionTaller
     {
         [OperationContract]
-        Taller getTaller(int id);
+        Taller getTaller(string token);
 
         [OperationContract]
-        int addTaller(string nombre);
+        string addTaller(string nombre);
 
         [OperationContract]
-        int getState(int id);
+        int getState(string token);
 
         [OperationContract]
         int putTaller(Taller t);
 
         [OperationContract]
-        int deleteTaller(int id);
+        int deleteTaller(string token);
         
         [OperationContract]
         ExposedSolicitud getSolicitud(int id);
