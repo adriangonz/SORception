@@ -4,6 +4,7 @@ module.controller( "SettingsCtrl", [ '$scope', 'SettingsService', function( $sco
 	});
 
 	SettingsService.getSettings();
+	SettingsService.getUsers();
   	$scope.settings;
 
 }]);

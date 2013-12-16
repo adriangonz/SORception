@@ -14,8 +14,9 @@ namespace Berenjena
     
     public partial class Tokens
     {
-        public int token { get; set; }
-        public System.DateTime TimeStamp { get; set; }
+        public int id { get; set; }
+        public System.DateTime timeStamp { get; set; }
         public string state { get; set; }
+        public string token { get; set; }
     }
 }

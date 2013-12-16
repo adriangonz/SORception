@@ -20,32 +20,31 @@ namespace Berenjena.Controllers
         public object Get()
         {
             if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
-            var token = (from d in c_bd.TokensSet orderby d.TimeStamp descending select d);
+            var tokens = (from d in c_bd.TokensSet orderby d.timeStamp descending select d);
 
-            if (token.First().state != REQUESTED && token.First().state != EXPIRED)
-            {
-                ServiceTaller.Taller t = svcTaller.getTaller(token.First().token);
-                return (new { id = t.Id, name = t.name, active = t.active, Token = new { token } });
-            }
-            return Request.CreateResponse(HttpStatusCode.Forbidden, "El token esta expirado o no activado");
+            ServiceTaller.Taller t = svcTaller.getTaller(tokens.First().token);
+            return (new { id = t.Id, name = t.name, active = t.active, tokens });
+            
         }
 
         // POST api/gestion
-        public void Post([FromBody]JObject value)
+        public object Post([FromBody]JObject value)
         {
             setLastTokenAsExpered();
             Tokens to = new Tokens();
             to.token = svcTaller.addTaller(value["nombre"].ToString());
-            to.TimeStamp = DateTime.Now;
+            to.timeStamp = DateTime.Now;
             to.state = REQUESTED;
             c_bd.TokensSet.Add(to);
             c_bd.SaveChanges();
+
+            return to;
         }
 
         // PUT api/gestion
         public void Put([FromBody]JObject value)
         {
-            var token = (from d in c_bd.TokensSet orderby d.TimeStamp select d).First();
+            var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
             ServiceTaller.Taller t = svcTaller.getTaller(token.token);
             t.name = value["nombre"].ToString();
             svcTaller.putTaller(t);
@@ -54,7 +53,7 @@ namespace Berenjena.Controllers
         // DELETE api/gestion
         public void Delete()
         {
-            var token = (from d in c_bd.TokensSet orderby d.TimeStamp select d).First();
+            var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
             svcTaller.deleteTaller(token.token);
         }
 
@@ -62,7 +61,7 @@ namespace Berenjena.Controllers
         [Route("api/gestion/token")]
         public object GetToken() {
             if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
-            var token = (from d in c_bd.TokensSet orderby d.TimeStamp descending select d).First();
+            var token = (from d in c_bd.TokensSet orderby d.timeStamp descending select d).First();
             // Si el token esta pendiente de activacion
             if (token.state == REQUESTED)
             {
@@ -75,13 +74,13 @@ namespace Berenjena.Controllers
                 {
                     token.state = ACTIVE;
                     c_bd.SaveChanges();
-                    return (new { Token = token.token, Status = token.state, Created = token.TimeStamp });
+                    return (new { Token = token.token, Status = token.state, Created = token.timeStamp });
 
                 }
             }
             else if (token.state == ACTIVE)
             {
-                return (new { Token = token.token, Status = token.state, Created = token.TimeStamp });
+                return (new { Token = token.token, Status = token.state, Created = token.timeStamp });
             }
             return Request.CreateResponse(HttpStatusCode.Forbidden, "El token ha expirado");
         }
