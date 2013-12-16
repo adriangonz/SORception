@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 12/10/2013 13:51:47
--- Generated from EDMX file: C:\Users\Ruben\Documents\sorception\taller\Berenjena\Berenjena\BDBerenjena.edmx
+-- Date Created: 12/11/2013 17:38:35
+-- Generated from EDMX file: C:\Users\Ruben\Documents\cocainum\taller\Berenjena\Berenjena\BDBerenjena.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -32,9 +32,10 @@ GO
 
 -- Creating table 'TokensSet'
 CREATE TABLE [dbo].[TokensSet] (
-    [token] int  NOT NULL,
-    [TimeStamp] datetime  NOT NULL,
-    [state] nvarchar(max)  NOT NULL
+    [id] int IDENTITY(1,1) NOT NULL,
+    [timeStamp] datetime  NOT NULL,
+    [state] nvarchar(max)  NOT NULL,
+    [token] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -42,10 +43,10 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [token] in table 'TokensSet'
+-- Creating primary key on [id] in table 'TokensSet'
 ALTER TABLE [dbo].[TokensSet]
 ADD CONSTRAINT [PK_TokensSet]
-    PRIMARY KEY CLUSTERED ([token] ASC);
+    PRIMARY KEY CLUSTERED ([id] ASC);
 GO
 
 -- --------------------------------------------------

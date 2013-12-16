@@ -10,11 +10,12 @@
   </EntityContainer>
   <EntityType Name="TokensSet">
     <Key>
-      <PropertyRef Name="token" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="token" Type="int" Nullable="false" />
-    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timeStamp" Type="datetime" Nullable="false" />
     <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="token" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -25,11 +26,12 @@
         </EntityContainer>
         <EntityType Name="Tokens">
           <Key>
-            <PropertyRef Name="token" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Type="Int32" Name="token" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Type="DateTime" Name="TimeStamp" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="timeStamp" Nullable="false" />
           <Property Type="String" Name="state" Nullable="false" />
+          <Property Type="String" Name="token" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -40,9 +42,10 @@
     <EntitySetMapping Name="TokensSet">
       <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Tokens)">
         <MappingFragment StoreEntitySet="TokensSet">
-          <ScalarProperty Name="token" ColumnName="token" />
-          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
           <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="token" ColumnName="token" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

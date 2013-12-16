@@ -1,20 +1,54 @@
 <h2>{{settings.name}}</h2>
 
+
+<table class="table">
+  <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Creation Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in settings.userList" ng-class="{'blue': user.isAdmin == true}">
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.creationDate}}</td>
+      </tr>
+    </tbody>
+</table>
+
+<form class="form-inline" role="form" action="#" method="POST" accept-charset="utf-8">
+  <div class="form-group">
+    <label class="sr-only" for="username">User</label>
+    <input class="form-control" type="text" id="username" ng-model="user.username" value="" placeholder="jperez">
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="name">Name</label>
+    <input class="form-control" type="text" id="name" ng-model="user.name" value="" placeholder="Jose Perez">
+  </div>
+  <input class="btn" type="submit" post-user-btn="user" value="Crear Usuario">
+</form>
+
+<hr>
+
 <table class="table">
 	<thead>
       <tr>
         <th>#</th>
         <th>Token</th>
         <th>Status</th>
-        <th>Created</th>
+        <th>Creation Date</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="token in settings.tokens" ng-class="{'success': token.Status == 'VALID', 'danger': token.Status == 'EXPIRED', 'warning': token.Status == 'REQUESTED'}">
-        <td>{{token.Id}}</td>
-        <td>{{token.Token}}</td>
-        <td>{{token.Status}}</td>
-        <td>{{token.Created}}</td>
+      <tr ng-repeat="token in settings.tokenList" ng-class="{'success': token.status == 'VALID', 'danger': token.status == 'EXPIRED', 'warning': token.status == 'REQUESTED'}">
+        <td>{{token.id}}</td>
+        <td>{{token.token}}</td>
+        <td>{{token.status}}</td>
+        <td>{{token.creationDate}}</td>
       </tr>
     </tbody>
 </table>

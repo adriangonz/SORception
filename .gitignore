@@ -258,3 +258,13 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+sg/SG/packages/Apache.NMS.1.6.0/Apache.NMS.1.6.0.nuspec
+sg/SG/packages/Apache.NMS.1.6.0/lib/net20-cf/Apache.NMS.dll
+sg/SG/packages/Apache.NMS.1.6.0/lib/net20/Apache.NMS.dll
+sg/SG/packages/Apache.NMS.1.6.0/lib/net35/Apache.NMS.dll
+sg/SG/packages/Apache.NMS.1.6.0/lib/net40/Apache.NMS.dll
+sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/Apache.NMS.ActiveMQ.1.6.0.nuspec
+sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/lib/net20/Apache.NMS.ActiveMQ.dll
+sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/lib/net35/Apache.NMS.ActiveMQ.dll
+sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/lib/net40/Apache.NMS.ActiveMQ.dll
