@@ -163,6 +163,10 @@
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TallerRepository.cs" />
+    <Compile Include="Token.cs">
+      <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TokenRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ActiveMQHelper\ActiveMQHelper.csproj">

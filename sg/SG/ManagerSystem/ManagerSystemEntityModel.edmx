@@ -13,6 +13,7 @@
     <EntitySet Name="Solicituds" EntityType="managersystemModel.Store.Solicituds" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LineaSolicituds" EntityType="managersystemModel.Store.LineaSolicituds" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LineasOfertaSeleccionada" EntityType="managersystemModel.Store.LineasOfertaSeleccionada" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tokens" EntityType="managersystemModel.Store.Tokens" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="TallerSolicitud" Association="managersystemModel.Store.TallerSolicitud">
       <End Role="Taller" EntitySet="Tallers" />
       <End Role="Solicitud" EntitySet="Solicituds" />
@@ -40,6 +41,10 @@
     <AssociationSet Name="LineaOfertaSeleccionadaLineaOferta" Association="managersystemModel.Store.LineaOfertaSeleccionadaLineaOferta">
       <End Role="LineaOfertaSeleccionada" EntitySet="LineasOfertaSeleccionada" />
       <End Role="LineaOferta" EntitySet="LineaPedidoOfertaConjunto" />
+    </AssociationSet>
+    <AssociationSet Name="DesguaceToken" Association="managersystemModel.Store.DesguaceToken">
+      <End Role="Desguace" EntitySet="DesguaceConjunto" />
+      <End Role="Token" EntitySet="Tokens" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="DesguaceConjunto">
@@ -107,6 +112,17 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="quantity" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LineaSolicitud_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tokens">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="created" Type="datetime" Nullable="false" />
+    <Property Name="updated" Type="datetime" Nullable="false" />
+    <Property Name="token" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Desguace_id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="TallerSolicitud">
     <End Role="Taller" Type="managersystemModel.Store.Tallers" Multiplicity="1" />
@@ -192,6 +208,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="DesguaceToken">
+    <End Role="Desguace" Type="managersystemModel.Store.DesguaceConjunto" Multiplicity="1" />
+    <End Role="Token" Type="managersystemModel.Store.Tokens" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Desguace">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Token">
+        <PropertyRef Name="Desguace_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -232,6 +260,11 @@
             <End Role="LineaOfertaSeleccionada" EntitySet="LineasOfertaSeleccionada" />
             <End Role="LineaOferta" EntitySet="LineaPedidoOfertaConjunto" />
           </AssociationSet>
+          <EntitySet Name="Tokens" EntityType="managersystemModel.Token" />
+          <AssociationSet Name="DesguaceToken" Association="managersystemModel.DesguaceToken">
+            <End Role="Desguace" EntitySet="DesguaceConjunto" />
+            <End Role="Token" EntitySet="Tokens" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Desguace">
           <Key>
@@ -241,6 +274,7 @@
           <Property Type="Boolean" Name="active" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Ofertas" Relationship="managersystemModel.DesguaceOferta" FromRole="Desguace" ToRole="Oferta" />
+          <NavigationProperty Name="Tokens" Relationship="managersystemModel.DesguaceToken" FromRole="Desguace" ToRole="Token" />
         </EntityType>
         <EntityType Name="Oferta">
           <Key>
@@ -397,6 +431,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="created" Nullable="false" />
+          <Property Type="DateTime" Name="updated" Nullable="false" />
+          <Property Type="String" Name="token" Nullable="false" />
+          <Property Type="String" Name="status" Nullable="false" />
+          <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceToken" FromRole="Token" ToRole="Desguace" />
+          <Property Type="Int32" Name="Desguace_id" Nullable="false" />
+        </EntityType>
+        <Association Name="DesguaceToken">
+          <End Type="managersystemModel.Desguace" Role="Desguace" Multiplicity="1" />
+          <End Type="managersystemModel.Token" Role="Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Desguace">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="Desguace_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -473,6 +531,18 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="LineaSolicitud_id" ColumnName="LineaSolicitud_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tokens">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Token)">
+        <MappingFragment StoreEntitySet="Tokens">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="created" ColumnName="created" />
+          <ScalarProperty Name="updated" ColumnName="updated" />
+          <ScalarProperty Name="token" ColumnName="token" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="Desguace_id" ColumnName="Desguace_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

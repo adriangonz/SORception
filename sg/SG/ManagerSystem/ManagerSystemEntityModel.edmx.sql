@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 12/04/2013 18:45:56
+-- Date Created: 12/16/2013 19:18:28
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -17,26 +17,26 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_TallerSolicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Solicituds] DROP CONSTRAINT [FK_TallerSolicitud];
+GO
 IF OBJECT_ID(N'[dbo].[FK_DesguaceOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OfertaConjunto] DROP CONSTRAINT [FK_DesguaceOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOfertaSeleccionada]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineasOfertaSeleccionada] DROP CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada];
 GO
 IF OBJECT_ID(N'[dbo].[FK_OfertaLineaPedidoOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_OfertaLineaPedidoOferta];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaSolicituds] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
-GO
 IF OBJECT_ID(N'[dbo].[FK_SolicitudOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OfertaConjunto] DROP CONSTRAINT [FK_SolicitudOferta];
 GO
-IF OBJECT_ID(N'[dbo].[FK_TallerSolicitud]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Solicituds] DROP CONSTRAINT [FK_TallerSolicitud];
+IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaSolicituds] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOfertaSeleccionada]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineasOfertaSeleccionada] DROP CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
 GO
 
 -- --------------------------------------------------
@@ -46,23 +46,23 @@ GO
 IF OBJECT_ID(N'[dbo].[DesguaceConjunto]', 'U') IS NOT NULL
     DROP TABLE [dbo].[DesguaceConjunto];
 GO
+IF OBJECT_ID(N'[dbo].[OfertaConjunto]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OfertaConjunto];
+GO
 IF OBJECT_ID(N'[dbo].[LineaPedidoOfertaConjunto]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LineaPedidoOfertaConjunto];
 GO
-IF OBJECT_ID(N'[dbo].[LineasOfertaSeleccionada]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LineasOfertaSeleccionada];
-GO
-IF OBJECT_ID(N'[dbo].[LineaSolicituds]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LineaSolicituds];
-GO
-IF OBJECT_ID(N'[dbo].[OfertaConjunto]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[OfertaConjunto];
+IF OBJECT_ID(N'[dbo].[Tallers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tallers];
 GO
 IF OBJECT_ID(N'[dbo].[Solicituds]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Solicituds];
 GO
-IF OBJECT_ID(N'[dbo].[Tallers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Tallers];
+IF OBJECT_ID(N'[dbo].[LineaSolicituds]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LineaSolicituds];
+GO
+IF OBJECT_ID(N'[dbo].[LineasOfertaSeleccionada]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LineasOfertaSeleccionada];
 GO
 
 -- --------------------------------------------------
@@ -135,6 +135,17 @@ CREATE TABLE [dbo].[LineasOfertaSeleccionada] (
 );
 GO
 
+-- Creating table 'Tokens'
+CREATE TABLE [dbo].[Tokens] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [created] datetime  NOT NULL,
+    [updated] datetime  NOT NULL,
+    [token] nvarchar(max)  NOT NULL,
+    [status] nvarchar(max)  NOT NULL,
+    [Desguace_id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -178,6 +189,12 @@ GO
 -- Creating primary key on [Id] in table 'LineasOfertaSeleccionada'
 ALTER TABLE [dbo].[LineasOfertaSeleccionada]
 ADD CONSTRAINT [PK_LineasOfertaSeleccionada]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Tokens'
+ALTER TABLE [dbo].[Tokens]
+ADD CONSTRAINT [PK_Tokens]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -281,6 +298,20 @@ ADD CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta]
 CREATE INDEX [IX_FK_LineaOfertaSeleccionadaLineaOferta]
 ON [dbo].[LineaPedidoOfertaConjunto]
     ([LineaOfertaSeleccionadaId]);
+GO
+
+-- Creating foreign key on [Desguace_id] in table 'Tokens'
+ALTER TABLE [dbo].[Tokens]
+ADD CONSTRAINT [FK_DesguaceToken]
+    FOREIGN KEY ([Desguace_id])
+    REFERENCES [dbo].[DesguaceConjunto]
+        ([id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DesguaceToken'
+CREATE INDEX [IX_FK_DesguaceToken]
+ON [dbo].[Tokens]
+    ([Desguace_id]);
 GO
 
 -- --------------------------------------------------

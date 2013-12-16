@@ -32,5 +32,6 @@ namespace ManagerSystem
         public DbSet<Solicitud> Solicituds { get; set; }
         public DbSet<LineaSolicitud> LineaSolicituds { get; set; }
         public DbSet<LineaOfertaSeleccionada> LineasOfertaSeleccionada { get; set; }
+        public DbSet<Token> Tokens { get; set; }
     }
 }

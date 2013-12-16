@@ -21,32 +21,52 @@ namespace ManagerSystem
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        public int signUp(ExposedDesguace ed)
+        public string signUp(ExposedDesguace ed)
         {
             if (ed != null)
             {
                 Desguace d = DesguaceRepository.FromExposed(ed);
                 d.active = false;
+
+                Token t = TokenRepository.getToken();
+                d.Tokens.Add(t);
+
                 DesguaceRepository.InsertOrUpdate(d);
                 DesguaceRepository.Save();
-                return d.id;
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Accepted;
+                return t.token;
             }
-            return -1;
+
+            WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
+            return "";
         }
 
-        public int getState(int id)
+        public string getState(string token)
         {
-            if (id == default(int))
-                return 38;
-
-            if (id >= 0)
+            if (token != null && token != "")
             {
-                var tmp = DesguaceRepository.Find(Convert.ToInt32(id));
-                Desguace d = DesguaceRepository.Sanitize(tmp);
+                Token t = TokenRepository.Find(token);
+                Desguace d = t.Desguace;
                 if (d.active)
-                    return id;
+                {
+                    t.status = "CONSUMED";
+                    Token new_token = TokenRepository.getToken();
+                    d.Tokens.Add(new_token);
+                    DesguaceRepository.Save();
+
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
+                    return new_token.token;
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.NonAuthoritativeInformation;
+                }
             }
-            return -1;
+            else
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
+            }
+            return "";
         }
     }
 }
