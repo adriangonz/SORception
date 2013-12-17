@@ -14,7 +14,8 @@ public class RootConfig {
                 ppc.setLocations(new ClassPathResource[] {
                     new ClassPathResource("/persistence.properties"),
                     new ClassPathResource("/jscrap.properties"),
-                    new ClassPathResource("/webservice.properties")
+                    new ClassPathResource("/webservice.properties"),
+                    new ClassPathResource("/activemq.properties")
                 });
 		return ppc;
 	}
