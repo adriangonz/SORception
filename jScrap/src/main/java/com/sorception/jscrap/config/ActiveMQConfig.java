@@ -7,17 +7,24 @@
 package com.sorception.jscrap.config;
 
 import com.sorception.jscrap.activemq.SolicitudesListener;
+import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
+import com.sorception.jscrap.services.TokenService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.ActiveMQXAConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.broker.TransportConnector;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.apache.activemq.pool.PooledConnectionFactoryBean;
 import org.apache.activemq.xbean.BrokerFactoryBean;
+import org.hibernate.engine.transaction.internal.jta.JtaTransactionFactory;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +37,11 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
  */
 @Configuration
 public class ActiveMQConfig {
+    final static org.slf4j.Logger logger = LoggerFactory.getLogger(TokenService.class);
+    
+    @Autowired
+    TokenService tokenService;
+    
     @Value("${activemq.url}")
     private String _activemqUrl;
     
@@ -44,13 +56,19 @@ public class ActiveMQConfig {
     }
     
     @Bean
-    public ConnectionFactory jmsFactory() {
-        return new ActiveMQConnectionFactory(_activemqUrl);
+    public ConnectionFactory connectionFactory() {
+         ActiveMQConnectionFactory cnf = new ActiveMQConnectionFactory();
+         cnf.setBrokerURL(_activemqUrl);
+         return cnf;
     }
     
     @Bean
     public JmsTemplate jmsTemplate() {
-        return new JmsTemplate(jmsFactory());
+        JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory());
+        jmsTemplate.setPubSubDomain(true);
+        jmsTemplate.setDefaultDestination(ofertas());
+        jmsTemplate.setConnectionFactory(connectionFactory());
+        return jmsTemplate;
     }
 
     @Bean
@@ -58,12 +76,23 @@ public class ActiveMQConfig {
         return new SolicitudesListener();
     }
 
-    @Bean
+    @Bean(initMethod = "start", destroyMethod = "stop" )
     public DefaultMessageListenerContainer jmsContainer() {
         DefaultMessageListenerContainer jmsContainer = new DefaultMessageListenerContainer();
-        jmsContainer.setConnectionFactory(jmsFactory());
+        jmsContainer.setConnectionFactory(connectionFactory());
         jmsContainer.setMessageListener(messageListener());
         jmsContainer.setDestination(solicitudes());
+        jmsContainer.setPubSubDomain(true);
+        try {
+            TokenEntity validToken = tokenService.getValid();
+            logger.info("Valid token found! Starting jmsContainer...");
+            jmsContainer.setDurableSubscriptionName(validToken.getToken());
+            jmsContainer.setSubscriptionDurable(true);
+            //jmsContainer.start();
+        } catch(ResourceNotFoundException ex) {
+            logger.info("Not valid token found; Disabling jmsContainer...");
+            //jmsContainer.stop();
+        }
         return jmsContainer;
     }
 }

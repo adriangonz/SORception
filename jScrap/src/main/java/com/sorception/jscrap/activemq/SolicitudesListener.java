@@ -21,7 +21,7 @@ public class SolicitudesListener implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        logger.info(message.toString());
+        logger.error("Ola ke ase " + message.toString());
     }
     
 }
