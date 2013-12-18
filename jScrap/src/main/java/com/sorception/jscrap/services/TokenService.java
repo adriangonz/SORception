@@ -53,9 +53,9 @@ public class TokenService {
         TokenEntity tokenEntity = tokenDAO.getValid();
         if(null == tokenEntity) {
             // Check if we have requested one
-            tokenEntity = tokenDAO.getRequest();
+            tokenEntity = tokenDAO.getRequestOrTemporal();
             if(null == tokenEntity) // If not, throw 404
-                throw new ResourceNotFoundException("Not valid token found nor accepted request");
+                throw new ResourceNotFoundException("Not valid token or request found");
             // Check if new token is available
             // Method getState will throw NotFound if not valid
             String newToken = sgClient.getState(tokenEntity.getToken());

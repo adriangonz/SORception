@@ -17,7 +17,5 @@
 
 	<logger name="com.sorception.jscrap" level="ALL" />
         <logger name="org.springframework.ws.client.MessageTracing" level="ALL"/>
-        <logger name="org.hibernate.type" level="ALL" />
-        <logger name="org.hibernate" level="ALL" />
-        <logger name="org.hibernate.tool.hbm2ddl" level="TRACE" />
+        <logger name="org.apache.activemq" level="ALL" />
 </configuration>

@@ -29,7 +29,8 @@ public class TokenEntity extends AbstractEntity {
     public enum TokenStatus {
         VALID,
         REQUESTED,
-        EXPIRED;
+        EXPIRED,
+        TEMPORAL;
     }
     
     public TokenEntity() {}
