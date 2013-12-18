@@ -59,10 +59,11 @@ public class TokenDAO {
             return tokenList.get(0);
     }
     
-    public TokenEntity getRequest() {
+    public TokenEntity getRequestOrTemporal() {
         // Get last requested token
         List<TokenEntity> tokenList = this.entityManager
                                         .createQuery("FROM TokenEntity WHERE status = 'REQUESTED'"
+                                                + " OR status = 'TEMPORAL'"
                                                 + " ORDER BY creationDate DESC")
                                         .getResultList();
         if(tokenList.isEmpty())

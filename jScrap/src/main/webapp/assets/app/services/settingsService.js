@@ -8,7 +8,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	 		},
 	 
 	    getSettings: function () {
-	        $http({method: 'GET', url: '/api/settings'}).
+	        $http({method: 'GET', url: '/jScrap/api/settings'}).
 			  success(function(data, status, headers, config) {
 	       		service.settings=data;
 	       		$rootScope.$broadcast( 'settings.update' );
@@ -41,7 +41,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	    },
 
 	    postSettings: function(){
-	     	  $http({method: 'POST', url: '/api/token'}).
+	     	  $http({method: 'POST', url: '/jScrap/api/token'}).
 	          success(function(data, status, headers, config) {
 	            service.getSettings();
 	          }).
@@ -51,7 +51,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	    },
 
 	    getUsers: function () {
-	        $http({method: 'GET', url: '/api/user'}).
+	        $http({method: 'GET', url: '/jScrap/api/user'}).
 			  success(function(data, status, headers, config) {
 	       		service.settings.userList=data;
 	       		$rootScope.$broadcast( 'settings.update' );
@@ -86,7 +86,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	    },
 
 	   	postUser: function(user_data){
-	     	  $http({method: 'POST', url: '/api/user', data: user_data}).
+	     	  $http({method: 'POST', url: '/jScrap/api/user', data: user_data}).
 	          success(function(data, status, headers, config) {
 	            service.getUsers();
 	          }).

@@ -1,0 +1,20 @@
+<h2>{{settings.name}}</h2>
+
+<table class="table">
+	<thead>
+      <tr>
+        <th>Token</th>
+        <th>Status</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="token in settings.tokens" ng-class="{'success': token.state == 'VALID', 'danger': token.state == 'EXPIRED', 'warning': token.state == 'REQUESTED'}">
+        <td>{{token.token}}</td>
+        <td>{{token.state}}</td>
+        <td>{{token.timeStamp}}</td>
+      </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-success" request-token-button>Request Token</button>

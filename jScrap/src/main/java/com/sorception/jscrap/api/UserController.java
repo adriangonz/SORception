@@ -14,6 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  *
  * @author kaseyo
  */
+class UserParamsDTO {
+    public String name;
+    public String username;
+}
+
+class UserCredentialsDTO {
+    public String username;
+    public String password;
+}
+
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
@@ -42,12 +53,17 @@ public class UserController {
         return userService.getUser(userId);
     }
     
+    @RequestMapping(value="/authenticate", method=RequestMethod.POST)
+    @ResponseBody
+    public UserEntity authenticateUser(@RequestBody UserCredentialsDTO user) {
+        return userService.authenticateUser(user.username, user.password);
+    }
+    
     @RequestMapping(value="", method=RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public UserEntity addUser(@RequestParam("username") String username, 
-            @RequestParam("name") String name) {
-        return userService.addUser(username, name);
+    public UserEntity addUser(@RequestBody UserParamsDTO user) {
+        return userService.addUser(user.username, user.name);
     }
     
     @RequestMapping(value="/{userId}", method=RequestMethod.DELETE)
