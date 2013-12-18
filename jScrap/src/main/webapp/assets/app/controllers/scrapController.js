@@ -1,9 +1,5 @@
-module.controller( "ScrapCtrl", [ '$scope', 'Scrap', function( $scope, Scrap ) {
-  $scope.$on( 'parts.update', function( event ) {
-    $scope.scrap = Scrap.parts;
-  });
+module.controller( "ScrapCtrl", [ '$scope', 'Scrap', 'Auth', function( $scope, Scrap, Auth ) {
 
-  $scope.scrap;
   
 
 }]);
