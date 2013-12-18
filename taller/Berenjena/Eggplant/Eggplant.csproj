@@ -226,11 +226,14 @@
     <Content Include="app\app.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
+    <Content Include="app\directives\authDirective.js" />
     <Content Include="app\directives\settingsDirective.js" />
     <Content Include="app\directives\tallerDirective.js" />
+    <Content Include="app\services\authService.js" />
     <Content Include="app\services\settingsService.js" />
     <Content Include="app\services\tallerService.js" />
     <Content Include="app\templates\config.html" />
+    <Content Include="app\templates\login.html" />
     <Content Include="app\templates\main.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="BDBerenjena.edmx.sql">
@@ -295,7 +298,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -337,6 +342,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ServiceTaller\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

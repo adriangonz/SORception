@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Berenjena
+namespace Eggplant
 {
     using System;
     using System.Data.Entity;

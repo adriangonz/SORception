@@ -56,7 +56,7 @@ namespace Eggplant.Controllers
         }
 
         // API/Cuenta/Cierre de sesión POST
-        [Route("Logout")]
+        [Route("logout")]
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
@@ -313,7 +313,7 @@ namespace Eggplant.Controllers
 
         // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
+        [Route("register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)

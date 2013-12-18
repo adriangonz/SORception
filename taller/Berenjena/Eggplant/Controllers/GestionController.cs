@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Eggplant;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Berenjena.Controllers
         // POST api/gestion
         public object Post([FromBody]JObject value)
         {
-            setLastTokenAsExpered();
+            setLastTokenAsExpired();
             Tokens to = new Tokens();
             to.token = svcTaller.addTaller(value["nombre"].ToString());
             to.timeStamp = DateTime.Now;
@@ -85,9 +86,12 @@ namespace Berenjena.Controllers
             return Request.CreateResponse(HttpStatusCode.Forbidden, "El token ha expirado");
         }
 
-        private void setLastTokenAsExpered()
+        private void setLastTokenAsExpired()
         {
-            if (c_bd.TokensSet.Count() > 0)
+            
+            /*if (c_bd.TokensSet.Any())
+            {*/
+            try
             {
                 var tokens = (from d in c_bd.TokensSet select d);
                 foreach (var token in tokens)
@@ -95,6 +99,10 @@ namespace Berenjena.Controllers
                     token.state = EXPIRED;
                 }
                 c_bd.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                
             }
         }
     }
