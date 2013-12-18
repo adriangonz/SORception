@@ -16,12 +16,31 @@ namespace ManagerSystem
     {
         [DataMember]
         public string name;
+
+    }
+
+    [DataContract(Namespace = Constants.Namespace)]
+    public class TokenResponse
+    {
+        public enum Code : int { CREATED = 201, ACCEPTED = 202, NON_AUTHORITATIVE = 203, BAD_REQUEST = 400, NOT_FOUND = 404 };
+
+        [DataMember]
+        public string token;
+
+        [DataMember]
+        public Code status;
+
+        public TokenResponse(string token, TokenResponse.Code status)
+        {
+            this.token = token;
+            this.status = status;
+        }
     }
 
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        public string signUp(ExposedDesguace ed)
+        public TokenResponse signUp(ExposedDesguace ed)
         {
             if (ed != null)
             {
@@ -33,40 +52,54 @@ namespace ManagerSystem
 
                 DesguaceRepository.InsertOrUpdate(d);
                 DesguaceRepository.Save();
-                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Accepted;
-                return t.token;
+                return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
             }
-
-            WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
-            return "";
+            return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
         }
 
-        public string getState(string token)
+        public TokenResponse getState(string token)
         {
+            string new_token = "";
+            TokenResponse.Code status;
             if (token != null && token != "")
             {
                 Token t = TokenRepository.Find(token);
-                Desguace d = t.Desguace;
-                if (d.active)
+                if (t != null)
                 {
-                    t.status = "CONSUMED";
-                    Token new_token = TokenRepository.getToken();
-                    d.Tokens.Add(new_token);
-                    DesguaceRepository.Save();
-
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
-                    return new_token.token;
+                    if (t.is_valid)
+                    {
+                        Desguace d = t.Desguace;
+                        if (d.active)
+                        {
+                            // El desgauce ya esta activo
+                            status = TokenResponse.Code.CREATED;
+                        }
+                        else
+                        {
+                            // EL desguace no esta activo
+                            status = TokenResponse.Code.NON_AUTHORITATIVE;
+                        }
+                        new_token = TokenRepository.RegenerateToken(t);
+                    }
+                    else
+                    {
+                        // EL token ha expirado
+                        status = TokenResponse.Code.BAD_REQUEST;
+                    }
                 }
                 else
                 {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.NonAuthoritativeInformation;
+                    // El token no existe
+                    status = TokenResponse.Code.NOT_FOUND;
                 }
             }
             else
             {
-                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                // No se le ha pasado un token
+                status = TokenResponse.Code.BAD_REQUEST;
             }
-            return "";
+
+            return new TokenResponse(new_token, status);
         }
     }
 }

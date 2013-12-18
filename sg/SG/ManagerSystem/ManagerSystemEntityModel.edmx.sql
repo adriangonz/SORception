@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 12/16/2013 19:18:28
+-- Date Created: 12/18/2013 18:09:34
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -38,6 +38,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
 GO
+IF OBJECT_ID(N'[dbo].[FK_DesguaceToken]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tokens] DROP CONSTRAINT [FK_DesguaceToken];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -63,6 +66,9 @@ IF OBJECT_ID(N'[dbo].[LineaSolicituds]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[LineasOfertaSeleccionada]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LineasOfertaSeleccionada];
+GO
+IF OBJECT_ID(N'[dbo].[Tokens]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tokens];
 GO
 
 -- --------------------------------------------------
@@ -141,8 +147,8 @@ CREATE TABLE [dbo].[Tokens] (
     [created] datetime  NOT NULL,
     [updated] datetime  NOT NULL,
     [token] nvarchar(max)  NOT NULL,
-    [status] nvarchar(max)  NOT NULL,
-    [Desguace_id] int  NOT NULL
+    [Desguace_id] int  NOT NULL,
+    [is_valid] bit  NOT NULL
 );
 GO
 

@@ -121,8 +121,8 @@
     <Property Name="created" Type="datetime" Nullable="false" />
     <Property Name="updated" Type="datetime" Nullable="false" />
     <Property Name="token" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Desguace_id" Type="int" Nullable="false" />
+    <Property Name="is_valid" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="TallerSolicitud">
     <End Role="Taller" Type="managersystemModel.Store.Tallers" Multiplicity="1" />
@@ -439,9 +439,9 @@
           <Property Type="DateTime" Name="created" Nullable="false" />
           <Property Type="DateTime" Name="updated" Nullable="false" />
           <Property Type="String" Name="token" Nullable="false" />
-          <Property Type="String" Name="status" Nullable="false" />
           <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceToken" FromRole="Token" ToRole="Desguace" />
           <Property Type="Int32" Name="Desguace_id" Nullable="false" />
+          <Property Type="Boolean" Name="is_valid" Nullable="false" />
         </EntityType>
         <Association Name="DesguaceToken">
           <End Type="managersystemModel.Desguace" Role="Desguace" Multiplicity="1" />
@@ -541,8 +541,8 @@
           <ScalarProperty Name="created" ColumnName="created" />
           <ScalarProperty Name="updated" ColumnName="updated" />
           <ScalarProperty Name="token" ColumnName="token" />
-          <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="Desguace_id" ColumnName="Desguace_id" />
+          <ScalarProperty Name="is_valid" ColumnName="is_valid" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

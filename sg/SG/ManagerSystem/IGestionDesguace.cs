@@ -12,10 +12,10 @@ namespace ManagerSystem
     public interface IGestionDesguace
     {
         [OperationContract]
-        string signUp(ExposedDesguace d);
+        TokenResponse signUp(ExposedDesguace d);
 
         [OperationContract]
-        string getState(string id);
+        TokenResponse getState(string id);
 
     }
 }
