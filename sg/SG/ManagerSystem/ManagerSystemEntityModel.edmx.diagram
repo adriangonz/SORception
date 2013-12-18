@@ -19,6 +19,8 @@
         <EntityTypeShape EntityType="managersystemModel.LineaOfertaSeleccionada" Width="1.5" PointX="10.75" PointY="3.5" />
         <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" />
         <AssociationConnector Association="managersystemModel.LineaOfertaSeleccionadaLineaOferta" />
+        <EntityTypeShape EntityType="managersystemModel.Token" Width="1.5" PointX="0.5" PointY="3.125" />
+        <AssociationConnector Association="managersystemModel.DesguaceToken" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

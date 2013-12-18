@@ -13,19 +13,15 @@ namespace ManagerSystem
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     
-    public partial class Desguace
+    public partial class Token
     {
-        public Desguace()
-        {
-            this.Ofertas = new HashSet<Oferta>();
-            this.Tokens = new HashSet<Token>();
-        }
+        public int Id { get; set; }
+        public System.DateTime created { get; set; }
+        public System.DateTime updated { get; set; }
+        public string token { get; set; }
+        public int Desguace_id { get; set; }
+        public bool is_valid { get; set; }
     
-        public int id { get; set; }
-        public bool active { get; set; }
-        public string name { get; set; }
-    
-        public virtual ICollection<Oferta> Ofertas { get; set; }
-        public virtual ICollection<Token> Tokens { get; set; }
+        public virtual Desguace Desguace { get; set; }
     }
 }
