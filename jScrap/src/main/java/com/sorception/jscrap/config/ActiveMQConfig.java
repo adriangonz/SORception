@@ -37,7 +37,7 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
  */
 @Configuration
 public class ActiveMQConfig {
-    final static org.slf4j.Logger logger = LoggerFactory.getLogger(TokenService.class);
+    final static org.slf4j.Logger logger = LoggerFactory.getLogger(ActiveMQConfig.class);
     
     @Autowired
     TokenService tokenService;
@@ -76,7 +76,7 @@ public class ActiveMQConfig {
         return new SolicitudesListener();
     }
 
-    @Bean(initMethod = "start", destroyMethod = "stop" )
+    @Bean
     public DefaultMessageListenerContainer jmsContainer() {
         DefaultMessageListenerContainer jmsContainer = new DefaultMessageListenerContainer();
         jmsContainer.setConnectionFactory(connectionFactory());
@@ -85,13 +85,14 @@ public class ActiveMQConfig {
         jmsContainer.setPubSubDomain(true);
         try {
             TokenEntity validToken = tokenService.getValid();
-            logger.info("Valid token found! Starting jmsContainer...");
+            logger.info("Valid token found! - Starting jmsContainer and subscribing to topic " +
+                    jmsContainer.getDestinationName() + "...");
             jmsContainer.setDurableSubscriptionName(validToken.getToken());
             jmsContainer.setSubscriptionDurable(true);
-            //jmsContainer.start();
+            jmsContainer.setAutoStartup(true);
         } catch(ResourceNotFoundException ex) {
-            logger.info("Not valid token found; Disabling jmsContainer...");
-            //jmsContainer.stop();
+            logger.info("Not valid token found - Disabling jmsContainer...");
+            jmsContainer.setAutoStartup(false);
         }
         return jmsContainer;
     }

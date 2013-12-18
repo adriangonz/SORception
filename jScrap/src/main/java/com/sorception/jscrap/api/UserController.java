@@ -30,6 +30,11 @@ class UserParamsDTO {
     public String username;
 }
 
+class UserCredentialsDTO {
+    public String username;
+    public String password;
+}
+
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
@@ -46,6 +51,12 @@ public class UserController {
     @ResponseBody
     public UserEntity getUser(@PathVariable Long userId) {
         return userService.getUser(userId);
+    }
+    
+    @RequestMapping(value="/authenticate", method=RequestMethod.POST)
+    @ResponseBody
+    public UserEntity authenticateUser(@RequestBody UserCredentialsDTO user) {
+        return userService.authenticateUser(user.username, user.password);
     }
     
     @RequestMapping(value="", method=RequestMethod.POST)

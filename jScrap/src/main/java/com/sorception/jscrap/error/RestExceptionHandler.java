@@ -18,17 +18,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-        private static Logger LOG = Logger.getLogger(RestExceptionHandler.class);
-    
 	/**
 	 * Handle exceptions thrown by handlers.
 	 */
-        @ExceptionHandler(value = {ResourceNotFoundException.class, ServiceUnavailableException.class})
+        @ExceptionHandler(value = {
+            ResourceNotFoundException.class, 
+            ServiceUnavailableException.class, 
+            AuthenticationException.class})
         @ResponseBody
         public ResponseEntity<Object> notFoundException(RuntimeException ex, WebRequest request) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            LOG.info("Ola ke ase");
             return this.handleExceptionInternal(
                     ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
         }

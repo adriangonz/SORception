@@ -50,4 +50,15 @@ public class UserDAO {
     public UserEntity getUser(Long userId) {
         return (UserEntity)this.entityManager.find(UserEntity.class, userId);
     }
+    
+    public UserEntity getUserByUsername(String username) {
+        List<UserEntity> users = this.entityManager
+                .createQuery("from UserEntity where username = :username")
+                .setParameter("username", username)
+                .getResultList();
+        if(users.isEmpty())
+            return null;
+        else
+            return users.get(0);
+    }
 }
