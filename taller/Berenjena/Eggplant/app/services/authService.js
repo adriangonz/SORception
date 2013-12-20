@@ -10,7 +10,7 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	       		$location.path("/config");
 			  }).
 			  error(function(data, status) {
-			  	alert(status+" | "+data);
+			    console.log(status + " | " + data);
 	       		$location.path("/login");
 			  }); 	
 	    },
@@ -22,7 +22,7 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	       		$location.path("/login");
 	          }).
 	          error(function(data, status, headers, config) {
-	            alert(status+" | "+data);
+	              console.log(data);
 	          });
 	    },
 
