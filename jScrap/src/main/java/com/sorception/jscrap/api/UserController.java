@@ -6,13 +6,19 @@
 
 package com.sorception.jscrap.api;
 
+import static com.sorception.jscrap.api.AuthController.logger;
 import org.springframework.stereotype.Controller;
 
 import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.services.UserService;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +44,19 @@ class UserCredentialsDTO {
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
+    
+    final static Logger logger = LoggerFactory.getLogger(UserController.class);
+    
     @Autowired
     private UserService userService;
+    
+    @RequestMapping(value="/authenticate", method=RequestMethod.POST)
+    @ResponseBody
+    public Authentication authenticateUser(
+            @RequestBody UserCredentialsDTO userCredentials) {
+        return userService.authenticateUser(
+                userCredentials.username, userCredentials.password);
+    }
     
     @RequestMapping(value="", method=RequestMethod.GET)
     @ResponseBody
@@ -53,12 +70,6 @@ public class UserController {
         return userService.getUser(userId);
     }
     
-    @RequestMapping(value="/authenticate", method=RequestMethod.POST)
-    @ResponseBody
-    public UserEntity authenticateUser(@RequestBody UserCredentialsDTO user) {
-        return userService.authenticateUser(user.username, user.password);
-    }
-    
     @RequestMapping(value="", method=RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -70,6 +81,7 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable Long userId) {
+        logger.info("Ola ke ase");
         userService.removeUser(userId);
     }
 }
