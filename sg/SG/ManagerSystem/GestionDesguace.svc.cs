@@ -16,37 +16,90 @@ namespace ManagerSystem
     {
         [DataMember]
         public string name;
+
+    }
+
+    [DataContract(Namespace = Constants.Namespace)]
+    public class TokenResponse
+    {
+        public enum Code : int { CREATED = 201, ACCEPTED = 202, NON_AUTHORITATIVE = 203, BAD_REQUEST = 400, NOT_FOUND = 404 };
+
+        [DataMember]
+        public string token;
+
+        [DataMember]
+        public Code status;
+
+        public TokenResponse(string token, TokenResponse.Code status)
+        {
+            this.token = token;
+            this.status = status;
+        }
     }
 
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        public int signUp(ExposedDesguace ed)
+        public TokenResponse signUp(ExposedDesguace ed)
         {
             if (ed != null)
             {
                 Desguace d = DesguaceRepository.FromExposed(ed);
                 d.active = false;
+
+                Token t = TokenRepository.getToken();
+                d.Tokens.Add(t);
+
                 DesguaceRepository.InsertOrUpdate(d);
                 DesguaceRepository.Save();
-                return d.id;
+                return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
             }
-            return -1;
+            return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
         }
 
-        public int getState(int id)
+        public TokenResponse getState(string token)
         {
-            if (id == default(int))
-                return 38;
-
-            if (id >= 0)
+            string new_token = "";
+            TokenResponse.Code status;
+            if (token != null && token != "")
             {
-                var tmp = DesguaceRepository.Find(Convert.ToInt32(id));
-                Desguace d = DesguaceRepository.Sanitize(tmp);
-                if (d.active)
-                    return id;
+                Token t = TokenRepository.Find(token);
+                if (t != null)
+                {
+                    if (t.is_valid)
+                    {
+                        Desguace d = t.Desguace;
+                        if (d.active)
+                        {
+                            // El desgauce ya esta activo
+                            status = TokenResponse.Code.CREATED;
+                        }
+                        else
+                        {
+                            // EL desguace no esta activo
+                            status = TokenResponse.Code.NON_AUTHORITATIVE;
+                        }
+                        new_token = TokenRepository.RegenerateToken(t);
+                    }
+                    else
+                    {
+                        // EL token ha expirado
+                        status = TokenResponse.Code.BAD_REQUEST;
+                    }
+                }
+                else
+                {
+                    // El token no existe
+                    status = TokenResponse.Code.NOT_FOUND;
+                }
             }
-            return -1;
+            else
+            {
+                // No se le ha pasado un token
+                status = TokenResponse.Code.BAD_REQUEST;
+            }
+
+            return new TokenResponse(new_token, status);
         }
     }
 }

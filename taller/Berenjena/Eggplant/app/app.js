@@ -8,10 +8,14 @@ module.config(['$routeProvider',
         controller: 'TallerCtrl'
       }).
       when('/config', {
-        templateUrl: 'app/templates/config.html',
-        controller: 'SettingsCtrl'
+          templateUrl: 'app/templates/config.html',
+          controller: 'SettingsCtrl'
+      }).
+      when('/login', {
+          templateUrl: 'app/templates/login.html',
+          controller: 'TallerCtrl'
       }).
       otherwise({
-        redirectTo: '/config'
+        redirectTo: '/login'
       });
   }]);

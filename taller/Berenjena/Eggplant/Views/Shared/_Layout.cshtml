@@ -25,6 +25,17 @@
                     <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pollardo <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href><logout>Desconectar</logout></a></li> 
+                        </ul>
+                    </li>
+                </ul>
+
             </div>
         </div>
     </div>
@@ -41,8 +52,10 @@
     @RenderSection("scripts", required: false)
     @Scripts.Render("https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js",
                  "~/app/app.js",
+                 "~/app/services/authService.js",
                  "~/app/services/tallerService.js",
                  "~/app/services/settingsService.js",
+                 "~/app/directives/authDirective.js",
                  "~/app/directives/settingsDirective.js",
                  "~/app/controllers/tallerController.js",
                  "~/app/controllers/settingsController.js")

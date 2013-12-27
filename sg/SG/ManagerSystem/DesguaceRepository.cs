@@ -75,8 +75,11 @@ namespace ManagerSystem
             else
             {
                 // Existing entity
-                //ms_ent.DesguaceConjunto.Attach(desguace);
-                ms_ent.Entry(desguace).State = EntityState.Modified;
+                Desguace d = Find(desguace.id);
+                if (desguace.name != null)
+                {
+                    d.name = desguace.name;
+                }
             }
         }
 
