@@ -18,11 +18,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 		context.setConfigLocation("com.sorception.jscrap.config");
-                context.scan("com.sorception.jscrap");
-		/*
-                FilterRegistration.Dynamic hibernateFilter = servletContext.addFilter("HibernateSession", new OpenSessionInViewFilter());
-                hibernateFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-                */
+		context.scan("com.sorception.jscrap");
+		
 		FilterRegistration.Dynamic securityFilter = servletContext.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"));
 		securityFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 		

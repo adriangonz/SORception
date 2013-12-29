@@ -10,10 +10,13 @@ import com.sorception.jscrap.dao.UserDAO;
 import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.error.AuthenticationException;
 import com.sorception.jscrap.error.ResourceNotFoundException;
-import com.sorception.jscrap.security.RestToken;
+
+import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
@@ -58,12 +61,8 @@ public class UserService {
     public UserEntity getUserByUsername(String username) {
         logger.info("Buscando al usuario " + username + "...");
         UserEntity user = userDAO.getUserByUsername(username);
-        logger.info("Resultados...");
         if(null == user) {
-            logger.info("El usuario " + username + " es null!");
             throw new ResourceNotFoundException("User does not exist");
-        } else {
-            logger.info(user.getName());
         }
         return user;
     }
@@ -73,12 +72,18 @@ public class UserService {
             throw new ResourceNotFoundException("User does not exist");
     }
     
-    public Authentication authenticateUser(String username, String password) {
+    private String getAuthentication(String username, String password) {
+		String creds = username + ":" + password;
+		creds =  Base64.encodeBase64String(creds.getBytes());
+		return "Basic " + creds;
+    }
+    
+    public String authenticateUser(String username, String password) {
         try {
             logger.info("Generating auth token for user "+ username + "...");
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-            Authentication authentication = this.authenticationManager.authenticate(token);
-            return authentication;
+            this.authenticationManager.authenticate(token);
+            return this.getAuthentication(username, password);
         } catch (BadCredentialsException es) {
             throw new AuthenticationException("Bad credentials for user " + username);
         }

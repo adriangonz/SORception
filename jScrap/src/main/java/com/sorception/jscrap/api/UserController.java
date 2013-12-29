@@ -52,7 +52,7 @@ public class UserController {
     
     @RequestMapping(value="/authenticate", method=RequestMethod.POST)
     @ResponseBody
-    public Authentication authenticateUser(
+    public String authenticateUser(
             @RequestBody UserCredentialsDTO userCredentials) {
         return userService.authenticateUser(
                 userCredentials.username, userCredentials.password);

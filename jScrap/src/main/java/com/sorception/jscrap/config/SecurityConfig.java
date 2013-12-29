@@ -6,9 +6,6 @@
 
 package com.sorception.jscrap.config;
 
-import com.sorception.jscrap.security.RestAuthenticationProvider;
-import com.sorception.jscrap.security.RestSecurityFilter;
-import com.sorception.jscrap.security.RestUnauthorizedEntryPoint;
 import com.sorception.jscrap.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
+        	.authenticationProvider(new DaoAuthenticationProvider())
             .userDetailsService(userDetailsService);
     }
     
@@ -55,19 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    /*
-    public AuthenticationProvider restAuthenticationProvider() {
-        return new RestAuthenticationProvider();
-    }
     
-    public AuthenticationEntryPoint unauthorizedEntryPoint() {
-        return new RestUnauthorizedEntryPoint();
-    }
-    
-    public RestSecurityFilter restSecurityFilter() throws Exception {
-        return new RestSecurityFilter(this.authenticationManager());
-    }
-    */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
