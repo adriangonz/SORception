@@ -8,6 +8,8 @@ package com.sorception.jscrap.webservices;
 
 import com.sorception.jscrap.error.ServiceUnavailableException;
 import com.sorception.jscrap.entities.SettingsEntity;
+import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.entities.TokenEntity.TokenStatus;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.generated.ExposedDesguace;
 import com.sorception.jscrap.generated.GetState;
@@ -15,13 +17,18 @@ import com.sorception.jscrap.generated.GetStateResponse;
 import com.sorception.jscrap.generated.ObjectFactory;
 import com.sorception.jscrap.generated.SignUp;
 import com.sorception.jscrap.generated.SignUpResponse;
+import com.sorception.jscrap.generated.TokenResponse;
+import com.sorception.jscrap.generated.TokenResponseCode;
 import com.sorception.jscrap.services.SettingsService;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.transform.TransformerException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.WebServiceMessage;
@@ -72,25 +79,48 @@ public class SGClient extends WebServiceGatewaySupport {
         });
     }
     
-    public String signUp() {
+    public TokenEntity signUp() {
         SignUp signUpRequest = objectFactory.createSignUp();
         signUpRequest.setD(objectFactory.createSignUpD(desguace()));
-        SignUpResponse response = (SignUpResponse)
+        try {
+        	SignUpResponse response = (SignUpResponse)
                 this.marshalWithSoapActionHeader(signUpRequest, "IGestionDesguace/signUp");
-        String temporalToken = response.getSignUpResult().toString();
-        if("-1".equals(temporalToken))
-            throw new ServiceUnavailableException("Web Service returned -1");
-        return temporalToken;
+        	return this.createTokenEntity(response.getSignUpResult().getValue());
+        } catch(Exception ex) {
+        	throw new ServiceUnavailableException("Web Service not available");
+        }
     }
     
-    public String getState(String temporalToken) {
+    public TokenEntity getState(String temporalToken) {
         GetState getStateRequest = objectFactory.createGetState();
-        getStateRequest.setId(Integer.parseInt(temporalToken));
-        GetStateResponse response = (GetStateResponse) 
+        getStateRequest.setId(objectFactory.createGetStateId(temporalToken));
+        try {
+        	GetStateResponse response = (GetStateResponse) 
                 this.marshalWithSoapActionHeader(getStateRequest, "IGestionDesguace/getState");
-        String state = response.getGetStateResult().toString();
-        if("-1".equals(state))
-            throw new ServiceUnavailableException("Web Service returned -1");
-        return state;
+        	TokenResponse tokenResponse = response.getGetStateResult().getValue();
+        	return this.createTokenEntity(tokenResponse);
+        } catch(Exception ex) {
+        	throw new ServiceUnavailableException("Web Service not available");
+        }
+    }
+    
+    private TokenEntity createTokenEntity(TokenResponse tokenResponse) {
+    	String token = tokenResponse.getToken().getValue();
+    	TokenEntity.TokenStatus tokenStatus;
+    	switch(tokenResponse.getStatus()) {
+    		case CREATED:
+    			tokenStatus = TokenEntity.TokenStatus.VALID;
+    			break;
+    		case NON_AUTHORITATIVE:
+    			tokenStatus = TokenEntity.TokenStatus.TEMPORAL;
+    			break;
+    		case ACCEPTED:
+    			tokenStatus = TokenEntity.TokenStatus.REQUESTED;
+    			break;
+    		default:
+    			throw new ServiceUnavailableException("Error at Web Service");
+    	}
+    	TokenEntity tokenEntity = new TokenEntity(token, tokenStatus);
+    	return tokenEntity;
     }
 }
