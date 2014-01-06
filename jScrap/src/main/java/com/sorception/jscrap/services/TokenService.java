@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author kaseyo
  */
 @Service
-@Transactional
+@Transactional(noRollbackFor={ResourceNotFoundException.class})
 public class TokenService {
     @Autowired
     TokenDAO tokenDAO;
@@ -52,6 +52,8 @@ public class TokenService {
             // Method getState will throw NotFound if not valid
             TokenEntity newToken = sgClient.getState(tokenEntity.getToken());
             tokenEntity = tokenDAO.save(newToken);
+            if(!tokenEntity.isValid()) // If not, throw 404
+                throw new ResourceNotFoundException("Token request has not been accepted");
         }
         return tokenEntity;
     }

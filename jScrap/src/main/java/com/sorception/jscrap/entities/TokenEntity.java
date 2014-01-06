@@ -6,11 +6,15 @@
 
 package com.sorception.jscrap.entities;
 
+import java.beans.Transient;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+
+import org.junit.Ignore;
 
 /**
  *
@@ -46,5 +50,9 @@ public class TokenEntity extends AbstractEntity {
     
     public TokenStatus getStatus() {
         return _status;
+    }
+    
+    public Boolean isValid() {
+    	return this._status == TokenStatus.VALID;
     }
 }
