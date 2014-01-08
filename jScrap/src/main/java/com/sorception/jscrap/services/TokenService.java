@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author kaseyo
  */
 @Service
-@Transactional
+@Transactional(noRollbackFor={ResourceNotFoundException.class})
 public class TokenService {
     @Autowired
     TokenDAO tokenDAO;
@@ -33,20 +33,12 @@ public class TokenService {
     
     final static Logger logger = LoggerFactory.getLogger(TokenService.class);
     
-    private TokenEntity saveValid(String token) {
-        TokenEntity tokenEntity = new TokenEntity(
-                token, TokenEntity.TokenStatus.VALID);
-        return tokenDAO.save(tokenEntity);
-    }
-    
     public TokenEntity requestToken() {
         logger.info("Save valid token");
         // Access to web service
-        String temporalToken = sgClient.signUp();
+        TokenEntity temporalToken = sgClient.signUp();
         // Save temporal token
-        TokenEntity tokenEntity = new TokenEntity(
-                temporalToken, TokenEntity.TokenStatus.REQUESTED);
-        return tokenDAO.save(tokenEntity);
+        return tokenDAO.save(temporalToken);
     }
     
     public TokenEntity getValid() {
@@ -58,8 +50,10 @@ public class TokenService {
                 throw new ResourceNotFoundException("Not valid token or request found");
             // Check if new token is available
             // Method getState will throw NotFound if not valid
-            String newToken = sgClient.getState(tokenEntity.getToken());
-            tokenEntity = this.saveValid(newToken);
+            TokenEntity newToken = sgClient.getState(tokenEntity.getToken());
+            tokenEntity = tokenDAO.save(newToken);
+            if(!tokenEntity.isValid()) // If not, throw 404
+                throw new ResourceNotFoundException("Token request has not been accepted");
         }
         return tokenEntity;
     }

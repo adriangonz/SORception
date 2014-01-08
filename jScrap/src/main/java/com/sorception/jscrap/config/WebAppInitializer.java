@@ -3,6 +3,7 @@ package com.sorception.jscrap.config;
 import java.util.*;
 
 import javax.servlet.*;
+import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -17,7 +18,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 		context.setConfigLocation("com.sorception.jscrap.config");
-                context.scan("com.sorception.jscrap");
+		context.scan("com.sorception.jscrap");
 		
 		FilterRegistration.Dynamic securityFilter = servletContext.addFilter("securityFilter", new DelegatingFilterProxy("springSecurityFilterChain"));
 		securityFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");

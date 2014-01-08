@@ -8,6 +8,8 @@ package com.sorception.jscrap.services;
 
 import com.sorception.jscrap.dao.SettingsDAO;
 import com.sorception.jscrap.entities.SettingsEntity;
+import com.sorception.jscrap.entities.TokenEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,8 @@ public class SettingsService {
     public SettingsEntity getExtendedSettings() {
         SettingsEntity settingsEntity = this.getGlobalSettings();
         try {
-            settingsEntity.setValidToken(tokenService.getValid());
+        	TokenEntity tokenEntity = tokenService.getValid();
+            settingsEntity.setValidToken(tokenEntity);
         } catch (Exception ex) {
             settingsEntity.setValidToken(null);
         }

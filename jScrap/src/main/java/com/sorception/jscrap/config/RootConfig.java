@@ -6,7 +6,6 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 @ComponentScan(basePackages = { "com.sorception.jscrap" })
-@ImportResource("classpath:spring-security-context.xml")
 public class RootConfig {
 	
 	@Bean

@@ -199,11 +199,12 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\GestionController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs">
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="Controllers\SolicitudController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,11 +227,14 @@
     <Content Include="app\app.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
+    <Content Include="app\directives\authDirective.js" />
     <Content Include="app\directives\settingsDirective.js" />
     <Content Include="app\directives\tallerDirective.js" />
+    <Content Include="app\services\authService.js" />
     <Content Include="app\services\settingsService.js" />
     <Content Include="app\services\tallerService.js" />
     <Content Include="app\templates\config.html" />
+    <Content Include="app\templates\login.html" />
     <Content Include="app\templates\main.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="BDBerenjena.edmx.sql">
@@ -282,20 +286,21 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
+    <None Include="Service References\ServiceTaller\configuration.svcinfo" />
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedSolicitud.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedTaller.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\ServiceTaller\GestionTaller.disco" />
-    <Content Include="Service References\ServiceTaller\configuration91.svcinfo" />
-    <Content Include="Service References\ServiceTaller\configuration.svcinfo" />
-    <Content Include="Service References\ServiceTaller\Reference.svcmap">
+    <None Include="Service References\ServiceTaller\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -311,7 +316,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Service References\ServiceTaller\GestionTaller.wsdl" />
+    <None Include="Service References\ServiceTaller\GestionTaller.wsdl" />
     <None Include="Service References\ServiceTaller\GestionTaller.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -334,6 +339,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ServiceTaller\" />

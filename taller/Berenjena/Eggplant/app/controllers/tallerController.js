@@ -1,4 +1,4 @@
-module.controller( "TallerCtrl", [ '$scope', 'Taller', function( $scope, Taller ) {
+module.controller("TallerCtrl", ['$scope', 'Taller', 'Auth', function ($scope, Taller, Auth) {
   $scope.$on( 'parts.update', function( event ) {
     $scope.scrap = Taller.parts;
   });

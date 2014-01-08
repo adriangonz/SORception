@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c33771b2-88a6-4e58-a536-ad15de0ef9a4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="40dad860-b776-4d0d-818d-1e9cdb14fc45" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,14 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:2489/GestionTaller.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="GestionTaller.xsd" MetadataType="Schema" ID="e549c69c-6b3b-40f2-9f45-536e7d963b75" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?xsd=xsd2" />
-    <MetadataFile FileName="GestionTaller.disco" MetadataType="Disco" ID="4f2371e7-50d2-47b1-b602-7c309ea58dbb" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?disco" />
-    <MetadataFile FileName="GestionTaller1.xsd" MetadataType="Schema" ID="2d34882b-0ee4-47fb-b781-5aafb834cf19" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?xsd=xsd1" />
-    <MetadataFile FileName="GestionTaller.wsdl" MetadataType="Wsdl" ID="5164a6e2-a472-4182-9df2-7e2bca22e8a4" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?wsdl" />
-    <MetadataFile FileName="GestionTaller2.xsd" MetadataType="Schema" ID="456e17b4-0d8e-428a-becb-42716f4759a4" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionTaller.xsd" MetadataType="Schema" ID="10282e9b-4c55-45b7-be1c-3585b9be9f7b" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" />
+    <MetadataFile FileName="GestionTaller1.xsd" MetadataType="Schema" ID="1587b3a7-34a7-4ced-b685-0bc9c3dd2c5b" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionTaller2.xsd" MetadataType="Schema" ID="81796db4-215b-42bc-a504-66c8dd69fd15" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd1" />
+    <MetadataFile FileName="GestionTaller.wsdl" MetadataType="Wsdl" ID="5a4e1bab-eda3-4c3f-a8c2-2b9884cfd6f7" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
