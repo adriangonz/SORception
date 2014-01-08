@@ -1,0 +1,22 @@
+﻿<h2>Crear Solicitud</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="line in tmp_order">
+            <td>{{line.descripcion}}</td>
+            <td>{{line.cantidad}}</td>
+        </tr>
+        <tr>
+            <td><input class="form-control full" type="text" id="descripcion" ng-model="tmp_line.descripcion" placeholder="bujia" /></td>
+            <td><input class="form-control full" type="number" id="cantidad" ng-model="tmp_line.cantidad" placeholder="5" /></td>
+        </tr>
+    </tbody>
+</table>
+<button class="btn btn-default" add-line-btn="tmp_line">Añadir Linea</button>
+<button class="btn btn-success" send-order-btn="tmp_order">Enviar Solicitud</button>

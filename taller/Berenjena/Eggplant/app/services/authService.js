@@ -6,7 +6,12 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	    login: function (user) {
 	        $http({ method: 'POST', url: '/token', data: "grant_type=password&username="+user.username+"&password="+user.password}).
 			  success(function(data, status) {
-	       		service.SessionID=data;
+			      service.SessionID = data;
+			      $http.defaults.headers.common.Authorization = 'Bearer ' + data.access_token;
+			   /* module.run(function ($http) {
+			        $http.defaults.headers.common.Authorization = 'Bearer ' + data.access_token;
+			    });*/
+			    $rootScope.$broadcast('auth.login');
 	       		$location.path("/config");
 			  }).
 			  error(function(data, status) {
@@ -19,7 +24,8 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	        alert("Ola ke ase! te deconeta o ke ase?");
 	     	  $http({method: 'POST', url: '/api/account/logout'}).
 	          success(function(data, status, headers, config) {
-	            service.SessionID = undefined;
+	              service.SessionID = undefined;
+	              $rootScope.$broadcast('auth.login');
 	       		$location.path("/login");
 	          }).
 	          error(function(data, status, headers, config) {

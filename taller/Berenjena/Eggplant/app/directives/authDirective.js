@@ -25,7 +25,9 @@ module.directive("loginBtn", ['Auth', function (Auth) {
         restrict: "E",
         scope: {},
         link: function (scope, element, attrs) {
-            element.html(Auth.getUsername());
+            scope.$on('auth.login', function () {
+                element.html(Auth.getUsername());
+            });
         }
     }
 }]);
