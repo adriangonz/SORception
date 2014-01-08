@@ -10,6 +10,6 @@ module.controller("TallerCtrl", ['$scope', 'Taller', 'Auth', function ($scope, T
 
     Auth.isLoggedIn();
     $scope.orders = [];
-    $scope.tmp_order = [];
+    $scope.tmp_order = { "data": [] };
   
 }]);
