@@ -11,6 +11,7 @@ import com.sorception.jscrap.services.TokenService;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.TextMessage;
 
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,7 @@ public class SolicitudesListener implements MessageListener {
     @Override
     public void onMessage(Message message) {
         try {
-			logger.info("Text received: " + message.getStringProperty("text"));
+			logger.info("Text received: " + ((TextMessage)message).getText());
 		} catch (JMSException e) {
 			logger.error("'text' field not found at message");
 		}
