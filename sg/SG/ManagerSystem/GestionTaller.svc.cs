@@ -61,6 +61,9 @@ namespace ManagerSystem
 
         [DataMember]
         public List<ExposedLineaSolicitud> lineas;
+
+        [DataMember]
+        public string status;
     }
 
     [DataContract]
