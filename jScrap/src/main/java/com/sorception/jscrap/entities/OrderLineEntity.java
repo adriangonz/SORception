@@ -1,5 +1,6 @@
 package com.sorception.jscrap.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,12 +23,21 @@ public class OrderLineEntity extends AbstractEntity {
 	private Integer _quantity;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "orderId", nullable = false)
 	private OrderEntity _order;
 	
 	public OrderLineEntity() {}
 	
-	public OrderLineEntity(String sgId) {
+	public OrderLineEntity(String sgId,
+			String description,
+			Integer quantity) {
 		this._sgId = sgId;
+		this._description = description;
+		this._quantity = quantity;
+	}
+	
+	public void setOrder(OrderEntity order) {
+		this._order = order;
 	}
 
 	public String getSgId() {

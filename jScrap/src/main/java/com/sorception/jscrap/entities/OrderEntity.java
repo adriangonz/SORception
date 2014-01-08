@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +19,9 @@ public class OrderEntity extends AbstractEntity {
 	@Column(name = "sgId")
 	private String _sgId;
 	
-	@OneToMany(mappedBy = "_order", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "_order", 
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL)
 	private List<OrderLineEntity> _lines;
 	
 	public OrderEntity() {}
@@ -27,6 +30,9 @@ public class OrderEntity extends AbstractEntity {
 			List<OrderLineEntity> lines) {
 		this._sgId = sgId;
 		this._lines = lines;
+		for(OrderLineEntity line : lines) {
+			line.setOrder(this);
+		}
 	}
 	
 	public String getSgId() {

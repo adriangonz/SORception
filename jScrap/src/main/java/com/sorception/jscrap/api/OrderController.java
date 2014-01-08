@@ -1,5 +1,6 @@
 package com.sorception.jscrap.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,9 +18,28 @@ import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
 import com.sorception.jscrap.services.OrderService;
 
+class OrderLineDTO {
+	public String sgId;
+	public String description;
+	public Integer quantity;
+	
+	public OrderLineEntity toOrderLineEntity() {
+		return new OrderLineEntity(this.sgId, 
+				this.description, this.quantity);
+	}
+}
+
 class OrderParamsDTO {
 	public String sgId;
-	public List<OrderLineEntity> lines;
+	public List<OrderLineDTO> lines;
+	
+	public List<OrderLineEntity> getOrderLinesList() {
+		List<OrderLineEntity> list = new ArrayList<>();
+		for(OrderLineDTO line : lines) {
+			list.add(line.toOrderLineEntity());
+		}
+		return list;
+	}
 }
 
 @Controller
@@ -41,6 +61,7 @@ public class OrderController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	public OrderEntity addOrder(@RequestBody OrderParamsDTO order) {
-		return orderService.addOrder(order.sgId, order.lines);
+		return orderService.addOrder(order.sgId, 
+				order.getOrderLinesList());
 	}
 }
