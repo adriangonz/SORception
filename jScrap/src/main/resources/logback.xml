@@ -16,6 +16,11 @@
 	</root>
 
 	<logger name="com.sorception.jscrap" level="ALL" />
-        <logger name="org.springframework.ws.client.MessageTracing" level="ALL"/>
-        <logger name="org.apache.activemq" level="ALL" />
+    <logger name="org.springframework.ws.client.MessageTracing" level="ALL"/>
+    <!--
+    	<logger name="org.apache.activemq" level="ALL" />
+    -->
+    <!--  
+    	<logger name="org.hibernate" level="ALL" />
+    -->
 </configuration>

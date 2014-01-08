@@ -42,7 +42,6 @@ public class UserService {
     final static Logger logger = LoggerFactory.getLogger(UserService.class);
     
     public List<UserEntity> getAllUsers() {
-        logger.info("Obtenemos todos los usuarios");
         return userDAO.getAllUsers();
     }
     
