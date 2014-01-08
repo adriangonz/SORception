@@ -7,8 +7,11 @@
 package com.sorception.jscrap.activemq;
 
 import com.sorception.jscrap.services.TokenService;
+
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+
 import org.slf4j.LoggerFactory;
 
 /**
@@ -17,11 +20,15 @@ import org.slf4j.LoggerFactory;
  */
 public class SolicitudesListener implements MessageListener {
 
-    final static org.slf4j.Logger logger = LoggerFactory.getLogger(TokenService.class);
+    final static org.slf4j.Logger logger = LoggerFactory.getLogger(SolicitudesListener.class);
     
     @Override
     public void onMessage(Message message) {
-        logger.error("Ola ke ase " + message.toString());
+        try {
+			logger.info("Text received: " + message.getStringProperty("text"));
+		} catch (JMSException e) {
+			logger.error("'text' field not found at message");
+		}
     }
     
 }
