@@ -6,7 +6,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
  		},
  
      getSettings: function () {
-        $http({method: 'GET', url: '/api/gestion'}).
+        $http({method: 'GET', url: '/api/settings'}).
 		  success(function(data, status, headers, config) {
 		      service.settings = data;
        		  $rootScope.$broadcast('settings.update');
@@ -42,7 +42,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
      },
 
      postSettings: function(){
-         $http({ method: 'POST', url: '/api/gestion', data: '{"nombre": "Taller.Net"}' }).
+         $http({ method: 'POST', url: '/api/settings', data: '{"nombre": "Taller.Net"}' }).
           success(function(data, status, headers, config) {
               service.getSettings();
           }).

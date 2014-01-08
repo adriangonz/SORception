@@ -19,14 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:2489/GestionTaller.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="GestionTaller.xsd" MetadataType="Schema" ID="e549c69c-6b3b-40f2-9f45-536e7d963b75" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?xsd=xsd2" />
-    <MetadataFile FileName="GestionTaller.disco" MetadataType="Disco" ID="4f2371e7-50d2-47b1-b602-7c309ea58dbb" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?disco" />
-    <MetadataFile FileName="GestionTaller1.xsd" MetadataType="Schema" ID="2d34882b-0ee4-47fb-b781-5aafb834cf19" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?xsd=xsd1" />
-    <MetadataFile FileName="GestionTaller.wsdl" MetadataType="Wsdl" ID="5164a6e2-a472-4182-9df2-7e2bca22e8a4" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?wsdl" />
-    <MetadataFile FileName="GestionTaller2.xsd" MetadataType="Schema" ID="456e17b4-0d8e-428a-becb-42716f4759a4" SourceId="1" SourceUrl="http://localhost:2489/GestionTaller.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionTaller3.xsd" MetadataType="Schema" ID="6501fbe5-79a0-46f7-adac-64bba2f7ad37" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" />
+    <MetadataFile FileName="GestionTaller31.xsd" MetadataType="Schema" ID="4ebbfec3-b1eb-4302-a443-54a6b940445c" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionTaller32.xsd" MetadataType="Schema" ID="eeb7271a-d790-431e-9c0f-0a70c8bb7ddb" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd1" />
+    <MetadataFile FileName="GestionTaller1.wsdl" MetadataType="Wsdl" ID="5db3f67b-00db-4cd5-8a4c-60b073331b3f" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

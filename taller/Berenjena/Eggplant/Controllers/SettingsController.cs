@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace Berenjena.Controllers
 {
-    public class GestionController : ApiController
+    public class SettingsController : ApiController
     {
         BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
         Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
@@ -21,7 +21,9 @@ namespace Berenjena.Controllers
         public object Get()
         {
             if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
-            var tokens = (from d in c_bd.TokensSet orderby d.timeStamp descending select d);
+
+            var tokens = c_bd.TokensSet.AsQueryable().ToList();
+            //var tokens = c_bd.TokensSet.(from d in c_bd.TokensSet orderby d.timeStamp descending select d);
 
             Eggplant.ServiceTaller.ExposedTaller t = svcTaller.getTaller(tokens.First().token);
             return (new { id = t.id, name = t.name, tokens });
@@ -62,7 +64,7 @@ namespace Berenjena.Controllers
         [Route("api/gestion/token")]
         public object GetToken() {
             if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
-            var token = (from d in c_bd.TokensSet orderby d.timeStamp descending select d).First();
+            var token = c_bd.TokensSet.OrderByDescending(x => x.timeStamp).FirstOrDefault();//(from d in c_bd.TokensSet orderby d.timeStamp descending select d).First();
             // Si el token esta pendiente de activacion
             if (token.state == REQUESTED)
             {

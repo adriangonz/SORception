@@ -199,11 +199,12 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\GestionController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs">
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="Controllers\SolicitudController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -291,13 +292,22 @@
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedTaller.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\ServiceTaller\GestionTaller.disco" />
-    <Content Include="Service References\ServiceTaller\configuration91.svcinfo" />
-    <Content Include="Service References\ServiceTaller\configuration.svcinfo" />
-    <Content Include="Service References\ServiceTaller\Reference.svcmap">
+    <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
+    <None Include="Service References\ServiceTaller\configuration.svcinfo" />
+    <None Include="Service References\ServiceTaller\GestionTaller1.wsdl" />
+    <None Include="Service References\ServiceTaller\GestionTaller3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\GestionTaller31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\GestionTaller32.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -316,16 +326,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Service References\ServiceTaller\GestionTaller.wsdl" />
-    <None Include="Service References\ServiceTaller\GestionTaller.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceTaller\GestionTaller1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceTaller\GestionTaller2.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
