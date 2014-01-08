@@ -15,31 +15,28 @@ namespace ActiveMQHelper
     {
         private bool _disposed;
         private readonly ISession _session;
+        private readonly IConnection _connection;
         private readonly ITopic _topic;
-        private static Dictionary<string, ISession> _sessions = new Dictionary<string,ISession>();
+        private static Dictionary<string, Dictionary<string, Dictionary<string, TopicPublisher>>> _publishers = new Dictionary<string, Dictionary<string, Dictionary<string, TopicPublisher>>> ();
 
         public IMessageProducer Producer { get; private set; }
         public string DestinationName { get; private set; }
 
         public static TopicPublisher MakePublisher(string broker, string client_id, string topic)
         {
-            ISession session;
-            if (! _sessions.TryGetValue(client_id, out session))
-            {
-                IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id);
-                IConnection connection = connectionFactory.CreateConnection();
-                connection.Start();
-                session = connection.CreateSession();
-                _sessions.Add(client_id, session);
-            }
-
-            TopicPublisher publisher = new TopicPublisher(session, topic);
+            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id);
+            IConnection connection = connectionFactory.CreateConnection();
+            connection.Start();
+            ISession session = connection.CreateSession();
+            TopicPublisher publisher = new TopicPublisher(session, connection, topic);
+ 
             return publisher;
         }
 
-        public TopicPublisher(ISession session, string topicName)
+        public TopicPublisher(ISession session, IConnection connection, string topicName)
         {
             _session = session;
+            _connection = connection;
             DestinationName = topicName;
             _topic = new Apache.NMS.ActiveMQ.Commands.ActiveMQTopic(DestinationName);
             Producer = session.CreateProducer(_topic);
@@ -58,6 +55,8 @@ namespace ActiveMQHelper
             if (_disposed) return;
             Producer.Close();
             Producer.Dispose();
+            _session.Close();
+            _connection.Close();
             _disposed = true;
         }
 

@@ -73,8 +73,6 @@ namespace ManagerSystem
         public string name;
     }
 
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "GestionTaller" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select GestionTaller.svc or GestionTaller.svc.cs at the Solution Explorer and start debugging.
     public class GestionTaller : IGestionTaller
     {
         TopicPublisher _publisher = null;
@@ -168,9 +166,9 @@ namespace ManagerSystem
                 SolicitudRepository.InsertOrUpdate(s);
                 SolicitudRepository.Save();
                 SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.New));
-                return 0;
+                return s.id;
             }
-            return 1;
+            return -1;
         }
 
         public int putSolicitud(ExposedSolicitud es)
@@ -203,9 +201,12 @@ namespace ManagerSystem
 
         private void SendMessage(AMQSolicitudMessage sm)
         {
-            if (_publisher == null)
-                _publisher = TopicPublisher.MakePublisher(Constants.ActiveMQ.Broker, Constants.ActiveMQ.Solicitud.Client_ID, Constants.ActiveMQ.Solicitud.Topic);
-            _publisher.SendMessage(sm);
+            TopicPublisher publisher = TopicPublisher.MakePublisher(
+                    Constants.ActiveMQ.Broker, 
+                    Constants.ActiveMQ.Solicitud.Client_ID, 
+                    Constants.ActiveMQ.Solicitud.Topic);
+            publisher.SendMessage(sm);
+            publisher.Dispose();
         }
     }
 }
