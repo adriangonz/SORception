@@ -90,6 +90,9 @@ namespace Eggplant.ServiceTaller {
         private Eggplant.ServiceTaller.ExposedLineaSolicitud[] lineasField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string statusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int taller_idField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -124,6 +127,19 @@ namespace Eggplant.ServiceTaller {
                 if ((object.ReferenceEquals(this.lineasField, value) != true)) {
                     this.lineasField = value;
                     this.RaisePropertyChanged("lineas");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string status {
+            get {
+                return this.statusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.statusField, value) != true)) {
+                    this.statusField = value;
+                    this.RaisePropertyChanged("status");
                 }
             }
         }
