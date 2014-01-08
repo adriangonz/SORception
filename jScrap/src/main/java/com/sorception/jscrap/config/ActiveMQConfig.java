@@ -75,6 +75,22 @@ public class ActiveMQConfig {
     public SolicitudesListener messageListener() {
         return new SolicitudesListener();
     }
+    
+    public void enableJmsContainer(DefaultMessageListenerContainer jmsContainer, TokenEntity validToken) {
+    	logger.info("Valid token found! - Starting jmsContainer with token " + validToken.getToken() + 
+    			" and subscribing to topic " + jmsContainer.getDestinationName() + "...");
+        jmsContainer.setDurableSubscriptionName(validToken.getToken());
+        jmsContainer.setClientId(validToken.getToken());
+        jmsContainer.setSubscriptionDurable(true);
+        jmsContainer.start();
+        jmsContainer.setAutoStartup(true);
+    }
+    
+    public void disableJmsContainer(DefaultMessageListenerContainer jmsContainer) {
+    	logger.info("Not valid token found - Disabling jmsContainer...");
+    	jmsContainer.stop();
+        jmsContainer.setAutoStartup(false);
+    }
 
     @Bean
     public DefaultMessageListenerContainer jmsContainer() {
@@ -85,14 +101,9 @@ public class ActiveMQConfig {
         jmsContainer.setPubSubDomain(true);
         try {
             TokenEntity validToken = tokenService.getValid();
-            logger.info("Valid token found! - Starting jmsContainer and subscribing to topic " +
-                    jmsContainer.getDestinationName() + "...");
-            jmsContainer.setDurableSubscriptionName(validToken.getToken());
-            jmsContainer.setSubscriptionDurable(true);
-            jmsContainer.setAutoStartup(true);
+            enableJmsContainer(jmsContainer, validToken);
         } catch(ResourceNotFoundException ex) {
-            logger.info("Not valid token found - Disabling jmsContainer...");
-            jmsContainer.setAutoStartup(false);
+            disableJmsContainer(jmsContainer);
         }
         return jmsContainer;
     }
