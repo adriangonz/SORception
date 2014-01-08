@@ -20,4 +20,12 @@ module.directive("loginBtn", ['Auth', function (Auth) {
             });
         }
     }
+}]).directive("username", ['Auth', function (Auth) {
+    return {
+        restrict: "E",
+        scope: {},
+        link: function (scope, element, attrs) {
+            element.html(Auth.getUsername());
+        }
+    }
 }]);

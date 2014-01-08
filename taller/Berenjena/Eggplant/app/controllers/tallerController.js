@@ -3,6 +3,7 @@ module.controller("TallerCtrl", ['$scope', 'Taller', 'Auth', function ($scope, T
     $scope.scrap = Taller.parts;
   });
 
+  Auth.isLoggedIn();
   $scope.scrap;
   
 }]);
