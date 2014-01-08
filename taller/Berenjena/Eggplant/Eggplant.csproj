@@ -286,24 +286,14 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
+    <None Include="Service References\ServiceTaller\configuration.svcinfo" />
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedSolicitud.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedTaller.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
-    <None Include="Service References\ServiceTaller\configuration.svcinfo" />
-    <None Include="Service References\ServiceTaller\GestionTaller1.wsdl" />
-    <None Include="Service References\ServiceTaller\GestionTaller3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceTaller\GestionTaller31.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceTaller\GestionTaller32.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\ServiceTaller\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -326,6 +316,16 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="Service References\ServiceTaller\GestionTaller.wsdl" />
+    <None Include="Service References\ServiceTaller\GestionTaller.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\GestionTaller1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\GestionTaller2.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -341,10 +341,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ServiceTaller\" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <WCFMetadataStorage Include="Service References\ServiceTaller\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

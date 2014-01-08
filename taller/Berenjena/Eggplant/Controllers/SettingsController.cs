@@ -17,7 +17,7 @@ namespace Berenjena.Controllers
         string EXPIRED = "EXPIRED";
         string ACTIVE = "ACTIVE";
         
-        // GET api/gestion
+        // GET api/settings
         public object Get()
         {
             if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
