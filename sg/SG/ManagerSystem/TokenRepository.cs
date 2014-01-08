@@ -53,13 +53,12 @@ namespace ManagerSystem
 
         static public Token Find(string token)
         {
-            List<Token> token_list = (from token_ent in ms_ent.Tokens 
-                                      where token_ent.token == token 
-                                      select token_ent).ToList();
-            if (token_list.Count == 0)
+            var obj = ms_ent.Tokens.First(o => o.token == token);
+
+            if (obj == null)
                 return null;
 
-            return Copy(token_list.First());
+            return Copy(obj);
         }
 
         static public Token Sanitize(Token d)
