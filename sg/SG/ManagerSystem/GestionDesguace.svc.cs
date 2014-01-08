@@ -68,7 +68,7 @@ namespace ManagerSystem
                 {
                     if (t.is_valid)
                     {
-                        Desguace d = t.Desguace;
+                        Desguace d = DesguaceRepository.Find(t.Desguace.id);
                         if (d.active)
                         {
                             // El desgauce ya esta activo

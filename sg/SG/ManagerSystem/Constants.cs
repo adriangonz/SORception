@@ -12,7 +12,7 @@ namespace ManagerSystem
 
         public class ActiveMQ
         {
-            public const string Broker = "tcp://sorceptionjava.cloudapp.net:61616";
+            public const string Broker = "tcp://sorceptionjava.cloudapp.net:61616?maximumConnections=1000";
 
             public class Solicitud
             {

@@ -36,10 +36,11 @@ namespace ManagerSystem
             {
                 ExposedLineaSolicitud ls = new ExposedLineaSolicitud();
                 ls.id = l.id;
-                ls.description = "SolicitudRepository.cs:37";
+                ls.description = l.description;
                 ls.quantity = l.quantity;
                 es.lineas.Add(ls);
             }
+            es.status = s.state;
 
             return es;
         }
@@ -58,7 +59,7 @@ namespace ManagerSystem
                 s.LineasSolicitud.Add(ls);
             }
             s.id_en_taller = es.taller_id;
-            s.state = "TODO";
+            s.state = "NEW";
             s.date = DateTime.Now;
 
             return s;
