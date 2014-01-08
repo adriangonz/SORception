@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c33771b2-88a6-4e58-a536-ad15de0ef9a4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="40dad860-b776-4d0d-818d-1e9cdb14fc45" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,10 +22,10 @@
     <MetadataSource Address="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="GestionTaller3.xsd" MetadataType="Schema" ID="6501fbe5-79a0-46f7-adac-64bba2f7ad37" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" />
-    <MetadataFile FileName="GestionTaller31.xsd" MetadataType="Schema" ID="4ebbfec3-b1eb-4302-a443-54a6b940445c" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" />
-    <MetadataFile FileName="GestionTaller32.xsd" MetadataType="Schema" ID="eeb7271a-d790-431e-9c0f-0a70c8bb7ddb" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd1" />
-    <MetadataFile FileName="GestionTaller1.wsdl" MetadataType="Wsdl" ID="5db3f67b-00db-4cd5-8a4c-60b073331b3f" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" />
+    <MetadataFile FileName="GestionTaller.xsd" MetadataType="Schema" ID="10282e9b-4c55-45b7-be1c-3585b9be9f7b" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" />
+    <MetadataFile FileName="GestionTaller1.xsd" MetadataType="Schema" ID="1587b3a7-34a7-4ced-b685-0bc9c3dd2c5b" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionTaller2.xsd" MetadataType="Schema" ID="81796db4-215b-42bc-a504-66c8dd69fd15" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd1" />
+    <MetadataFile FileName="GestionTaller.wsdl" MetadataType="Wsdl" ID="5a4e1bab-eda3-4c3f-a8c2-2b9884cfd6f7" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
