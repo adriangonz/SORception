@@ -82,9 +82,10 @@ public class ActiveMQConfig {
     public void enableJmsContainer(DefaultMessageListenerContainer jmsContainer, TokenEntity validToken) {
     	logger.info("Valid token found! - Starting jmsContainer with token " + validToken.getToken() + 
     			" and subscribing to topic " + jmsContainer.getDestinationName() + "...");
-        jmsContainer.setDurableSubscriptionName(validToken.getToken());
+        jmsContainer.setDurableSubscriptionName(Long.toString(System.currentTimeMillis()));
         jmsContainer.setClientId(validToken.getToken());
         jmsContainer.setSubscriptionDurable(true);
+        jmsContainer.setPubSubDomain(true);
         jmsContainer.start();
         jmsContainer.setAutoStartup(true);
     }
@@ -101,7 +102,6 @@ public class ActiveMQConfig {
         jmsContainer.setConnectionFactory(connectionFactory());
         jmsContainer.setMessageListener(messageListener());
         jmsContainer.setDestination(solicitudes());
-        jmsContainer.setPubSubDomain(true);
         try {
             TokenEntity validToken = tokenService.getValid();
             enableJmsContainer(jmsContainer, validToken);
