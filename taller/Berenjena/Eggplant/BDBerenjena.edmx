@@ -29,6 +29,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="sg_id" Type="int" Nullable="false" />
+    <Property Name="timeStamp" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="LineaSolicitudSet">
     <Key>
@@ -81,6 +83,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="sg_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="LineaSolicitud" Relationship="BDBerenjena.SolicitudLineaSolicitud" FromRole="Solicitud" ToRole="LineaSolicitud" />
+          <Property Name="timeStamp" Type="DateTime" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="LineaSolicitud">
           <Key>
@@ -126,6 +130,8 @@
         <MappingFragment StoreEntitySet="SolicitudSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+          <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
+          <ScalarProperty Name="status" ColumnName="status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
