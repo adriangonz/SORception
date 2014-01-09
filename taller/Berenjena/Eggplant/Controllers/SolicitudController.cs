@@ -19,7 +19,7 @@ namespace Eggplant.Controllers
         // GET api/solicitud
         public object Get()
         {
-            var solicitudes = c_bd.SolicitudSet.AsQueryable().ToList();
+            var solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED).ToList();
             return solicitudes;
         }
 
