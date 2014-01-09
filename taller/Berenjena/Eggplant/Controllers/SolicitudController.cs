@@ -88,7 +88,7 @@ namespace Eggplant.Controllers
         }
 
 
-        public void updateSolicitudes()
+        private void updateSolicitudes()
         {
             //Si no hay taller activo devuelve -1 y no encontrara nada digo yo
             var solicitudes = svcTaller.getSolicitudes().ToList();
@@ -98,7 +98,7 @@ namespace Eggplant.Controllers
             }
 
         }
-        public void addSolicitudToLocalDB(int idSol)
+        private void addSolicitudToLocalDB(int idSol)
         {
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
@@ -120,7 +120,7 @@ namespace Eggplant.Controllers
             }
         }
 
-        public int getIdActive()
+        private int getIdActive()
         {
             var tokenActive = c_bd.TokensSet.AsQueryable()
                 .ToList()
