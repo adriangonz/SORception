@@ -12,8 +12,9 @@ namespace Eggplant.Controllers
     [RoutePrefix("api/solicitud")]
     public class SolicitudController : ApiController
     {
-        BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
-        Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
+        static BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
+        static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
+
 
         // GET api/solicitud
         public object Get()
@@ -23,9 +24,10 @@ namespace Eggplant.Controllers
         }
 
         // GET api/solicitud/5
-        public string Get(int id)
+        public object Get(int id)
         {
-            return "Solicitud" + id;
+            var solicitud = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id);
+            return solicitud;
         }
 
         // POST api/solicitud
@@ -78,12 +80,24 @@ namespace Eggplant.Controllers
         {
         }
 
-        [Route("update/{id}")]
-        public void GetUpdatedSolicitudes(int id)
+        [Route("update")]
+        public object GetUpdatedSolicitudes()
         {
 
+            return Get();
         }
 
+
+        public void updateSolicitudes()
+        {
+            //Si no hay taller activo devuelve -1 y no encontrara nada digo yo
+            var solicitudes = svcTaller.getSolicitudes().ToList();
+            foreach (ExposedSolicitud solicitud in solicitudes)
+            {
+
+            }
+
+        }
         public void addSolicitudToLocalDB(int idSol)
         {
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
@@ -104,6 +118,20 @@ namespace Eggplant.Controllers
                 }
                 c_bd.SaveChanges();
             }
+        }
+
+        public int getIdActive()
+        {
+            var tokenActive = c_bd.TokensSet.AsQueryable()
+                .ToList()
+                .FirstOrDefault(x => x.state == Berenjena.Controllers.SettingsController.ACTIVE);
+            if (tokenActive != null)
+            {
+                int idTallerActual = svcTaller.getTaller(tokenActive.token).id;
+                return idTallerActual;
+            }
+            return -1;
+
         }
     }
 }

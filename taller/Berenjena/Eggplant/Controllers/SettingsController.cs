@@ -13,9 +13,9 @@ namespace Berenjena.Controllers
     {
         BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
         Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
-        string REQUESTED = "REQUESTED";
-        string EXPIRED = "EXPIRED";
-        string ACTIVE = "ACTIVE";
+        public static string REQUESTED = "REQUESTED";
+        public static string EXPIRED = "EXPIRED";
+        public static string ACTIVE = "ACTIVE";
         
         // GET api/settings
         public object Get()

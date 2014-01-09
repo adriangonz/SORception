@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
@@ -26,6 +27,10 @@ public class OrderLineEntity extends AbstractEntity {
 	@JoinColumn(name = "orderId", nullable = false)
 	private OrderEntity _order;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+			mappedBy = "_orderLine")
+	private OfferLineEntity _offerLine;
+	
 	public OrderLineEntity() {}
 	
 	public OrderLineEntity(String sgId,
@@ -38,6 +43,10 @@ public class OrderLineEntity extends AbstractEntity {
 	
 	public void setOrder(OrderEntity order) {
 		this._order = order;
+	}
+	
+	public void setOfferLine(OfferLineEntity offerLine) {
+		this._offerLine = offerLine;
 	}
 
 	public String getSgId() {

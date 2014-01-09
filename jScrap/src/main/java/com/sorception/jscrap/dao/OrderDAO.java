@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sorception.jscrap.entities.OrderEntity;
+import com.sorception.jscrap.entities.OrderLineEntity;
 
 @Repository
 @Transactional
@@ -29,5 +30,10 @@ public class OrderDAO {
 	
 	public OrderEntity get(Long id) {
 		return (OrderEntity)this.entityManager.find(OrderEntity.class, id);
+	}
+
+	public OrderLineEntity getOrderLine(Long orderLineId) {
+		return (OrderLineEntity)this.entityManager.find(
+				OrderLineEntity.class, orderLineId);
 	}
 }
