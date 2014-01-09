@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -11,7 +12,8 @@ import javax.persistence.Table;
 @Table(name = "Offer")
 public class OfferEntity extends AbstractEntity {
 	@OneToMany(mappedBy = "_offer",
-			cascade = CascadeType.ALL)
+			cascade = CascadeType.ALL,
+			fetch = FetchType.EAGER)
 	private List<OfferLineEntity> _lines;
 	
 	public OfferEntity() {}
