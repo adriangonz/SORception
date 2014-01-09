@@ -14,7 +14,7 @@ namespace Eggplant.Controllers
     {
         static BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
         static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
-
+        public static string DELETED = "DELETED";
 
         // GET api/solicitud
         public object Get()
@@ -38,11 +38,7 @@ namespace Eggplant.Controllers
             //Si habia un token
             if (tokens.Count > 0)
             {
-                //Consigo el taller para obtener su id
-                ExposedTaller t = svcTaller.getTaller(tokens.First().token);
-
                 ExposedSolicitud sol = new ExposedSolicitud();
-                sol.taller_id = t.id;//el taller de la solicitud es el activo en la bd
 
                 //Creo las lineas de la solicitud desde los datos pasado por json
                 List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
@@ -78,12 +74,21 @@ namespace Eggplant.Controllers
         // DELETE api/solicitud/5
         public void Delete(int id)
         {
+            Solicitud sol = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
+            if (sol != null)
+            {
+                sol.status = DELETED;
+                c_bd.SaveChanges();
+                ExposedSolicitud sExt = svcTaller.getSolicitud(sol.sg_id);
+                sExt.status = DELETED;
+                svcTaller.putSolicitud(sExt);
+            }
         }
 
         [Route("update")]
         public object GetUpdatedSolicitudes()
         {
-
+            updateSolicitudes();
             return Get();
         }
 
@@ -94,7 +99,9 @@ namespace Eggplant.Controllers
             var solicitudes = svcTaller.getSolicitudes().ToList();
             foreach (ExposedSolicitud solicitud in solicitudes)
             {
-
+                Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.sg_id == solicitud.id);
+                if (s != null)
+                    s.status = solicitud.status;
             }
 
         }
@@ -119,7 +126,7 @@ namespace Eggplant.Controllers
                 c_bd.SaveChanges();
             }
         }
-
+        /*
         private int getIdActive()
         {
             var tokenActive = c_bd.TokensSet.AsQueryable()
@@ -132,6 +139,6 @@ namespace Eggplant.Controllers
             }
             return -1;
 
-        }
+        }*/
     }
 }

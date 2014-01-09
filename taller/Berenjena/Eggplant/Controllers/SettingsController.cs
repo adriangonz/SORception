@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Eggplant.ServiceTaller;
 
 namespace Berenjena.Controllers
 {
@@ -25,8 +26,7 @@ namespace Berenjena.Controllers
             var tokens = c_bd.TokensSet.AsQueryable().ToList();
             //var tokens = c_bd.TokensSet.(from d in c_bd.TokensSet orderby d.timeStamp descending select d);
 
-            Eggplant.ServiceTaller.ExposedTaller t = svcTaller.getTaller(tokens.First().token);
-            return (new { id = t.id, name = t.name, tokens });
+            return (new { name = "TUCARA", tokens });
             
         }
 
@@ -35,7 +35,9 @@ namespace Berenjena.Controllers
         {
             setLastTokenAsExpired();
             Tokens to = new Tokens();
-            to.token = svcTaller.addTaller(value["nombre"].ToString());
+            ExposedTaller extTaller = new ExposedTaller();
+            extTaller.name = value["nombre"].ToString();
+            to.token = svcTaller.signUp(extTaller).token;
             to.timeStamp = DateTime.Now;
             to.state = REQUESTED;
             c_bd.TokensSet.Add(to);
@@ -48,7 +50,7 @@ namespace Berenjena.Controllers
         public void Put([FromBody]JObject value)
         {
             var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
-            Eggplant.ServiceTaller.ExposedTaller t = svcTaller.getTaller(token.token);
+            ExposedTaller t = new ExposedTaller();
             t.name = value["nombre"].ToString();
             svcTaller.putTaller(t);
         }
@@ -68,14 +70,21 @@ namespace Berenjena.Controllers
             // Si el token esta pendiente de activacion
             if (token.state == REQUESTED)
             {
-                int st = svcTaller.getState(token.token);
-                if (st == -1)
+
+                TokenResponse tr = svcTaller.getState(token.token);
+                   
+                if (tr.status == TokenResponseCode.NON_AUTHORITATIVE)
                 {
+                    token.token = tr.token;
+                    token.timeStamp = DateTime.Now;
+                    c_bd.SaveChanges();
                     return Request.CreateResponse(HttpStatusCode.NotFound, "El token no ha sido activado");
                 }
-                else
+                else if (tr.status == TokenResponseCode.CREATED)
                 {
                     token.state = ACTIVE;
+                    token.token = tr.token;
+                    token.timeStamp = DateTime.Now;
                     c_bd.SaveChanges();
                     return (new { Token = token.token, Status = token.state, Created = token.timeStamp });
 
