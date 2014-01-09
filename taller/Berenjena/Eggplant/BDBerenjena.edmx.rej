@@ -1,0 +1,126 @@
+diff a/taller/Berenjena/Eggplant/BDBerenjena.edmx b/taller/Berenjena/Eggplant/BDBerenjena.edmx	(rejected hunks)
+@@ -7,6 +7,12 @@
+     <Schema Namespace="BDBerenjena.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+   <EntityContainer Name="BDBerenjenaStoreContainer">
+     <EntitySet Name="TokensSet" EntityType="BDBerenjena.Store.TokensSet" store:Type="Tables" Schema="dbo" />
++    <EntitySet Name="SolicitudSet" EntityType="BDBerenjena.Store.SolicitudSet" store:Type="Tables" Schema="dbo" />
++    <EntitySet Name="LineaSolicitudSet" EntityType="BDBerenjena.Store.LineaSolicitudSet" store:Type="Tables" Schema="dbo" />
++    <AssociationSet Name="SolicitudLineaSolicitud" Association="BDBerenjena.Store.SolicitudLineaSolicitud">
++      <End Role="Solicitud" EntitySet="SolicitudSet" />
++      <End Role="LineaSolicitud" EntitySet="LineaSolicitudSet" />
++    </AssociationSet>
+   </EntityContainer>
+   <EntityType Name="TokensSet">
+     <Key>
+@@ -17,12 +23,47 @@
+     <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+     <Property Name="token" Type="nvarchar(max)" Nullable="false" />
+   </EntityType>
++  <EntityType Name="SolicitudSet">
++    <Key>
++      <PropertyRef Name="Id" />
++    </Key>
++    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
++    <Property Name="sg_id" Type="int" Nullable="false" />
++  </EntityType>
++  <EntityType Name="LineaSolicitudSet">
++    <Key>
++      <PropertyRef Name="Id" />
++    </Key>
++    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
++    <Property Name="SolicitudId" Type="int" Nullable="false" />
++    <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
++    <Property Name="cantidad" Type="int" Nullable="false" />
++    <Property Name="sg_id" Type="int" Nullable="false" />
++  </EntityType>
++  <Association Name="SolicitudLineaSolicitud">
++    <End Role="Solicitud" Type="BDBerenjena.Store.SolicitudSet" Multiplicity="1" />
++    <End Role="LineaSolicitud" Type="BDBerenjena.Store.LineaSolicitudSet" Multiplicity="*" />
++    <ReferentialConstraint>
++      <Principal Role="Solicitud">
++        <PropertyRef Name="Id" />
++      </Principal>
++      <Dependent Role="LineaSolicitud">
++        <PropertyRef Name="SolicitudId" />
++      </Dependent>
++    </ReferentialConstraint>
++  </Association>
+ </Schema></edmx:StorageModels>
+     <!-- CSDL content -->
+     <edmx:ConceptualModels>
+       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BDBerenjena" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+         <EntityContainer Name="BDBerenjenaContainer" annotation:LazyLoadingEnabled="true">
+           <EntitySet Name="TokensSet" EntityType="BDBerenjena.Tokens" />
++          <EntitySet Name="SolicitudSet" EntityType="BDBerenjena.Solicitud" />
++          <EntitySet Name="LineaSolicitudSet" EntityType="BDBerenjena.LineaSolicitud" />
++          <AssociationSet Name="SolicitudLineaSolicitud" Association="BDBerenjena.SolicitudLineaSolicitud">
++            <End Role="Solicitud" EntitySet="SolicitudSet" />
++            <End Role="LineaSolicitud" EntitySet="LineaSolicitudSet" />
++          </AssociationSet>
+         </EntityContainer>
+         <EntityType Name="Tokens">
+           <Key>
+@@ -33,6 +74,37 @@
+           <Property Type="String" Name="state" Nullable="false" />
+           <Property Type="String" Name="token" Nullable="false" />
+         </EntityType>
++        <EntityType Name="Solicitud">
++          <Key>
++            <PropertyRef Name="Id" />
++          </Key>
++          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
++          <Property Name="sg_id" Type="Int32" Nullable="false" />
++          <NavigationProperty Name="LineaSolicitud" Relationship="BDBerenjena.SolicitudLineaSolicitud" FromRole="Solicitud" ToRole="LineaSolicitud" />
++        </EntityType>
++        <EntityType Name="LineaSolicitud">
++          <Key>
++            <PropertyRef Name="Id" />
++          </Key>
++          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
++          <NavigationProperty Name="Solicitud" Relationship="BDBerenjena.SolicitudLineaSolicitud" FromRole="LineaSolicitud" ToRole="Solicitud" />
++          <Property Name="SolicitudId" Type="Int32" Nullable="false" />
++          <Property Name="descripcion" Type="String" Nullable="false" />
++          <Property Name="cantidad" Type="Int32" Nullable="false" />
++          <Property Name="sg_id" Type="Int32" Nullable="false" />
++        </EntityType>
++        <Association Name="SolicitudLineaSolicitud">
++          <End Type="BDBerenjena.Solicitud" Role="Solicitud" Multiplicity="1" />
++          <End Type="BDBerenjena.LineaSolicitud" Role="LineaSolicitud" Multiplicity="*" />
++          <ReferentialConstraint>
++            <Principal Role="Solicitud">
++              <PropertyRef Name="Id" />
++            </Principal>
++            <Dependent Role="LineaSolicitud">
++              <PropertyRef Name="SolicitudId" />
++            </Dependent>
++          </ReferentialConstraint>
++        </Association>
+       </Schema>
+     </edmx:ConceptualModels>
+     <!-- C-S mapping content -->
+@@ -49,6 +121,25 @@
+         </MappingFragment>
+       </EntityTypeMapping>
+     </EntitySetMapping>
++    <EntitySetMapping Name="SolicitudSet">
++      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Solicitud)">
++        <MappingFragment StoreEntitySet="SolicitudSet">
++          <ScalarProperty Name="Id" ColumnName="Id" />
++          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
++        </MappingFragment>
++      </EntityTypeMapping>
++    </EntitySetMapping>
++    <EntitySetMapping Name="LineaSolicitudSet">
++      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.LineaSolicitud)">
++        <MappingFragment StoreEntitySet="LineaSolicitudSet">
++          <ScalarProperty Name="Id" ColumnName="Id" />
++          <ScalarProperty Name="SolicitudId" ColumnName="SolicitudId" />
++          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
++          <ScalarProperty Name="cantidad" ColumnName="cantidad" />
++          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
++        </MappingFragment>
++      </EntityTypeMapping>
++    </EntitySetMapping>
+   </EntityContainerMapping>
+ </Mapping></edmx:Mappings>
+   </edmx:Runtime>

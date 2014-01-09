@@ -18,12 +18,12 @@ namespace Eggplant.Controllers
         Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
 
         // GET api/solicitud
-        public object Get()
+        public HttpResponseMessage Get()
         {
             var solicitudes = c_bd.SolicitudSet.AsQueryable().ToList();
             var message = JsonConvert.SerializeObject(solicitudes, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
-            return message;
+            return Request.CreateResponse(message);
         }
 
         // GET api/solicitud/5
