@@ -28,6 +28,10 @@ public class OrderService {
 	public OrderEntity addOrder(String sgId, 
 			List<OrderLineEntity> orderLines) {
 		OrderEntity orderEntity = new OrderEntity(sgId, orderLines);
+		return this.addOrder(orderEntity);
+	}
+	
+	public OrderEntity addOrder(OrderEntity orderEntity) {
 		return orderDAO.save(orderEntity);
 	}
 	
