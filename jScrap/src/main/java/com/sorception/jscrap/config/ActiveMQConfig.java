@@ -6,15 +6,18 @@
 
 package com.sorception.jscrap.config;
 
-import com.sorception.jscrap.activemq.SolicitudesListener;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.services.TokenService;
+import com.sorception.jscrap.webservices.SolicitudesListener;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.ActiveMQXAConnectionFactory;
 import org.apache.activemq.broker.BrokerService;

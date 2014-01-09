@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.sorception.jscrap.activemq;
+package com.sorception.jscrap.webservices;
 
 import com.sorception.jscrap.services.TokenService;
 
@@ -27,6 +27,8 @@ public class SolicitudesListener implements MessageListener {
     public void onMessage(Message message) {
         try {
 			logger.info("Text received: " + ((TextMessage)message).getText());
+			// Desearilizing response
+			
 		} catch (JMSException e) {
 			logger.error("'text' field not found at message");
 		}
