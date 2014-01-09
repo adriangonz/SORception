@@ -11,12 +11,16 @@ module.config(['$routeProvider',
             templateUrl: 'app/templates/crearte-order.html',
             controller: 'createOrderCtrl'
         }).
+        when('/edit-order', {
+            templateUrl: 'app/templates/edit-order.html',
+            controller: 'editOrderCtrl'
+        }).
         when('/orders', {
             templateUrl: 'app/templates/orders.html',
             controller: 'TallerCtrl'
         }).
         when('/order/:id', {
-            templateUrl: 'app/templates/orders.html',
+            templateUrl: 'app/templates/order.html',
             controller: 'OrderCtrl'
         }).
         when('/config', {

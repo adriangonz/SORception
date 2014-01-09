@@ -232,6 +232,7 @@
   <ItemGroup>
     <Content Include="app\app.js" />
     <Content Include="app\controllers\createOrderController.js" />
+    <Content Include="app\controllers\editOrderController.js" />
     <Content Include="app\controllers\orderController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
@@ -243,8 +244,10 @@
     <Content Include="app\services\tallerService.js" />
     <Content Include="app\templates\config.html" />
     <Content Include="app\templates\crearte-order.html" />
+    <Content Include="app\templates\edit-order.html" />
     <Content Include="app\templates\login.html" />
     <Content Include="app\templates\main.html" />
+    <Content Include="app\templates\order.html" />
     <Content Include="app\templates\orders.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="BDBerenjena.edmx.sql">
