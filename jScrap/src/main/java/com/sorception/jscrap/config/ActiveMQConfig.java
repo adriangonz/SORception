@@ -6,15 +6,18 @@
 
 package com.sorception.jscrap.config;
 
-import com.sorception.jscrap.activemq.SolicitudesListener;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.services.TokenService;
+import com.sorception.jscrap.webservices.SolicitudesListener;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.ActiveMQXAConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
@@ -75,6 +78,22 @@ public class ActiveMQConfig {
     public SolicitudesListener messageListener() {
         return new SolicitudesListener();
     }
+    
+    public void enableJmsContainer(DefaultMessageListenerContainer jmsContainer, TokenEntity validToken) {
+    	logger.info("Valid token found! - Starting jmsContainer with token " + validToken.getToken() + 
+    			" and subscribing to topic " + jmsContainer.getDestinationName() + "...");
+        jmsContainer.setDurableSubscriptionName(validToken.getToken());
+        jmsContainer.setClientId(validToken.getToken());
+        jmsContainer.setSubscriptionDurable(true);
+        jmsContainer.start();
+        jmsContainer.setAutoStartup(true);
+    }
+    
+    public void disableJmsContainer(DefaultMessageListenerContainer jmsContainer) {
+    	logger.info("Not valid token found - Disabling jmsContainer...");
+    	jmsContainer.stop();
+        jmsContainer.setAutoStartup(false);
+    }
 
     @Bean
     public DefaultMessageListenerContainer jmsContainer() {
@@ -85,14 +104,9 @@ public class ActiveMQConfig {
         jmsContainer.setPubSubDomain(true);
         try {
             TokenEntity validToken = tokenService.getValid();
-            logger.info("Valid token found! - Starting jmsContainer and subscribing to topic " +
-                    jmsContainer.getDestinationName() + "...");
-            jmsContainer.setDurableSubscriptionName(validToken.getToken());
-            jmsContainer.setSubscriptionDurable(true);
-            jmsContainer.setAutoStartup(true);
+            enableJmsContainer(jmsContainer, validToken);
         } catch(ResourceNotFoundException ex) {
-            logger.info("Not valid token found - Disabling jmsContainer...");
-            jmsContainer.setAutoStartup(false);
+            disableJmsContainer(jmsContainer);
         }
         return jmsContainer;
     }

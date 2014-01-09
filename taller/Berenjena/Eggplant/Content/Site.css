@@ -56,3 +56,8 @@ input[type="checkbox"].input-validation-error {
     background-color: rgba(100,100,100,0.2);
     border-radius: 5px;
 }
+
+.full
+{
+    max-width: 100% !important;
+}
