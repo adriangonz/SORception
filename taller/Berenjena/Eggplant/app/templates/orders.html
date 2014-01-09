@@ -1,0 +1,17 @@
+﻿<h2>Solicitudes</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="order in orders">
+            <td>{{order.descripcion}}</td>
+            <td>{{order.cantidad}}</td>
+        </tr>
+    </tbody>
+</table>
+<button class="btn btn-success" send-order-btn="tmp_order">Enviar Solicitud</button>

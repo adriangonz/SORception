@@ -1,4 +1,4 @@
-var module = angular.module( "taller.module", [] );
+var module = angular.module("taller.module", ['ngCookies']);
 
 module.config(['$routeProvider',
   function($routeProvider) {
@@ -9,6 +9,10 @@ module.config(['$routeProvider',
         }).
         when('/order', {
             templateUrl: 'app/templates/crearte-order.html',
+            controller: 'createOrderCtrl'
+        }).
+        when('/orders', {
+            templateUrl: 'app/templates/orders.html',
             controller: 'TallerCtrl'
         }).
         when('/config', {

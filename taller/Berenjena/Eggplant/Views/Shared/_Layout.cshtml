@@ -22,8 +22,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    <!--<li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>-->
+                    <li><a href="#/orders">Solicitudes</a></li>
+                    <li><a href="#/order">Crear Solicitud</a></li>
+                    <li><a href="#/config">Configuracion</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     
@@ -51,6 +54,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     @Scripts.Render("https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js",
+                "https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-cookies.js",
                 "~/app/app.js",
                 "~/app/services/authService.js",
                 "~/app/services/tallerService.js",
@@ -59,6 +63,7 @@
                 "~/app/directives/tallerDirective.js",
                 "~/app/directives/settingsDirective.js",
                 "~/app/controllers/tallerController.js",
+                "~/app/controllers/createOrderController.js",
                 "~/app/controllers/settingsController.js")
 </body>
 </html>

@@ -12,11 +12,22 @@ module.service('Taller', ['$rootScope', '$http', function ($rootScope, $http) {
            $http({ method: 'POST', url: '/api/solicitud', data: order }).
             success(function (data, status, headers, config) {
                 console.log("OK: " + status + " | " + data);
-                alert("OK: " + status + " | " + data);
             }).
             error(function (data, status, headers, config) {
                 console.log("Error: " + status + " | " + data);
             });
+       },
+
+       getOrders: function () {
+           $http({ method: 'GET', url: '/api/solicitud' }).
+             success(function (data, status, headers, config) {
+                 service.orders = data;
+                 console.log(data);
+                 $rootScope.$broadcast('orders.update');
+             }).
+             error(function (data, status, headers, config) {
+                 alert(status + " | " + data);
+             });
        },
    }
  
