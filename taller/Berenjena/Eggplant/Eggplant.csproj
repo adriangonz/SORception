@@ -295,12 +295,18 @@
     <Content Include="Scripts\respond.min.js" />
     <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
     <None Include="Service References\ServiceTaller\configuration.svcinfo" />
+    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedOferta.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.TokenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedSolicitud.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedTaller.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
+    <None Include="Service References\ServiceTaller\GestionTaller3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ServiceTaller\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
