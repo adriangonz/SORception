@@ -6,9 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Eggplant.ServiceTaller;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using System.Web;
 
 namespace Eggplant.Controllers
 {
@@ -22,16 +19,13 @@ namespace Eggplant.Controllers
         public object Get()
         {
             var solicitudes = c_bd.SolicitudSet.AsQueryable().ToList();
-            /*var message = JsonConvert.SerializeObject(solicitudes.ToList(), 
-                new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-            */
             return solicitudes;
         }
 
         // GET api/solicitud/5
         public string Get(int id)
         {
-            return "Solicitud"+id;
+            return "Solicitud" + id;
         }
 
         // POST api/solicitud
@@ -40,7 +34,8 @@ namespace Eggplant.Controllers
             // Consigo el token de la aplicacion para el id
             var tokens = c_bd.TokensSet.AsQueryable().ToList();
             //Si habia un token
-            if (tokens.Count > 0) { 
+            if (tokens.Count > 0)
+            {
                 //Consigo el taller para obtener su id
                 ExposedTaller t = svcTaller.getTaller(tokens.First().token);
 
@@ -58,17 +53,17 @@ namespace Eggplant.Controllers
                 }
                 sol.lineas = lineas.ToArray();
 
+
                 //Lango la peticion de alta al sistema gestor
                 int resId = svcTaller.addSolicitud(sol);
-
                 //Si algo ha ido mal
                 if (resId == -1)
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, "El sistema gestor no ha creado la solicitud");
                 else//Si ha ido bien
                     addSolicitudToLocalDB(resId); //Guardo la solicitud en la base de datos local
-                
+
                 //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
-                return new {id = resId};
+                return new { id = resId };
             }
             return Request.CreateResponse(HttpStatusCode.BadRequest, "El taller no esta dado de alta");
         }
@@ -83,12 +78,21 @@ namespace Eggplant.Controllers
         {
         }
 
+        [Route("update/{id}")]
+        public void GetUpdatedSolicitudes(int id)
+        {
+
+        }
+
         public void addSolicitudToLocalDB(int idSol)
         {
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
-            if (solExtern != null) { 
+            if (solExtern != null)
+            {
                 Solicitud s = new Solicitud();
                 s.sg_id = solExtern.id;
+                s.timeStamp = DateTime.Now;
+                s.status = solExtern.status;
                 s = c_bd.SolicitudSet.Add(s);
                 foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
                 {
