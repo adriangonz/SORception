@@ -10,17 +10,18 @@
         <EntityTypeShape EntityType="managersystemModel.LineaOferta" Width="1.5" PointX="8.25" PointY="1" />
         <EntityTypeShape EntityType="managersystemModel.Taller" Width="1.5" PointX="3" PointY="4.875" />
         <EntityTypeShape EntityType="managersystemModel.Solicitud" Width="1.5" PointX="5.625" PointY="4.875" />
-        <AssociationConnector Association="managersystemModel.TallerSolicitud" />
-        <AssociationConnector Association="managersystemModel.DesguaceOferta" />
-        <AssociationConnector Association="managersystemModel.OfertaLineaPedidoOferta" />
-        <AssociationConnector Association="managersystemModel.SolicitudOferta" />
         <EntityTypeShape EntityType="managersystemModel.LineaSolicitud" Width="1.5" PointX="8.25" PointY="5" />
-        <AssociationConnector Association="managersystemModel.SolicitudLineaSolicitud" />
         <EntityTypeShape EntityType="managersystemModel.LineaOfertaSeleccionada" Width="1.5" PointX="10.75" PointY="3.5" />
+        <EntityTypeShape EntityType="managersystemModel.Token" Width="1.5" PointX="0.5" PointY="2.625" />
+        <AssociationConnector Association="managersystemModel.DesguaceOferta" />
+        <AssociationConnector Association="managersystemModel.TallerSolicitud" />
+        <AssociationConnector Association="managersystemModel.OfertaSolicitud" />
+        <AssociationConnector Association="managersystemModel.OfertaLineaOferta" />
+        <AssociationConnector Association="managersystemModel.SolicitudLineaSolicitud" />
         <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" />
         <AssociationConnector Association="managersystemModel.LineaOfertaSeleccionadaLineaOferta" />
-        <EntityTypeShape EntityType="managersystemModel.Token" Width="1.5" PointX="0.5" PointY="3.125" />
         <AssociationConnector Association="managersystemModel.DesguaceToken" />
+        <AssociationConnector Association="managersystemModel.TallerToken" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

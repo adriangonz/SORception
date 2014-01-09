@@ -20,11 +20,11 @@ namespace ManagerSystem
             this.LineasOfertaSeleccionada = new HashSet<LineaOfertaSeleccionada>();
         }
     
-        public int id { get; set; }
+        public int Id { get; set; }
         public int quantity { get; set; }
         public int id_en_taller { get; set; }
-        public int Solicitud_id { get; set; }
         public string description { get; set; }
+        public int SolicitudId { get; set; }
     
         public virtual Solicitud Solicitud { get; set; }
         public virtual ICollection<LineaOfertaSeleccionada> LineasOfertaSeleccionada { get; set; }

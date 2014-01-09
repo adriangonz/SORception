@@ -15,12 +15,11 @@ namespace ManagerSystem
     
     public partial class LineaOferta
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public int id_en_desguace { get; set; }
         public int price { get; set; }
         public int quantity { get; set; }
-        public int Oferta_id { get; set; }
-        public int LineaOfertaSeleccionadaId { get; set; }
+        public int OfertaId { get; set; }
     
         public virtual Oferta Oferta { get; set; }
         public virtual LineaOfertaSeleccionada LineaOfertaSeleccionada { get; set; }

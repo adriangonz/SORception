@@ -7,18 +7,17 @@ using System.Text;
 
 namespace ManagerSystem
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IGestionTaller" in both code and config file together.
     [ServiceContract]
     public interface IGestionTaller
     {
         [OperationContract]
-        ExposedTaller getTaller(string token);
+        TokenResponse signUp(ExposedTaller et);
 
         [OperationContract]
-        string addTaller(string nombre);
+        TokenResponse getState(string token);
 
-        [OperationContract]
-        int getState(string token);
+        /*[OperationContract]
+        ExposedTaller getTaller(string token);*/
 
         [OperationContract]
         int putTaller(ExposedTaller t);
@@ -26,8 +25,8 @@ namespace ManagerSystem
         [OperationContract]
         int deleteTaller(string token);
         
-        [OperationContract]
-        ExposedSolicitud getSolicitud(int id);
+        /*[OperationContract]
+        ExposedSolicitud getSolicitud(int id);*/
 
         [OperationContract]
         int addSolicitud(ExposedSolicitud s);
@@ -38,12 +37,13 @@ namespace ManagerSystem
         [OperationContract]
         int deleteSolicitud(int id);
 
-        [OperationContract]
-        List<ExposedSolicitud> getSolicitudes();
-        /*
-        [OperationContract]
-        int sendCompra(Respuesta r);*/
+        /*[OperationContract]
+        List<ExposedSolicitud> getSolicitudes();*/
 
-        
+        [OperationContract]
+        List<ExposedOferta> getOfertas(int solicitud);
+
+        [OperationContract]
+        int selectOferta(TallerResponse r);                
     }
 }

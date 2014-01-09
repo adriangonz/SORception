@@ -17,5 +17,7 @@ namespace ManagerSystem
         [OperationContract]
         TokenResponse getState(string id);
 
+        [OperationContract]
+        void dummy(AMQSolicitudMessage s, AMQOfertaMessage o);
     }
 }

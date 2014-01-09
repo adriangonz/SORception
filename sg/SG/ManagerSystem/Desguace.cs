@@ -21,7 +21,7 @@ namespace ManagerSystem
             this.Tokens = new HashSet<Token>();
         }
     
-        public int id { get; set; }
+        public int Id { get; set; }
         public bool active { get; set; }
         public string name { get; set; }
     

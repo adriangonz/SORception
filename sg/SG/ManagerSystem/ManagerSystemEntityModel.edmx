@@ -6,78 +6,52 @@
     <edmx:StorageModels>
     <Schema Namespace="managersystemModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="managersystemModelStoreContainer">
-    <EntitySet Name="DesguaceConjunto" EntityType="managersystemModel.Store.DesguaceConjunto" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="OfertaConjunto" EntityType="managersystemModel.Store.OfertaConjunto" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LineaPedidoOfertaConjunto" EntityType="managersystemModel.Store.LineaPedidoOfertaConjunto" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Tallers" EntityType="managersystemModel.Store.Tallers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Solicituds" EntityType="managersystemModel.Store.Solicituds" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LineaSolicituds" EntityType="managersystemModel.Store.LineaSolicituds" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="LineasOfertaSeleccionada" EntityType="managersystemModel.Store.LineasOfertaSeleccionada" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Tokens" EntityType="managersystemModel.Store.Tokens" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="TallerSolicitud" Association="managersystemModel.Store.TallerSolicitud">
-      <End Role="Taller" EntitySet="Tallers" />
-      <End Role="Solicitud" EntitySet="Solicituds" />
-    </AssociationSet>
+    <EntitySet Name="DesguaceSet" EntityType="managersystemModel.Store.DesguaceSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OfertaSet" EntityType="managersystemModel.Store.OfertaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineaOfertaSet" EntityType="managersystemModel.Store.LineaOfertaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TallerSet" EntityType="managersystemModel.Store.TallerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SolicitudSet" EntityType="managersystemModel.Store.SolicitudSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineasSolicitudSet" EntityType="managersystemModel.Store.LineasSolicitudSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineaOfertaSeleccionadaSet" EntityType="managersystemModel.Store.LineaOfertaSeleccionadaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TokenSet" EntityType="managersystemModel.Store.TokenSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="DesguaceOferta" Association="managersystemModel.Store.DesguaceOferta">
-      <End Role="Desguace" EntitySet="DesguaceConjunto" />
-      <End Role="Oferta" EntitySet="OfertaConjunto" />
+      <End Role="Desguace" EntitySet="DesguaceSet" />
+      <End Role="Oferta" EntitySet="OfertaSet" />
     </AssociationSet>
-    <AssociationSet Name="OfertaLineaPedidoOferta" Association="managersystemModel.Store.OfertaLineaPedidoOferta">
-      <End Role="Oferta" EntitySet="OfertaConjunto" />
-      <End Role="LineaPedidoOferta" EntitySet="LineaPedidoOfertaConjunto" />
+    <AssociationSet Name="TallerSolicitud" Association="managersystemModel.Store.TallerSolicitud">
+      <End Role="Taller" EntitySet="TallerSet" />
+      <End Role="Solicitud" EntitySet="SolicitudSet" />
     </AssociationSet>
-    <AssociationSet Name="SolicitudOferta" Association="managersystemModel.Store.SolicitudOferta">
-      <End Role="Solicitud" EntitySet="Solicituds" />
-      <End Role="Oferta" EntitySet="OfertaConjunto" />
+    <AssociationSet Name="OfertaSolicitud" Association="managersystemModel.Store.OfertaSolicitud">
+      <End Role="Oferta" EntitySet="OfertaSet" />
+      <End Role="Solicitud" EntitySet="SolicitudSet" />
+    </AssociationSet>
+    <AssociationSet Name="OfertaLineaOferta" Association="managersystemModel.Store.OfertaLineaOferta">
+      <End Role="Oferta" EntitySet="OfertaSet" />
+      <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
     </AssociationSet>
     <AssociationSet Name="SolicitudLineaSolicitud" Association="managersystemModel.Store.SolicitudLineaSolicitud">
-      <End Role="Solicitud" EntitySet="Solicituds" />
-      <End Role="LineaSolicitud" EntitySet="LineaSolicituds" />
+      <End Role="Solicitud" EntitySet="SolicitudSet" />
+      <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
     </AssociationSet>
     <AssociationSet Name="LineaSolicitudLineaOfertaSeleccionada" Association="managersystemModel.Store.LineaSolicitudLineaOfertaSeleccionada">
-      <End Role="LineaSolicitud" EntitySet="LineaSolicituds" />
-      <End Role="LineaOfertaSeleccionada" EntitySet="LineasOfertaSeleccionada" />
+      <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
+      <End Role="LineaOfertaSeleccionada" EntitySet="LineaOfertaSeleccionadaSet" />
     </AssociationSet>
     <AssociationSet Name="LineaOfertaSeleccionadaLineaOferta" Association="managersystemModel.Store.LineaOfertaSeleccionadaLineaOferta">
-      <End Role="LineaOfertaSeleccionada" EntitySet="LineasOfertaSeleccionada" />
-      <End Role="LineaOferta" EntitySet="LineaPedidoOfertaConjunto" />
+      <End Role="LineaOfertaSeleccionada" EntitySet="LineaOfertaSeleccionadaSet" />
+      <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
     </AssociationSet>
     <AssociationSet Name="DesguaceToken" Association="managersystemModel.Store.DesguaceToken">
-      <End Role="Desguace" EntitySet="DesguaceConjunto" />
-      <End Role="Token" EntitySet="Tokens" />
+      <End Role="Desguace" EntitySet="DesguaceSet" />
+      <End Role="Token" EntitySet="TokenSet" />
+    </AssociationSet>
+    <AssociationSet Name="TallerToken" Association="managersystemModel.Store.TallerToken">
+      <End Role="Taller" EntitySet="TallerSet" />
+      <End Role="Token" EntitySet="TokenSet" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="DesguaceConjunto">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="active" Type="bit" Nullable="false" />
-    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="OfertaConjunto">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="id_en_desguace" Type="int" Nullable="false" />
-    <Property Name="date" Type="datetime" Nullable="false" />
-    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Desguace_id" Type="int" Nullable="false" />
-    <Property Name="Solicitud_id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="LineaPedidoOfertaConjunto">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="id_en_desguace" Type="int" Nullable="false" />
-    <Property Name="price" Type="int" Nullable="false" />
-    <Property Name="quantity" Type="int" Nullable="false" />
-    <Property Name="Oferta_id" Type="int" Nullable="false" />
-    <Property Name="LineaOfertaSeleccionadaId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Tallers">
+  <EntityType Name="DesguaceSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -85,35 +59,65 @@
     <Property Name="active" Type="bit" Nullable="false" />
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Solicituds">
+  <EntityType Name="OfertaSet">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_en_desguace" Type="int" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DesguaceId" Type="int" Nullable="false" />
+    <Property Name="Solicitud_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LineaOfertaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_en_desguace" Type="int" Nullable="false" />
+    <Property Name="price" Type="int" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="OfertaId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TallerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="active" Type="bit" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SolicitudSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_en_taller" Type="int" Nullable="false" />
     <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="state" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TallerId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="LineaSolicituds">
+  <EntityType Name="LineasSolicitudSet">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="id_en_taller" Type="int" Nullable="false" />
-    <Property Name="Solicitud_id" Type="int" Nullable="false" />
     <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SolicitudId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="LineasOfertaSeleccionada">
+  <EntityType Name="LineaOfertaSeleccionadaSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="quantity" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="LineaSolicitud_id" Type="int" Nullable="false" />
+    <Property Name="LineaSolicitudId" Type="int" Nullable="false" />
+    <Property Name="LineaOferta_Id" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="Tokens">
+  <EntityType Name="TokenSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -121,12 +125,25 @@
     <Property Name="created" Type="datetime" Nullable="false" />
     <Property Name="updated" Type="datetime" Nullable="false" />
     <Property Name="token" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Desguace_id" Type="int" Nullable="false" />
     <Property Name="is_valid" Type="bit" Nullable="false" />
+    <Property Name="DesguaceId" Type="int" Nullable="true" />
+    <Property Name="TallerId" Type="int" Nullable="true" />
   </EntityType>
+  <Association Name="DesguaceOferta">
+    <End Role="Desguace" Type="managersystemModel.Store.DesguaceSet" Multiplicity="1" />
+    <End Role="Oferta" Type="managersystemModel.Store.OfertaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Desguace">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Oferta">
+        <PropertyRef Name="DesguaceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="TallerSolicitud">
-    <End Role="Taller" Type="managersystemModel.Store.Tallers" Multiplicity="1" />
-    <End Role="Solicitud" Type="managersystemModel.Store.Solicituds" Multiplicity="*" />
+    <End Role="Taller" Type="managersystemModel.Store.TallerSet" Multiplicity="1" />
+    <End Role="Solicitud" Type="managersystemModel.Store.SolicitudSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Taller">
         <PropertyRef Name="Id" />
@@ -136,87 +153,87 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="DesguaceOferta">
-    <End Role="Desguace" Type="managersystemModel.Store.DesguaceConjunto" Multiplicity="1" />
-    <End Role="Oferta" Type="managersystemModel.Store.OfertaConjunto" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Desguace">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Oferta">
-        <PropertyRef Name="Desguace_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="OfertaLineaPedidoOferta">
-    <End Role="Oferta" Type="managersystemModel.Store.OfertaConjunto" Multiplicity="1" />
-    <End Role="LineaPedidoOferta" Type="managersystemModel.Store.LineaPedidoOfertaConjunto" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Oferta">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="LineaPedidoOferta">
-        <PropertyRef Name="Oferta_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="SolicitudOferta">
-    <End Role="Solicitud" Type="managersystemModel.Store.Solicituds" Multiplicity="1" />
-    <End Role="Oferta" Type="managersystemModel.Store.OfertaConjunto" Multiplicity="*" />
+  <Association Name="OfertaSolicitud">
+    <End Role="Oferta" Type="managersystemModel.Store.OfertaSet" Multiplicity="*" />
+    <End Role="Solicitud" Type="managersystemModel.Store.SolicitudSet" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Solicitud">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Oferta">
-        <PropertyRef Name="Solicitud_id" />
+        <PropertyRef Name="Solicitud_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OfertaLineaOferta">
+    <End Role="Oferta" Type="managersystemModel.Store.OfertaSet" Multiplicity="1" />
+    <End Role="LineaOferta" Type="managersystemModel.Store.LineaOfertaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Oferta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LineaOferta">
+        <PropertyRef Name="OfertaId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="SolicitudLineaSolicitud">
-    <End Role="Solicitud" Type="managersystemModel.Store.Solicituds" Multiplicity="1" />
-    <End Role="LineaSolicitud" Type="managersystemModel.Store.LineaSolicituds" Multiplicity="*" />
+    <End Role="Solicitud" Type="managersystemModel.Store.SolicitudSet" Multiplicity="1" />
+    <End Role="LineaSolicitud" Type="managersystemModel.Store.LineasSolicitudSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Solicitud">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="LineaSolicitud">
-        <PropertyRef Name="Solicitud_id" />
+        <PropertyRef Name="SolicitudId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="LineaSolicitudLineaOfertaSeleccionada">
-    <End Role="LineaSolicitud" Type="managersystemModel.Store.LineaSolicituds" Multiplicity="1" />
-    <End Role="LineaOfertaSeleccionada" Type="managersystemModel.Store.LineasOfertaSeleccionada" Multiplicity="*" />
+    <End Role="LineaSolicitud" Type="managersystemModel.Store.LineasSolicitudSet" Multiplicity="1" />
+    <End Role="LineaOfertaSeleccionada" Type="managersystemModel.Store.LineaOfertaSeleccionadaSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LineaSolicitud">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="LineaOfertaSeleccionada">
-        <PropertyRef Name="LineaSolicitud_id" />
+        <PropertyRef Name="LineaSolicitudId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="LineaOfertaSeleccionadaLineaOferta">
-    <End Role="LineaOfertaSeleccionada" Type="managersystemModel.Store.LineasOfertaSeleccionada" Multiplicity="1" />
-    <End Role="LineaOferta" Type="managersystemModel.Store.LineaPedidoOfertaConjunto" Multiplicity="*" />
+    <End Role="LineaOfertaSeleccionada" Type="managersystemModel.Store.LineaOfertaSeleccionadaSet" Multiplicity="*" />
+    <End Role="LineaOferta" Type="managersystemModel.Store.LineaOfertaSet" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="LineaOfertaSeleccionada">
+      <Principal Role="LineaOferta">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="LineaOferta">
-        <PropertyRef Name="LineaOfertaSeleccionadaId" />
+      <Dependent Role="LineaOfertaSeleccionada">
+        <PropertyRef Name="LineaOferta_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="DesguaceToken">
-    <End Role="Desguace" Type="managersystemModel.Store.DesguaceConjunto" Multiplicity="1" />
-    <End Role="Token" Type="managersystemModel.Store.Tokens" Multiplicity="*" />
+    <End Role="Desguace" Type="managersystemModel.Store.DesguaceSet" Multiplicity="0..1" />
+    <End Role="Token" Type="managersystemModel.Store.TokenSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Desguace">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Token">
-        <PropertyRef Name="Desguace_id" />
+        <PropertyRef Name="DesguaceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TallerToken">
+    <End Role="Taller" Type="managersystemModel.Store.TallerSet" Multiplicity="0..1" />
+    <End Role="Token" Type="managersystemModel.Store.TokenSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Taller">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Token">
+        <PropertyRef Name="TallerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -225,52 +242,56 @@
     <edmx:ConceptualModels>
       <Schema Namespace="managersystemModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="managersystemEntities" p1:LazyLoadingEnabled="true" >
-          <EntitySet Name="DesguaceConjunto" EntityType="managersystemModel.Desguace" />
-          <EntitySet Name="OfertaConjunto" EntityType="managersystemModel.Oferta" />
-          <EntitySet Name="LineaPedidoOfertaConjunto" EntityType="managersystemModel.LineaOferta" />
-          <EntitySet Name="Tallers" EntityType="managersystemModel.Taller" />
-          <EntitySet Name="Solicituds" EntityType="managersystemModel.Solicitud" />
-          <AssociationSet Name="TallerSolicitud" Association="managersystemModel.TallerSolicitud">
-            <End Role="Taller" EntitySet="Tallers" />
-            <End Role="Solicitud" EntitySet="Solicituds" />
-          </AssociationSet>
+          <EntitySet Name="DesguaceSet" EntityType="managersystemModel.Desguace" />
+          <EntitySet Name="OfertaSet" EntityType="managersystemModel.Oferta" />
+          <EntitySet Name="LineaOfertaSet" EntityType="managersystemModel.LineaOferta" />
+          <EntitySet Name="TallerSet" EntityType="managersystemModel.Taller" />
+          <EntitySet Name="SolicitudSet" EntityType="managersystemModel.Solicitud" />
+          <EntitySet Name="LineasSolicitudSet" EntityType="managersystemModel.LineaSolicitud" />
+          <EntitySet Name="LineaOfertaSeleccionadaSet" EntityType="managersystemModel.LineaOfertaSeleccionada" />
+          <EntitySet Name="TokenSet" EntityType="managersystemModel.Token" />
           <AssociationSet Name="DesguaceOferta" Association="managersystemModel.DesguaceOferta">
-            <End Role="Desguace" EntitySet="DesguaceConjunto" />
-            <End Role="Oferta" EntitySet="OfertaConjunto" />
+            <End Role="Desguace" EntitySet="DesguaceSet" />
+            <End Role="Oferta" EntitySet="OfertaSet" />
           </AssociationSet>
-          <AssociationSet Name="OfertaLineaPedidoOferta" Association="managersystemModel.OfertaLineaPedidoOferta">
-            <End Role="Oferta" EntitySet="OfertaConjunto" />
-            <End Role="LineaPedidoOferta" EntitySet="LineaPedidoOfertaConjunto" />
+          <AssociationSet Name="TallerSolicitud" Association="managersystemModel.TallerSolicitud">
+            <End Role="Taller" EntitySet="TallerSet" />
+            <End Role="Solicitud" EntitySet="SolicitudSet" />
           </AssociationSet>
-          <AssociationSet Name="SolicitudOferta" Association="managersystemModel.SolicitudOferta">
-            <End Role="Solicitud" EntitySet="Solicituds" />
-            <End Role="Oferta" EntitySet="OfertaConjunto" />
+          <AssociationSet Name="OfertaSolicitud" Association="managersystemModel.OfertaSolicitud">
+            <End Role="Oferta" EntitySet="OfertaSet" />
+            <End Role="Solicitud" EntitySet="SolicitudSet" />
           </AssociationSet>
-          <EntitySet Name="LineaSolicituds" EntityType="managersystemModel.LineaSolicitud" />
+          <AssociationSet Name="OfertaLineaOferta" Association="managersystemModel.OfertaLineaOferta">
+            <End Role="Oferta" EntitySet="OfertaSet" />
+            <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
+          </AssociationSet>
           <AssociationSet Name="SolicitudLineaSolicitud" Association="managersystemModel.SolicitudLineaSolicitud">
-            <End Role="Solicitud" EntitySet="Solicituds" />
-            <End Role="LineaSolicitud" EntitySet="LineaSolicituds" />
+            <End Role="Solicitud" EntitySet="SolicitudSet" />
+            <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
           </AssociationSet>
-          <EntitySet Name="LineasOfertaSeleccionada" EntityType="managersystemModel.LineaOfertaSeleccionada" />
           <AssociationSet Name="LineaSolicitudLineaOfertaSeleccionada" Association="managersystemModel.LineaSolicitudLineaOfertaSeleccionada">
-            <End Role="LineaSolicitud" EntitySet="LineaSolicituds" />
-            <End Role="LineaOfertaSeleccionada" EntitySet="LineasOfertaSeleccionada" />
+            <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
+            <End Role="LineaOfertaSeleccionada" EntitySet="LineaOfertaSeleccionadaSet" />
           </AssociationSet>
           <AssociationSet Name="LineaOfertaSeleccionadaLineaOferta" Association="managersystemModel.LineaOfertaSeleccionadaLineaOferta">
-            <End Role="LineaOfertaSeleccionada" EntitySet="LineasOfertaSeleccionada" />
-            <End Role="LineaOferta" EntitySet="LineaPedidoOfertaConjunto" />
+            <End Role="LineaOfertaSeleccionada" EntitySet="LineaOfertaSeleccionadaSet" />
+            <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
           </AssociationSet>
-          <EntitySet Name="Tokens" EntityType="managersystemModel.Token" />
           <AssociationSet Name="DesguaceToken" Association="managersystemModel.DesguaceToken">
-            <End Role="Desguace" EntitySet="DesguaceConjunto" />
-            <End Role="Token" EntitySet="Tokens" />
+            <End Role="Desguace" EntitySet="DesguaceSet" />
+            <End Role="Token" EntitySet="TokenSet" />
+          </AssociationSet>
+          <AssociationSet Name="TallerToken" Association="managersystemModel.TallerToken">
+            <End Role="Taller" EntitySet="TallerSet" />
+            <End Role="Token" EntitySet="TokenSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Desguace">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Boolean" Name="active" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Ofertas" Relationship="managersystemModel.DesguaceOferta" FromRole="Desguace" ToRole="Oferta" />
@@ -278,30 +299,28 @@
         </EntityType>
         <EntityType Name="Oferta">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="id_en_desguace" Nullable="false" />
           <Property Type="DateTime" Name="date" Nullable="false" Precision="3" />
           <Property Type="String" Name="state" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceOferta" FromRole="Oferta" ToRole="Desguace" />
-          <Property Type="Int32" Name="Desguace_id" Nullable="false" />
-          <NavigationProperty Name="LineasOferta" Relationship="managersystemModel.OfertaLineaPedidoOferta" FromRole="Oferta" ToRole="LineaPedidoOferta" />
-          <NavigationProperty Name="Solicitud" Relationship="managersystemModel.SolicitudOferta" FromRole="Oferta" ToRole="Solicitud" />
-          <Property Type="Int32" Name="Solicitud_id" Nullable="false" />
+          <Property Type="Int32" Name="DesguaceId" Nullable="false" />
+          <NavigationProperty Name="Solicitud" Relationship="managersystemModel.OfertaSolicitud" FromRole="Oferta" ToRole="Solicitud" />
+          <NavigationProperty Name="LineasOferta" Relationship="managersystemModel.OfertaLineaOferta" FromRole="Oferta" ToRole="LineaOferta" />
         </EntityType>
         <EntityType Name="LineaOferta">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="id_en_desguace" Nullable="false" />
           <Property Type="Int32" Name="price" Nullable="false" />
           <Property Type="Int32" Name="quantity" Nullable="false" />
-          <NavigationProperty Name="Oferta" Relationship="managersystemModel.OfertaLineaPedidoOferta" FromRole="LineaPedidoOferta" ToRole="Oferta" />
-          <Property Type="Int32" Name="Oferta_id" Nullable="false" />
+          <NavigationProperty Name="Oferta" Relationship="managersystemModel.OfertaLineaOferta" FromRole="LineaOferta" ToRole="Oferta" />
+          <Property Type="Int32" Name="OfertaId" Nullable="false" />
           <NavigationProperty Name="LineaOfertaSeleccionada" Relationship="managersystemModel.LineaOfertaSeleccionadaLineaOferta" FromRole="LineaOferta" ToRole="LineaOfertaSeleccionada" />
-          <Property Type="Int32" Name="LineaOfertaSeleccionadaId" Nullable="false" />
         </EntityType>
         <EntityType Name="Taller">
           <Key>
@@ -311,20 +330,69 @@
           <Property Type="Boolean" Name="active" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Solicitudes" Relationship="managersystemModel.TallerSolicitud" FromRole="Taller" ToRole="Solicitud" />
+          <NavigationProperty Name="Tokens" Relationship="managersystemModel.TallerToken" FromRole="Taller" ToRole="Token" />
         </EntityType>
         <EntityType Name="Solicitud">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="id_en_taller" Nullable="false" />
           <Property Type="DateTime" Name="date" Nullable="false" Precision="3" />
           <Property Type="String" Name="state" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Taller" Relationship="managersystemModel.TallerSolicitud" FromRole="Solicitud" ToRole="Taller" />
           <Property Type="Int32" Name="TallerId" Nullable="false" />
-          <NavigationProperty Name="Ofertas" Relationship="managersystemModel.SolicitudOferta" FromRole="Solicitud" ToRole="Oferta" />
+          <NavigationProperty Name="Ofertas" Relationship="managersystemModel.OfertaSolicitud" FromRole="Solicitud" ToRole="Oferta" />
           <NavigationProperty Name="LineasSolicitud" Relationship="managersystemModel.SolicitudLineaSolicitud" FromRole="Solicitud" ToRole="LineaSolicitud" />
         </EntityType>
+        <EntityType Name="LineaSolicitud">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="quantity" Nullable="false" />
+          <Property Type="Int32" Name="id_en_taller" Nullable="false" />
+          <Property Type="String" Name="description" Nullable="false" />
+          <NavigationProperty Name="Solicitud" Relationship="managersystemModel.SolicitudLineaSolicitud" FromRole="LineaSolicitud" ToRole="Solicitud" />
+          <Property Type="Int32" Name="SolicitudId" Nullable="false" />
+          <NavigationProperty Name="LineasOfertaSeleccionada" Relationship="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" FromRole="LineaSolicitud" ToRole="LineaOfertaSeleccionada" />
+        </EntityType>
+        <EntityType Name="LineaOfertaSeleccionada">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="quantity" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="LineaSolicitud" Relationship="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" FromRole="LineaOfertaSeleccionada" ToRole="LineaSolicitud" />
+          <Property Type="Int32" Name="LineaSolicitudId" Nullable="false" />
+          <NavigationProperty Name="LineaOferta" Relationship="managersystemModel.LineaOfertaSeleccionadaLineaOferta" FromRole="LineaOfertaSeleccionada" ToRole="LineaOferta" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="created" Nullable="false" />
+          <Property Type="DateTime" Name="updated" Nullable="false" />
+          <Property Type="String" Name="token" Nullable="false" />
+          <Property Type="Boolean" Name="is_valid" Nullable="false" />
+          <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceToken" FromRole="Token" ToRole="Desguace" />
+          <Property Type="Int32" Name="DesguaceId" Nullable="true" />
+          <NavigationProperty Name="Taller" Relationship="managersystemModel.TallerToken" FromRole="Token" ToRole="Taller" />
+          <Property Type="Int32" Name="TallerId" Nullable="true" />
+        </EntityType>
+        <Association Name="DesguaceOferta">
+          <End Type="managersystemModel.Desguace" Role="Desguace" Multiplicity="1" />
+          <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Desguace">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="DesguaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="TallerSolicitud">
           <End Type="managersystemModel.Taller" Role="Taller" Multiplicity="1" />
           <End Type="managersystemModel.Solicitud" Role="Solicitud" Multiplicity="*" />
@@ -337,121 +405,71 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="DesguaceOferta">
-          <End Type="managersystemModel.Desguace" Role="Desguace" Multiplicity="1" />
+        <Association Name="OfertaSolicitud">
           <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Desguace">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Oferta">
-              <PropertyRef Name="Desguace_id" />
-            </Dependent>
-          </ReferentialConstraint>
+          <End Type="managersystemModel.Solicitud" Role="Solicitud" Multiplicity="1" />
         </Association>
-        <Association Name="OfertaLineaPedidoOferta">
+        <Association Name="OfertaLineaOferta">
           <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="1" />
-          <End Type="managersystemModel.LineaOferta" Role="LineaPedidoOferta" Multiplicity="*" />
+          <End Type="managersystemModel.LineaOferta" Role="LineaOferta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Oferta">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="LineaPedidoOferta">
-              <PropertyRef Name="Oferta_id" />
+            <Dependent Role="LineaOferta">
+              <PropertyRef Name="OfertaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="SolicitudOferta">
-          <End Type="managersystemModel.Solicitud" Role="Solicitud" Multiplicity="1" />
-          <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Solicitud">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Oferta">
-              <PropertyRef Name="Solicitud_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="LineaSolicitud">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="quantity" Nullable="false" />
-          <Property Type="Int32" Name="id_en_taller" Nullable="false" />
-          <NavigationProperty Name="Solicitud" Relationship="managersystemModel.SolicitudLineaSolicitud" FromRole="LineaSolicitud" ToRole="Solicitud" />
-          <Property Type="Int32" Name="Solicitud_id" Nullable="false" />
-          <NavigationProperty Name="LineasOfertaSeleccionada" Relationship="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" FromRole="LineaSolicitud" ToRole="LineaOfertaSeleccionada" />
-          <Property Type="String" Name="description" Nullable="false" />
-        </EntityType>
         <Association Name="SolicitudLineaSolicitud">
           <End Type="managersystemModel.Solicitud" Role="Solicitud" Multiplicity="1" />
           <End Type="managersystemModel.LineaSolicitud" Role="LineaSolicitud" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Solicitud">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="LineaSolicitud">
-              <PropertyRef Name="Solicitud_id" />
+              <PropertyRef Name="SolicitudId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LineaOfertaSeleccionada">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="quantity" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="LineaSolicitud" Relationship="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" FromRole="LineaOfertaSeleccionada" ToRole="LineaSolicitud" />
-          <Property Type="Int32" Name="LineaSolicitud_id" Nullable="false" />
-          <NavigationProperty Name="LineasOferta" Relationship="managersystemModel.LineaOfertaSeleccionadaLineaOferta" FromRole="LineaOfertaSeleccionada" ToRole="LineaOferta" />
-        </EntityType>
         <Association Name="LineaSolicitudLineaOfertaSeleccionada">
           <End Type="managersystemModel.LineaSolicitud" Role="LineaSolicitud" Multiplicity="1" />
           <End Type="managersystemModel.LineaOfertaSeleccionada" Role="LineaOfertaSeleccionada" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LineaSolicitud">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="LineaOfertaSeleccionada">
-              <PropertyRef Name="LineaSolicitud_id" />
+              <PropertyRef Name="LineaSolicitudId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="LineaOfertaSeleccionadaLineaOferta">
-          <End Type="managersystemModel.LineaOfertaSeleccionada" Role="LineaOfertaSeleccionada" Multiplicity="1" />
-          <End Type="managersystemModel.LineaOferta" Role="LineaOferta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LineaOfertaSeleccionada">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LineaOferta">
-              <PropertyRef Name="LineaOfertaSeleccionadaId" />
-            </Dependent>
-          </ReferentialConstraint>
+          <End Type="managersystemModel.LineaOfertaSeleccionada" Role="LineaOfertaSeleccionada" Multiplicity="0..1" />
+          <End Type="managersystemModel.LineaOferta" Role="LineaOferta" Multiplicity="1" />
         </Association>
-        <EntityType Name="Token">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="DateTime" Name="created" Nullable="false" />
-          <Property Type="DateTime" Name="updated" Nullable="false" />
-          <Property Type="String" Name="token" Nullable="false" />
-          <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceToken" FromRole="Token" ToRole="Desguace" />
-          <Property Type="Int32" Name="Desguace_id" Nullable="false" />
-          <Property Type="Boolean" Name="is_valid" Nullable="false" />
-        </EntityType>
         <Association Name="DesguaceToken">
-          <End Type="managersystemModel.Desguace" Role="Desguace" Multiplicity="1" />
+          <End Type="managersystemModel.Desguace" Role="Desguace" Multiplicity="0..1" />
           <End Type="managersystemModel.Token" Role="Token" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Desguace">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Token">
-              <PropertyRef Name="Desguace_id" />
+              <PropertyRef Name="DesguaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TallerToken">
+          <End Type="managersystemModel.Taller" Role="Taller" Multiplicity="0..1" />
+          <End Type="managersystemModel.Token" Role="Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Taller">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="TallerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -461,52 +479,50 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="managersystemModelStoreContainer" CdmEntityContainer="managersystemEntities">
-    <EntitySetMapping Name="DesguaceConjunto">
+    <EntitySetMapping Name="DesguaceSet">
       <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Desguace)">
-        <MappingFragment StoreEntitySet="DesguaceConjunto">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="active" ColumnName="active" />
-          <ScalarProperty Name="name" ColumnName="name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OfertaConjunto">
-      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Oferta)">
-        <MappingFragment StoreEntitySet="OfertaConjunto">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="id_en_desguace" ColumnName="id_en_desguace" />
-          <ScalarProperty Name="date" ColumnName="date" />
-          <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="Desguace_id" ColumnName="Desguace_id" />
-          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LineaPedidoOfertaConjunto">
-      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.LineaOferta)">
-        <MappingFragment StoreEntitySet="LineaPedidoOfertaConjunto">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="id_en_desguace" ColumnName="id_en_desguace" />
-          <ScalarProperty Name="price" ColumnName="price" />
-          <ScalarProperty Name="quantity" ColumnName="quantity" />
-          <ScalarProperty Name="Oferta_id" ColumnName="Oferta_id" />
-          <ScalarProperty Name="LineaOfertaSeleccionadaId" ColumnName="LineaOfertaSeleccionadaId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Tallers">
-      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Taller)">
-        <MappingFragment StoreEntitySet="Tallers">
+        <MappingFragment StoreEntitySet="DesguaceSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="active" ColumnName="active" />
           <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Solicituds">
+    <EntitySetMapping Name="OfertaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Oferta)">
+        <MappingFragment StoreEntitySet="OfertaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="id_en_desguace" ColumnName="id_en_desguace" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="DesguaceId" ColumnName="DesguaceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LineaOfertaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.LineaOferta)">
+        <MappingFragment StoreEntitySet="LineaOfertaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="id_en_desguace" ColumnName="id_en_desguace" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="OfertaId" ColumnName="OfertaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TallerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Taller)">
+        <MappingFragment StoreEntitySet="TallerSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SolicitudSet">
       <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Solicitud)">
-        <MappingFragment StoreEntitySet="Solicituds">
-          <ScalarProperty Name="id" ColumnName="id" />
+        <MappingFragment StoreEntitySet="SolicitudSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="id_en_taller" ColumnName="id_en_taller" />
           <ScalarProperty Name="date" ColumnName="date" />
           <ScalarProperty Name="state" ColumnName="state" />
@@ -514,38 +530,55 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="LineaSolicituds">
+    <EntitySetMapping Name="LineasSolicitudSet">
       <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.LineaSolicitud)">
-        <MappingFragment StoreEntitySet="LineaSolicituds">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="quantity" ColumnName="quantity" />
-          <ScalarProperty Name="id_en_taller" ColumnName="id_en_taller" />
-          <ScalarProperty Name="Solicitud_id" ColumnName="Solicitud_id" />
-          <ScalarProperty Name="description" ColumnName="description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LineasOfertaSeleccionada">
-      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.LineaOfertaSeleccionada)">
-        <MappingFragment StoreEntitySet="LineasOfertaSeleccionada">
+        <MappingFragment StoreEntitySet="LineasSolicitudSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
-          <ScalarProperty Name="LineaSolicitud_id" ColumnName="LineaSolicitud_id" />
+          <ScalarProperty Name="id_en_taller" ColumnName="id_en_taller" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="SolicitudId" ColumnName="SolicitudId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tokens">
+    <EntitySetMapping Name="LineaOfertaSeleccionadaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.LineaOfertaSeleccionada)">
+        <MappingFragment StoreEntitySet="LineaOfertaSeleccionadaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="LineaSolicitudId" ColumnName="LineaSolicitudId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TokenSet">
       <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Token)">
-        <MappingFragment StoreEntitySet="Tokens">
+        <MappingFragment StoreEntitySet="TokenSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="created" ColumnName="created" />
           <ScalarProperty Name="updated" ColumnName="updated" />
           <ScalarProperty Name="token" ColumnName="token" />
-          <ScalarProperty Name="Desguace_id" ColumnName="Desguace_id" />
           <ScalarProperty Name="is_valid" ColumnName="is_valid" />
+          <ScalarProperty Name="DesguaceId" ColumnName="DesguaceId" />
+          <ScalarProperty Name="TallerId" ColumnName="TallerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <AssociationSetMapping Name="OfertaSolicitud" TypeName="managersystemModel.OfertaSolicitud" StoreEntitySet="OfertaSet">
+      <EndProperty Name="Solicitud">
+        <ScalarProperty Name="Id" ColumnName="Solicitud_Id" />
+      </EndProperty>
+      <EndProperty Name="Oferta">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LineaOfertaSeleccionadaLineaOferta" TypeName="managersystemModel.LineaOfertaSeleccionadaLineaOferta" StoreEntitySet="LineaOfertaSeleccionadaSet">
+      <EndProperty Name="LineaOferta">
+        <ScalarProperty Name="Id" ColumnName="LineaOferta_Id" />
+      </EndProperty>
+      <EndProperty Name="LineaOfertaSeleccionada">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

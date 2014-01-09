@@ -19,7 +19,7 @@ namespace ManagerSystem
 
         static public Solicitud Find(int id)
         {
-            return ms_ent.Solicituds.Find(id);
+            return ms_ent.SolicitudSet.Find(id);
         }
 
         static public Solicitud Sanitize(Solicitud s)
@@ -30,12 +30,13 @@ namespace ManagerSystem
         static public ExposedSolicitud ToExposed(Solicitud s) {
             ExposedSolicitud es = new ExposedSolicitud();
 
-            es.id = s.id;
+            es.id = s.Id;
             es.taller_id = s.TallerId;
+            es.lineas = new List<ExposedLineaSolicitud>();
             foreach (var l in s.LineasSolicitud)
             {
                 ExposedLineaSolicitud ls = new ExposedLineaSolicitud();
-                ls.id = l.id;
+                ls.id = l.Id;
                 ls.description = l.description;
                 ls.quantity = l.quantity;
                 es.lineas.Add(ls);
@@ -69,7 +70,7 @@ namespace ManagerSystem
         {
             List<Solicitud> l = new List<Solicitud>();
 
-            var lq_l = from d in ms_ent.Solicituds select d;
+            var lq_l = from d in ms_ent.SolicitudSet select d;
             foreach (var singleDesguace in lq_l)
             {
                 Solicitud s = Copy(singleDesguace);
@@ -80,10 +81,10 @@ namespace ManagerSystem
 
         static public void InsertOrUpdate(Solicitud s)
         {
-            if (s.id == default(int))
+            if (s.Id == default(int))
             {
                 // New entity
-                ms_ent.Solicituds.Add(s);
+                ms_ent.SolicitudSet.Add(s);
             }
             else
             {
@@ -95,8 +96,8 @@ namespace ManagerSystem
 
         static public void Delete(int id)
         {
-            var solicitud = ms_ent.Solicituds.Find(id);
-            ms_ent.Solicituds.Remove(solicitud);
+            var solicitud = ms_ent.SolicitudSet.Find(id);
+            ms_ent.SolicitudSet.Remove(solicitud);
         }
 
         static public void Save()

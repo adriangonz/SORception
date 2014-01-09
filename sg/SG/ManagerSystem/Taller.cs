@@ -18,6 +18,7 @@ namespace ManagerSystem
         public Taller()
         {
             this.Solicitudes = new HashSet<Solicitud>();
+            this.Tokens = new HashSet<Token>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace ManagerSystem
         public string name { get; set; }
     
         public virtual ICollection<Solicitud> Solicitudes { get; set; }
+        public virtual ICollection<Token> Tokens { get; set; }
     }
 }

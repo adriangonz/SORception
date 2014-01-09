@@ -12,7 +12,7 @@ namespace ManagerSystem
 
         static private Desguace Copy(Desguace tmp) {
             Desguace d = new Desguace();
-            d.id = tmp.id;
+            d.Id = tmp.Id;
             d.name = tmp.name;
             d.active = tmp.active;
             //d.Oferta = tmp.Oferta;
@@ -39,7 +39,7 @@ namespace ManagerSystem
 
         static public Desguace Find(int id)
         {
-            return ms_ent.DesguaceConjunto.Find(id);
+            return ms_ent.DesguaceSet.Find(id);
         }
 
         static public Desguace Sanitize(Desguace d)
@@ -52,11 +52,11 @@ namespace ManagerSystem
         {
             List<Desguace> l = new List<Desguace>();
 
-            var lq_l = from d in ms_ent.DesguaceConjunto select d;
+            var lq_l = from d in ms_ent.DesguaceSet select d;
             foreach (var singleDesguace in lq_l)
             {
                 Desguace d = new Desguace();
-                d.id = singleDesguace.id;
+                d.Id = singleDesguace.Id;
                 d.active = singleDesguace.active;
                 d.name = singleDesguace.name;
 
@@ -67,15 +67,15 @@ namespace ManagerSystem
 
         static public void InsertOrUpdate(Desguace desguace)
         {
-            if (desguace.id == default(int))
+            if (desguace.Id == default(int))
             {
                 // New entity
-                ms_ent.DesguaceConjunto.Add(desguace);
+                ms_ent.DesguaceSet.Add(desguace);
             }
             else
             {
                 // Existing entity
-                Desguace d = Find(desguace.id);
+                Desguace d = Find(desguace.Id);
                 if (desguace.name != null)
                 {
                     d.name = desguace.name;
@@ -85,8 +85,8 @@ namespace ManagerSystem
 
         static public void Delete(int id)
         {
-            var desguace = ms_ent.DesguaceConjunto.Find(id);
-            ms_ent.DesguaceConjunto.Remove(desguace);
+            var desguace = ms_ent.DesguaceSet.Find(id);
+            ms_ent.DesguaceSet.Remove(desguace);
         }
 
         static public void Save()

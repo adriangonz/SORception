@@ -11,32 +11,6 @@ using System.Text;
 
 namespace ManagerSystem
 {
-    [DataContract(Namespace = Constants.Namespace)]
-    public class ExposedDesguace
-    {
-        [DataMember]
-        public string name;
-
-    }
-
-    [DataContract(Namespace = Constants.Namespace)]
-    public class TokenResponse
-    {
-        public enum Code : int { CREATED = 201, ACCEPTED = 202, NON_AUTHORITATIVE = 203, BAD_REQUEST = 400, NOT_FOUND = 404 };
-
-        [DataMember]
-        public string token;
-
-        [DataMember]
-        public Code status;
-
-        public TokenResponse(string token, TokenResponse.Code status)
-        {
-            this.token = token;
-            this.status = status;
-        }
-    }
-
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
@@ -68,7 +42,7 @@ namespace ManagerSystem
                 {
                     if (t.is_valid)
                     {
-                        Desguace d = DesguaceRepository.Find(t.Desguace.id);
+                        Desguace d = DesguaceRepository.Find(t.Desguace.Id);
                         if (d.active)
                         {
                             // El desgauce ya esta activo
@@ -101,5 +75,7 @@ namespace ManagerSystem
 
             return new TokenResponse(new_token, status);
         }
+
+        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o) { }
     }
 }

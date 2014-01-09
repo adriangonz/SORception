@@ -24,7 +24,7 @@ namespace ActiveMQHelper
 
         public static TopicPublisher MakePublisher(string broker, string client_id, string topic)
         {
-            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id);
+            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id + "@" + System.Environment.MachineName);
             IConnection connection = connectionFactory.CreateConnection();
             connection.Start();
             ISession session = connection.CreateSession();
@@ -60,7 +60,7 @@ namespace ActiveMQHelper
             _disposed = true;
         }
 
-        static public string ToXML(object d)
+        public static string ToXML(object d)
         {
             using (MemoryStream memStr = new MemoryStream())
             {

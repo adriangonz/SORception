@@ -19,9 +19,11 @@ namespace ManagerSystem
         public System.DateTime created { get; set; }
         public System.DateTime updated { get; set; }
         public string token { get; set; }
-        public int Desguace_id { get; set; }
         public bool is_valid { get; set; }
+        public Nullable<int> DesguaceId { get; set; }
+        public Nullable<int> TallerId { get; set; }
     
         public virtual Desguace Desguace { get; set; }
+        public virtual Taller Taller { get; set; }
     }
 }

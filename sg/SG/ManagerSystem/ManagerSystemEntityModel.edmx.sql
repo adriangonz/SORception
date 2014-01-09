@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 12/18/2013 18:09:34
+-- Date Created: 01/09/2014 19:10:14
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -17,105 +17,107 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_TallerSolicitud]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Solicituds] DROP CONSTRAINT [FK_TallerSolicitud];
-GO
 IF OBJECT_ID(N'[dbo].[FK_DesguaceOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[OfertaConjunto] DROP CONSTRAINT [FK_DesguaceOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_OfertaLineaPedidoOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_OfertaLineaPedidoOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SolicitudOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[OfertaConjunto] DROP CONSTRAINT [FK_SolicitudOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaSolicituds] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOfertaSeleccionada]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineasOfertaSeleccionada] DROP CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaPedidoOfertaConjunto] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
+    ALTER TABLE [dbo].[OfertaSet] DROP CONSTRAINT [FK_DesguaceOferta];
 GO
 IF OBJECT_ID(N'[dbo].[FK_DesguaceToken]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Tokens] DROP CONSTRAINT [FK_DesguaceToken];
+    ALTER TABLE [dbo].[TokenSet] DROP CONSTRAINT [FK_DesguaceToken];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TallerToken]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TokenSet] DROP CONSTRAINT [FK_TallerToken];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TallerSolicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SolicitudSet] DROP CONSTRAINT [FK_TallerSolicitud];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OfertaSolicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OfertaSet] DROP CONSTRAINT [FK_OfertaSolicitud];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OfertaLineaOferta]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaOfertaSet] DROP CONSTRAINT [FK_OfertaLineaOferta];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineasSolicitudSet] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOfertaSeleccionada]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[DesguaceConjunto]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[DesguaceConjunto];
+IF OBJECT_ID(N'[dbo].[DesguaceSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DesguaceSet];
 GO
-IF OBJECT_ID(N'[dbo].[OfertaConjunto]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[OfertaConjunto];
+IF OBJECT_ID(N'[dbo].[OfertaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OfertaSet];
 GO
-IF OBJECT_ID(N'[dbo].[LineaPedidoOfertaConjunto]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LineaPedidoOfertaConjunto];
+IF OBJECT_ID(N'[dbo].[LineaOfertaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LineaOfertaSet];
 GO
-IF OBJECT_ID(N'[dbo].[Tallers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Tallers];
+IF OBJECT_ID(N'[dbo].[TallerSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TallerSet];
 GO
-IF OBJECT_ID(N'[dbo].[Solicituds]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Solicituds];
+IF OBJECT_ID(N'[dbo].[SolicitudSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SolicitudSet];
 GO
-IF OBJECT_ID(N'[dbo].[LineaSolicituds]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LineaSolicituds];
+IF OBJECT_ID(N'[dbo].[LineasSolicitudSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LineasSolicitudSet];
 GO
-IF OBJECT_ID(N'[dbo].[LineasOfertaSeleccionada]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LineasOfertaSeleccionada];
+IF OBJECT_ID(N'[dbo].[LineaOfertaSeleccionadaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LineaOfertaSeleccionadaSet];
 GO
-IF OBJECT_ID(N'[dbo].[Tokens]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Tokens];
+IF OBJECT_ID(N'[dbo].[TokenSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TokenSet];
 GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
 
--- Creating table 'DesguaceConjunto'
-CREATE TABLE [dbo].[DesguaceConjunto] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [active] bit  NOT NULL,
-    [name] nvarchar(max)  NOT NULL
-);
-GO
-
--- Creating table 'OfertaConjunto'
-CREATE TABLE [dbo].[OfertaConjunto] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [id_en_desguace] int  NOT NULL,
-    [date] datetime  NOT NULL,
-    [state] nvarchar(max)  NOT NULL,
-    [Desguace_id] int  NOT NULL,
-    [Solicitud_id] int  NOT NULL
-);
-GO
-
--- Creating table 'LineaPedidoOfertaConjunto'
-CREATE TABLE [dbo].[LineaPedidoOfertaConjunto] (
-    [id] int IDENTITY(1,1) NOT NULL,
-    [id_en_desguace] int  NOT NULL,
-    [price] int  NOT NULL,
-    [quantity] int  NOT NULL,
-    [Oferta_id] int  NOT NULL,
-    [LineaOfertaSeleccionadaId] int  NOT NULL
-);
-GO
-
--- Creating table 'Tallers'
-CREATE TABLE [dbo].[Tallers] (
+-- Creating table 'DesguaceSet'
+CREATE TABLE [dbo].[DesguaceSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [active] bit  NOT NULL,
     [name] nvarchar(max)  NOT NULL
 );
 GO
 
--- Creating table 'Solicituds'
-CREATE TABLE [dbo].[Solicituds] (
-    [id] int IDENTITY(1,1) NOT NULL,
+-- Creating table 'OfertaSet'
+CREATE TABLE [dbo].[OfertaSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [id_en_desguace] int  NOT NULL,
+    [date] datetime  NOT NULL,
+    [state] nvarchar(max)  NOT NULL,
+    [DesguaceId] int  NOT NULL,
+    [Solicitud_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'LineaOfertaSet'
+CREATE TABLE [dbo].[LineaOfertaSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [id_en_desguace] int  NOT NULL,
+    [price] int  NOT NULL,
+    [quantity] int  NOT NULL,
+    [OfertaId] int  NOT NULL
+);
+GO
+
+-- Creating table 'TallerSet'
+CREATE TABLE [dbo].[TallerSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [active] bit  NOT NULL,
+    [name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SolicitudSet'
+CREATE TABLE [dbo].[SolicitudSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
     [id_en_taller] int  NOT NULL,
     [date] datetime  NOT NULL,
     [state] nvarchar(max)  NOT NULL,
@@ -123,32 +125,34 @@ CREATE TABLE [dbo].[Solicituds] (
 );
 GO
 
--- Creating table 'LineaSolicituds'
-CREATE TABLE [dbo].[LineaSolicituds] (
-    [id] int IDENTITY(1,1) NOT NULL,
+-- Creating table 'LineasSolicitudSet'
+CREATE TABLE [dbo].[LineasSolicitudSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
     [quantity] int  NOT NULL,
     [id_en_taller] int  NOT NULL,
-    [Solicitud_id] int  NOT NULL,
-    [description] nvarchar(max)  NOT NULL
+    [description] nvarchar(max)  NOT NULL,
+    [SolicitudId] int  NOT NULL
 );
 GO
 
--- Creating table 'LineasOfertaSeleccionada'
-CREATE TABLE [dbo].[LineasOfertaSeleccionada] (
+-- Creating table 'LineaOfertaSeleccionadaSet'
+CREATE TABLE [dbo].[LineaOfertaSeleccionadaSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [quantity] nvarchar(max)  NOT NULL,
-    [LineaSolicitud_id] int  NOT NULL
+    [LineaSolicitudId] int  NOT NULL,
+    [LineaOferta_Id] int  NOT NULL
 );
 GO
 
--- Creating table 'Tokens'
-CREATE TABLE [dbo].[Tokens] (
+-- Creating table 'TokenSet'
+CREATE TABLE [dbo].[TokenSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [created] datetime  NOT NULL,
     [updated] datetime  NOT NULL,
     [token] nvarchar(max)  NOT NULL,
-    [Desguace_id] int  NOT NULL,
-    [is_valid] bit  NOT NULL
+    [is_valid] bit  NOT NULL,
+    [DesguaceId] int  NULL,
+    [TallerId] int  NULL
 );
 GO
 
@@ -156,51 +160,51 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [id] in table 'DesguaceConjunto'
-ALTER TABLE [dbo].[DesguaceConjunto]
-ADD CONSTRAINT [PK_DesguaceConjunto]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [id] in table 'OfertaConjunto'
-ALTER TABLE [dbo].[OfertaConjunto]
-ADD CONSTRAINT [PK_OfertaConjunto]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [id] in table 'LineaPedidoOfertaConjunto'
-ALTER TABLE [dbo].[LineaPedidoOfertaConjunto]
-ADD CONSTRAINT [PK_LineaPedidoOfertaConjunto]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Tallers'
-ALTER TABLE [dbo].[Tallers]
-ADD CONSTRAINT [PK_Tallers]
+-- Creating primary key on [Id] in table 'DesguaceSet'
+ALTER TABLE [dbo].[DesguaceSet]
+ADD CONSTRAINT [PK_DesguaceSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [id] in table 'Solicituds'
-ALTER TABLE [dbo].[Solicituds]
-ADD CONSTRAINT [PK_Solicituds]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [id] in table 'LineaSolicituds'
-ALTER TABLE [dbo].[LineaSolicituds]
-ADD CONSTRAINT [PK_LineaSolicituds]
-    PRIMARY KEY CLUSTERED ([id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'LineasOfertaSeleccionada'
-ALTER TABLE [dbo].[LineasOfertaSeleccionada]
-ADD CONSTRAINT [PK_LineasOfertaSeleccionada]
+-- Creating primary key on [Id] in table 'OfertaSet'
+ALTER TABLE [dbo].[OfertaSet]
+ADD CONSTRAINT [PK_OfertaSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Tokens'
-ALTER TABLE [dbo].[Tokens]
-ADD CONSTRAINT [PK_Tokens]
+-- Creating primary key on [Id] in table 'LineaOfertaSet'
+ALTER TABLE [dbo].[LineaOfertaSet]
+ADD CONSTRAINT [PK_LineaOfertaSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'TallerSet'
+ALTER TABLE [dbo].[TallerSet]
+ADD CONSTRAINT [PK_TallerSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SolicitudSet'
+ALTER TABLE [dbo].[SolicitudSet]
+ADD CONSTRAINT [PK_SolicitudSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'LineasSolicitudSet'
+ALTER TABLE [dbo].[LineasSolicitudSet]
+ADD CONSTRAINT [PK_LineasSolicitudSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'LineaOfertaSeleccionadaSet'
+ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet]
+ADD CONSTRAINT [PK_LineaOfertaSeleccionadaSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'TokenSet'
+ALTER TABLE [dbo].[TokenSet]
+ADD CONSTRAINT [PK_TokenSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -208,116 +212,130 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [TallerId] in table 'Solicituds'
-ALTER TABLE [dbo].[Solicituds]
+-- Creating foreign key on [DesguaceId] in table 'OfertaSet'
+ALTER TABLE [dbo].[OfertaSet]
+ADD CONSTRAINT [FK_DesguaceOferta]
+    FOREIGN KEY ([DesguaceId])
+    REFERENCES [dbo].[DesguaceSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DesguaceOferta'
+CREATE INDEX [IX_FK_DesguaceOferta]
+ON [dbo].[OfertaSet]
+    ([DesguaceId]);
+GO
+
+-- Creating foreign key on [TallerId] in table 'SolicitudSet'
+ALTER TABLE [dbo].[SolicitudSet]
 ADD CONSTRAINT [FK_TallerSolicitud]
     FOREIGN KEY ([TallerId])
-    REFERENCES [dbo].[Tallers]
+    REFERENCES [dbo].[TallerSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_TallerSolicitud'
 CREATE INDEX [IX_FK_TallerSolicitud]
-ON [dbo].[Solicituds]
+ON [dbo].[SolicitudSet]
     ([TallerId]);
 GO
 
--- Creating foreign key on [Desguace_id] in table 'OfertaConjunto'
-ALTER TABLE [dbo].[OfertaConjunto]
-ADD CONSTRAINT [FK_DesguaceOferta]
-    FOREIGN KEY ([Desguace_id])
-    REFERENCES [dbo].[DesguaceConjunto]
-        ([id])
+-- Creating foreign key on [Solicitud_Id] in table 'OfertaSet'
+ALTER TABLE [dbo].[OfertaSet]
+ADD CONSTRAINT [FK_OfertaSolicitud]
+    FOREIGN KEY ([Solicitud_Id])
+    REFERENCES [dbo].[SolicitudSet]
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_DesguaceOferta'
-CREATE INDEX [IX_FK_DesguaceOferta]
-ON [dbo].[OfertaConjunto]
-    ([Desguace_id]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_OfertaSolicitud'
+CREATE INDEX [IX_FK_OfertaSolicitud]
+ON [dbo].[OfertaSet]
+    ([Solicitud_Id]);
 GO
 
--- Creating foreign key on [Oferta_id] in table 'LineaPedidoOfertaConjunto'
-ALTER TABLE [dbo].[LineaPedidoOfertaConjunto]
-ADD CONSTRAINT [FK_OfertaLineaPedidoOferta]
-    FOREIGN KEY ([Oferta_id])
-    REFERENCES [dbo].[OfertaConjunto]
-        ([id])
+-- Creating foreign key on [OfertaId] in table 'LineaOfertaSet'
+ALTER TABLE [dbo].[LineaOfertaSet]
+ADD CONSTRAINT [FK_OfertaLineaOferta]
+    FOREIGN KEY ([OfertaId])
+    REFERENCES [dbo].[OfertaSet]
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_OfertaLineaPedidoOferta'
-CREATE INDEX [IX_FK_OfertaLineaPedidoOferta]
-ON [dbo].[LineaPedidoOfertaConjunto]
-    ([Oferta_id]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_OfertaLineaOferta'
+CREATE INDEX [IX_FK_OfertaLineaOferta]
+ON [dbo].[LineaOfertaSet]
+    ([OfertaId]);
 GO
 
--- Creating foreign key on [Solicitud_id] in table 'OfertaConjunto'
-ALTER TABLE [dbo].[OfertaConjunto]
-ADD CONSTRAINT [FK_SolicitudOferta]
-    FOREIGN KEY ([Solicitud_id])
-    REFERENCES [dbo].[Solicituds]
-        ([id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SolicitudOferta'
-CREATE INDEX [IX_FK_SolicitudOferta]
-ON [dbo].[OfertaConjunto]
-    ([Solicitud_id]);
-GO
-
--- Creating foreign key on [Solicitud_id] in table 'LineaSolicituds'
-ALTER TABLE [dbo].[LineaSolicituds]
+-- Creating foreign key on [SolicitudId] in table 'LineasSolicitudSet'
+ALTER TABLE [dbo].[LineasSolicitudSet]
 ADD CONSTRAINT [FK_SolicitudLineaSolicitud]
-    FOREIGN KEY ([Solicitud_id])
-    REFERENCES [dbo].[Solicituds]
-        ([id])
+    FOREIGN KEY ([SolicitudId])
+    REFERENCES [dbo].[SolicitudSet]
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_SolicitudLineaSolicitud'
 CREATE INDEX [IX_FK_SolicitudLineaSolicitud]
-ON [dbo].[LineaSolicituds]
-    ([Solicitud_id]);
+ON [dbo].[LineasSolicitudSet]
+    ([SolicitudId]);
 GO
 
--- Creating foreign key on [LineaSolicitud_id] in table 'LineasOfertaSeleccionada'
-ALTER TABLE [dbo].[LineasOfertaSeleccionada]
+-- Creating foreign key on [LineaSolicitudId] in table 'LineaOfertaSeleccionadaSet'
+ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet]
 ADD CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada]
-    FOREIGN KEY ([LineaSolicitud_id])
-    REFERENCES [dbo].[LineaSolicituds]
-        ([id])
+    FOREIGN KEY ([LineaSolicitudId])
+    REFERENCES [dbo].[LineasSolicitudSet]
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_LineaSolicitudLineaOfertaSeleccionada'
 CREATE INDEX [IX_FK_LineaSolicitudLineaOfertaSeleccionada]
-ON [dbo].[LineasOfertaSeleccionada]
-    ([LineaSolicitud_id]);
+ON [dbo].[LineaOfertaSeleccionadaSet]
+    ([LineaSolicitudId]);
 GO
 
--- Creating foreign key on [LineaOfertaSeleccionadaId] in table 'LineaPedidoOfertaConjunto'
-ALTER TABLE [dbo].[LineaPedidoOfertaConjunto]
+-- Creating foreign key on [LineaOferta_Id] in table 'LineaOfertaSeleccionadaSet'
+ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet]
 ADD CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta]
-    FOREIGN KEY ([LineaOfertaSeleccionadaId])
-    REFERENCES [dbo].[LineasOfertaSeleccionada]
+    FOREIGN KEY ([LineaOferta_Id])
+    REFERENCES [dbo].[LineaOfertaSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_LineaOfertaSeleccionadaLineaOferta'
 CREATE INDEX [IX_FK_LineaOfertaSeleccionadaLineaOferta]
-ON [dbo].[LineaPedidoOfertaConjunto]
-    ([LineaOfertaSeleccionadaId]);
+ON [dbo].[LineaOfertaSeleccionadaSet]
+    ([LineaOferta_Id]);
 GO
 
--- Creating foreign key on [Desguace_id] in table 'Tokens'
-ALTER TABLE [dbo].[Tokens]
+-- Creating foreign key on [DesguaceId] in table 'TokenSet'
+ALTER TABLE [dbo].[TokenSet]
 ADD CONSTRAINT [FK_DesguaceToken]
-    FOREIGN KEY ([Desguace_id])
-    REFERENCES [dbo].[DesguaceConjunto]
-        ([id])
+    FOREIGN KEY ([DesguaceId])
+    REFERENCES [dbo].[DesguaceSet]
+        ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_DesguaceToken'
 CREATE INDEX [IX_FK_DesguaceToken]
-ON [dbo].[Tokens]
-    ([Desguace_id]);
+ON [dbo].[TokenSet]
+    ([DesguaceId]);
+GO
+
+-- Creating foreign key on [TallerId] in table 'TokenSet'
+ALTER TABLE [dbo].[TokenSet]
+ADD CONSTRAINT [FK_TallerToken]
+    FOREIGN KEY ([TallerId])
+    REFERENCES [dbo].[TallerSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TallerToken'
+CREATE INDEX [IX_FK_TallerToken]
+ON [dbo].[TokenSet]
+    ([TallerId]);
 GO
 
 -- --------------------------------------------------

@@ -20,15 +20,14 @@ namespace ManagerSystem
             this.LineasOferta = new HashSet<LineaOferta>();
         }
     
-        public int id { get; set; }
+        public int Id { get; set; }
         public int id_en_desguace { get; set; }
         public System.DateTime date { get; set; }
         public string state { get; set; }
-        public int Desguace_id { get; set; }
-        public int Solicitud_id { get; set; }
+        public int DesguaceId { get; set; }
     
         public virtual Desguace Desguace { get; set; }
-        public virtual ICollection<LineaOferta> LineasOferta { get; set; }
         public virtual Solicitud Solicitud { get; set; }
+        public virtual ICollection<LineaOferta> LineasOferta { get; set; }
     }
 }

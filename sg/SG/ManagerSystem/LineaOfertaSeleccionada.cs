@@ -15,16 +15,11 @@ namespace ManagerSystem
     
     public partial class LineaOfertaSeleccionada
     {
-        public LineaOfertaSeleccionada()
-        {
-            this.LineasOferta = new HashSet<LineaOferta>();
-        }
-    
         public int Id { get; set; }
         public string quantity { get; set; }
-        public int LineaSolicitud_id { get; set; }
+        public int LineaSolicitudId { get; set; }
     
         public virtual LineaSolicitud LineaSolicitud { get; set; }
-        public virtual ICollection<LineaOferta> LineasOferta { get; set; }
+        public virtual LineaOferta LineaOferta { get; set; }
     }
 }
