@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Eggplant.ServiceTaller;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Eggplant.Controllers
 {
@@ -16,9 +18,12 @@ namespace Eggplant.Controllers
         Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
 
         // GET api/solicitud
-        public IEnumerable<string> Get()
+        public HttpResponseMessage Get()
         {
-            return new string[] { "Solicitud1", "Solicitud2" };
+            var solicitudes = c_bd.SolicitudSet.AsQueryable().ToList();
+            var message = JsonConvert.SerializeObject(solicitudes, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+            return Request.CreateResponse(message);
         }
 
         // GET api/solicitud/5

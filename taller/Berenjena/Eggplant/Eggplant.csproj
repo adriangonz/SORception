@@ -240,6 +240,7 @@
     <Content Include="app\services\settingsService.js" />
     <Content Include="app\services\tallerService.js" />
     <Content Include="app\templates\config.html" />
+    <Content Include="app\templates\crearte-order.html" />
     <Content Include="app\templates\login.html" />
     <Content Include="app\templates\main.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
