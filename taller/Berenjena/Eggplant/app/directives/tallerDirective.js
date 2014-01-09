@@ -24,6 +24,22 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
             element.bind("click", function () {
                 Taller.sendOrder(scope.order);
                 scope.order = [];
+                $location.path("/orders");
+                scope.$apply();
+            });
+        }
+    }
+}]).directive("viewOrderBtn", ['Taller', '$location', function (Taller, $location) {
+    return {
+        restrict: "A",
+        scope: {
+            order: '=viewOrderBtn'
+        },
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                alert("order_id: "+scope.order.id);
+                $location.path("/order/" + scope.order.id);
+                scope.$apply();
             });
         }
     }

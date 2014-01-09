@@ -3,15 +3,16 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Descripcion</th>
-            <th>Cantidad</th>
+            <th>#</th>
+            <th>Status</th>
+            <th>Modificado</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="order in orders">
-            <td>{{order.descripcion}}</td>
-            <td>{{order.cantidad}}</td>
+        <tr ng-repeat="order in orders" view-order-btn="order">
+            <td>{{order.id}}</td>
+            <td>{{order.status}}</td>
+            <td>{{order.timeStamp}}</td>
         </tr>
     </tbody>
 </table>
-<button class="btn btn-success" send-order-btn="tmp_order">Enviar Solicitud</button>

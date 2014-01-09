@@ -232,6 +232,7 @@
   <ItemGroup>
     <Content Include="app\app.js" />
     <Content Include="app\controllers\createOrderController.js" />
+    <Content Include="app\controllers\orderController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
     <Content Include="app\directives\authDirective.js" />
