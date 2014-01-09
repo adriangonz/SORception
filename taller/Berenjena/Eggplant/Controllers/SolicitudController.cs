@@ -78,10 +78,10 @@ namespace Eggplant.Controllers
         {
         }
 
-        [Route("update/{id}")]
-        public void GetUpdatedSolicitudes(int id)
+        [Route("update")]
+        public object GetUpdatedSolicitudes()
         {
-
+            return Get();
         }
 
         public void addSolicitudToLocalDB(int idSol)
