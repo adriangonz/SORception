@@ -3,12 +3,11 @@
 	<form role="form" action="#" method="POST" accept-charset="utf-8">
 	  <div class="form-group">
 	    <label for="username">User</label>
-	    <input class="form-control" type="text" id="username" ng-model="user.username" value="" placeholder="jperez">
+	    <input class="form-control full" type="text" id="username" ng-model="user.username" value="" placeholder="jperez">
 	    <label for="username">Password</label>
-	    <input class="form-control" type="text" id="Text1" ng-model="user.password" value="" placeholder="jperez">
+	    <input class="form-control full" type="password" id="password" ng-model="user.password" value="" placeholder="jperez">
 	  </div>
 	  <input class="btn btn-primary" type="button" login-btn="user" value="Acceder">
 	</form>
-      {{ user | json }}
   </div>
 </div>

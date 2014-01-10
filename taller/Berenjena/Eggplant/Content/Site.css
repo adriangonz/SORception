@@ -61,3 +61,10 @@ input[type="checkbox"].input-validation-error {
 {
     max-width: 100% !important;
 }
+
+.fright
+{
+    margin-left: 15px;
+    position:relative;
+    float:right;
+}
