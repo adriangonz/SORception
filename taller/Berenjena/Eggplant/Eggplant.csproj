@@ -205,6 +205,9 @@
       </SubType>
     </Compile>
     <Compile Include="Controllers\SolicitudController.cs" />
+    <Compile Include="Filters\HttpWCFBehaviorExtensionElement .cs" />
+    <Compile Include="Filters\HttpWCFEndpointBehavior .cs" />
+    <Compile Include="Filters\WCFAuthorizationHeader.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

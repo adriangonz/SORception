@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Eggplant.ServiceTaller;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 namespace Eggplant.Controllers
 {
@@ -19,6 +21,9 @@ namespace Eggplant.Controllers
         // GET api/solicitud
         public object Get()
         {
+            Tokens t = c_bd.TokensSet.AsQueryable().FirstOrDefault(x => x.state == "ACTIVE");
+            string token = "";
+            if (t != null) token = t.token;
             var solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED).ToList();
             return solicitudes;
         }
