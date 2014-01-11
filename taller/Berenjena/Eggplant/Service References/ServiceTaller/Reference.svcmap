@@ -26,6 +26,7 @@
     <MetadataFile FileName="GestionTaller1.xsd" MetadataType="Schema" ID="1587b3a7-34a7-4ced-b685-0bc9c3dd2c5b" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" />
     <MetadataFile FileName="GestionTaller2.xsd" MetadataType="Schema" ID="81796db4-215b-42bc-a504-66c8dd69fd15" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd1" />
     <MetadataFile FileName="GestionTaller.wsdl" MetadataType="Wsdl" ID="5a4e1bab-eda3-4c3f-a8c2-2b9884cfd6f7" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?wsdl" />
+    <MetadataFile FileName="GestionTaller3.xsd" MetadataType="Schema" ID="e9323574-ca4c-43ff-8a04-1b48860c2893" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd3" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

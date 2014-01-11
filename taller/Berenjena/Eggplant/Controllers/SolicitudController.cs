@@ -6,26 +6,33 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Eggplant.ServiceTaller;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 namespace Eggplant.Controllers
 {
     [RoutePrefix("api/solicitud")]
     public class SolicitudController : ApiController
     {
-        BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
-        Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
+        static BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
+        static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
+        public static string DELETED = "DELETED";
 
         // GET api/solicitud
         public object Get()
         {
-            var solicitudes = c_bd.SolicitudSet.AsQueryable().ToList();
+            Tokens t = c_bd.TokensSet.AsQueryable().FirstOrDefault(x => x.state == "ACTIVE");
+            string token = "";
+            if (t != null) token = t.token;
+            var solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED).ToList();
             return solicitudes;
         }
 
         // GET api/solicitud/5
-        public string Get(int id)
+        public object Get(int id)
         {
-            return "Solicitud" + id;
+            var solicitud = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id);
+            return solicitud;
         }
 
         // POST api/solicitud
@@ -36,11 +43,7 @@ namespace Eggplant.Controllers
             //Si habia un token
             if (tokens.Count > 0)
             {
-                //Consigo el taller para obtener su id
-                ExposedTaller t = svcTaller.getTaller(tokens.First().token);
-
                 ExposedSolicitud sol = new ExposedSolicitud();
-                sol.taller_id = t.id;//el taller de la solicitud es el activo en la bd
 
                 //Creo las lineas de la solicitud desde los datos pasado por json
                 List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
@@ -76,15 +79,38 @@ namespace Eggplant.Controllers
         // DELETE api/solicitud/5
         public void Delete(int id)
         {
+            Solicitud sol = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
+            if (sol != null)
+            {
+                sol.status = DELETED;
+                c_bd.SaveChanges();
+                ExposedSolicitud sExt = svcTaller.getSolicitud(sol.sg_id);
+                sExt.status = DELETED;
+                svcTaller.putSolicitud(sExt);
+            }
         }
 
         [Route("update")]
         public object GetUpdatedSolicitudes()
         {
+            updateSolicitudes();
             return Get();
         }
 
-        public void addSolicitudToLocalDB(int idSol)
+
+        private void updateSolicitudes()
+        {
+            //Si no hay taller activo devuelve -1 y no encontrara nada digo yo
+            var solicitudes = svcTaller.getSolicitudes().ToList();
+            foreach (ExposedSolicitud solicitud in solicitudes)
+            {
+                Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.sg_id == solicitud.id);
+                if (s != null)
+                    s.status = solicitud.status;
+            }
+
+        }
+        private void addSolicitudToLocalDB(int idSol)
         {
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
@@ -105,5 +131,19 @@ namespace Eggplant.Controllers
                 c_bd.SaveChanges();
             }
         }
+        /*
+        private int getIdActive()
+        {
+            var tokenActive = c_bd.TokensSet.AsQueryable()
+                .ToList()
+                .FirstOrDefault(x => x.state == Berenjena.Controllers.SettingsController.ACTIVE);
+            if (tokenActive != null)
+            {
+                int idTallerActual = svcTaller.getTaller(tokenActive.token).id;
+                return idTallerActual;
+            }
+            return -1;
+
+        }*/
     }
 }

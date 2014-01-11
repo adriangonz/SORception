@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -23,6 +25,8 @@ namespace Eggplant
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            //typeof(Eggplant.Filters.HttpWCFBehaviorExtensionElement).Assembly.FullName;
         }
     }
 }
