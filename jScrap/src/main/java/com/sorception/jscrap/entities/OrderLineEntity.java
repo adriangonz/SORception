@@ -10,6 +10,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "OrderLine")
@@ -23,7 +25,7 @@ public class OrderLineEntity extends AbstractEntity {
 	@Column(name = "quantity")
 	private Integer _quantity;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "orderId", nullable = false)
 	private OrderEntity _order;
 	
@@ -59,5 +61,10 @@ public class OrderLineEntity extends AbstractEntity {
 
 	public Integer getQuantity() {
 		return _quantity;
+	}
+	
+	@JsonIgnore
+	public OrderEntity getOrder() {
+		return _order;
 	}
 }

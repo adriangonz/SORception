@@ -9,6 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.Hibernate;
+import org.springframework.transaction.annotation.Transactional;
+
 @Entity
 @Table(name = "OfferLine")
 public class OfferLineEntity extends AbstractEntity {
@@ -18,6 +22,9 @@ public class OfferLineEntity extends AbstractEntity {
 	
 	@Column(name = "notes")
 	private String _notes;
+	
+	@Column(name = "price")
+	private Double _price;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "offerId", nullable = false)
@@ -31,15 +38,21 @@ public class OfferLineEntity extends AbstractEntity {
 	
 	public OfferLineEntity(Integer quantity,
 			String notes,
+			Double price,
 			OrderLineEntity orderLine) {
 		this._quantity = quantity;
 		this._notes = notes;
+		this._price = price;
 		this._orderLine = orderLine;
 		this._orderLine.setOfferLine(this);
 	}
 	
 	public void setOffer(OfferEntity offer) {
 		this._offer = offer;
+	}
+	
+	public Double getPrice() {
+		return _price;
 	}
 
 	public Integer getQuantity() {
@@ -48,5 +61,10 @@ public class OfferLineEntity extends AbstractEntity {
 
 	public String getNotes() {
 		return _notes;
+	}
+	
+	@JsonIgnore
+	public OrderLineEntity getOrderLine() {
+		return _orderLine;
 	}
 }

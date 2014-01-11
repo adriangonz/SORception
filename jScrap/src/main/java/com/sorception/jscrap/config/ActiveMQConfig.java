@@ -6,6 +6,8 @@
 
 package com.sorception.jscrap.config;
 
+import ch.qos.logback.classic.pattern.MessageConverter;
+
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.services.TokenService;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
+import javax.jms.MessageConsumer;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.ActiveMQXAConnectionFactory;
@@ -33,6 +36,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
+import org.springframework.jms.support.converter.MarshallingMessageConverter;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 /**
  *
@@ -44,6 +49,12 @@ public class ActiveMQConfig {
     
     @Autowired
     TokenService tokenService;
+    
+    @Autowired
+    Jaxb2Marshaller marshaller;
+    
+    @Autowired
+    Jaxb2Marshaller unmarshaller;
     
     @Value("${activemq.url}")
     private String _activemqUrl;
@@ -71,6 +82,8 @@ public class ActiveMQConfig {
         jmsTemplate.setPubSubDomain(true);
         jmsTemplate.setDefaultDestination(ofertas());
         jmsTemplate.setConnectionFactory(connectionFactory());
+        MarshallingMessageConverter converter = new MarshallingMessageConverter(marshaller, unmarshaller);
+        jmsTemplate.setMessageConverter(converter);
         return jmsTemplate;
     }
 

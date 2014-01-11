@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +36,11 @@ public class OrderDAO {
 	public OrderLineEntity getOrderLine(Long orderLineId) {
 		return (OrderLineEntity)this.entityManager.find(
 				OrderLineEntity.class, orderLineId);
+	}
+	
+	public OrderEntity getOrder(OrderLineEntity orderLine) {
+		OrderEntity order = orderLine.getOrder();
+		Hibernate.initialize(order);
+		return order;
 	}
 }

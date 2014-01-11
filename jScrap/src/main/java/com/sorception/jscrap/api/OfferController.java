@@ -24,11 +24,13 @@ class OfferLineDTO {
 	public Integer quantity;
 	public String notes;
 	public Long orderLineId;
+	public Double price;
 	final static Logger logger = LoggerFactory.getLogger(OfferController.class);
 	public OfferLineEntity getOfferLine(OrderService orderService) {
 		return new OfferLineEntity(
 				quantity,
 				notes,
+				price,
 				orderService.getOrderLine(orderLineId)
 		);
 	}

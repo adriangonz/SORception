@@ -14,6 +14,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.junit.Ignore;
 
 /**
@@ -52,6 +53,7 @@ public class TokenEntity extends AbstractEntity {
         return _status;
     }
     
+    @JsonIgnore
     public Boolean isValid() {
     	return this._status == TokenStatus.VALID;
     }
