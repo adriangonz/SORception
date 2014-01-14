@@ -82,7 +82,7 @@ namespace ManagerSystem
     public class TallerResponse
     {
         [DataMember]
-        public int solicitud_id;
+        public int oferta_id;
 
         [DataContract(Namespace = Constants.Namespace)]
         public class SelectedLine
@@ -104,10 +104,19 @@ namespace ManagerSystem
     public class ExposedLineaOferta
     {
         [DataMember]
-        public int id;
+        public int id_en_desguace;
+
+        [DataMember]
+        public int id_linea;
 
         [DataMember]
         public int quantity;
+
+        [DataMember]
+        public double price;
+
+        [DataMember]
+        public string notes;
     }
 
     [DataContract(Namespace = Constants.Namespace)]
@@ -120,10 +129,10 @@ namespace ManagerSystem
         public int desguace_id;
 
         [DataMember]
-        public List<ExposedLineaOferta> lineas;
+        public int solicitud_id;
 
         [DataMember]
-        public string status;
+        public List<ExposedLineaOferta> lineas;
     }
 
     // Others

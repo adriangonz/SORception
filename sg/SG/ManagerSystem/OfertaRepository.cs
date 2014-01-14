@@ -36,11 +36,10 @@ namespace ManagerSystem
             foreach (var l in s.LineasOferta)
             {
                 ExposedLineaOferta lo = new ExposedLineaOferta();
-                lo.id = l.Id;
+                // TODO
                 lo.quantity = l.quantity;
                 eo.lineas.Add(lo);
             }
-            eo.status = s.state;
 
             return eo;
         }
@@ -54,8 +53,11 @@ namespace ManagerSystem
             foreach (var elo in eo.lineas)
             {
                 LineaOferta lo = new LineaOferta();
-                lo.id_en_desguace = elo.id;
+                lo.id_en_desguace = elo.id_en_desguace;
+                lo.LineaSolicitudId = elo.id_linea;
                 lo.quantity = elo.quantity;
+                lo.price = elo.price;
+                lo.notes = elo.notes;
                 o.LineasOferta.Add(lo);
             }
             o.id_en_desguace = eo.desguace_id;

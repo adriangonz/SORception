@@ -17,7 +17,7 @@ namespace ManagerSystem
         {
             subscriber = TopicSubscriber.MakeSubscriber(
                 Constants.ActiveMQ.Broker,
-                Constants.ActiveMQ.Solicitud.Client_ID,
+                Constants.ActiveMQ.Oferta.Client_ID,
                 Constants.ActiveMQ.Oferta.Topic);
 
             subscriber.Start(Constants.ActiveMQ.Oferta.Consumer_ID);

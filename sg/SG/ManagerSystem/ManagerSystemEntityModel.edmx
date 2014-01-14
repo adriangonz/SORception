@@ -50,6 +50,10 @@
       <End Role="Taller" EntitySet="TallerSet" />
       <End Role="Token" EntitySet="TokenSet" />
     </AssociationSet>
+    <AssociationSet Name="LineaSolicitudLineaOferta" Association="managersystemModel.Store.LineaSolicitudLineaOferta">
+      <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
+      <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="DesguaceSet">
     <Key>
@@ -76,9 +80,11 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_en_desguace" Type="int" Nullable="false" />
-    <Property Name="price" Type="int" Nullable="false" />
+    <Property Name="price" Type="float" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="OfertaId" Type="int" Nullable="false" />
+    <Property Name="notes" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LineaSolicitudId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="TallerSet">
     <Key>
@@ -237,6 +243,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="LineaSolicitudLineaOferta">
+    <End Role="LineaSolicitud" Type="managersystemModel.Store.LineasSolicitudSet" Multiplicity="1" />
+    <End Role="LineaOferta" Type="managersystemModel.Store.LineaOfertaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LineaSolicitud">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LineaOferta">
+        <PropertyRef Name="LineaSolicitudId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -286,6 +304,10 @@
             <End Role="Taller" EntitySet="TallerSet" />
             <End Role="Token" EntitySet="TokenSet" />
           </AssociationSet>
+          <AssociationSet Name="LineaSolicitudLineaOferta" Association="managersystemModel.LineaSolicitudLineaOferta">
+            <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
+            <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Desguace">
           <Key>
@@ -316,11 +338,14 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="id_en_desguace" Nullable="false" />
-          <Property Type="Int32" Name="price" Nullable="false" />
+          <Property Type="Double" Name="price" Nullable="false" />
           <Property Type="Int32" Name="quantity" Nullable="false" />
           <NavigationProperty Name="Oferta" Relationship="managersystemModel.OfertaLineaOferta" FromRole="LineaOferta" ToRole="Oferta" />
           <Property Type="Int32" Name="OfertaId" Nullable="false" />
           <NavigationProperty Name="LineaOfertaSeleccionada" Relationship="managersystemModel.LineaOfertaSeleccionadaLineaOferta" FromRole="LineaOferta" ToRole="LineaOfertaSeleccionada" />
+          <Property Type="String" Name="notes" Nullable="false" />
+          <NavigationProperty Name="LineaSolicitud" Relationship="managersystemModel.LineaSolicitudLineaOferta" FromRole="LineaOferta" ToRole="LineaSolicitud" />
+          <Property Type="Int32" Name="LineaSolicitudId" Nullable="false" />
         </EntityType>
         <EntityType Name="Taller">
           <Key>
@@ -356,6 +381,7 @@
           <NavigationProperty Name="Solicitud" Relationship="managersystemModel.SolicitudLineaSolicitud" FromRole="LineaSolicitud" ToRole="Solicitud" />
           <Property Type="Int32" Name="SolicitudId" Nullable="false" />
           <NavigationProperty Name="LineasOfertaSeleccionada" Relationship="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" FromRole="LineaSolicitud" ToRole="LineaOfertaSeleccionada" />
+          <NavigationProperty Name="LineasOferta" Relationship="managersystemModel.LineaSolicitudLineaOferta" FromRole="LineaSolicitud" ToRole="LineaOferta" />
         </EntityType>
         <EntityType Name="LineaOfertaSeleccionada">
           <Key>
@@ -473,6 +499,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="LineaSolicitudLineaOferta">
+          <End Type="managersystemModel.LineaSolicitud" Role="LineaSolicitud" Multiplicity="1" />
+          <End Type="managersystemModel.LineaOferta" Role="LineaOferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LineaSolicitud">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineaOferta">
+              <PropertyRef Name="LineaSolicitudId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -507,6 +545,8 @@
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="OfertaId" ColumnName="OfertaId" />
+          <ScalarProperty Name="notes" ColumnName="notes" />
+          <ScalarProperty Name="LineaSolicitudId" ColumnName="LineaSolicitudId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

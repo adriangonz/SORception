@@ -22,6 +22,7 @@ namespace ManagerSystem
 
             public class Oferta
             {
+                public const string Client_ID = "GestionTaller";
                 public const string Consumer_ID = "SistemaGestor";
                 public const string Topic = "Ofertas";
             }

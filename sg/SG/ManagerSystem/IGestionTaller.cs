@@ -16,17 +16,17 @@ namespace ManagerSystem
         [OperationContract]
         TokenResponse getState(string token);
 
-        /*[OperationContract]
-        ExposedTaller getTaller(string token);*/
-
         [OperationContract]
         int putTaller(ExposedTaller t);
 
         [OperationContract]
         int deleteTaller(string token);
-        
-        /*[OperationContract]
-        ExposedSolicitud getSolicitud(int id);*/
+
+        [OperationContract]
+        ExposedSolicitud getSolicitud(int id);
+
+        [OperationContract]
+        List<ExposedSolicitud> getSolicitudes();
 
         [OperationContract]
         int addSolicitud(ExposedSolicitud s);
@@ -36,9 +36,6 @@ namespace ManagerSystem
 
         [OperationContract]
         int deleteSolicitud(int id);
-
-        /*[OperationContract]
-        List<ExposedSolicitud> getSolicitudes();*/
 
         [OperationContract]
         List<ExposedOferta> getOfertas(int solicitud);

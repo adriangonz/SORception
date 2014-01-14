@@ -22,6 +22,7 @@
         <AssociationConnector Association="managersystemModel.LineaOfertaSeleccionadaLineaOferta" />
         <AssociationConnector Association="managersystemModel.DesguaceToken" />
         <AssociationConnector Association="managersystemModel.TallerToken" />
+        <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOferta" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

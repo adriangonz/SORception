@@ -13,6 +13,22 @@ namespace ManagerSystem
 {
     public class GestionTaller : IGestionTaller
     {
+        private Taller getAuthorizedTaller()
+        {
+            string token_string = OperationContext.Current.IncomingMessageHeaders
+                .GetHeader<string>("Authorization", Constants.Namespace);
+
+            Token token = TokenRepository.Find(token_string);
+            if (token != null && token.is_valid && token.Taller != null)
+            {
+                return token.Taller;
+            }
+            else
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+            }
+        }
+
         public TokenResponse signUp(ExposedTaller et)
         {
             if (et != null)
@@ -75,30 +91,16 @@ namespace ManagerSystem
             return new TokenResponse(new_token, status);
         }
 
-        /*public ExposedTaller getTaller(int id)
-        {
-            var tmp = TallerRepository.Find(id);
-            ExposedTaller t = null;
-            if (tmp != null)
-            {
-                t = TallerRepository.ToExposed(tmp);
-            }
-            return t;
-        }*/
-
         public int putTaller(ExposedTaller et)
         {
-            var auth = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+            Taller t = getAuthorizedTaller();
 
-            if (et != null && auth != null)
+            if (et != null)
             {
-                Taller t = TallerRepository.FromExposed(et);
+                t = TallerRepository.FromExposed(et);
                 TallerRepository.InsertOrUpdate(t);
                 TallerRepository.Save();
             }
-
-            MessageHeader header = MessageHeader.CreateHeader("Authorization", Constants.Namespace, "touken");
-            OperationContext.Current.OutgoingMessageHeaders.Add(header);
 
             return 0;
         }
@@ -110,12 +112,24 @@ namespace ManagerSystem
             return 0;
         }
 
-        /*public ExposedSolicitud getSolicitud(int id)
+        public ExposedSolicitud getSolicitud(int id)
         {
             var tmp = SolicitudRepository.Find(id);
             ExposedSolicitud s = SolicitudRepository.ToExposed(tmp);
             return s;
-        }*/
+        }
+
+        public List<ExposedSolicitud> getSolicitudes()
+        {
+            List<ExposedSolicitud> solicitudes = new List<ExposedSolicitud>();
+
+            foreach (var solicitud in SolicitudRepository.FindAll())
+            {
+                solicitudes.Add(SolicitudRepository.ToExposed(solicitud));
+            }
+
+            return solicitudes;
+        }
 
         public int addSolicitud(ExposedSolicitud es)
         {

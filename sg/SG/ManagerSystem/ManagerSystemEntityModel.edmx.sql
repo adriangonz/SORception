@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 01/09/2014 19:10:14
+-- Date Created: 01/09/2014 21:05:52
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -19,12 +19,6 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_DesguaceOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OfertaSet] DROP CONSTRAINT [FK_DesguaceOferta];
-GO
-IF OBJECT_ID(N'[dbo].[FK_DesguaceToken]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TokenSet] DROP CONSTRAINT [FK_DesguaceToken];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TallerToken]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[TokenSet] DROP CONSTRAINT [FK_TallerToken];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TallerSolicitud]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SolicitudSet] DROP CONSTRAINT [FK_TallerSolicitud];
@@ -43,6 +37,12 @@ IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOfertaSeleccionada]', 'F') IS NOT NU
 GO
 IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DesguaceToken]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TokenSet] DROP CONSTRAINT [FK_DesguaceToken];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TallerToken]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TokenSet] DROP CONSTRAINT [FK_TallerToken];
 GO
 
 -- --------------------------------------------------
@@ -101,9 +101,11 @@ GO
 CREATE TABLE [dbo].[LineaOfertaSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [id_en_desguace] int  NOT NULL,
-    [price] int  NOT NULL,
+    [price] float  NOT NULL,
     [quantity] int  NOT NULL,
-    [OfertaId] int  NOT NULL
+    [OfertaId] int  NOT NULL,
+    [notes] nvarchar(max)  NOT NULL,
+    [LineaSolicitudId] int  NOT NULL
 );
 GO
 
@@ -336,6 +338,20 @@ ADD CONSTRAINT [FK_TallerToken]
 CREATE INDEX [IX_FK_TallerToken]
 ON [dbo].[TokenSet]
     ([TallerId]);
+GO
+
+-- Creating foreign key on [LineaSolicitudId] in table 'LineaOfertaSet'
+ALTER TABLE [dbo].[LineaOfertaSet]
+ADD CONSTRAINT [FK_LineaSolicitudLineaOferta]
+    FOREIGN KEY ([LineaSolicitudId])
+    REFERENCES [dbo].[LineasSolicitudSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LineaSolicitudLineaOferta'
+CREATE INDEX [IX_FK_LineaSolicitudLineaOferta]
+ON [dbo].[LineaOfertaSet]
+    ([LineaSolicitudId]);
 GO
 
 -- --------------------------------------------------

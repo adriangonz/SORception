@@ -17,11 +17,14 @@ namespace ManagerSystem
     {
         public int Id { get; set; }
         public int id_en_desguace { get; set; }
-        public int price { get; set; }
+        public double price { get; set; }
         public int quantity { get; set; }
         public int OfertaId { get; set; }
+        public string notes { get; set; }
+        public int LineaSolicitudId { get; set; }
     
         public virtual Oferta Oferta { get; set; }
         public virtual LineaOfertaSeleccionada LineaOfertaSeleccionada { get; set; }
+        public virtual LineaSolicitud LineaSolicitud { get; set; }
     }
 }
