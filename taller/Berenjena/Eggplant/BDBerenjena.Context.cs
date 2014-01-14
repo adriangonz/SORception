@@ -28,5 +28,7 @@ namespace Eggplant
         public DbSet<Tokens> TokensSet { get; set; }
         public DbSet<Solicitud> SolicitudSet { get; set; }
         public DbSet<LineaSolicitud> LineaSolicitudSet { get; set; }
+        public DbSet<Pedido> PedidoSet { get; set; }
+        public DbSet<LineaPedido> LineaPedidoSet { get; set; }
     }
 }

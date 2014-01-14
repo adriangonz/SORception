@@ -21,7 +21,7 @@ namespace Eggplant.Controllers
         public static string LINEA_NEW = "NEW";
         public static string LINEA_UPDATED = "UPDATED";
         public static string LINEA_DELETE = "DELETED";
-            public static string LINEA_NOEFECT = "NOEFECT";
+        public static string LINEA_NOEFECT = "NOEFECT";
 
         // GET api/solicitud
         public object Get()
@@ -58,6 +58,12 @@ namespace Eggplant.Controllers
                 }
                 sol.lineas = lineas.ToArray();
 
+                Solicitud s = new Solicitud();
+                s.timeStamp = DateTime.Now;
+                s.status = "FAILED";
+                c_bd.SolicitudSet.Add(s);
+                c_bd.SaveChanges();
+                sol.taller_id = s.Id;
 
                 //Lango la peticion de alta al sistema gestor
                 int resId = svcTaller.addSolicitud(sol);
@@ -74,7 +80,7 @@ namespace Eggplant.Controllers
         }
 
         // PUT api/solicitud/5
-        public void Put(int id, [FromBody]JObject values)
+        public object Put(int id, [FromBody]JObject values)
         {
             Solicitud solInterna = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
             if (solInterna != null)
@@ -123,15 +129,18 @@ namespace Eggplant.Controllers
                                 lineas.Add(lin);
                             }
 
-                            
+
                         }
                     }
                     c_bd.SaveChanges();
 
                     solExterna.lineas = lineas.ToArray();
                     svcTaller.putSolicitud(solExterna);
+                    return Request.CreateErrorResponse(HttpStatusCode.OK, "");
                 }
+                else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Solicitud no encontrada en el sistema gestor");
             }
+            else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "La solicitud no existe en la db local");
         }
 
         // DELETE api/solicitud/5
@@ -173,20 +182,23 @@ namespace Eggplant.Controllers
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
             {
-                Solicitud s = new Solicitud();
-                s.sg_id = solExtern.id;
-                s.timeStamp = DateTime.Now;
-                s.status = solExtern.status;
-                s = c_bd.SolicitudSet.Add(s);
-                foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
+                Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == solExtern.taller_id);
+                if (s != null)
                 {
-                    LineaSolicitud lineLocal = new LineaSolicitud();
-                    lineLocal.cantidad = linSolicitudExtern.quantity;
-                    lineLocal.descripcion = linSolicitudExtern.description;
-                    lineLocal.sg_id = linSolicitudExtern.id;
-                    s.LineaSolicitud.Add(lineLocal);
+                    s.sg_id = solExtern.id;
+                    s.timeStamp = DateTime.Now;
+                    s.status = solExtern.status;
+                    s = c_bd.SolicitudSet.Add(s);
+                    foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
+                    {
+                        LineaSolicitud lineLocal = new LineaSolicitud();
+                        lineLocal.cantidad = linSolicitudExtern.quantity;
+                        lineLocal.descripcion = linSolicitudExtern.description;
+                        lineLocal.sg_id = linSolicitudExtern.id;
+                        s.LineaSolicitud.Add(lineLocal);
+                    }
+                    c_bd.SaveChanges();
                 }
-                c_bd.SaveChanges();
             }
         }
         /*
