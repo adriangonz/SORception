@@ -7,8 +7,7 @@
     Auth.isLoggedIn();
     $scope.tmp_order = { "data": [] };
     if (Taller.actual_order) {
-        $scope.tmp_order.data = Taller.actual_order.lineaSolicitud;
-        $scope.tmp_order.id = Taller.actual_order.id;
+        Taller.loadActualOrder();
     } else {
         $location.path("/orders");
     }
