@@ -43,17 +43,18 @@ namespace ManagerSystem
             d.token = tmp.token;
             d.is_valid = tmp.is_valid;
             d.Desguace = tmp.Desguace;
+            d.Taller = tmp.Taller;
             return d;
         }
 
         static public Token Find(int id)
         {
-            return ms_ent.Tokens.Find(id);
+            return ms_ent.TokenSet.Find(id);
         }
 
         static public Token Find(string token)
         {
-            var obj = ms_ent.Tokens.First(o => o.token == token);
+            var obj = ms_ent.TokenSet.First(o => o.token == token);
 
             if (obj == null)
                 return null;
@@ -70,7 +71,7 @@ namespace ManagerSystem
         {
             List<Token> l = new List<Token>();
 
-            var lq_l = from d in ms_ent.Tokens select d;
+            var lq_l = from d in ms_ent.TokenSet select d;
             foreach (var singleToken in lq_l)
             {
                 Token t = Copy(singleToken);
@@ -91,6 +92,7 @@ namespace ManagerSystem
 
             Token new_token = TokenRepository.getToken();
             new_token.Desguace = t.Desguace;
+            new_token.Taller = t.Taller;
             InsertOrUpdate(new_token);
             
             Save();
@@ -103,7 +105,7 @@ namespace ManagerSystem
             if (token.Id == default(int))
             {
                 // New entity
-                ms_ent.Tokens.Add(token);
+                ms_ent.TokenSet.Add(token);
             }
             else
             {
@@ -116,8 +118,8 @@ namespace ManagerSystem
 
         static public void Delete(int id)
         {
-            var token = ms_ent.Tokens.Find(id);
-            ms_ent.Tokens.Remove(token);
+            var token = ms_ent.TokenSet.Find(id);
+            ms_ent.TokenSet.Remove(token);
         }
 
         static public void Save()

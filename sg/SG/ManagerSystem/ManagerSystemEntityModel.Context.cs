@@ -25,13 +25,13 @@ namespace ManagerSystem
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Desguace> DesguaceConjunto { get; set; }
-        public DbSet<Oferta> OfertaConjunto { get; set; }
-        public DbSet<LineaOferta> LineaPedidoOfertaConjunto { get; set; }
-        public DbSet<Taller> Tallers { get; set; }
-        public DbSet<Solicitud> Solicituds { get; set; }
-        public DbSet<LineaSolicitud> LineaSolicituds { get; set; }
-        public DbSet<LineaOfertaSeleccionada> LineasOfertaSeleccionada { get; set; }
-        public DbSet<Token> Tokens { get; set; }
+        public DbSet<Desguace> DesguaceSet { get; set; }
+        public DbSet<Oferta> OfertaSet { get; set; }
+        public DbSet<LineaOferta> LineaOfertaSet { get; set; }
+        public DbSet<Taller> TallerSet { get; set; }
+        public DbSet<Solicitud> SolicitudSet { get; set; }
+        public DbSet<LineaSolicitud> LineasSolicitudSet { get; set; }
+        public DbSet<LineaOfertaSeleccionada> LineaOfertaSeleccionadaSet { get; set; }
+        public DbSet<Token> TokenSet { get; set; }
     }
 }
