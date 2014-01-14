@@ -18,12 +18,14 @@ namespace Eggplant.Controllers
         static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
         public static string DELETED = "DELETED";
 
+        public static string LINEA_NEW = "NEW";
+        public static string LINEA_UPDATED = "UPDATED";
+        public static string LINEA_DELETE = "DELETED";
+            public static string LINEA_NOEFECT = "NOEFECT";
+
         // GET api/solicitud
         public object Get()
         {
-            Tokens t = c_bd.TokensSet.AsQueryable().FirstOrDefault(x => x.state == "ACTIVE");
-            string token = "";
-            if (t != null) token = t.token;
             var solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED).ToList();
             return solicitudes;
         }
@@ -72,8 +74,64 @@ namespace Eggplant.Controllers
         }
 
         // PUT api/solicitud/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]JObject values)
         {
+            Solicitud solInterna = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
+            if (solInterna != null)
+            {
+                ExposedSolicitud solExterna = svcTaller.getSolicitud(solInterna.sg_id);
+                if (solExterna != null)
+                {
+                    //Creo las lineas de la solicitud desde los datos pasado por json
+                    List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
+                    foreach (JObject item in values["data"])
+                    {
+                        string efecto = item["update"].ToString();
+                        //Si me envia datos que no sean totalmente inutiles que solo sirven para sobrecargar
+                        if (efecto == LINEA_NEW || efecto == LINEA_UPDATED || efecto == LINEA_DELETE)
+                        {
+                            // Modificacion interna
+                            if (efecto == LINEA_NEW)
+                            {
+                                LineaSolicitud linIn = new LineaSolicitud();
+                                linIn.descripcion = item["descripcion"].ToString();
+                                linIn.cantidad = int.Parse(item["cantidad"].ToString());
+                                solInterna.LineaSolicitud.Add(linIn);
+                            }
+                            else if (efecto == LINEA_UPDATED)
+                            {
+                                int idToModify = int.Parse(item["id"].ToString());
+                                LineaSolicitud linIn =
+                                    c_bd.LineaSolicitudSet.FirstOrDefault(x => x.Id == idToModify);
+                                linIn.descripcion = item["descripcion"].ToString();
+                                linIn.cantidad = int.Parse(item["cantidad"].ToString());
+                            }
+
+                            if (efecto == LINEA_DELETE)
+                            {
+                                int idToDelete = int.Parse(item["id"].ToString());
+                                LineaSolicitud linIn =
+                                    c_bd.LineaSolicitudSet.FirstOrDefault(x => x.Id == idToDelete);
+                                c_bd.LineaSolicitudSet.Remove(linIn);//.LineaSolicitud.Remove(linIn);
+                            }
+                            else
+                            {
+                                // Modificacion externa
+                                ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
+                                lin.description = item["descripcion"].ToString();
+                                lin.quantity = int.Parse(item["cantidad"].ToString());
+                                lineas.Add(lin);
+                            }
+
+                            
+                        }
+                    }
+                    c_bd.SaveChanges();
+
+                    solExterna.lineas = lineas.ToArray();
+                    svcTaller.putSolicitud(solExterna);
+                }
+            }
         }
 
         // DELETE api/solicitud/5
