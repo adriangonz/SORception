@@ -15,7 +15,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.junit.Ignore;
 
 /**
  *
