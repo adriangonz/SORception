@@ -29,6 +29,7 @@ module.service('Taller', ['$rootScope', '$http', function ($rootScope, $http) {
         },
 
         putOrder: function (order) {
+            console.log(order);
             $http({ method: 'PUT', url: '/api/solicitud/' + order.id, data: order }).
              success(function (data, status, headers, config) {
                  console.log("OK: " + status + " | " + data);

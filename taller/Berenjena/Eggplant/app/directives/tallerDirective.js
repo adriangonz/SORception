@@ -15,7 +15,7 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
             });
         }
     }
-}]).directive("sendOrderBtn", ['Taller', function (Taller) {
+}]).directive("sendOrderBtn", ['Taller', '$location', function (Taller, $location) {
     return {
         restrict: "A",
         scope: {
@@ -43,7 +43,6 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                alert("order_id: " + scope.order.id);
                 $location.path("/order/" + scope.order.id);
                 scope.$apply();
             });
