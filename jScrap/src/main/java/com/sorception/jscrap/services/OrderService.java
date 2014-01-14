@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sorception.jscrap.dao.OrderDAO;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
 
 @Service
 @Transactional
@@ -36,6 +37,19 @@ public class OrderService {
 	}
 	
 	public OrderEntity getOrderById(Long id) {
-		return orderDAO.get(id);
+		OrderEntity order = orderDAO.get(id);
+		if(order == null)
+			throw new ResourceNotFoundException("Order with id " + 
+					Long.toString(id) + " not found");
+		
+		return order;
+	}
+
+	public OrderLineEntity getOrderLine(Long orderLineId) {
+		OrderLineEntity orderLine = orderDAO.getOrderLine(orderLineId);
+		if(orderLine == null)
+			throw new ResourceNotFoundException("OrderLine with id " + 
+					Long.toString(orderLineId) + " not found");
+		return orderLine;
 	}
 }

@@ -1,16 +1,11 @@
-module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootScope, $http, $location ) {
-   var service = {
-       SessionID: undefined,
-	 
+module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function ($rootScope, $http, $location, $cookies) {
+   var service = { 
 
 	    login: function (user) {
 	        $http({ method: 'POST', url: '/token', data: "grant_type=password&username="+user.username+"&password="+user.password}).
-			  success(function(data, status) {
-			      service.SessionID = data;
+			  success(function (data, status) {
+			      $cookies["SessionTaller"] = JSON.stringify(data);
 			      $http.defaults.headers.common.Authorization = 'Bearer ' + data.access_token;
-			   /* module.run(function ($http) {
-			        $http.defaults.headers.common.Authorization = 'Bearer ' + data.access_token;
-			    });*/
 			    $rootScope.$broadcast('auth.login');
 	       		$location.path("/config");
 			  }).
@@ -21,10 +16,9 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	    },
 
 	    logout: function () {
-	        alert("Ola ke ase! te deconeta o ke ase?");
 	     	  $http({method: 'POST', url: '/api/account/logout'}).
 	          success(function(data, status, headers, config) {
-	              service.SessionID = undefined;
+	              delete $cookies["SessionTaller"];
 	              $rootScope.$broadcast('auth.login');
 	       		$location.path("/login");
 	          }).
@@ -34,26 +28,32 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	    },
 
 	    isLoggedIn: function () {
-            if(service.SessionID) {
+	        $rootScope.$broadcast('auth.login');
+	        SessionTaller = $cookies["SessionTaller"];
+	        if (SessionTaller) {
                 return true;
             }
 	       	$location.path("/login");
 	    },
 
 	    getUsername: function () {
-	        if (service.SessionID) {
-	            return service.SessionID.userName;
+	        SessionTaller = $cookies["SessionTaller"];
+	        if (SessionTaller) {
+	            SessionTaller = JSON.parse(SessionTaller);
+	            return SessionTaller.userName;
 	        }
 	        return "Sin conexion";
 	    },
+
 	    getToken: function () {
-	        if (service.SessionID) {
-	            return service.SessionID.access_token;
+	        SessionTaller = $cookies["SessionTaller"];
+	        if (SessionTaller) {
+	            SessionTaller = JSON.parse(SessionTaller);
+	            return SessionTaller.access_token;
 	        }
 	        return undefined;
 	    },
    	}
- 
+
    return service;
 }]);
-

@@ -205,6 +205,9 @@
       </SubType>
     </Compile>
     <Compile Include="Controllers\SolicitudController.cs" />
+    <Compile Include="Filters\HttpWCFBehaviorExtensionElement .cs" />
+    <Compile Include="Filters\HttpWCFEndpointBehavior .cs" />
+    <Compile Include="Filters\WCFAuthorizationHeader.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -231,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\controllers\createOrderController.js" />
+    <Content Include="app\controllers\editOrderController.js" />
+    <Content Include="app\controllers\orderController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
     <Content Include="app\directives\authDirective.js" />
@@ -241,8 +247,11 @@
     <Content Include="app\services\tallerService.js" />
     <Content Include="app\templates\config.html" />
     <Content Include="app\templates\crearte-order.html" />
+    <Content Include="app\templates\edit-order.html" />
     <Content Include="app\templates\login.html" />
     <Content Include="app\templates\main.html" />
+    <Content Include="app\templates\order.html" />
+    <Content Include="app\templates\orders.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="BDBerenjena.edmx.sql">
       <SubType>Designer</SubType>
@@ -295,12 +304,18 @@
     <Content Include="Scripts\respond.min.js" />
     <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
     <None Include="Service References\ServiceTaller\configuration.svcinfo" />
+    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedOferta.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.TokenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedSolicitud.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExposedTaller.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
+    <None Include="Service References\ServiceTaller\GestionTaller3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ServiceTaller\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

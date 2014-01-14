@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sorception.jscrap.config.ActiveMQConfig;
+import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.webservices.OfertasSender;
 
 @Service
 @Transactional
@@ -20,6 +22,9 @@ public class ActiveMQService {
     DefaultMessageListenerContainer jmsContainer;
     
     @Autowired
+    OfertasSender ofertasSender;
+    
+    @Autowired
     ActiveMQConfig amqConfig;
 	
     public void enableJmsContainer(TokenEntity tokenEntity) {
@@ -28,5 +33,9 @@ public class ActiveMQService {
     
     public void disableJmsContainer() {
     	amqConfig.disableJmsContainer(jmsContainer);
+    }
+    
+    public void sendOferta(OfferEntity offer, TokenEntity token) {
+    	ofertasSender.sendOferta(offer, token);
     }
 }
