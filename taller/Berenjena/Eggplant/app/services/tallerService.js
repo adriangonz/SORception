@@ -39,7 +39,7 @@ module.service('Taller', ['$rootScope', '$http', function ($rootScope, $http) {
              });
         },
 
-        removeOrder: function (order) {
+        removeOrder: function (id) {
             $http({ method: 'DELETE', url: '/api/solicitud/' + id }).
              success(function (data, status, headers, config) {
                  console.log("OK: " + status + " | " + data);

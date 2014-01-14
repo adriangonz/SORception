@@ -84,7 +84,7 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         link: function (scope, element, attrs) {
             element.bind("click", function () {
                 Taller.removeOrder(scope.order.id);
-                $location.path("/orders");
+                Taller.getOrders();
             });
         }
     }

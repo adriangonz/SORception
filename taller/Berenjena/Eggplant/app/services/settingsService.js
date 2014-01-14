@@ -6,38 +6,25 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
  		},
  
      getSettings: function () {
-        $http({method: 'GET', url: '/api/settings'}).
-		  success(function(data, status, headers, config) {
-		      service.settings = data;
-       		  $rootScope.$broadcast('settings.update');
-		  }).
-		  error(function(data, status, headers, config) {
-		  	alert(status+" "+data);
-		  	service.settings.name="TallerGET";
-		  	service.settings.tokens = [
-			   {
-			        "token": "TOKEN_1",
-			        "state": "REQUESTED", // 'REQUESTED', 'VALID' o 'EXPIRED'
-			        "timeStamp": "FECHA_21"
-			   },
-			   {
-			        "token": "TOKEN_2",
-			        "state": "EXPIRED", // 'REQUESTED', 'VALID' o 'EXPIRED'
-			        "timeStamp": "FECHA_21"
-			   },
-			   {
-			        "token": "TOKEN_3",
-			        "state": "VALID", // 'REQUESTED', 'VALID' o 'EXPIRED'
-			        "timeStamp": "FECHA_6"
-			   }
-		  	];
-		  	alert("Cargado");
-       		$rootScope.$broadcast( 'settings.update' );
-		  });
+         $http({ method: 'GET', url: '/api/settings/token' }).
+          success(function (data, status, headers, config) {
+              console.log(status + " " + data);
 
+              $http({ method: 'GET', url: '/api/settings' }).
+                  success(function (data, status, headers, config) {
+                      service.settings = data;
+                      $rootScope.$broadcast('settings.update');
+                  }).
+                  error(function (data, status, headers, config) {
+                      console.log(status + " " + data);
+                      service.settings.name = "TallerGET";
+                      $rootScope.$broadcast('settings.update');
+                  });
 
-
-      	
+          }).
+          error(function (data, status, headers, config) {
+              console.log(status + " " + data);
+          });
 
      },
 
