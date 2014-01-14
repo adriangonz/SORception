@@ -9,9 +9,15 @@
     <EntitySet Name="TokensSet" EntityType="BDBerenjena.Store.TokensSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SolicitudSet" EntityType="BDBerenjena.Store.SolicitudSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LineaSolicitudSet" EntityType="BDBerenjena.Store.LineaSolicitudSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PedidoSet" EntityType="BDBerenjena.Store.PedidoSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineaPedidoSet" EntityType="BDBerenjena.Store.LineaPedidoSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="SolicitudLineaSolicitud" Association="BDBerenjena.Store.SolicitudLineaSolicitud">
       <End Role="Solicitud" EntitySet="SolicitudSet" />
       <End Role="LineaSolicitud" EntitySet="LineaSolicitudSet" />
+    </AssociationSet>
+    <AssociationSet Name="PedidoLineaPedido" Association="BDBerenjena.Store.PedidoLineaPedido">
+      <End Role="Pedido" EntitySet="PedidoSet" />
+      <End Role="LineaPedido" EntitySet="LineaPedidoSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="TokensSet">
@@ -42,6 +48,25 @@
     <Property Name="cantidad" Type="int" Nullable="false" />
     <Property Name="sg_id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="PedidoSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sg_id" Type="int" Nullable="false" />
+    <Property Name="timeStamp" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LineaPedidoSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="oferta_id" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="quantity" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="price" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PedidoId" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="SolicitudLineaSolicitud">
     <End Role="Solicitud" Type="BDBerenjena.Store.SolicitudSet" Multiplicity="1" />
     <End Role="LineaSolicitud" Type="BDBerenjena.Store.LineaSolicitudSet" Multiplicity="*" />
@@ -51,6 +76,18 @@
       </Principal>
       <Dependent Role="LineaSolicitud">
         <PropertyRef Name="SolicitudId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PedidoLineaPedido">
+    <End Role="Pedido" Type="BDBerenjena.Store.PedidoSet" Multiplicity="1" />
+    <End Role="LineaPedido" Type="BDBerenjena.Store.LineaPedidoSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pedido">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LineaPedido">
+        <PropertyRef Name="PedidoId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -182,6 +219,27 @@
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="cantidad" ColumnName="cantidad" />
           <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PedidoSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Pedido)">
+        <MappingFragment StoreEntitySet="PedidoSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+          <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LineaPedidoSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.LineaPedido)">
+        <MappingFragment StoreEntitySet="LineaPedidoSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="oferta_id" ColumnName="oferta_id" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="PedidoId" ColumnName="PedidoId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

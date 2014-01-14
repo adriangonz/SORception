@@ -40,11 +40,6 @@ namespace Eggplant.Controllers
         // POST api/solicitud
         public object Post([FromBody]JObject values)
         {
-            // Consigo el token de la aplicacion para el id
-            var tokens = c_bd.TokensSet.AsQueryable().ToList();
-            //Si habia un token
-            if (tokens.Count > 0)
-            {
                 ExposedSolicitud sol = new ExposedSolicitud();
 
                 //Creo las lineas de la solicitud desde los datos pasado por json
@@ -65,7 +60,7 @@ namespace Eggplant.Controllers
                 c_bd.SaveChanges();
                 sol.taller_id = s.Id;
 
-                //Lango la peticion de alta al sistema gestor
+                //Lanzo la peticion de alta al sistema gestor
                 int resId = svcTaller.addSolicitud(sol);
                 //Si algo ha ido mal
                 if (resId == -1)
@@ -75,8 +70,6 @@ namespace Eggplant.Controllers
 
                 //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
                 return new { id = resId };
-            }
-            return Request.CreateResponse(HttpStatusCode.BadRequest, "El taller no esta dado de alta");
         }
 
         // PUT api/solicitud/5
