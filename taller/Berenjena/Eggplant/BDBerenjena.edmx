@@ -66,6 +66,12 @@
             <End Role="Solicitud" EntitySet="SolicitudSet" />
             <End Role="LineaSolicitud" EntitySet="LineaSolicitudSet" />
           </AssociationSet>
+          <EntitySet Name="PedidoSet" EntityType="BDBerenjena.Pedido" />
+          <EntitySet Name="LineaPedidoSet" EntityType="BDBerenjena.LineaPedido" />
+          <AssociationSet Name="PedidoLineaPedido" Association="BDBerenjena.PedidoLineaPedido">
+            <End Role="Pedido" EntitySet="PedidoSet" />
+            <End Role="LineaPedido" EntitySet="LineaPedidoSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Tokens">
           <Key>
@@ -106,6 +112,39 @@
             </Principal>
             <Dependent Role="LineaSolicitud">
               <PropertyRef Name="SolicitudId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Pedido">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sg_id" Type="Int32" Nullable="false" />
+          <Property Name="timeStamp" Type="DateTime" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" />
+          <NavigationProperty Name="LineaPedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="Pedido" ToRole="LineaPedido" />
+        </EntityType>
+        <EntityType Name="LineaPedido">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="oferta_id" Type="String" Nullable="false" />
+          <Property Name="quantity" Type="String" Nullable="false" />
+          <Property Name="price" Type="String" Nullable="false" />
+          <NavigationProperty Name="Pedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="LineaPedido" ToRole="Pedido" />
+          <Property Name="PedidoId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="PedidoLineaPedido">
+          <End Type="BDBerenjena.Pedido" Role="Pedido" Multiplicity="1" />
+          <End Type="BDBerenjena.LineaPedido" Role="LineaPedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pedido">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineaPedido">
+              <PropertyRef Name="PedidoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
