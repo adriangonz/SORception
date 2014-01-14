@@ -82,8 +82,8 @@ public class ActiveMQConfig {
         jmsTemplate.setPubSubDomain(true);
         jmsTemplate.setDefaultDestination(ofertas());
         jmsTemplate.setConnectionFactory(connectionFactory());
-        MarshallingMessageConverter converter = new MarshallingMessageConverter(marshaller, unmarshaller);
-        jmsTemplate.setMessageConverter(converter);
+        //MarshallingMessageConverter converter = new MarshallingMessageConverter(marshaller, unmarshaller);
+        //jmsTemplate.setMessageConverter(converter);
         return jmsTemplate;
     }
 

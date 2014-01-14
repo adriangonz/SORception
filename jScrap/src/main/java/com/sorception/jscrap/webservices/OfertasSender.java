@@ -1,5 +1,7 @@
 package com.sorception.jscrap.webservices;
 
+import java.io.StringWriter;
+
 import javax.jms.Message;
 import javax.xml.bind.JAXBElement;
 
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
+import org.springframework.xml.transform.StringResult;
 
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
@@ -77,7 +80,9 @@ public class OfertasSender {
 	}
 	
 	public void sendOferta(OfferEntity offerEntity, TokenEntity token) {
-		jmsTemplate.convertAndSend(
-				objectFactory.createExposedOferta(toExposedOferta(offerEntity, token)));
+		StringResult stringResult = new StringResult();
+		marshaller.marshal(
+				objectFactory.createExposedOferta(toExposedOferta(offerEntity, token)), stringResult);
+		jmsTemplate.convertAndSend(stringResult.toString());
 	}
 }

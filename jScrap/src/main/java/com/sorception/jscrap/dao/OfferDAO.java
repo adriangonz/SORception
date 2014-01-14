@@ -35,6 +35,10 @@ public class OfferDAO {
 		return (OfferEntity)this.entityManager.find(OfferEntity.class, id);
 	}
 	
+	public void deleteOfferLine(OrderLineEntity offerLine) {
+		this.entityManager.remove(offerLine);
+	}
+	
 	public OrderLineEntity getOrderLine(OfferLineEntity offerLine) {
 		OrderLineEntity orderLine = offerLine.getOrderLine();
 		Hibernate.initialize(orderLine);
