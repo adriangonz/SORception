@@ -6,9 +6,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,24 +27,47 @@ class OfferLineDTO {
 	public String notes;
 	public Long orderLineId;
 	public Double price;
-	final static Logger logger = LoggerFactory.getLogger(OfferController.class);
-	public OfferLineEntity getOfferLine(OrderService orderService) {
-		return new OfferLineEntity(
-				quantity,
-				notes,
-				price,
-				orderService.getOrderLine(orderLineId)
-		);
+	public Long id;
+	public String status;
+	
+	public OfferLineEntity getOfferLine(
+			OrderService orderService,
+			OfferService offerService) {
+		OfferLineEntity offerLine;
+		if(id == null) {
+			offerLine = new OfferLineEntity(
+					quantity,
+					notes,
+					price,
+					orderService.getOrderLine(orderLineId)
+			);
+		} else {
+			offerLine = offerService.getOfferLine(id);
+			if(quantity != null)
+				offerLine.setQuantity(quantity);
+			if(notes != null)
+				offerLine.setNotes(notes);
+			if(price != null)
+				offerLine.setPrice(price);
+		}
+		return offerLine;
 	}
 }
 
 class OfferDTO {
+	final static Logger logger = LoggerFactory.getLogger(OfferController.class);
+	
 	public List<OfferLineDTO> lines;
 			
-	public List<OfferLineEntity> getOfferLines(OrderService orderService) {
+	public List<OfferLineEntity> getOfferLines(
+			OrderService orderService,
+			OfferService offerService) {
 		List<OfferLineEntity> list = new ArrayList<>();
 		for(OfferLineDTO line : this.lines) {
-			list.add(line.getOfferLine(orderService));
+			if(line.status == null ||
+					(line.status != null && !"DELETED".equals(line.status))) {
+				list.add(line.getOfferLine(orderService, offerService));
+			}
 		}
 		return list;
 	}
@@ -69,6 +94,25 @@ public class OfferController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	public OfferEntity addOffer(@RequestBody OfferDTO offer) {
-		return offerService.addOffer(offer.getOfferLines(orderService));
+		return offerService.addOffer(offer.getOfferLines(
+				orderService,
+				offerService));
+	}
+	
+	@RequestMapping(value = "/{offerId}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteOffer(@PathVariable Long offerId) {
+		offerService.deleteOffer(offerId);
+	}
+	
+	@RequestMapping(value = "/{offerId}", method = RequestMethod.PUT)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	public OfferEntity updateOffer(
+			@PathVariable Long offerId, 
+			@RequestBody OfferDTO offer) {
+		return offerService.updateOffer(offerId, offer.getOfferLines(
+				orderService,
+				offerService));
 	}
 }

@@ -67,4 +67,16 @@ public class OfferLineEntity extends AbstractEntity {
 	public OrderLineEntity getOrderLine() {
 		return _orderLine;
 	}
+
+	public void setQuantity(Integer quantity) {
+		this._quantity = quantity;
+	}
+
+	public void setNotes(String notes) {
+		this._notes = notes;
+	}
+
+	public void setPrice(Double price) {
+		this._price = price;
+	}
 }

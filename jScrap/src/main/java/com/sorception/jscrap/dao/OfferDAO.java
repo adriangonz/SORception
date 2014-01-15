@@ -22,7 +22,9 @@ public class OfferDAO {
 	
 	public List<OfferEntity> list() {
 		return this.entityManager
-				.createQuery("FROM OfferEntity ORDER BY creationDate DESC")
+				.createQuery("FROM OfferEntity "
+						+ "WHERE deleted = FALSE "
+						+ "ORDER BY creationDate DESC")
 				.getResultList();
 	}
 	
@@ -32,13 +34,25 @@ public class OfferDAO {
 	}
 	
 	public OfferEntity get(Long id) {
-		return (OfferEntity)this.entityManager.find(OfferEntity.class, id);
+		OfferEntity offerEntity =
+				(OfferEntity)this.entityManager.find(OfferEntity.class, id);
+		return offerEntity.isDeleted() ? null : offerEntity;
 	}
 	
-	public void deleteOfferLine(OrderLineEntity offerLine) {
-		this.entityManager.remove(offerLine);
+	public OfferLineEntity getOfferLine(Long id) {
+		return this.entityManager.find(OfferLineEntity.class, id);
 	}
 	
+	public void delete(OfferEntity offer) {
+		offer.setDeleted(true);
+		this.update(offer);
+	}
+	
+	public OfferEntity update(OfferEntity offer) {
+		return this.entityManager.merge(offer);
+	}
+	
+	/* START OF NYAPICA */
 	public OrderLineEntity getOrderLine(OfferLineEntity offerLine) {
 		OrderLineEntity orderLine = offerLine.getOrderLine();
 		Hibernate.initialize(orderLine);
@@ -50,4 +64,5 @@ public class OfferDAO {
 		Hibernate.initialize(orderLine);
 		return orderLine.getOrder();
 	}
+	/* END OF NYAPICA */
 }

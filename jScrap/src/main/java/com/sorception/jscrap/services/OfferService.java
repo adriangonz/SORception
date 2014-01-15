@@ -41,7 +41,7 @@ public class OfferService {
 	public OfferEntity addOffer(List<OfferLineEntity> offerLines) {
 		OfferEntity offerEntity = new OfferEntity(offerLines);
 		offerDAO.save(offerEntity);
-		amqService.sendOferta(offerEntity, tokenService.getValid());
+		amqService.sendNewOffer(offerEntity, tokenService.getValid());
 		return offerEntity;
 	}
 	
@@ -49,6 +49,25 @@ public class OfferService {
 		return offerDAO.get(id);
 	}
 	
+	public void deleteOffer(Long id) {
+		OfferEntity offer = offerDAO.get(id);
+		offerDAO.delete(offer);
+		amqService.sendDeleteOffer(offer,  tokenService.getValid());
+	}
+	
+	public OfferEntity updateOffer(Long offerId, List<OfferLineEntity> lines) {
+		OfferEntity offer = offerDAO.get(offerId);
+		offer.setLines(lines);
+		OfferEntity new_offer = offerDAO.update(offer);
+		amqService.sendUpdateOffer(new_offer, tokenService.getValid());
+		return new_offer;
+	}
+	
+	public OfferLineEntity getOfferLine(Long id) {
+		return offerDAO.getOfferLine(id);
+	}
+	
+	/* START OF NYAPICA */
 	public OrderLineEntity getOrderLine(OfferLineEntity offerLine) {
 		return offerDAO.getOrderLine(offerLine);
 	}
@@ -56,4 +75,6 @@ public class OfferService {
 	public OrderEntity getOrder(OfferEntity offer) {
 		return offerDAO.getOrder(offer);
 	}
+	
+	/* END OF NYAPICA */
 }
