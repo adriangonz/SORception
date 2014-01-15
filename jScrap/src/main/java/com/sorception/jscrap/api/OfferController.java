@@ -50,7 +50,7 @@ class OfferLineDTO {
 			if(price != null)
 				offerLine.setPrice(price);
 			if(status != null && "DELETE".equals(status))
-				offerLine.markToDelete();
+				offerLine.delete();
 		}
 		return offerLine;
 	}

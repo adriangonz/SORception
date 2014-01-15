@@ -66,7 +66,7 @@ public class OfertasSender {
 		JAXBElement<String> desguaceId = 
 				objectFactory.createExposedOfertaDesguaceId(token.getToken());
 		Integer id = offerEntity.getId().intValue();		
-		Integer solicitudId = Integer.parseInt(offerService.getOrder(offerEntity).getSgId());
+		Integer solicitudId = Integer.parseInt(offerEntity.getOrderSgId());
 		ArrayOfExposedLineaOferta lineas = objectFactory.createArrayOfExposedLineaOferta();
 		for(OfferLineEntity line : offerEntity.getLines()) {
 			lineas.getExposedLineaOferta().add(toExposedLineaOferta(line));

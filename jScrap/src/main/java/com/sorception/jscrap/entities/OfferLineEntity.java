@@ -35,8 +35,8 @@ public class OfferLineEntity extends AbstractEntity {
 	@JoinColumn(name="orderLineId", unique = true)
 	private OrderLineEntity _orderLine;
 	
-	@Transient
-	private Boolean _toDelete = false;
+	@Column(name = "deleted")
+	private Boolean _deleted = false;
 	
 	public OfferLineEntity() {}
 	
@@ -66,6 +66,10 @@ public class OfferLineEntity extends AbstractEntity {
 	public String getNotes() {
 		return _notes;
 	}
+
+	public Boolean isDeleted() {
+		return this._deleted;
+	}
 	
 	/* Nyapicas */
 	public void setOrderLine(OrderLineEntity orderLine) {
@@ -89,12 +93,8 @@ public class OfferLineEntity extends AbstractEntity {
 		this._price = price;
 	}
 	
-	public void markToDelete() {
-		this._toDelete = true;
-	}
-	
-	@JsonIgnore
-	public Boolean toDelete() {
-		return this._toDelete;
+	public void delete() {
+		this._deleted = true;
+		this._orderLine = null;
 	}
 }
