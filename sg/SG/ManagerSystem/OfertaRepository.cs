@@ -31,7 +31,6 @@ namespace ManagerSystem
             ExposedOferta eo = new ExposedOferta();
 
             eo.id = s.Id;
-            eo.desguace_id = s.DesguaceId;
             eo.lineas = new List<ExposedLineaOferta>();
             foreach (var l in s.LineasOferta)
             {
@@ -48,7 +47,18 @@ namespace ManagerSystem
         {
             Oferta o = new Oferta();
 
-            o.DesguaceId = eo.desguace_id;
+            Desguace d;
+            try
+            { 
+                d = DesguaceRepository.Find(eo.desguace_id);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(String.Format("Exception thrown at Oferta.FromExposed with message: {0}", e.Message));
+                throw;
+            }
+            o.DesguaceId = d.Id;
+            o.SolicitudId = eo.solicitud_id;
             o.LineasOferta = new List<LineaOferta>();
             foreach (var elo in eo.lineas)
             {
@@ -59,10 +69,13 @@ namespace ManagerSystem
                 lo.price = elo.price;
                 lo.notes = elo.notes;
                 o.LineasOferta.Add(lo);
+                Logger.Error(String.Format("{0}", lo.LineaSolicitudId));
             }
-            o.id_en_desguace = eo.desguace_id;
+            o.id_en_desguace = eo.id;
             o.state = "NEW";
             o.date = DateTime.Now;
+
+            Logger.Error(String.Format("{0} {1}", o.DesguaceId, o.SolicitudId));
 
             return o;
         }
@@ -88,8 +101,8 @@ namespace ManagerSystem
 
         static public void Delete(int id)
         {
-            var oferta = ms_ent.OfertaSet.Find(id);
-            ms_ent.OfertaSet.Remove(oferta);
+            Oferta o = ms_ent.OfertaSet.Find(id);
+            o.deleted = true;
         }
 
         static public void Save()

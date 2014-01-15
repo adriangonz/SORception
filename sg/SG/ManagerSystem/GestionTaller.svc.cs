@@ -105,27 +105,32 @@ namespace ManagerSystem
             return 0;
         }
 
-        public int deleteTaller(string token)
+        public int deleteTaller()
         {
-            int id = int.Parse(token);
-            TallerRepository.Delete(id);
+            Taller t = getAuthorizedTaller();
+            TallerRepository.Delete(t.Id);
+            TallerRepository.Save();
             return 0;
         }
 
         public ExposedSolicitud getSolicitud(int id)
         {
+            Taller t = getAuthorizedTaller();
+
             var tmp = SolicitudRepository.Find(id);
-            ExposedSolicitud s = SolicitudRepository.ToExposed(tmp);
+            ExposedSolicitud s = SolicitudRepository.PrepareOutgoing(tmp);
             return s;
         }
 
         public List<ExposedSolicitud> getSolicitudes()
         {
+            Taller t = getAuthorizedTaller();
+
             List<ExposedSolicitud> solicitudes = new List<ExposedSolicitud>();
 
             foreach (var solicitud in SolicitudRepository.FindAll())
             {
-                solicitudes.Add(SolicitudRepository.ToExposed(solicitud));
+                solicitudes.Add(SolicitudRepository.PrepareOutgoing(solicitud));
             }
 
             return solicitudes;
@@ -133,12 +138,14 @@ namespace ManagerSystem
 
         public int addSolicitud(ExposedSolicitud es)
         {
+            Taller t = getAuthorizedTaller();
+
             if (es != null)
             {
-                Solicitud s = SolicitudRepository.FromExposed(es);
+                Solicitud s = SolicitudRepository.GetIncoming(es);
                 SolicitudRepository.InsertOrUpdate(s);
                 SolicitudRepository.Save();
-                SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.New));
+                SendMessage(new AMQSolicitudMessage(SolicitudRepository.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
                 return s.Id;
             }
             return -1;
@@ -146,36 +153,34 @@ namespace ManagerSystem
 
         public int putSolicitud(ExposedSolicitud es)
         {
+            Taller t = getAuthorizedTaller();
+
             if (es != null)
             {
-                Solicitud s = SolicitudRepository.FromExposed(es);
-                SolicitudRepository.InsertOrUpdate(s);
-                SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Update));
+                Solicitud s = SolicitudRepository.Find(es.id);
+                SolicitudRepository.UpdateFromExposed(s, es);
+                SolicitudRepository.Save();
+                SendMessage(new AMQSolicitudMessage(SolicitudRepository.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
             }
             return 0;
         }
 
         public int deleteSolicitud(int id)
         {
+            Taller t = getAuthorizedTaller();
+
             SolicitudRepository.Delete(id);
+            SolicitudRepository.Save();
             ExposedSolicitud es = new ExposedSolicitud();
             es.id = id;
             SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Delete));
             return 0;
         }
 
-        /*public List<ExposedSolicitud> getSolicitudes()
-        {
-            List<ExposedSolicitud> l = new List<ExposedSolicitud>();
-            foreach (var tmp in SolicitudRepository.FindAll())
-            {
-                l.Add(SolicitudRepository.ToExposed(tmp));
-            }
-            return l;
-        }*/
-
         public List<ExposedOferta> getOfertas(int solicitud_id)
         {
+            Taller t = getAuthorizedTaller();
+
             List<ExposedOferta> ofertas = new List<ExposedOferta>();
 
             Solicitud s = SolicitudRepository.Find(solicitud_id);
@@ -195,6 +200,8 @@ namespace ManagerSystem
 
         private void SendMessage(AMQSolicitudMessage sm)
         {
+            Taller t = getAuthorizedTaller();
+
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Constants.ActiveMQ.Broker, 
                     Constants.ActiveMQ.Solicitud.Client_ID, 

@@ -17,8 +17,9 @@ namespace ManagerSystem
     {
         public Solicitud()
         {
-            this.Ofertas = new HashSet<Oferta>();
+            this.deleted = false;
             this.LineasSolicitud = new HashSet<LineaSolicitud>();
+            this.Ofertas = new HashSet<Oferta>();
         }
     
         public int Id { get; set; }
@@ -26,9 +27,10 @@ namespace ManagerSystem
         public System.DateTime date { get; set; }
         public string state { get; set; }
         public int TallerId { get; set; }
+        public bool deleted { get; set; }
     
         public virtual Taller Taller { get; set; }
-        public virtual ICollection<Oferta> Ofertas { get; set; }
         public virtual ICollection<LineaSolicitud> LineasSolicitud { get; set; }
+        public virtual ICollection<Oferta> Ofertas { get; set; }
     }
 }

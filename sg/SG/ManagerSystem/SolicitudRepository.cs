@@ -27,43 +27,73 @@ namespace ManagerSystem
             return Copy(s);
         }
 
-        static public ExposedSolicitud ToExposed(Solicitud s) {
-            ExposedSolicitud es = new ExposedSolicitud();
+        static public ExposedSolicitud PrepareOutgoing(Solicitud s)
+        {
+            if (s == null) return null;
 
+            ExposedSolicitud es = new ExposedSolicitud();
             es.id = s.Id;
-            es.taller_id = s.TallerId;
+            es.status = s.state;
             es.lineas = new List<ExposedLineaSolicitud>();
             foreach (var l in s.LineasSolicitud)
             {
-                ExposedLineaSolicitud ls = new ExposedLineaSolicitud();
-                ls.id = l.Id;
-                ls.description = l.description;
-                ls.quantity = l.quantity;
-                es.lineas.Add(ls);
+                ExposedLineaSolicitud el = new ExposedLineaSolicitud();
+                el.id = l.Id;
+                el.description = l.description;
+                el.quantity = l.quantity;
+                es.lineas.Add(el);
             }
-            es.status = s.state;
 
             return es;
         }
 
-        static public Solicitud FromExposed(ExposedSolicitud es)
+        static public Solicitud GetIncoming(ExposedSolicitud es)
         {
+            if (es == null) return null;
+            
             Solicitud s = new Solicitud();
-
-            s.TallerId = es.taller_id;
-            s.LineasSolicitud = new List<LineaSolicitud>();
-            foreach(var els in es.lineas) {
-                LineaSolicitud ls = new LineaSolicitud();
-                ls.id_en_taller = els.id;
-                ls.description = els.description;
-                ls.quantity = els.quantity;
-                s.LineasSolicitud.Add(ls);
-            }
-            s.id_en_taller = es.taller_id;
+            s.id_en_taller = es.id;
             s.state = "NEW";
             s.date = DateTime.Now;
+            foreach (var el in es.lineas)
+            {
+                LineaSolicitud ls = new LineaSolicitud();
+                ls.id_en_taller = el.id;
+                ls.quantity = el.quantity;
+                ls.description = el.description;
+                s.LineasSolicitud.Add(ls);
+            }
 
             return s;
+        }
+
+        static public void UpdateFromExposed(Solicitud s, ExposedSolicitud es)
+        {
+            if (s == null || es == null) return;
+
+            foreach (var el in es.lineas)
+            {
+                LineaSolicitud ls = null;
+                switch (el.action)
+                {
+                    case "NEW":
+                        ls = new LineaSolicitud();
+                        ls.id_en_taller = el.id;
+                        ls.quantity = el.quantity;
+                        ls.description = el.description;
+                        s.LineasSolicitud.Add(ls);
+                        break;
+                    case "UPDATED":
+                        ls = ms_ent.LineasSolicitudSet.Find(el.id);
+                        ls.quantity = el.quantity;
+                        ls.description = el.description;
+                        break;
+                    case "DELETED":
+                        ls = ms_ent.LineasSolicitudSet.Find(el.id);
+                        s.LineasSolicitud.Remove(ls);
+                        break;
+                }
+            }
         }
 
         static public List<Solicitud> FindAll()
@@ -81,6 +111,8 @@ namespace ManagerSystem
 
         static public void InsertOrUpdate(Solicitud s)
         {
+            if (s == null) return;
+
             if (s.Id == default(int))
             {
                 // New entity
@@ -89,15 +121,14 @@ namespace ManagerSystem
             else
             {
                 // Existing entity
-                //ms_ent.DesguaceConjunto.Attach(desguace);
-                ms_ent.Entry(s).State = EntityState.Modified;
+
             }
         }
 
         static public void Delete(int id)
         {
-            var solicitud = ms_ent.SolicitudSet.Find(id);
-            ms_ent.SolicitudSet.Remove(solicitud);
+            Solicitud s = ms_ent.SolicitudSet.Find(id);
+            s.deleted = true;
         }
 
         static public void Save()
