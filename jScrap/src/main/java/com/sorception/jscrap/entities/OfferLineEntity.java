@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.Hibernate;
@@ -26,13 +27,16 @@ public class OfferLineEntity extends AbstractEntity {
 	@Column(name = "price")
 	private Double _price;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "offerId", nullable = false)
 	private OfferEntity _offer;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name="orderLineId")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="orderLineId", unique = true)
 	private OrderLineEntity _orderLine;
+	
+	@Transient
+	private Boolean _toDelete = false;
 	
 	public OfferLineEntity() {}
 	
@@ -63,8 +67,34 @@ public class OfferLineEntity extends AbstractEntity {
 		return _notes;
 	}
 	
+	/* Nyapicas */
+	public void setOrderLine(OrderLineEntity orderLine) {
+		this._orderLine = orderLine;
+	}
+	
 	@JsonIgnore
 	public OrderLineEntity getOrderLine() {
 		return _orderLine;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this._quantity = quantity;
+	}
+
+	public void setNotes(String notes) {
+		this._notes = notes;
+	}
+
+	public void setPrice(Double price) {
+		this._price = price;
+	}
+	
+	public void markToDelete() {
+		this._toDelete = true;
+	}
+	
+	@JsonIgnore
+	public Boolean toDelete() {
+		return this._toDelete;
 	}
 }

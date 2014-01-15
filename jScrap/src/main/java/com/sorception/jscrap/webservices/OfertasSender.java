@@ -1,5 +1,7 @@
 package com.sorception.jscrap.webservices;
 
+import java.io.StringWriter;
+
 import javax.jms.Message;
 import javax.xml.bind.JAXBElement;
 
@@ -9,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
+import org.springframework.xml.transform.StringResult;
 
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
 import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.generated.AMQOfertaMessage;
+import com.sorception.jscrap.generated.AMQOfertaMessageCode;
 import com.sorception.jscrap.generated.ArrayOfExposedLineaOferta;
 import com.sorception.jscrap.generated.ArrayOfExposedLineaSolicitud;
 import com.sorception.jscrap.generated.ExposedLineaOferta;
@@ -25,7 +30,7 @@ import com.sorception.jscrap.services.TokenService;
 @Service
 public class OfertasSender {
 	
-	final static Logger logger = LoggerFactory.getLogger(OfferEntity.class);
+	final static Logger logger = LoggerFactory.getLogger(OfertasSender.class);
 	
 	@Autowired
 	JmsTemplate jmsTemplate;
@@ -58,15 +63,16 @@ public class OfertasSender {
 	}
 	
 	private ExposedOferta toExposedOferta(OfferEntity offerEntity, TokenEntity token) {
-		Integer desguaceId = 0;//token.getToken();
-		Integer id = offerEntity.getId().intValue();
+		JAXBElement<String> desguaceId = 
+				objectFactory.createExposedOfertaDesguaceId(token.getToken());
+		Integer id = offerEntity.getId().intValue();		
 		Integer solicitudId = Integer.parseInt(offerService.getOrder(offerEntity).getSgId());
 		ArrayOfExposedLineaOferta lineas = objectFactory.createArrayOfExposedLineaOferta();
 		for(OfferLineEntity line : offerEntity.getLines()) {
 			lineas.getExposedLineaOferta().add(toExposedLineaOferta(line));
 		}
 		JAXBElement<ArrayOfExposedLineaOferta> arrayOfLineas = 
-				objectFactory.createArrayOfExposedLineaOferta(lineas);
+				objectFactory.createExposedOfertaLineas(lineas);
 		
 		ExposedOferta exposedOferta = objectFactory.createExposedOferta();
 		exposedOferta.setDesguaceId(desguaceId);
@@ -76,8 +82,41 @@ public class OfertasSender {
 		return exposedOferta;
 	}
 	
-	public void sendOferta(OfferEntity offerEntity, TokenEntity token) {
-		jmsTemplate.convertAndSend(
-				objectFactory.createExposedOferta(toExposedOferta(offerEntity, token)));
+	private AMQOfertaMessage toAMQOfertaMessage(
+			OfferEntity offerEntity,TokenEntity token,
+			AMQOfertaMessageCode code) {
+		JAXBElement<ExposedOferta> oferta =
+				objectFactory.createAMQOfertaMessageOferta((toExposedOferta(offerEntity, token)));
+		
+		AMQOfertaMessage amqOferta = objectFactory.createAMQOfertaMessage();
+		amqOferta.setCode(code);
+		amqOferta.setOferta(oferta);
+		return amqOferta;
+	}
+	
+	private String offerToString(
+			OfferEntity offer, TokenEntity token, AMQOfertaMessageCode code) {
+		StringResult stringResult = new StringResult();
+		marshaller.marshal(
+				objectFactory.createAMQOfertaMessage(
+						toAMQOfertaMessage(
+								offer, token, AMQOfertaMessageCode.NEW)), 
+				stringResult);
+		return stringResult.toString();
+	}
+	
+	public void sendNewOferta(OfferEntity offer, TokenEntity token) {
+		logger.info("Sending a new offer to AMQ with local id " + offer.getId() + "...");
+		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.NEW));
+	}
+	
+	public void sendDeleteOferta(OfferEntity offer, TokenEntity token) {
+		logger.info("Deleting offer from AMQ with local id " + offer.getId() + "...");
+		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.DELETE));
+	}
+	
+	public void sendUpdateOferta(OfferEntity offer, TokenEntity token) {
+		logger.info("Updating offer from AMQ with local id " + offer.getId() + "...");
+		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.UPDATE));
 	}
 }
