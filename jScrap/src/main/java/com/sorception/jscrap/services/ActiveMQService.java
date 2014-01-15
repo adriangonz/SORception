@@ -35,7 +35,15 @@ public class ActiveMQService {
     	amqConfig.disableJmsContainer(jmsContainer);
     }
     
-    public void sendOferta(OfferEntity offer, TokenEntity token) {
-    	ofertasSender.sendOferta(offer, token);
+    public void sendNewOffer(OfferEntity offer, TokenEntity token) {
+    	ofertasSender.sendNewOferta(offer, token);
+    }
+    
+    public void sendDeleteOffer(OfferEntity offer, TokenEntity token) {
+    	ofertasSender.sendDeleteOferta(offer, token);
+    }
+    
+    public void sendUpdateOffer(OfferEntity offer, TokenEntity token) {
+    	ofertasSender.sendUpdateOferta(offer, token);
     }
 }

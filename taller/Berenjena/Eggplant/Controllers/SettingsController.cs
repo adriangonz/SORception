@@ -58,8 +58,7 @@ namespace Berenjena.Controllers
         // DELETE api/settings
         public void Delete()
         {
-            var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
-            svcTaller.deleteTaller(token.token);
+            svcTaller.deleteTaller();
         }
 
         // GET api/settings/token
@@ -78,7 +77,7 @@ namespace Berenjena.Controllers
                     token.token = tr.token;
                     token.timeStamp = DateTime.Now;
                     c_bd.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "El token no ha sido activado");
+                    return Request.CreateResponse(HttpStatusCode.NoContent, "El token no ha sido activado");
                 }
                 else if (tr.status == TokenResponseCode.CREATED)
                 {

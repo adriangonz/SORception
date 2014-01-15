@@ -26,9 +26,9 @@ and open the template in the editor.
             </div>
             <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
-                <li><a href="#about">Solicitudes</a></li>
-                <li><a href="#contact">Ofertas</a></li>
-                <li class="active"><a href="#">Configuracion</a></li>
+                <li><a href="#/orders">Solicitudes</a></li>
+                <li><a href="#/offers">Ofertas</a></li>
+                <li><a href="#/config">Configuracion</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -36,9 +36,9 @@ and open the template in the editor.
 
         <div ng-view class="container"></div>
 
-
         
-	   	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-cookies.js"></script>
 	    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/app/app.js"></script>
@@ -48,9 +48,11 @@ and open the template in the editor.
         <script src="assets/app/services/settingsService.js"></script>
         <!--Directives-->
         <script src="assets/app/directives/authDirective.js"></script>
+        <script src="assets/app/directives/scrapDirective.js"></script>
         <script src="assets/app/directives/settingsDirective.js"></script>
         <!--Controllers-->
         <script src="assets/app/controllers/settingsController.js"></script>
-        <script src="assets/app/controllers/scrapController.js"></script>
+        <script src="assets/app/controllers/ordersController.js"></script>
+        <script src="assets/app/controllers/createOfferController.js"></script>
     </body>
 </html>

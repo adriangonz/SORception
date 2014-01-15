@@ -1,5 +1,6 @@
 package com.sorception.jscrap.services;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -41,14 +42,58 @@ public class OfferService {
 	public OfferEntity addOffer(List<OfferLineEntity> offerLines) {
 		OfferEntity offerEntity = new OfferEntity(offerLines);
 		offerDAO.save(offerEntity);
-		amqService.sendOferta(offerEntity, tokenService.getValid());
+		amqService.sendNewOffer(offerEntity, tokenService.getValid());
 		return offerEntity;
 	}
 	
 	public OfferEntity getOfferById(Long id) {
-		return offerDAO.get(id);
+		OfferEntity offer = offerDAO.get(id);
+		if(offer == null)
+			throw new ResourceNotFoundException("Offer with id " + id + " was not found");
+		return offer;
 	}
 	
+	public void deleteOffer(Long id) {
+		OfferEntity offer = offerDAO.get(id);
+		amqService.sendDeleteOffer(offer,  tokenService.getValid());
+		offerDAO.delete(offer);
+	}
+	
+	public OfferEntity updateOffer(Long offerId, List<OfferLineEntity> lines) {
+		// Check if we are going to erase all lines (i.e. erase offer)
+		OfferEntity offer = this.getOfferById(offerId);
+		Integer totalToDelete = 0;
+		for(OfferLineEntity line : lines) {
+			if(line.toDelete())
+				totalToDelete++;
+		}
+		if(offer.getLines().size() == totalToDelete) {
+			this.deleteOffer(offerId);
+			return null;
+		} else {
+			// Remove entities marked to delete
+			for(Iterator<OfferLineEntity> itLine = lines.iterator(); itLine.hasNext();) {
+			   OfferLineEntity line = itLine.next();
+			   if(line.toDelete()) {
+				   offerDAO.delete(line);
+				   itLine.remove(); // Remove from list   
+			   }
+			}
+			offer.setLines(lines);
+			OfferEntity new_offer = offerDAO.update(offer);
+			amqService.sendUpdateOffer(new_offer, tokenService.getValid());
+			return new_offer;
+		}
+	}
+	
+	public OfferLineEntity getOfferLine(Long id) {
+		OfferLineEntity offerLine = offerDAO.getOfferLine(id);
+		if(offerLine == null)
+			throw new ResourceNotFoundException("OfferLine with id " + id + " has not been found");
+		return offerLine;
+	}
+	
+	/* START OF NYAPICA */
 	public OrderLineEntity getOrderLine(OfferLineEntity offerLine) {
 		return offerDAO.getOrderLine(offerLine);
 	}
@@ -56,4 +101,6 @@ public class OfferService {
 	public OrderEntity getOrder(OfferEntity offer) {
 		return offerDAO.getOrder(offer);
 	}
+	
+	/* END OF NYAPICA */
 }

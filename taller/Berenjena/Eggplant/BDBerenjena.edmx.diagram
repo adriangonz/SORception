@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="BDBerenjena.Solicitud" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="BDBerenjena.LineaSolicitud" Width="1.5" PointX="3.875" PointY="3.5" />
         <AssociationConnector Association="BDBerenjena.SolicitudLineaSolicitud" />
-        <EntityTypeShape EntityType="BDBerenjena.Pedido" Width="1.5" PointX="0.75" PointY="0.5" />
+        <EntityTypeShape EntityType="BDBerenjena.Pedido" Width="1.5" PointX="0.75" PointY="0.625" />
         <EntityTypeShape EntityType="BDBerenjena.LineaPedido" Width="1.5" PointX="0.875" PointY="3.375" />
         <AssociationConnector Association="BDBerenjena.PedidoLineaPedido" />
         <AssociationConnector Association="BDBerenjena.PedidoSolicitud" />

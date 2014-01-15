@@ -1,12 +1,27 @@
-module.service( 'Scrap', [ '$rootScope', function( $rootScope ) {
+module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
    var service = {
-     parts: [ 	
-     ],
+     orders: [],
+     tmp_offer: [],
  
-     addPart: function ( part ) {
-       service.parts.push( part );
-      $rootScope.$broadcast( 'parts.update' );
-     }
+        addLine: function (line) {
+            line.update = 'NEW';
+            service.tmp_offer.push(line);
+            $rootScope.$broadcast('tmp_offer.update');
+        },
+
+	    getOrders: function () {
+	        $http({ method: 'GET', url: '/jScrap/api/order' }).
+	          success(function (data, status, headers, config) {
+	              service.orders = data;
+	              console.log(data);
+	              $rootScope.$broadcast('orders.update');
+	          }).
+	          error(function (data, status, headers, config) {
+	              alert(status + " | " + data);
+	          });
+	    }
+
+
    }
  
    return service;

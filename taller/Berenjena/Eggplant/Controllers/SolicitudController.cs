@@ -14,7 +14,7 @@ namespace Eggplant.Controllers
     [RoutePrefix("api/solicitud")]
     public class SolicitudController : ApiController
     {
-        static BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
+        private BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
         static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
         public static string DELETED = "DELETED";
 
@@ -40,45 +40,48 @@ namespace Eggplant.Controllers
         // POST api/solicitud
         public object Post([FromBody]JObject values)
         {
-                ExposedSolicitud sol = new ExposedSolicitud();
+            ExposedSolicitud sol = new ExposedSolicitud();
 
-                Solicitud s = new Solicitud();
-                s.timeStamp = DateTime.Now;
-                s.status = "FAILED";
-                //Creo las lineas de la solicitud desde los datos pasado por json
-                List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
-                foreach (JObject item in values["data"])
-                {
-                    LineaSolicitud linInt = new LineaSolicitud();
-                    linInt.cantidad = int.Parse(item["cantidad"].ToString());
-                    linInt.descripcion = item["descripcion"].ToString();
-                    s.LineaSolicitud.Add(linInt);
-                }
-                sol.lineas = lineas.ToArray();
-                
-                c_bd.SolicitudSet.Add(s);
-                c_bd.SaveChanges();
-                
-                //sol.taller_sol_id = s.Id;
-                foreach (LineaSolicitud linSol in s.LineaSolicitud)
-                {
-                    ExposedLineaSolicitud expoLinSol = new ExposedLineaSolicitud();
-                    expoLinSol.description = linSol.descripcion;
-                    expoLinSol.quantity = linSol.cantidad;
-                    //expoLinSol.taller_lin_sol_id = linSol.Id;
-                }
-                
+            var s = new Solicitud();
+            s.timeStamp = DateTime.Now;
+            s.status = "FAILED";
 
-                //Lanzo la peticion de alta al sistema gestor
-                int resId = svcTaller.addSolicitud(sol);
-                //Si algo ha ido mal
-                if (resId == -1)
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "El sistema gestor no ha creado la solicitud");
-                else//Si ha ido bien
-                    addSolicitudToLocalDB(resId); //Guardo la solicitud en la base de datos local
+            var solResult = c_bd.SolicitudSet.Add(s);
 
-                //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
-                return new { id = resId };
+            //Creo las lineas de la solicitud desde los datos pasado por json
+            foreach (JObject item in values["data"])
+            {
+                LineaSolicitud linInt = new LineaSolicitud();
+                linInt.cantidad = int.Parse(item["cantidad"].ToString());
+                linInt.descripcion = item["descripcion"].ToString();
+                solResult.LineaSolicitud.Add(linInt);
+            }
+            c_bd.SaveChanges();
+
+            //Pasamos los ids locales al sistema gestor
+            List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
+            foreach (LineaSolicitud linSol in s.LineaSolicitud)
+            {
+                ExposedLineaSolicitud expoLinSol = new ExposedLineaSolicitud();
+                expoLinSol.description = linSol.descripcion;
+                expoLinSol.quantity = linSol.cantidad;
+                expoLinSol.id_en_taller = linSol.Id;
+                lineas.Add(expoLinSol);
+                //expoLinSol.taller_lin_sol_id = linSol.Id;
+            }
+            sol.id_en_taller = s.Id;
+            sol.lineas = lineas.ToArray();
+
+            //Lanzo la peticion de alta al sistema gestor
+            int resId = svcTaller.addSolicitud(sol);
+            //Si algo ha ido mal
+            if (resId == -1)
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "El sistema gestor no ha creado la solicitud");
+            else//Si ha ido bien
+                addSolicitudToLocalDB(resId, solResult.Id); //Guardo la solicitud en la base de datos local
+
+            //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
+            return new { id = resId };
         }
 
         // PUT api/solicitud/5
@@ -179,27 +182,28 @@ namespace Eggplant.Controllers
             }
 
         }
-        private void addSolicitudToLocalDB(int idSol)
+        private void addSolicitudToLocalDB(int idSol, int idInterno)
         {
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
             {
-                Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == solExtern.taller_id);//TODO deberia ser taller_solicitud_id
-                if (s != null)
+                using (BDBerenjenaContainer c_bd_interna = new BDBerenjenaContainer())
                 {
-                    s.sg_id = solExtern.id;
-                    s.timeStamp = DateTime.Now;
-                    s.status = solExtern.status;
-                    s = c_bd.SolicitudSet.Add(s);
-                    foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
+                    Solicitud s = c_bd_interna.SolicitudSet.FirstOrDefault(x => x.Id == idInterno);//TODO deberia ser taller_solicitud_id
+                    if (s != null)
                     {
-                        LineaSolicitud lineLocal = new LineaSolicitud();
-                        lineLocal.cantidad = linSolicitudExtern.quantity;
-                        lineLocal.descripcion = linSolicitudExtern.description;
-                        lineLocal.sg_id = linSolicitudExtern.id;
-                        s.LineaSolicitud.Add(lineLocal);
+                        s.sg_id = solExtern.id;
+                        s.timeStamp = DateTime.Now;
+                        s.status = solExtern.status;
+                        foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
+                        {
+                            var lineaInterna = c_bd_interna.LineaSolicitudSet.FirstOrDefault(x => x.Id == linSolicitudExtern.id_en_taller);
+                            if (lineaInterna != null){
+                                lineaInterna.sg_id = linSolicitudExtern.id;
+                            }
+                        }
+                        c_bd_interna.SaveChanges();
                     }
-                    c_bd.SaveChanges();
                 }
             }
         }
