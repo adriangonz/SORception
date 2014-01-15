@@ -15,10 +15,11 @@ namespace Eggplant
     public partial class LineaPedido
     {
         public int Id { get; set; }
-        public string oferta_id { get; set; }
-        public string quantity { get; set; }
-        public string price { get; set; }
+        public int linea_oferta_id { get; set; }
+        public int quantity { get; set; }
+        public decimal price { get; set; }
         public int PedidoId { get; set; }
+        public int sg_id { get; set; }
     
         public virtual Pedido Pedido { get; set; }
     }

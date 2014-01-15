@@ -17,6 +17,7 @@ namespace Eggplant
         public Solicitud()
         {
             this.LineaSolicitud = new HashSet<LineaSolicitud>();
+            this.Pedido = new HashSet<Pedido>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,6 @@ namespace Eggplant
         public string status { get; set; }
     
         public virtual ICollection<LineaSolicitud> LineaSolicitud { get; set; }
+        public virtual ICollection<Pedido> Pedido { get; set; }
     }
 }

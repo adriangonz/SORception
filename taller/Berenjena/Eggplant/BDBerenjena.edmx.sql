@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/14/2014 21:31:54
+-- Date Created: 01/15/2014 02:01:45
 -- Generated from EDMX file: C:\Users\Ruben\Documents\sorception\taller\Berenjena\Eggplant\BDBerenjena.edmx
 -- --------------------------------------------------
 
@@ -20,6 +20,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineaSolicitudSet] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
 GO
+IF OBJECT_ID(N'[dbo].[FK_PedidoLineaPedido]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaPedidoSet] DROP CONSTRAINT [FK_PedidoLineaPedido];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -33,6 +36,12 @@ IF OBJECT_ID(N'[dbo].[SolicitudSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[LineaSolicitudSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LineaSolicitudSet];
+GO
+IF OBJECT_ID(N'[dbo].[PedidoSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PedidoSet];
+GO
+IF OBJECT_ID(N'[dbo].[LineaPedidoSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LineaPedidoSet];
 GO
 
 -- --------------------------------------------------
@@ -70,19 +79,21 @@ GO
 -- Creating table 'PedidoSet'
 CREATE TABLE [dbo].[PedidoSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [sg_id] int  NOT NULL,
+    [oferta_id] int  NOT NULL,
     [timeStamp] datetime  NOT NULL,
-    [status] nvarchar(max)  NOT NULL
+    [status] nvarchar(max)  NOT NULL,
+    [Solicitud_Id] int  NOT NULL
 );
 GO
 
 -- Creating table 'LineaPedidoSet'
 CREATE TABLE [dbo].[LineaPedidoSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [oferta_id] nvarchar(max)  NOT NULL,
-    [quantity] nvarchar(max)  NOT NULL,
-    [price] nvarchar(max)  NOT NULL,
-    [PedidoId] int  NOT NULL
+    [linea_oferta_id] int  NOT NULL,
+    [quantity] int  NOT NULL,
+    [price] decimal(18,0)  NOT NULL,
+    [PedidoId] int  NOT NULL,
+    [sg_id] int  NOT NULL
 );
 GO
 
@@ -150,6 +161,20 @@ ADD CONSTRAINT [FK_PedidoLineaPedido]
 CREATE INDEX [IX_FK_PedidoLineaPedido]
 ON [dbo].[LineaPedidoSet]
     ([PedidoId]);
+GO
+
+-- Creating foreign key on [Solicitud_Id] in table 'PedidoSet'
+ALTER TABLE [dbo].[PedidoSet]
+ADD CONSTRAINT [FK_PedidoSolicitud]
+    FOREIGN KEY ([Solicitud_Id])
+    REFERENCES [dbo].[SolicitudSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PedidoSolicitud'
+CREATE INDEX [IX_FK_PedidoSolicitud]
+ON [dbo].[PedidoSet]
+    ([Solicitud_Id]);
 GO
 
 -- --------------------------------------------------

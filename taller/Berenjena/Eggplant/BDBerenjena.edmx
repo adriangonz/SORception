@@ -19,6 +19,10 @@
       <End Role="Pedido" EntitySet="PedidoSet" />
       <End Role="LineaPedido" EntitySet="LineaPedidoSet" />
     </AssociationSet>
+    <AssociationSet Name="PedidoSolicitud" Association="BDBerenjena.Store.PedidoSolicitud">
+      <End Role="Pedido" EntitySet="PedidoSet" />
+      <End Role="Solicitud" EntitySet="SolicitudSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="TokensSet">
     <Key>
@@ -53,19 +57,21 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="sg_id" Type="int" Nullable="false" />
+    <Property Name="oferta_id" Type="int" Nullable="false" />
     <Property Name="timeStamp" Type="datetime" Nullable="false" />
     <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Solicitud_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="LineaPedidoSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="oferta_id" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="quantity" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="price" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="linea_oferta_id" Type="int" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="price" Type="decimal" Nullable="false" />
     <Property Name="PedidoId" Type="int" Nullable="false" />
+    <Property Name="sg_id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="SolicitudLineaSolicitud">
     <End Role="Solicitud" Type="BDBerenjena.Store.SolicitudSet" Multiplicity="1" />
@@ -91,6 +97,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="PedidoSolicitud">
+    <End Role="Pedido" Type="BDBerenjena.Store.PedidoSet" Multiplicity="*" />
+    <End Role="Solicitud" Type="BDBerenjena.Store.SolicitudSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Solicitud">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pedido">
+        <PropertyRef Name="Solicitud_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -108,6 +126,10 @@
           <AssociationSet Name="PedidoLineaPedido" Association="BDBerenjena.PedidoLineaPedido">
             <End Role="Pedido" EntitySet="PedidoSet" />
             <End Role="LineaPedido" EntitySet="LineaPedidoSet" />
+          </AssociationSet>
+          <AssociationSet Name="PedidoSolicitud" Association="BDBerenjena.PedidoSolicitud">
+            <End Role="Pedido" EntitySet="PedidoSet" />
+            <End Role="Solicitud" EntitySet="SolicitudSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Tokens">
@@ -128,6 +150,7 @@
           <NavigationProperty Name="LineaSolicitud" Relationship="BDBerenjena.SolicitudLineaSolicitud" FromRole="Solicitud" ToRole="LineaSolicitud" />
           <Property Name="timeStamp" Type="DateTime" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" />
+          <NavigationProperty Name="Pedido" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Solicitud" ToRole="Pedido" />
         </EntityType>
         <EntityType Name="LineaSolicitud">
           <Key>
@@ -157,21 +180,23 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="sg_id" Type="Int32" Nullable="false" />
+          <Property Name="oferta_id" Nullable="false" Type="Int32" />
           <Property Name="timeStamp" Type="DateTime" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" />
           <NavigationProperty Name="LineaPedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="Pedido" ToRole="LineaPedido" />
+          <NavigationProperty Name="Solicitud" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Pedido" ToRole="Solicitud" />
         </EntityType>
         <EntityType Name="LineaPedido">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="oferta_id" Type="String" Nullable="false" />
-          <Property Name="quantity" Type="String" Nullable="false" />
-          <Property Name="price" Type="String" Nullable="false" />
+          <Property Name="linea_oferta_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="Pedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="LineaPedido" ToRole="Pedido" />
           <Property Name="PedidoId" Type="Int32" Nullable="false" />
+          <Property Name="sg_id" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="PedidoLineaPedido">
           <End Type="BDBerenjena.Pedido" Role="Pedido" Multiplicity="1" />
@@ -184,6 +209,10 @@
               <PropertyRef Name="PedidoId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="PedidoSolicitud">
+          <End Type="BDBerenjena.Pedido" Role="Pedido" Multiplicity="*" />
+          <End Type="BDBerenjena.Solicitud" Role="Solicitud" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -226,7 +255,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Pedido)">
         <MappingFragment StoreEntitySet="PedidoSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+          <ScalarProperty Name="oferta_id" ColumnName="oferta_id" />
           <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
           <ScalarProperty Name="status" ColumnName="status" />
         </MappingFragment>
@@ -236,13 +265,22 @@
       <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.LineaPedido)">
         <MappingFragment StoreEntitySet="LineaPedidoSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="oferta_id" ColumnName="oferta_id" />
+          <ScalarProperty Name="linea_oferta_id" ColumnName="linea_oferta_id" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="PedidoId" ColumnName="PedidoId" />
+          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <AssociationSetMapping Name="PedidoSolicitud" TypeName="BDBerenjena.PedidoSolicitud" StoreEntitySet="PedidoSet">
+      <EndProperty Name="Solicitud">
+        <ScalarProperty Name="Id" ColumnName="Solicitud_Id" />
+      </EndProperty>
+      <EndProperty Name="Pedido">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
