@@ -58,8 +58,7 @@ namespace Berenjena.Controllers
         // DELETE api/settings
         public void Delete()
         {
-            var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
-            svcTaller.deleteTaller(token.token);
+            svcTaller.deleteTaller();
         }
 
         // GET api/settings/token

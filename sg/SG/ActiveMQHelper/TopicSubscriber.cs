@@ -74,7 +74,8 @@ namespace ActiveMQHelper
                 stream.Write(data, 0, data.Length);
                 stream.Position = 0;
                 DataContractSerializer deserializer = new DataContractSerializer(to_type);
-                return deserializer.ReadObject(stream);
+                object o = deserializer.ReadObject(stream);
+                return o;
             }
         }
     }

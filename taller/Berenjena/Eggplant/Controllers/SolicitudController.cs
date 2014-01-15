@@ -56,22 +56,20 @@ namespace Eggplant.Controllers
                 linInt.descripcion = item["descripcion"].ToString();
                 solResult.LineaSolicitud.Add(linInt);
             }
-
-            //c_bd.SolicitudSet.Add(s);
             c_bd.SaveChanges();
 
-
-
-            //sol.taller_sol_id = s.Id;
+            //Pasamos los ids locales al sistema gestor
             List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
             foreach (LineaSolicitud linSol in s.LineaSolicitud)
             {
                 ExposedLineaSolicitud expoLinSol = new ExposedLineaSolicitud();
                 expoLinSol.description = linSol.descripcion;
                 expoLinSol.quantity = linSol.cantidad;
+                expoLinSol.id_en_taller = linSol.Id;
                 lineas.Add(expoLinSol);
                 //expoLinSol.taller_lin_sol_id = linSol.Id;
             }
+            sol.id_en_taller = s.Id;
             sol.lineas = lineas.ToArray();
 
             //Lanzo la peticion de alta al sistema gestor
@@ -199,11 +197,10 @@ namespace Eggplant.Controllers
                         s.status = solExtern.status;
                         foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
                         {
-                            /*LineaSolicitud lineLocal = new LineaSolicitud();
-                            lineLocal.cantidad = linSolicitudExtern.quantity;
-                            lineLocal.descripcion = linSolicitudExtern.description;
-                            lineLocal.sg_id = linSolicitudExtern.id;
-                            s.LineaSolicitud.Add(lineLocal);*/
+                            var lineaInterna = c_bd_interna.LineaSolicitudSet.FirstOrDefault(x => x.Id == linSolicitudExtern.id_en_taller);
+                            if (lineaInterna != null){
+                                lineaInterna.sg_id = linSolicitudExtern.id;
+                            }
                         }
                         c_bd_interna.SaveChanges();
                     }

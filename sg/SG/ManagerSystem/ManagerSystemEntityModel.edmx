@@ -14,16 +14,13 @@
     <EntitySet Name="LineasSolicitudSet" EntityType="managersystemModel.Store.LineasSolicitudSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="LineaOfertaSeleccionadaSet" EntityType="managersystemModel.Store.LineaOfertaSeleccionadaSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TokenSet" EntityType="managersystemModel.Store.TokenSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Logs" EntityType="managersystemModel.Store.Logs" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="DesguaceOferta" Association="managersystemModel.Store.DesguaceOferta">
       <End Role="Desguace" EntitySet="DesguaceSet" />
       <End Role="Oferta" EntitySet="OfertaSet" />
     </AssociationSet>
     <AssociationSet Name="TallerSolicitud" Association="managersystemModel.Store.TallerSolicitud">
       <End Role="Taller" EntitySet="TallerSet" />
-      <End Role="Solicitud" EntitySet="SolicitudSet" />
-    </AssociationSet>
-    <AssociationSet Name="OfertaSolicitud" Association="managersystemModel.Store.OfertaSolicitud">
-      <End Role="Oferta" EntitySet="OfertaSet" />
       <End Role="Solicitud" EntitySet="SolicitudSet" />
     </AssociationSet>
     <AssociationSet Name="OfertaLineaOferta" Association="managersystemModel.Store.OfertaLineaOferta">
@@ -54,6 +51,10 @@
       <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
       <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
     </AssociationSet>
+    <AssociationSet Name="SolicitudOferta" Association="managersystemModel.Store.SolicitudOferta">
+      <End Role="Solicitud" EntitySet="SolicitudSet" />
+      <End Role="Oferta" EntitySet="OfertaSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="DesguaceSet">
     <Key>
@@ -62,6 +63,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="active" Type="bit" Nullable="false" />
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="deleted" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <EntityType Name="OfertaSet">
     <Key>
@@ -72,7 +74,8 @@
     <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="state" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DesguaceId" Type="int" Nullable="false" />
-    <Property Name="Solicitud_Id" Type="int" Nullable="false" />
+    <Property Name="SolicitudId" Type="int" Nullable="false" />
+    <Property Name="deleted" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <EntityType Name="LineaOfertaSet">
     <Key>
@@ -93,6 +96,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="active" Type="bit" Nullable="false" />
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="deleted" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <EntityType Name="SolicitudSet">
     <Key>
@@ -103,6 +107,7 @@
     <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="state" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TallerId" Type="int" Nullable="false" />
+    <Property Name="deleted" Type="bit" Nullable="false" DefaultValue="false" />
   </EntityType>
   <EntityType Name="LineasSolicitudSet">
     <Key>
@@ -135,6 +140,15 @@
     <Property Name="DesguaceId" Type="int" Nullable="true" />
     <Property Name="TallerId" Type="int" Nullable="true" />
   </EntityType>
+  <EntityType Name="Logs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" Nullable="false" />
+    <Property Name="message" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="level" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <Association Name="DesguaceOferta">
     <End Role="Desguace" Type="managersystemModel.Store.DesguaceSet" Multiplicity="1" />
     <End Role="Oferta" Type="managersystemModel.Store.OfertaSet" Multiplicity="*" />
@@ -156,18 +170,6 @@
       </Principal>
       <Dependent Role="Solicitud">
         <PropertyRef Name="TallerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="OfertaSolicitud">
-    <End Role="Oferta" Type="managersystemModel.Store.OfertaSet" Multiplicity="*" />
-    <End Role="Solicitud" Type="managersystemModel.Store.SolicitudSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Solicitud">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Oferta">
-        <PropertyRef Name="Solicitud_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -255,6 +257,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SolicitudOferta">
+    <End Role="Solicitud" Type="managersystemModel.Store.SolicitudSet" Multiplicity="1" />
+    <End Role="Oferta" Type="managersystemModel.Store.OfertaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Solicitud">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Oferta">
+        <PropertyRef Name="SolicitudId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -274,10 +288,6 @@
           </AssociationSet>
           <AssociationSet Name="TallerSolicitud" Association="managersystemModel.TallerSolicitud">
             <End Role="Taller" EntitySet="TallerSet" />
-            <End Role="Solicitud" EntitySet="SolicitudSet" />
-          </AssociationSet>
-          <AssociationSet Name="OfertaSolicitud" Association="managersystemModel.OfertaSolicitud">
-            <End Role="Oferta" EntitySet="OfertaSet" />
             <End Role="Solicitud" EntitySet="SolicitudSet" />
           </AssociationSet>
           <AssociationSet Name="OfertaLineaOferta" Association="managersystemModel.OfertaLineaOferta">
@@ -308,6 +318,11 @@
             <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
             <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
           </AssociationSet>
+          <EntitySet Name="Logs" EntityType="managersystemModel.Log" />
+          <AssociationSet Name="SolicitudOferta" Association="managersystemModel.SolicitudOferta">
+            <End Role="Solicitud" EntitySet="SolicitudSet" />
+            <End Role="Oferta" EntitySet="OfertaSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Desguace">
           <Key>
@@ -318,6 +333,7 @@
           <Property Type="String" Name="name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Ofertas" Relationship="managersystemModel.DesguaceOferta" FromRole="Desguace" ToRole="Oferta" />
           <NavigationProperty Name="Tokens" Relationship="managersystemModel.DesguaceToken" FromRole="Desguace" ToRole="Token" />
+          <Property Type="Boolean" Name="deleted" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="Oferta">
           <Key>
@@ -329,8 +345,10 @@
           <Property Type="String" Name="state" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Desguace" Relationship="managersystemModel.DesguaceOferta" FromRole="Oferta" ToRole="Desguace" />
           <Property Type="Int32" Name="DesguaceId" Nullable="false" />
-          <NavigationProperty Name="Solicitud" Relationship="managersystemModel.OfertaSolicitud" FromRole="Oferta" ToRole="Solicitud" />
           <NavigationProperty Name="LineasOferta" Relationship="managersystemModel.OfertaLineaOferta" FromRole="Oferta" ToRole="LineaOferta" />
+          <NavigationProperty Name="Solicitud" Relationship="managersystemModel.SolicitudOferta" FromRole="Oferta" ToRole="Solicitud" />
+          <Property Type="Int32" Name="SolicitudId" Nullable="false" />
+          <Property Type="Boolean" Name="deleted" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="LineaOferta">
           <Key>
@@ -356,6 +374,7 @@
           <Property Type="String" Name="name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Solicitudes" Relationship="managersystemModel.TallerSolicitud" FromRole="Taller" ToRole="Solicitud" />
           <NavigationProperty Name="Tokens" Relationship="managersystemModel.TallerToken" FromRole="Taller" ToRole="Token" />
+          <Property Type="Boolean" Name="deleted" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="Solicitud">
           <Key>
@@ -367,8 +386,9 @@
           <Property Type="String" Name="state" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Taller" Relationship="managersystemModel.TallerSolicitud" FromRole="Solicitud" ToRole="Taller" />
           <Property Type="Int32" Name="TallerId" Nullable="false" />
-          <NavigationProperty Name="Ofertas" Relationship="managersystemModel.OfertaSolicitud" FromRole="Solicitud" ToRole="Oferta" />
           <NavigationProperty Name="LineasSolicitud" Relationship="managersystemModel.SolicitudLineaSolicitud" FromRole="Solicitud" ToRole="LineaSolicitud" />
+          <NavigationProperty Name="Ofertas" Relationship="managersystemModel.SolicitudOferta" FromRole="Solicitud" ToRole="Oferta" />
+          <Property Type="Boolean" Name="deleted" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="LineaSolicitud">
           <Key>
@@ -430,10 +450,6 @@
               <PropertyRef Name="TallerId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="OfertaSolicitud">
-          <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="*" />
-          <End Type="managersystemModel.Solicitud" Role="Solicitud" Multiplicity="1" />
         </Association>
         <Association Name="OfertaLineaOferta">
           <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="1" />
@@ -511,6 +527,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" />
+          <Property Type="String" Name="message" Nullable="false" />
+          <Property Type="String" Name="level" Nullable="false" />
+        </EntityType>
+        <Association Name="SolicitudOferta">
+          <End Type="managersystemModel.Solicitud" Role="Solicitud" Multiplicity="1" />
+          <End Type="managersystemModel.Oferta" Role="Oferta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solicitud">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Oferta">
+              <PropertyRef Name="SolicitudId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -523,6 +560,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="active" ColumnName="active" />
           <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="deleted" ColumnName="deleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -534,6 +572,8 @@
           <ScalarProperty Name="date" ColumnName="date" />
           <ScalarProperty Name="state" ColumnName="state" />
           <ScalarProperty Name="DesguaceId" ColumnName="DesguaceId" />
+          <ScalarProperty Name="SolicitudId" ColumnName="SolicitudId" />
+          <ScalarProperty Name="deleted" ColumnName="deleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -556,6 +596,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="active" ColumnName="active" />
           <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="deleted" ColumnName="deleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -567,6 +608,7 @@
           <ScalarProperty Name="date" ColumnName="date" />
           <ScalarProperty Name="state" ColumnName="state" />
           <ScalarProperty Name="TallerId" ColumnName="TallerId" />
+          <ScalarProperty Name="deleted" ColumnName="deleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -603,14 +645,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="OfertaSolicitud" TypeName="managersystemModel.OfertaSolicitud" StoreEntitySet="OfertaSet">
-      <EndProperty Name="Solicitud">
-        <ScalarProperty Name="Id" ColumnName="Solicitud_Id" />
-      </EndProperty>
-      <EndProperty Name="Oferta">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="Logs">
+      <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Log)">
+        <MappingFragment StoreEntitySet="Logs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="level" ColumnName="level" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="LineaOfertaSeleccionadaLineaOferta" TypeName="managersystemModel.LineaOfertaSeleccionadaLineaOferta" StoreEntitySet="LineaOfertaSeleccionadaSet">
       <EndProperty Name="LineaOferta">
         <ScalarProperty Name="Id" ColumnName="LineaOferta_Id" />

@@ -3,6 +3,9 @@ module.controller( "SettingsCtrl", [ '$scope', 'SettingsService','Auth', functio
 		$scope.settings = SettingsService.settings;
 	});
 
+
+	Auth.isLoggedIn();
+	
 	SettingsService.getSettings();
 	SettingsService.getUsers();
   	$scope.settings;

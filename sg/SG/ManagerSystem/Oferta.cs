@@ -17,6 +17,7 @@ namespace ManagerSystem
     {
         public Oferta()
         {
+            this.deleted = false;
             this.LineasOferta = new HashSet<LineaOferta>();
         }
     
@@ -25,9 +26,11 @@ namespace ManagerSystem
         public System.DateTime date { get; set; }
         public string state { get; set; }
         public int DesguaceId { get; set; }
+        public int SolicitudId { get; set; }
+        public bool deleted { get; set; }
     
         public virtual Desguace Desguace { get; set; }
-        public virtual Solicitud Solicitud { get; set; }
         public virtual ICollection<LineaOferta> LineasOferta { get; set; }
+        public virtual Solicitud Solicitud { get; set; }
     }
 }
