@@ -150,7 +150,7 @@
           <NavigationProperty Name="LineaSolicitud" Relationship="BDBerenjena.SolicitudLineaSolicitud" FromRole="Solicitud" ToRole="LineaSolicitud" />
           <Property Name="timeStamp" Type="DateTime" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" />
-          <NavigationProperty Name="Pedido" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Solicitud" ToRole="Pedido" />
+          <NavigationProperty Name="Pedidos" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Solicitud" ToRole="Pedido" />
         </EntityType>
         <EntityType Name="LineaSolicitud">
           <Key>

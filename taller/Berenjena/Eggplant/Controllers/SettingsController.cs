@@ -78,7 +78,7 @@ namespace Berenjena.Controllers
                     token.token = tr.token;
                     token.timeStamp = DateTime.Now;
                     c_bd.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "El token no ha sido activado");
+                    return Request.CreateResponse(HttpStatusCode.NoContent, "El token no ha sido activado");
                 }
                 else if (tr.status == TokenResponseCode.CREATED)
                 {
