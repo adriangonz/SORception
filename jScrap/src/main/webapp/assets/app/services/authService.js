@@ -1,15 +1,17 @@
-module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootScope, $http, $location ) {
+module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function ($rootScope, $http, $location, $cookies) {
    var service = {
-	    SessionID : undefined,
 	 
-	    login: function () {
-	        $http({method: 'GET', url: '/jScrap/api/login'}).
+	    login: function (user) {	
+	        $http({method: 'POST', url: '/jScrap/api/user/authenticate', data: user}).
 			  success(function(data, status, headers, config) {
-	       		service.SessionID=data;
-	       		$location.path("/main");
+			      $cookies["SessionScrap"] = JSON.stringify(data);
+			      console.log(data+"|plus");
+			      $http.defaults.headers.common.Authorization = "Basic YWRtaW46";
+			    $rootScope.$broadcast('auth.login');
+	       		$location.path("/config");
 			  }).
 			  error(function(data, status, headers, config) {
-			  	alert(status+" | "+data);
+			  	console.log(status+" | "+data);
 	       		$location.path("/login");
 			  });    	
 	    },
@@ -17,7 +19,9 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	    logout: function(){
 	     	  $http({method: 'POST', url: '/jScrap/api/logout'}).
 	          success(function(data, status, headers, config) {
-	            service.SessionID = undefined;
+	              delete $cookies["SessionScrap"];
+	              $http.defaults.headers.common.Authorization = ""; 
+	              $rootScope.$broadcast('auth.login');
 	       		$location.path("/login");
 	          }).
 	          error(function(data, status, headers, config) {
@@ -26,7 +30,9 @@ module.service( 'Auth', [ '$rootScope', '$http', '$location', function( $rootSco
 	    },
 
 	    isLoggedIn: function () {
-            if(service.SessionID) {
+	    	$rootScope.$broadcast('auth.login');
+	        SessionScrap = $cookies["SessionScrap"];
+	        if (SessionScrap) {
                 return true;
             }
 	       	$location.path("/login");

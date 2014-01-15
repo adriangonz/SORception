@@ -1,12 +1,4 @@
-module.directive( "requestTokenButton", [ 'Auth', function( Auth ) {
-   return {
-     restrict: "A"
-     ,
-     link: function( scope, element, attrs ) {
-       element.bind( "click", SettingsService.postSettings);
-     }
-   }
- }]).directive( "loginBtn", [ 'SettingsService', function( SettingsService ) {
+module.directive( "loginBtn", [ 'Auth', function( Auth ) {
    return {
      restrict: "A",
      scope: {
@@ -18,4 +10,14 @@ module.directive( "requestTokenButton", [ 'Auth', function( Auth ) {
        });
      }
    }
- }]);
+ }]).directive("logout", ['Auth', function (Auth) {
+    return {
+        restrict: "E",
+        scope: {},
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                Auth.logout();
+            });
+        }
+    }
+}]);

@@ -32,7 +32,7 @@ public class OfferLineEntity extends AbstractEntity {
 	private OfferEntity _offer;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="orderLineId")
+	@JoinColumn(name="orderLineId", unique = true)
 	private OrderLineEntity _orderLine;
 	
 	@Transient
