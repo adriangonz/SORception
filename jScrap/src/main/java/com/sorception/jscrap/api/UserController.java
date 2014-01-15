@@ -6,7 +6,6 @@
 
 package com.sorception.jscrap.api;
 
-import static com.sorception.jscrap.api.AuthController.logger;
 import org.springframework.stereotype.Controller;
 
 import com.sorception.jscrap.entities.UserEntity;

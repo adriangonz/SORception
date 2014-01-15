@@ -3,7 +3,10 @@ package com.sorception.jscrap.entities;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -26,16 +29,32 @@ public class OfferEntity extends AbstractEntity {
 			fetch = FetchType.EAGER)
 	private List<OfferLineEntity> _lines;
 	
+	@Column(name = "deleted")
+	private Boolean _deleted = false;
+	
 	public OfferEntity() {}
 	
 	public OfferEntity(List<OfferLineEntity> lines) {
-		this._lines = lines;
-		for(OfferLineEntity line : lines) {
-			line.setOffer(this);
-		}
+		this.setLines(lines);
+	}
+	
+	public void setDeleted(Boolean deleted) {
+		this._deleted = deleted;
 	}
 	
 	public List<OfferLineEntity> getLines() {
 		return this._lines;
+	}
+	
+	@JsonIgnore
+	public Boolean isDeleted() {
+		return this._deleted;
+	}
+	
+	public void setLines(List<OfferLineEntity> lines) {
+		this._lines = lines;
+		for(OfferLineEntity line : lines) {
+			line.setOffer(this);
+		}
 	}
 }
