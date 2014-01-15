@@ -42,6 +42,14 @@ namespace ManagerSystem
             return ms_ent.DesguaceSet.Find(id);
         }
 
+        static public Desguace Find(string token)
+        {
+            Token t = TokenRepository.Find(token);
+            if (t != null)
+                return t.Desguace;
+            return null;
+        }
+
         static public Desguace Sanitize(Desguace d)
         {
             return Copy(d);
@@ -85,8 +93,8 @@ namespace ManagerSystem
 
         static public void Delete(int id)
         {
-            var desguace = ms_ent.DesguaceSet.Find(id);
-            ms_ent.DesguaceSet.Remove(desguace);
+            Desguace d = ms_ent.DesguaceSet.Find(id);
+            d.deleted = true;
         }
 
         static public void Save()

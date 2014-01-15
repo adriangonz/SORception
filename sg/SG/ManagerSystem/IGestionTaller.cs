@@ -20,7 +20,7 @@ namespace ManagerSystem
         int putTaller(ExposedTaller t);
 
         [OperationContract]
-        int deleteTaller(string token);
+        int deleteTaller();
 
         [OperationContract]
         ExposedSolicitud getSolicitud(int id);

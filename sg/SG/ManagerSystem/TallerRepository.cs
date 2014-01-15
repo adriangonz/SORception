@@ -85,8 +85,8 @@ namespace ManagerSystem
 
         static public void Delete(int id)
         {
-            var taller = ms_ent.TallerSet.Find(id);
-            ms_ent.TallerSet.Remove(taller);
+            Taller t = Find(id);
+            t.deleted = true;
         }
 
         static public void Save()
