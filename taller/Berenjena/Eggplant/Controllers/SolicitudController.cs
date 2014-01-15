@@ -58,7 +58,7 @@ namespace Eggplant.Controllers
                 s.status = "FAILED";
                 c_bd.SolicitudSet.Add(s);
                 c_bd.SaveChanges();
-                sol.taller_id = s.Id;
+                sol.taller_id = s.Id;//TODO necesito un campo por donde pasar el id
 
                 //Lanzo la peticion de alta al sistema gestor
                 int resId = svcTaller.addSolicitud(sol);
