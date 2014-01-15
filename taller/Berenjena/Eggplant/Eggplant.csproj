@@ -199,6 +199,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\OfertaController.cs" />
+    <Compile Include="Controllers\PedidoController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs">
       <SubType>
@@ -211,11 +213,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="LineaPedido.cs">
+      <DependentUpon>BDBerenjena.tt</DependentUpon>
+    </Compile>
     <Compile Include="LineaSolicitud.cs">
       <DependentUpon>BDBerenjena.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Pedido.cs">
+      <DependentUpon>BDBerenjena.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

@@ -30,7 +30,7 @@ namespace Berenjena.Controllers
             
         }
 
-        // POST api/gestion
+        // POST api/settings
         public object Post([FromBody]JObject value)
         {
             setLastTokenAsExpired();
@@ -46,7 +46,7 @@ namespace Berenjena.Controllers
             return to;
         }
 
-        // PUT api/gestion
+        // PUT api/settings
         public void Put([FromBody]JObject value)
         {
             var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
@@ -55,15 +55,15 @@ namespace Berenjena.Controllers
             svcTaller.putTaller(t);
         }
 
-        // DELETE api/gestion
+        // DELETE api/settings
         public void Delete()
         {
             var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
             svcTaller.deleteTaller(token.token);
         }
 
-        // GET api/gestion/token
-        [Route("api/gestion/token")]
+        // GET api/settings/token
+        [Route("api/settings/token")]
         public object GetToken() {
             if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
             var token = c_bd.TokensSet.OrderByDescending(x => x.timeStamp).FirstOrDefault();//(from d in c_bd.TokensSet orderby d.timeStamp descending select d).First();

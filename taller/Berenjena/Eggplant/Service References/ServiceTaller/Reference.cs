@@ -319,7 +319,7 @@ namespace Eggplant.ServiceTaller {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int desguace_idField;
+        private string desguace_idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idField;
@@ -341,12 +341,12 @@ namespace Eggplant.ServiceTaller {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int desguace_id {
+        public string desguace_id {
             get {
                 return this.desguace_idField;
             }
             set {
-                if ((this.desguace_idField.Equals(value) != true)) {
+                if ((object.ReferenceEquals(this.desguace_idField, value) != true)) {
                     this.desguace_idField = value;
                     this.RaisePropertyChanged("desguace_id");
                 }

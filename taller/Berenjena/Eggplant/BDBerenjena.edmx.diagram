@@ -5,10 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="23bd9497db5f43b28b1f8dd764f5c8f1" Name="Diagram1" >
-        <EntityTypeShape EntityType="BDBerenjena.Tokens" Width="1.5" PointX="3.5" PointY="2.625" />
-        <EntityTypeShape EntityType="BDBerenjena.Solicitud" Width="1.5" PointX="5.25" PointY="0.625" />
-        <EntityTypeShape EntityType="BDBerenjena.LineaSolicitud" Width="1.5" PointX="7.125" PointY="2.375" />
+        <EntityTypeShape EntityType="BDBerenjena.Tokens" Width="1.5" PointX="7.375" PointY="3.875" />
+        <EntityTypeShape EntityType="BDBerenjena.Solicitud" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BDBerenjena.LineaSolicitud" Width="1.5" PointX="3.875" PointY="3.5" />
         <AssociationConnector Association="BDBerenjena.SolicitudLineaSolicitud" />
+        <EntityTypeShape EntityType="BDBerenjena.Pedido" Width="1.5" PointX="0.75" PointY="0.5" />
+        <EntityTypeShape EntityType="BDBerenjena.LineaPedido" Width="1.5" PointX="0.875" PointY="3.375" />
+        <AssociationConnector Association="BDBerenjena.PedidoLineaPedido" />
+        <AssociationConnector Association="BDBerenjena.PedidoSolicitud" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
