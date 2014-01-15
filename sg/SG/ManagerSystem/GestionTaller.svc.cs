@@ -18,6 +18,8 @@ namespace ManagerSystem
             string token_string = OperationContext.Current.IncomingMessageHeaders
                 .GetHeader<string>("Authorization", Constants.Namespace);
 
+            //token_string = "1c54c3ebedc0aaedacda5cd0dbe167499924eabf3cbaf965dfcd769946165e66";
+
             Token token = TokenRepository.Find(token_string);
             if (token != null && token.is_valid && token.Taller != null)
             {
@@ -143,6 +145,7 @@ namespace ManagerSystem
             if (es != null)
             {
                 Solicitud s = SolicitudRepository.GetIncoming(es);
+                s.TallerId = t.Id;
                 SolicitudRepository.InsertOrUpdate(s);
                 SolicitudRepository.Save();
                 SendMessage(new AMQSolicitudMessage(SolicitudRepository.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
@@ -183,14 +186,11 @@ namespace ManagerSystem
 
             List<ExposedOferta> ofertas = new List<ExposedOferta>();
 
-            Solicitud s = SolicitudRepository.Find(solicitud_id);
+            List<Oferta> ofertas_mias = OfertaRepository.GetOfSolicitud(solicitud_id);
 
-            if (s != null)
+            foreach (var oferta in ofertas_mias)
             {
-                foreach (var oferta in s.Ofertas)
-                {
-                    ofertas.Add(OfertaRepository.ToExposed(oferta));
-                }
+                ofertas.Add(OfertaRepository.ToExposed(oferta));
             }
 
             return ofertas;
