@@ -49,6 +49,8 @@ class OfferLineDTO {
 				offerLine.setNotes(notes);
 			if(price != null)
 				offerLine.setPrice(price);
+			if(status != null && "DELETE".equals(status))
+				offerLine.markToDelete();
 		}
 		return offerLine;
 	}
@@ -64,10 +66,7 @@ class OfferDTO {
 			OfferService offerService) {
 		List<OfferLineEntity> list = new ArrayList<>();
 		for(OfferLineDTO line : this.lines) {
-			if(line.status == null ||
-					(line.status != null && !"DELETED".equals(line.status))) {
-				list.add(line.getOfferLine(orderService, offerService));
-			}
+			list.add(line.getOfferLine(orderService, offerService));
 		}
 		return list;
 	}

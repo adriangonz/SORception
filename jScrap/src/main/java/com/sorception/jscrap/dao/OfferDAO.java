@@ -52,6 +52,11 @@ public class OfferDAO {
 		return this.entityManager.merge(offer);
 	}
 	
+	public void delete(OfferLineEntity offerLine) {
+		offerLine = this.entityManager.merge(offerLine);
+		this.entityManager.remove(offerLine);
+	}
+	
 	/* START OF NYAPICA */
 	public OrderLineEntity getOrderLine(OfferLineEntity offerLine) {
 		OrderLineEntity orderLine = offerLine.getOrderLine();
