@@ -17,9 +17,9 @@
   <xs:complexType name="ExposedSolicitud">
     <xs:sequence>
       <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="id_en_taller" type="xs:int" />
       <xs:element minOccurs="0" name="lineas" nillable="true" type="tns:ArrayOfExposedLineaSolicitud" />
       <xs:element minOccurs="0" name="status" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="taller_id" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ExposedSolicitud" nillable="true" type="tns:ExposedSolicitud" />
@@ -31,8 +31,10 @@
   <xs:element name="ArrayOfExposedLineaSolicitud" nillable="true" type="tns:ArrayOfExposedLineaSolicitud" />
   <xs:complexType name="ExposedLineaSolicitud">
     <xs:sequence>
+      <xs:element minOccurs="0" name="action" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="id" type="xs:int" />
+      <xs:element minOccurs="0" name="id_en_taller" type="xs:int" />
       <xs:element minOccurs="0" name="quantity" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
