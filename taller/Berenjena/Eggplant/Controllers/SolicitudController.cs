@@ -42,23 +42,32 @@ namespace Eggplant.Controllers
         {
                 ExposedSolicitud sol = new ExposedSolicitud();
 
+                Solicitud s = new Solicitud();
+                s.timeStamp = DateTime.Now;
+                s.status = "FAILED";
                 //Creo las lineas de la solicitud desde los datos pasado por json
                 List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
                 foreach (JObject item in values["data"])
                 {
-                    ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
-                    lin.description = item["descripcion"].ToString();
-                    lin.quantity = int.Parse(item["cantidad"].ToString());
-                    lineas.Add(lin);
+                    LineaSolicitud linInt = new LineaSolicitud();
+                    linInt.cantidad = int.Parse(item["cantidad"].ToString());
+                    linInt.descripcion = item["descripcion"].ToString();
+                    s.LineaSolicitud.Add(linInt);
                 }
                 sol.lineas = lineas.ToArray();
-
-                Solicitud s = new Solicitud();
-                s.timeStamp = DateTime.Now;
-                s.status = "FAILED";
+                
                 c_bd.SolicitudSet.Add(s);
                 c_bd.SaveChanges();
-                sol.taller_id = s.Id;//TODO necesito un campo por donde pasar el id
+                
+                //sol.taller_sol_id = s.Id;
+                foreach (LineaSolicitud linSol in s.LineaSolicitud)
+                {
+                    ExposedLineaSolicitud expoLinSol = new ExposedLineaSolicitud();
+                    expoLinSol.description = linSol.descripcion;
+                    expoLinSol.quantity = linSol.cantidad;
+                    //expoLinSol.taller_lin_sol_id = linSol.Id;
+                }
+                
 
                 //Lanzo la peticion de alta al sistema gestor
                 int resId = svcTaller.addSolicitud(sol);
@@ -175,7 +184,7 @@ namespace Eggplant.Controllers
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
             {
-                Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == solExtern.taller_id);
+                Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == solExtern.taller_id);//TODO deberia ser taller_solicitud_id
                 if (s != null)
                 {
                     s.sg_id = solExtern.id;
