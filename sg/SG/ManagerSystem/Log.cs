@@ -13,21 +13,11 @@ namespace ManagerSystem
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     
-    public partial class Taller
+    public partial class Log
     {
-        public Taller()
-        {
-            this.deleted = false;
-            this.Solicitudes = new HashSet<Solicitud>();
-            this.Tokens = new HashSet<Token>();
-        }
-    
         public int Id { get; set; }
-        public bool active { get; set; }
-        public string name { get; set; }
-        public bool deleted { get; set; }
-    
-        public virtual ICollection<Solicitud> Solicitudes { get; set; }
-        public virtual ICollection<Token> Tokens { get; set; }
+        public System.DateTime timestamp { get; set; }
+        public string message { get; set; }
+        public string level { get; set; }
     }
 }

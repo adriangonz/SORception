@@ -40,7 +40,10 @@ public class OfferDAO {
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
-		return this.entityManager.find(OfferLineEntity.class, id);
+		OfferLineEntity offerLine = this.entityManager.find(OfferLineEntity.class, id);
+		if(offerLine.isDeleted())
+			return null;
+		return offerLine;
 	}
 	
 	public void delete(OfferEntity offer) {
@@ -57,8 +60,8 @@ public class OfferDAO {
 	}
 	
 	public void delete(OfferLineEntity offerLine) {
-		offerLine = this.entityManager.merge(offerLine);
-		this.entityManager.remove(offerLine);
+		offerLine.delete();
+		this.entityManager.merge(offerLine);
 	}
 	
 	/* START OF NYAPICA */

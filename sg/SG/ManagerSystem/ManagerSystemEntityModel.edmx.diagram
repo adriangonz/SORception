@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="managersystemModel.Token" Width="1.5" PointX="0.5" PointY="2.625" />
         <AssociationConnector Association="managersystemModel.DesguaceOferta" />
         <AssociationConnector Association="managersystemModel.TallerSolicitud" />
-        <AssociationConnector Association="managersystemModel.OfertaSolicitud" />
         <AssociationConnector Association="managersystemModel.OfertaLineaOferta" />
         <AssociationConnector Association="managersystemModel.SolicitudLineaSolicitud" />
         <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" />
@@ -23,6 +22,8 @@
         <AssociationConnector Association="managersystemModel.DesguaceToken" />
         <AssociationConnector Association="managersystemModel.TallerToken" />
         <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOferta" />
+        <EntityTypeShape EntityType="managersystemModel.Log" Width="1.5" PointX="0.875" PointY="6.25" />
+        <AssociationConnector Association="managersystemModel.SolicitudOferta" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

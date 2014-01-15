@@ -1,5 +1,6 @@
 package com.sorception.jscrap.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,6 +33,9 @@ public class OfferEntity extends AbstractEntity {
 	@Column(name = "deleted")
 	private Boolean _deleted = false;
 	
+	@Column(name = "orderSgId", nullable = false)
+	private String _orderSgId;
+	
 	public OfferEntity() {}
 	
 	public OfferEntity(List<OfferLineEntity> lines) {
@@ -42,8 +46,17 @@ public class OfferEntity extends AbstractEntity {
 		this._deleted = deleted;
 	}
 	
+	public String getOrderSgId() {
+		return this._orderSgId;
+	}
+	
 	public List<OfferLineEntity> getLines() {
-		return this._lines;
+		List<OfferLineEntity> activeLines = new ArrayList<>();
+		for(OfferLineEntity line : this._lines) {
+			if(!line.isDeleted())
+				activeLines.add(line);
+		}
+		return activeLines;
 	}
 	
 	@JsonIgnore
@@ -54,6 +67,8 @@ public class OfferEntity extends AbstractEntity {
 	public void setLines(List<OfferLineEntity> lines) {
 		this._lines = lines;
 		for(OfferLineEntity line : lines) {
+			if(line.getOrderLine() != null)
+				this._orderSgId = line.getOrderLine().getOrder().getSgId();
 			line.setOffer(this);
 		}
 	}

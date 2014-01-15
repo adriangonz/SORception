@@ -17,6 +17,7 @@ namespace ManagerSystem
     {
         public Desguace()
         {
+            this.deleted = false;
             this.Ofertas = new HashSet<Oferta>();
             this.Tokens = new HashSet<Token>();
         }
@@ -24,6 +25,7 @@ namespace ManagerSystem
         public int Id { get; set; }
         public bool active { get; set; }
         public string name { get; set; }
+        public bool deleted { get; set; }
     
         public virtual ICollection<Oferta> Ofertas { get; set; }
         public virtual ICollection<Token> Tokens { get; set; }
