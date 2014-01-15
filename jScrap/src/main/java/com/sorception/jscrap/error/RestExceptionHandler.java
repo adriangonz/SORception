@@ -43,6 +43,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             		"\"stacktrace\": \"" + Throwables.getStackTraceAsString(ex) + "\"" + 
             		"\"message\": \"" + ex.getMessage() + "\"}";
             return this.handleExceptionInternal(
-                    ex, message, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+                    ex, message, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
         }
 }
