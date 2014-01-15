@@ -57,6 +57,9 @@ namespace ManagerSystem
         [DataMember(Name = "id")]
         public int id;
 
+        [DataMember(Name = "id_en_taller")]
+        public int id_en_taller;
+
         [DataMember(Name = "description")]
         public string description;
 
@@ -72,6 +75,9 @@ namespace ManagerSystem
     {
         [DataMember(Name = "id")]
         public int id;
+
+        [DataMember(Name = "id_en_taller")]
+        public int id_en_taller;
 
         [DataMember(Name = "lineas")]
         public List<ExposedLineaSolicitud> lineas;
