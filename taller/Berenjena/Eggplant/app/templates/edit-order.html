@@ -8,9 +8,9 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="line in tmp_order.data">
-            <td>{{line.descripcion}}</td>
-            <td>{{line.cantidad}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
+        <tr ng-repeat="line in tmp_order.data" ng-hide="line.update=='DELETED'">
+            <td><span contenteditable ng-model="line.descripcion" ln-update="line.update" strip-br="true" required /></td>
+            <td><span contenteditable ng-model="line.cantidad" ln-update="line.update" strip-br="true" required /><a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
             <td><input class="form-control full" type="text" id="descripcion" ng-model="tmp_line.descripcion" placeholder="bujia" /></td>
