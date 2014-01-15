@@ -45,7 +45,7 @@ namespace Eggplant.Controllers
             p.oferta_id = int.Parse(values["oferta"].ToString());
             p.status = "FAILED";
             p.timeStamp = DateTime.Now;
-            ExposedOferta ofer = new ExposedOferta();//TODO SG getOferta(p.oferta_id)
+            ExposedOferta ofer = svcTaller.getOferta(p.oferta_id);
             if (ofer == null)
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "La oferta " + p.oferta_id + " no existe");
             int idSolicitud = ofer.solicitud_id;
