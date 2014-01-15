@@ -1,4 +1,4 @@
-module.controller("TallerCtrl", ['$scope', 'Taller', 'Auth', function ($scope, Taller, Auth) {
+module.controller("TallerCtrl", ['$scope', 'Taller', 'Auth', '$timeout', function ($scope, Taller, Auth, $timeout) {
     $scope.$on('orders.update', function (event) {
         $scope.orders = Taller.orders;
     });
@@ -6,5 +6,7 @@ module.controller("TallerCtrl", ['$scope', 'Taller', 'Auth', function ($scope, T
     Auth.isLoggedIn();
     $scope.orders = [];
     Taller.getOrders();
+
+    $timeout(Taller.getOrders,1000);
   
 }]);

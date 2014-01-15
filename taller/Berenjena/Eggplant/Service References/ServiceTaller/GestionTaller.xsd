@@ -51,7 +51,7 @@
   <xs:element name="ArrayOfExposedOferta" nillable="true" type="tns:ArrayOfExposedOferta" />
   <xs:complexType name="ExposedOferta">
     <xs:sequence>
-      <xs:element minOccurs="0" name="desguace_id" type="xs:int" />
+      <xs:element minOccurs="0" name="desguace_id" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="id" type="xs:int" />
       <xs:element minOccurs="0" name="lineas" nillable="true" type="tns:ArrayOfExposedLineaOferta" />
       <xs:element minOccurs="0" name="solicitud_id" type="xs:int" />

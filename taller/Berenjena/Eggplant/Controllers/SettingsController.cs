@@ -10,7 +10,6 @@ using Eggplant.ServiceTaller;
 
 namespace Berenjena.Controllers
 {
-    [RoutePrefix("api/settings")]
     public class SettingsController : ApiController
     {
         BDBerenjenaContainer c_bd = new BDBerenjenaContainer();

@@ -15,7 +15,7 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
             });
         }
     }
-}]).directive("sendOrderBtn", ['Taller', function (Taller) {
+}]).directive("sendOrderBtn", ['Taller', '$location', function (Taller, $location) {
     return {
         restrict: "A",
         scope: {
@@ -43,7 +43,6 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                alert("order_id: " + scope.order.id);
                 $location.path("/order/" + scope.order.id);
                 scope.$apply();
             });
@@ -85,8 +84,43 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         link: function (scope, element, attrs) {
             element.bind("click", function () {
                 Taller.removeOrder(scope.order.id);
-                $location.path("/orders");
+                Taller.getOrders();
             });
         }
     }
-}]);
+}]).directive('contenteditable', function () {
+    return {
+        restrict: 'A', // only activate on element attribute
+        require: '?ngModel', // get a hold of NgModelController
+        link: function (scope, element, attrs, ngModel) {
+            if (!ngModel) return; // do nothing if no ng-model
+
+            // Specify how UI should be updated
+            ngModel.$render = function () {
+                element.html(ngModel.$viewValue || '');
+            };
+
+            // Listen for change events to enable binding
+            element.on('blur keyup change', function () {
+                scope.$apply(readViewText);
+            });
+
+            // No need to initialize, AngularJS will initialize the text based on ng-model attribute
+
+            // Write data to the model
+            function readViewText() {
+                var html = element.html();
+
+                // When we clear the content editable the browser leaves a <br> behind
+                // If strip-br attribute is provided then we strip this out
+                if (attrs.stripBr && html == '<br>') {
+                    html = '';
+                }
+                ngModel.$setViewValue(html); //ngModel == linea.cantidad OR linea.descripcion
+                //scope.lnUpdate = 'UPDATED';
+                console.log(ngModel);
+            }
+        }
+    };
+});
+
