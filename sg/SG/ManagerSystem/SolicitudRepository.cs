@@ -33,12 +33,14 @@ namespace ManagerSystem
 
             ExposedSolicitud es = new ExposedSolicitud();
             es.id = s.Id;
+            es.id_en_taller = s.id_en_taller;
             es.status = s.state;
             es.lineas = new List<ExposedLineaSolicitud>();
             foreach (var l in s.LineasSolicitud)
             {
                 ExposedLineaSolicitud el = new ExposedLineaSolicitud();
                 el.id = l.Id;
+                el.id_en_taller = l.id_en_taller;
                 el.description = l.description;
                 el.quantity = l.quantity;
                 es.lineas.Add(el);
@@ -52,13 +54,13 @@ namespace ManagerSystem
             if (es == null) return null;
             
             Solicitud s = new Solicitud();
-            s.id_en_taller = es.id;
+            s.id_en_taller = es.id_en_taller;
             s.state = "NEW";
             s.date = DateTime.Now;
             foreach (var el in es.lineas)
             {
                 LineaSolicitud ls = new LineaSolicitud();
-                ls.id_en_taller = el.id;
+                ls.id_en_taller = el.id_en_taller;
                 ls.quantity = el.quantity;
                 ls.description = el.description;
                 s.LineasSolicitud.Add(ls);
@@ -78,7 +80,7 @@ namespace ManagerSystem
                 {
                     case "NEW":
                         ls = new LineaSolicitud();
-                        ls.id_en_taller = el.id;
+                        ls.id_en_taller = el.id_en_taller;
                         ls.quantity = el.quantity;
                         ls.description = el.description;
                         s.LineasSolicitud.Add(ls);

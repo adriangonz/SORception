@@ -58,6 +58,11 @@ namespace ManagerSystem
                 throw;
             }
             o.DesguaceId = d.Id;
+
+            Solicitud s = SolicitudRepository.Find(eo.solicitud_id);
+            if (s == null)
+                s = null;
+
             o.SolicitudId = eo.solicitud_id;
             o.LineasOferta = new List<LineaOferta>();
             foreach (var elo in eo.lineas)
@@ -78,6 +83,11 @@ namespace ManagerSystem
             Logger.Error(String.Format("{0} {1}", o.DesguaceId, o.SolicitudId));
 
             return o;
+        }
+
+        static public List<Oferta> GetOfSolicitud(int solicitud_id)
+        {
+            return ms_ent.OfertaSet.AsQueryable().Where(o => o.SolicitudId == solicitud_id).ToList();
         }
 
         static public List<Oferta> FindAll()
