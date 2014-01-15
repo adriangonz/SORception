@@ -18,12 +18,14 @@ namespace Eggplant.Controllers
         static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
         public static string DELETED = "DELETED";
 
+        public static string LINEA_NEW = "NEW";
+        public static string LINEA_UPDATED = "UPDATED";
+        public static string LINEA_DELETE = "DELETED";
+        public static string LINEA_NOEFECT = "NOEFECT";
+
         // GET api/solicitud
         public object Get()
         {
-            Tokens t = c_bd.TokensSet.AsQueryable().FirstOrDefault(x => x.state == "ACTIVE");
-            string token = "";
-            if (t != null) token = t.token;
             var solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED).ToList();
             return solicitudes;
         }
@@ -38,11 +40,6 @@ namespace Eggplant.Controllers
         // POST api/solicitud
         public object Post([FromBody]JObject values)
         {
-            // Consigo el token de la aplicacion para el id
-            var tokens = c_bd.TokensSet.AsQueryable().ToList();
-            //Si habia un token
-            if (tokens.Count > 0)
-            {
                 ExposedSolicitud sol = new ExposedSolicitud();
 
                 //Creo las lineas de la solicitud desde los datos pasado por json
@@ -56,8 +53,14 @@ namespace Eggplant.Controllers
                 }
                 sol.lineas = lineas.ToArray();
 
+                Solicitud s = new Solicitud();
+                s.timeStamp = DateTime.Now;
+                s.status = "FAILED";
+                c_bd.SolicitudSet.Add(s);
+                c_bd.SaveChanges();
+                sol.taller_id = s.Id;
 
-                //Lango la peticion de alta al sistema gestor
+                //Lanzo la peticion de alta al sistema gestor
                 int resId = svcTaller.addSolicitud(sol);
                 //Si algo ha ido mal
                 if (resId == -1)
@@ -67,13 +70,70 @@ namespace Eggplant.Controllers
 
                 //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
                 return new { id = resId };
-            }
-            return Request.CreateResponse(HttpStatusCode.BadRequest, "El taller no esta dado de alta");
         }
 
         // PUT api/solicitud/5
-        public void Put(int id, [FromBody]string value)
+        public object Put(int id, [FromBody]JObject values)
         {
+            Solicitud solInterna = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
+            if (solInterna != null)
+            {
+                ExposedSolicitud solExterna = svcTaller.getSolicitud(solInterna.sg_id);
+                if (solExterna != null)
+                {
+                    //Creo las lineas de la solicitud desde los datos pasado por json
+                    List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
+                    foreach (JObject item in values["data"])
+                    {
+                        string efecto = item["update"].ToString();
+                        //Si me envia datos que no sean totalmente inutiles que solo sirven para sobrecargar
+                        if (efecto == LINEA_NEW || efecto == LINEA_UPDATED || efecto == LINEA_DELETE)
+                        {
+                            // Modificacion interna
+                            if (efecto == LINEA_NEW)
+                            {
+                                LineaSolicitud linIn = new LineaSolicitud();
+                                linIn.descripcion = item["descripcion"].ToString();
+                                linIn.cantidad = int.Parse(item["cantidad"].ToString());
+                                solInterna.LineaSolicitud.Add(linIn);
+                            }
+                            else if (efecto == LINEA_UPDATED)
+                            {
+                                int idToModify = int.Parse(item["id"].ToString());
+                                LineaSolicitud linIn =
+                                    c_bd.LineaSolicitudSet.FirstOrDefault(x => x.Id == idToModify);
+                                linIn.descripcion = item["descripcion"].ToString();
+                                linIn.cantidad = int.Parse(item["cantidad"].ToString());
+                            }
+
+                            if (efecto == LINEA_DELETE)
+                            {
+                                int idToDelete = int.Parse(item["id"].ToString());
+                                LineaSolicitud linIn =
+                                    c_bd.LineaSolicitudSet.FirstOrDefault(x => x.Id == idToDelete);
+                                c_bd.LineaSolicitudSet.Remove(linIn);//.LineaSolicitud.Remove(linIn);
+                            }
+                            else
+                            {
+                                // Modificacion externa
+                                ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
+                                lin.description = item["descripcion"].ToString();
+                                lin.quantity = int.Parse(item["cantidad"].ToString());
+                                lineas.Add(lin);
+                            }
+
+
+                        }
+                    }
+                    c_bd.SaveChanges();
+
+                    solExterna.lineas = lineas.ToArray();
+                    svcTaller.putSolicitud(solExterna);
+                    return Request.CreateErrorResponse(HttpStatusCode.OK, "");
+                }
+                else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Solicitud no encontrada en el sistema gestor");
+            }
+            else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "La solicitud no existe en la db local");
         }
 
         // DELETE api/solicitud/5
@@ -115,20 +175,23 @@ namespace Eggplant.Controllers
             ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
             {
-                Solicitud s = new Solicitud();
-                s.sg_id = solExtern.id;
-                s.timeStamp = DateTime.Now;
-                s.status = solExtern.status;
-                s = c_bd.SolicitudSet.Add(s);
-                foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
+                Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == solExtern.taller_id);
+                if (s != null)
                 {
-                    LineaSolicitud lineLocal = new LineaSolicitud();
-                    lineLocal.cantidad = linSolicitudExtern.quantity;
-                    lineLocal.descripcion = linSolicitudExtern.description;
-                    lineLocal.sg_id = linSolicitudExtern.id;
-                    s.LineaSolicitud.Add(lineLocal);
+                    s.sg_id = solExtern.id;
+                    s.timeStamp = DateTime.Now;
+                    s.status = solExtern.status;
+                    s = c_bd.SolicitudSet.Add(s);
+                    foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
+                    {
+                        LineaSolicitud lineLocal = new LineaSolicitud();
+                        lineLocal.cantidad = linSolicitudExtern.quantity;
+                        lineLocal.descripcion = linSolicitudExtern.description;
+                        lineLocal.sg_id = linSolicitudExtern.id;
+                        s.LineaSolicitud.Add(lineLocal);
+                    }
+                    c_bd.SaveChanges();
                 }
-                c_bd.SaveChanges();
             }
         }
         /*

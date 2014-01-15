@@ -23,7 +23,6 @@ namespace ManagerSystem
         {
             ExposedTaller et = new ExposedTaller();
 
-            et.id = t.Id;
             et.name = t.name;
 
             return et;
@@ -33,7 +32,6 @@ namespace ManagerSystem
         {
             Taller t = new Taller();
 
-            t.Id = et.id;
             t.name = et.name;
 
             return t;
@@ -41,7 +39,7 @@ namespace ManagerSystem
 
         static public Taller Find(int id)
         {
-            return ms_ent.Tallers.Find(id);
+            return ms_ent.TallerSet.Find(id);
         }
 
         static public Taller Sanitize(Taller d)
@@ -54,7 +52,7 @@ namespace ManagerSystem
         {
             List<Taller> l = new List<Taller>();
 
-            var lq_l = from d in ms_ent.Tallers select d;
+            var lq_l = from d in ms_ent.TallerSet select d;
             foreach (var singleTaller in lq_l)
             {
                 Taller d = new Taller();
@@ -72,7 +70,7 @@ namespace ManagerSystem
             if (taller.Id == default(int))
             {
                 // New entity
-                ms_ent.Tallers.Add(taller);
+                ms_ent.TallerSet.Add(taller);
             }
             else
             {
@@ -87,8 +85,8 @@ namespace ManagerSystem
 
         static public void Delete(int id)
         {
-            var taller = ms_ent.Tallers.Find(id);
-            ms_ent.Tallers.Remove(taller);
+            var taller = ms_ent.TallerSet.Find(id);
+            ms_ent.TallerSet.Remove(taller);
         }
 
         static public void Save()

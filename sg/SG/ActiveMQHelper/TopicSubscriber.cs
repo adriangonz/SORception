@@ -5,6 +5,8 @@ using System.Text;
 
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace ActiveMQHelper
 {
@@ -23,7 +25,7 @@ namespace ActiveMQHelper
 
         public static TopicSubscriber MakeSubscriber(string broker, string client_id, string topic)
         {
-            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id);
+            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id + "@" + System.Environment.MachineName);
             IConnection connection = connectionFactory.CreateConnection();
             connection.Start();
             ISession session = connection.CreateSession();
@@ -64,6 +66,16 @@ namespace ActiveMQHelper
                 Consumer.Dispose();
             }
             disposed = true;
+        }
+
+        public static object FromXML(string text, Type to_type) {
+            using(Stream stream = new MemoryStream()){
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(text);
+                stream.Write(data, 0, data.Length);
+                stream.Position = 0;
+                DataContractSerializer deserializer = new DataContractSerializer(to_type);
+                return deserializer.ReadObject(stream);
+            }
         }
     }
 }

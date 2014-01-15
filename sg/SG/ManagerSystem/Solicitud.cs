@@ -21,7 +21,7 @@ namespace ManagerSystem
             this.LineasSolicitud = new HashSet<LineaSolicitud>();
         }
     
-        public int id { get; set; }
+        public int Id { get; set; }
         public int id_en_taller { get; set; }
         public System.DateTime date { get; set; }
         public string state { get; set; }
