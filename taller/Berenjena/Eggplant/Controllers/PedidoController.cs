@@ -14,20 +14,28 @@ namespace Eggplant.Controllers
         static BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
         static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
 
+        public static string FAILED = "FAILED";
+        public static string DELETED = "DELETED";
+
         // GET api/pedido
         public object Get()
         {
-            TallerResponse tr = new TallerResponse();
-            TallerResponse.SelectedLine sl = new TallerResponse.SelectedLine();
-            
-            sl.quantity = 5;//tr.selected_lines
-            return new string[] { "value1", "value2" };
+            var pedidos = c_bd.PedidoSet.AsQueryable().Where(x => x.status != FAILED);
+            return pedidos;
+        }
+
+        [Route("api/pedido/update")]
+        public object GetUpdated()
+        {
+            UpdatePedidosFromSG();
+            return Get();
         }
 
         // GET api/pedido/5
-        public string Get(int id)
+        public object Get(int id)
         {
-            return "value";
+            var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id);
+            return pedido;
         }
 
         // POST api/pedido
@@ -37,7 +45,7 @@ namespace Eggplant.Controllers
             p.oferta_id = int.Parse(values["oferta"].ToString());
             p.status = "FAILED";
             p.timeStamp = DateTime.Now;
-            ExposedOferta ofer = new ExposedOferta();//TODO SG getOferta
+            ExposedOferta ofer = new ExposedOferta();//TODO SG getOferta(p.oferta_id)
             if (ofer == null)
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "La oferta " + p.oferta_id + " no existe");
             int idSolicitud = ofer.solicitud_id;
@@ -67,6 +75,17 @@ namespace Eggplant.Controllers
         // DELETE api/pedido/5
         public void Delete(int id)
         {
+            var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id);
+            if (pedido != null)
+            {
+                pedido.status = DELETED;
+                c_bd.SaveChanges();
+            }
+        }
+
+        private void UpdatePedidosFromSG()
+        {
+
         }
     }
 }
