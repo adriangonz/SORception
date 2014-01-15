@@ -5,7 +5,7 @@ module.service('Taller', ['$rootScope', '$http', function ($rootScope, $http) {
         actual_order: undefined,
 
         addLine: function (line) {
-            //line.update = 'NEW';
+            line.update = 'NEW';
             service.tmp_order.data.push(line);
             $rootScope.$broadcast('tmp_order.update');
         },

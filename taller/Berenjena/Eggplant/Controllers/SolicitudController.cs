@@ -40,36 +40,36 @@ namespace Eggplant.Controllers
         // POST api/solicitud
         public object Post([FromBody]JObject values)
         {
-                ExposedSolicitud sol = new ExposedSolicitud();
+            ExposedSolicitud sol = new ExposedSolicitud();
 
-                //Creo las lineas de la solicitud desde los datos pasado por json
-                List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
-                foreach (JObject item in values["data"])
-                {
-                    ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
-                    lin.description = item["descripcion"].ToString();
-                    lin.quantity = int.Parse(item["cantidad"].ToString());
-                    lineas.Add(lin);
-                }
-                sol.lineas = lineas.ToArray();
+            //Creo las lineas de la solicitud desde los datos pasado por json
+            List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
+            foreach (JObject item in values["data"])
+            {
+                ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
+                lin.description = item["descripcion"].ToString();
+                lin.quantity = int.Parse(item["cantidad"].ToString());
+                lineas.Add(lin);
+            }
+            sol.lineas = lineas.ToArray();
 
-                Solicitud s = new Solicitud();
-                s.timeStamp = DateTime.Now;
-                s.status = "FAILED";
-                c_bd.SolicitudSet.Add(s);
-                c_bd.SaveChanges();
-                sol.taller_id = s.Id;
+            Solicitud s = new Solicitud();
+            s.timeStamp = DateTime.Now;
+            s.status = "FAILED";
+            c_bd.SolicitudSet.Add(s);
+            c_bd.SaveChanges();
+            sol.taller_id = s.Id;
 
-                //Lanzo la peticion de alta al sistema gestor
-                int resId = svcTaller.addSolicitud(sol);
-                //Si algo ha ido mal
-                if (resId == -1)
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "El sistema gestor no ha creado la solicitud");
-                else//Si ha ido bien
-                    addSolicitudToLocalDB(resId); //Guardo la solicitud en la base de datos local
+            //Lanzo la peticion de alta al sistema gestor
+            int resId = svcTaller.addSolicitud(sol);
+            //Si algo ha ido mal
+            if (resId == -1)
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "El sistema gestor no ha creado la solicitud");
+            else//Si ha ido bien
+                addSolicitudToLocalDB(resId); //Guardo la solicitud en la base de datos local
 
-                //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
-                return new { id = resId };
+            //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
+            return new { id = resId };
         }
 
         // PUT api/solicitud/5
