@@ -55,8 +55,8 @@ public class OfferService {
 	
 	public void deleteOffer(Long id) {
 		OfferEntity offer = offerDAO.get(id);
-		offerDAO.delete(offer);
 		amqService.sendDeleteOffer(offer,  tokenService.getValid());
+		offerDAO.delete(offer);
 	}
 	
 	public OfferEntity updateOffer(Long offerId, List<OfferLineEntity> lines) {
@@ -87,7 +87,10 @@ public class OfferService {
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
-		return offerDAO.getOfferLine(id);
+		OfferLineEntity offerLine = offerDAO.getOfferLine(id);
+		if(offerLine == null)
+			throw new ResourceNotFoundException("OfferLine with id " + id + " has not been found");
+		return offerLine;
 	}
 	
 	/* START OF NYAPICA */

@@ -45,6 +45,10 @@ public class OfferDAO {
 	
 	public void delete(OfferEntity offer) {
 		offer.setDeleted(true);
+		for(OfferLineEntity line : offer.getLines()) {
+			line.setOrderLine(null);
+			this.entityManager.persist(line);
+		}
 		this.update(offer);
 	}
 	

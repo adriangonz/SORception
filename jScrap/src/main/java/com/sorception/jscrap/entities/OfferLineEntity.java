@@ -31,7 +31,7 @@ public class OfferLineEntity extends AbstractEntity {
 	@JoinColumn(name = "offerId", nullable = false)
 	private OfferEntity _offer;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="orderLineId")
 	private OrderLineEntity _orderLine;
 	
@@ -68,6 +68,10 @@ public class OfferLineEntity extends AbstractEntity {
 	}
 	
 	/* Nyapicas */
+	public void setOrderLine(OrderLineEntity orderLine) {
+		this._orderLine = orderLine;
+	}
+	
 	@JsonIgnore
 	public OrderLineEntity getOrderLine() {
 		return _orderLine;
