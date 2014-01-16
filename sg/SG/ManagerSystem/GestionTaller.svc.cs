@@ -180,6 +180,15 @@ namespace ManagerSystem
             return 0;
         }
 
+        public ExposedOferta getOferta(int oferta_id)
+        {
+            Taller t = getAuthorizedTaller();
+
+            ExposedOferta eo = OfertaRepository.ToExposed(OfertaRepository.Find(oferta_id));
+
+            return eo;
+        }
+
         public List<ExposedOferta> getOfertas(int solicitud_id)
         {
             Taller t = getAuthorizedTaller();

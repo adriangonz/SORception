@@ -41,6 +41,9 @@ namespace ManagerSystem
         List<ExposedOferta> getOfertas(int solicitud);
 
         [OperationContract]
+        ExposedOferta getOferta(int oferta);
+
+        [OperationContract]
         int selectOferta(TallerResponse r);                
     }
 }
