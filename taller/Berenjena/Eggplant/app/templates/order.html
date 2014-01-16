@@ -36,11 +36,17 @@
                 <th>Cantidad</th>
             </tr>
         </thead>
-        <tbody>
-            <tr ng-repeat="linea in actual_order.lineaSolicitud">
-                <td>{{linea.id}}</td>
-                <td>{{linea.descripcion}}</td>
-                <td>{{linea.cantidad}}</td>
-            </tr>
+        <tbody ng-repeat="linea in actual_order.lineas">
+                <tr>
+                    <td>{{linea.id}}</td>
+                    <td>{{linea.descripcion}}</td>
+                    <td>{{linea.cantidad}}</td>
+                </tr>
+                <tr ng-repeat="oferta in linea.offers">
+                    <td>{{oferta.id}}</td>
+                    <td>{{oferta.notes}}</td>
+                    <td>{{oferta.quantity}}</td>
+                </tr>
+
         </tbody>
     </table>
