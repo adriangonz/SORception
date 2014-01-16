@@ -6,7 +6,7 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                if(scope.line.descripcion!="" && scope.line.cantidad){
+                if (scope.line.descripcion != "" && scope.line.cantidad && scope.line.criterio) {
                     Taller.addLine(scope.line);
                     console.log(Taller);
                     scope.line = null;

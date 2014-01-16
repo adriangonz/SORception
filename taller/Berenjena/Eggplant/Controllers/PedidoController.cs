@@ -52,7 +52,7 @@ namespace Eggplant.Controllers
                 LineaPedido lp = new LineaPedido();
                 lp.linea_oferta_id = int.Parse(item["id_linea_oferta"].ToString());
                 lp.state = FAILED;
-                ExposedLineaOferta lofer = ofer.lineas.FirstOrDefault(x => x.id_linea == lp.linea_oferta_id);
+                ExposedLineaOferta lofer = ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
                 if (lofer == null)
                     return Request.CreateResponse(HttpStatusCode.NotFound, "La linea " + lp.linea_oferta_id + " no existe en la oferta " + idOferta);
                 lp.price = (decimal)lofer.price;

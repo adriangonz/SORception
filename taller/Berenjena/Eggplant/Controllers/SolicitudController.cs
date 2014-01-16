@@ -70,6 +70,7 @@ namespace Eggplant.Controllers
                 //expoLinSol.taller_lin_sol_id = linSol.Id;
             }
             sol.id_en_taller = s.Id;
+            sol.deadline = DateTime.Now.AddDays(14);
             sol.lineas = lineas.ToArray();
 
             //Lanzo la peticion de alta al sistema gestor

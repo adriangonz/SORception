@@ -1,4 +1,4 @@
-module.service('Taller', ['$rootScope', '$http', function ($rootScope, $http) {
+module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScope, $http, $timeout) {
     var service = {
         orders: [],
         tmp_order: { "data": [] },
@@ -80,6 +80,18 @@ module.service('Taller', ['$rootScope', '$http', function ($rootScope, $http) {
                 service.tmp_order.data[i].update = "UPDATED";
             }
             $rootScope.$broadcast('tmp_order.update');
+        },
+
+        getOffersOf: function (id) {
+            $http({ method: 'GET', url: '/api/oferta/' + id }).
+            success(function (data, status, headers, config) {
+                service.offers = data;
+                console.log(data);
+                $rootScope.$broadcast('offers.update');
+            }).
+            error(function (data, status, headers, config) {
+                alert("getOffers "+status + " | " + data);
+            });
         },
 
     }
