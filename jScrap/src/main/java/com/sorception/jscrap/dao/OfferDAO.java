@@ -56,7 +56,10 @@ public class OfferDAO {
 	}
 	
 	public OfferEntity update(OfferEntity offer) {
-		return this.entityManager.merge(offer);
+		OfferEntity newOffer = this.entityManager.merge(offer);
+		this.entityManager.flush();
+		this.entityManager.clear();
+		return newOffer;
 	}
 	
 	public void delete(OfferLineEntity offerLine) {

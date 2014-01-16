@@ -95,7 +95,8 @@ public class OfertasSender {
 	}
 	
 	private String offerToString(
-			OfferEntity offer, TokenEntity token, AMQOfertaMessageCode code) {
+			OfferEntity offer, TokenEntity token, 
+			AMQOfertaMessageCode code) {
 		StringResult stringResult = new StringResult();
 		marshaller.marshal(
 				objectFactory.createAMQOfertaMessage(
