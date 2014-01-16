@@ -73,7 +73,7 @@ public class UserService {
     
     private String getAuthentication(String username, String password) {
 		String creds = username + ":" + password;
-		creds =  Base64.encodeBase64String(creds.getBytes());
+		creds = Base64.encodeBase64String(creds.getBytes()).trim();
 		return "Basic " + creds;
     }
     
