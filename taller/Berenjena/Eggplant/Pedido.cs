@@ -20,9 +20,7 @@ namespace Eggplant
         }
     
         public int Id { get; set; }
-        public int oferta_id { get; set; }
         public System.DateTime timeStamp { get; set; }
-        public string status { get; set; }
     
         public virtual ICollection<LineaPedido> LineaPedido { get; set; }
         public virtual Solicitud Solicitud { get; set; }

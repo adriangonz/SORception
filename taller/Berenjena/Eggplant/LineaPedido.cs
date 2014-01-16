@@ -20,6 +20,7 @@ namespace Eggplant
         public decimal price { get; set; }
         public int PedidoId { get; set; }
         public int sg_id { get; set; }
+        public string state { get; set; }
     
         public virtual Pedido Pedido { get; set; }
     }

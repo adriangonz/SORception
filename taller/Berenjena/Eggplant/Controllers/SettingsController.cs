@@ -88,6 +88,10 @@ namespace Berenjena.Controllers
                     return (new { Token = token.token, Status = token.state, Created = token.timeStamp });
 
                 }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Algo ha ido mal en el SG");
+                }
             }
             else if (token.state == ACTIVE)
             {
