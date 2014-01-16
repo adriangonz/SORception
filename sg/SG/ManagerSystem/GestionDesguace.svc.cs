@@ -77,5 +77,20 @@ namespace ManagerSystem
         }
 
         public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o) { }
+
+        public void processAMQMessage(AMQOfertaMessage message)
+        {
+            switch (message.code)
+            {
+                case AMQOfertaMessage.Code.New:
+                    OfertaRepository.InsertOrUpdate(OfertaRepository.FromExposed(message.oferta));
+                    OfertaRepository.Save();
+                    break;
+                case AMQOfertaMessage.Code.Update:
+                    break;
+                case AMQOfertaMessage.Code.Delete:
+                    break;
+            }
+        }
     }
 }

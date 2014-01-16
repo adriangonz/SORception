@@ -30,18 +30,9 @@ namespace ManagerSystem
         void subscriber_OnMessageReceived(string message)
         {
             Logger.Info(String.Format("Received a message from the {0} ActiveMQ Topic", Constants.ActiveMQ.Oferta.Topic));
-            AMQOfertaMessage amqof = (AMQOfertaMessage) TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
-            OfertaRepository.InsertOrUpdate(OfertaRepository.FromExposed(amqof.oferta));
-            try
-            {
-                OfertaRepository.Save();
-
-            }
-            catch (Exception e)
-            {
-                Logger.Error(message);
-                throw;
-            }
+            AMQOfertaMessage amqof = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
+            GestionDesguace gDesguace = new GestionDesguace();
+            gDesguace.processAMQMessage(amqof);
         }
 
         protected void Session_Start(object sender, EventArgs e)
