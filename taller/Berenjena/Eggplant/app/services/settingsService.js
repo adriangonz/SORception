@@ -39,9 +39,10 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
      },
 
      getUsers: function () {
-         $http({ method: 'GET', url: '/jScrap/api/user' }).
+         $http({ method: 'GET', url: '/api/account/users' }).
            success(function (data, status, headers, config) {
                service.settings.userList = data;
+               console.log(data);
                $rootScope.$broadcast('settings.update');
            }).
            error(function (data, status, headers, config) {

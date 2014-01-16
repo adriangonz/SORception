@@ -8,6 +8,6 @@
     
     Auth.isLoggedIn();
     Taller.getOrder($routeParams.id);
-    Taller.getOffersOf($routeParams.id);
+    //Taller.getOffersOf($routeParams.id);
 
 }]);

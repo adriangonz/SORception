@@ -466,6 +466,9 @@ namespace Eggplant.ServiceTaller {
         private int id_en_desguaceField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int linea_solicitud_idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string notesField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -506,6 +509,19 @@ namespace Eggplant.ServiceTaller {
                 if ((this.id_en_desguaceField.Equals(value) != true)) {
                     this.id_en_desguaceField = value;
                     this.RaisePropertyChanged("id_en_desguace");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int linea_solicitud_id {
+            get {
+                return this.linea_solicitud_idField;
+            }
+            set {
+                if ((this.linea_solicitud_idField.Equals(value) != true)) {
+                    this.linea_solicitud_idField = value;
+                    this.RaisePropertyChanged("linea_solicitud_id");
                 }
             }
         }

@@ -34,6 +34,15 @@ namespace Eggplant.Controllers
         public object Get(int id)
         {
             var solicitud = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id);
+            var ofertas = svcTaller.getOfertas(solicitud.sg_id);
+            foreach(dynamic item in solicitud.LineaSolicitud)
+            {
+                int sol_id_sg = item.sg_id;
+                foreach(var oferta in ofertas)
+                {
+                    item.offers = oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg);
+                }
+            }
             return solicitud;
         }
 
