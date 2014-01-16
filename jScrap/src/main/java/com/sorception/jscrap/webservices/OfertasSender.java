@@ -47,6 +47,7 @@ public class OfertasSender {
 	private ExposedLineaOferta toExposedLineaOferta(OfferLineEntity offerLine) {
 		Integer idEnDesguace = offerLine.getId().intValue();
 		Integer idLinea = Integer.parseInt(offerService.getOrderLine(offerLine).getSgId());
+		logger.info(idLinea.toString());
 		JAXBElement<String> notes = 
 				objectFactory.createExposedLineaOfertaNotes(offerLine.getNotes());
 		Double price = offerLine.getPrice();
@@ -55,7 +56,7 @@ public class OfertasSender {
 		ExposedLineaOferta exposedLineaOferta = 
 				objectFactory.createExposedLineaOferta();
 		exposedLineaOferta.setIdEnDesguace(idEnDesguace);
-		exposedLineaOferta.setIdLinea(idLinea);
+		exposedLineaOferta.setId(idLinea);
 		exposedLineaOferta.setNotes(notes);
 		exposedLineaOferta.setPrice(price);
 		exposedLineaOferta.setQuantity(quantity);
