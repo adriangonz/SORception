@@ -137,10 +137,24 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="getOferta">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="oferta" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getOfertaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://sorception.azurewebsites.net/" minOccurs="0" name="getOfertaResult" nillable="true" type="q10:ExposedOferta" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="selectOferta">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://sorception.azurewebsites.net/" minOccurs="0" name="r" nillable="true" type="q10:TallerResponse" />
+        <xs:element xmlns:q11="http://sorception.azurewebsites.net/" minOccurs="0" name="r" nillable="true" type="q11:TallerResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

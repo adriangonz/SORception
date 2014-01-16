@@ -245,7 +245,9 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\sorceptionadmin - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorceptionadmin - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sorceptionadmin - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorceptionadmin - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\graficafalsa.png" />

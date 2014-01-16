@@ -20,7 +20,7 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	     	  $http({method: 'POST', url: '/jScrap/api/logout'}).
 	          success(function(data, status, headers, config) {
 	              delete $cookies["SessionScrap"];
-	              $http.defaults.headers.common.Authorization = ""; 
+	             $http.defaults.headers.common.Authorization = ""; 
 	              $rootScope.$broadcast('auth.login');
 	       		$location.path("/login");
 	          }).

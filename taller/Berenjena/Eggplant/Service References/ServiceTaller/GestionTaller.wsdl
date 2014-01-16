@@ -93,6 +93,12 @@
   <wsdl:message name="IGestionTaller_getOfertas_OutputMessage">
     <wsdl:part name="parameters" element="tns:getOfertasResponse" />
   </wsdl:message>
+  <wsdl:message name="IGestionTaller_getOferta_InputMessage">
+    <wsdl:part name="parameters" element="tns:getOferta" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getOferta_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getOfertaResponse" />
+  </wsdl:message>
   <wsdl:message name="IGestionTaller_selectOferta_InputMessage">
     <wsdl:part name="parameters" element="tns:selectOferta" />
   </wsdl:message>
@@ -139,6 +145,10 @@
     <wsdl:operation name="getOfertas">
       <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getOfertas" message="tns:IGestionTaller_getOfertas_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getOfertasResponse" message="tns:IGestionTaller_getOfertas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getOferta">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getOferta" message="tns:IGestionTaller_getOferta_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getOfertaResponse" message="tns:IGestionTaller_getOferta_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="selectOferta">
       <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/selectOferta" message="tns:IGestionTaller_selectOferta_InputMessage" />
@@ -230,6 +240,15 @@
     </wsdl:operation>
     <wsdl:operation name="getOfertas">
       <soap:operation soapAction="http://tempuri.org/IGestionTaller/getOfertas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOferta">
+      <soap:operation soapAction="http://tempuri.org/IGestionTaller/getOferta" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -333,6 +352,15 @@
     </wsdl:operation>
     <wsdl:operation name="getOfertas">
       <soap:operation soapAction="http://tempuri.org/IGestionTaller/getOfertas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOferta">
+      <soap:operation soapAction="http://tempuri.org/IGestionTaller/getOferta" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

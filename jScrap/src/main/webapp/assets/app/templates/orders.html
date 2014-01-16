@@ -4,15 +4,15 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Status</th>
+            <th>Creada</th>
             <th>Modificado</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="order in orders">
             <td>{{order.id}}</td>
-            <td>{{order.status}}</td>
-            <td>{{order.timeStamp}}<a class="fright" view-order-btn="order"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td>{{order.creationDate}}</td>
+            <td>{{order.updatedDate}}<a class="fright" view-order-btn="order"><i class="glyphicon glyphicon-eye-open"></i></a></td>
         </tr>
     </tbody>
 </table>

@@ -728,6 +728,12 @@ namespace Eggplant.ServiceTaller {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getOfertas", ReplyAction="http://tempuri.org/IGestionTaller/getOfertasResponse")]
         System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta[]> getOfertasAsync(int solicitud);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getOferta", ReplyAction="http://tempuri.org/IGestionTaller/getOfertaResponse")]
+        Eggplant.ServiceTaller.ExposedOferta getOferta(int oferta);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getOferta", ReplyAction="http://tempuri.org/IGestionTaller/getOfertaResponse")]
+        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta> getOfertaAsync(int oferta);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/selectOferta", ReplyAction="http://tempuri.org/IGestionTaller/selectOfertaResponse")]
         int selectOferta(Eggplant.ServiceTaller.TallerResponse r);
         
@@ -840,6 +846,14 @@ namespace Eggplant.ServiceTaller {
         
         public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta[]> getOfertasAsync(int solicitud) {
             return base.Channel.getOfertasAsync(solicitud);
+        }
+        
+        public Eggplant.ServiceTaller.ExposedOferta getOferta(int oferta) {
+            return base.Channel.getOferta(oferta);
+        }
+        
+        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta> getOfertaAsync(int oferta) {
+            return base.Channel.getOfertaAsync(oferta);
         }
         
         public int selectOferta(Eggplant.ServiceTaller.TallerResponse r) {

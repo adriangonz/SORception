@@ -66,7 +66,7 @@ public class OfertasSender {
 		JAXBElement<String> desguaceId = 
 				objectFactory.createExposedOfertaDesguaceId(token.getToken());
 		Integer id = offerEntity.getId().intValue();		
-		Integer solicitudId = Integer.parseInt(offerService.getOrder(offerEntity).getSgId());
+		Integer solicitudId = Integer.parseInt(offerEntity.getOrderSgId());
 		ArrayOfExposedLineaOferta lineas = objectFactory.createArrayOfExposedLineaOferta();
 		for(OfferLineEntity line : offerEntity.getLines()) {
 			lineas.getExposedLineaOferta().add(toExposedLineaOferta(line));
@@ -95,7 +95,8 @@ public class OfertasSender {
 	}
 	
 	private String offerToString(
-			OfferEntity offer, TokenEntity token, AMQOfertaMessageCode code) {
+			OfferEntity offer, TokenEntity token, 
+			AMQOfertaMessageCode code) {
 		StringResult stringResult = new StringResult();
 		marshaller.marshal(
 				objectFactory.createAMQOfertaMessage(
