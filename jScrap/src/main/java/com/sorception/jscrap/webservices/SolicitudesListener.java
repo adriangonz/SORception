@@ -48,7 +48,7 @@ public class SolicitudesListener implements MessageListener {
     OrderService orderService;
     
     public OrderEntity toOrderEntity(ExposedSolicitud solicitud) {    	
-    	List<OrderLineEntity> lines = new ArrayList<>();    	
+    	List<OrderLineEntity> lines = new ArrayList<>(); 	
     	List<ExposedLineaSolicitud> lineasSolicitud = 
     			solicitud.getLineas().getValue().getExposedLineaSolicitud();
     	for(ExposedLineaSolicitud lineaSolicitud : lineasSolicitud) {
@@ -56,7 +56,9 @@ public class SolicitudesListener implements MessageListener {
     				lineaSolicitud.getDescription().getValue(),
     				lineaSolicitud.getQuantity()));
     	}
-    	return new OrderEntity(solicitud.getId().toString(), lines);
+    	OrderEntity order = new OrderEntity(solicitud.getId().toString(), lines);
+    	order.setDeadline(solicitud.getDeadline().toGregorianCalendar().getTime());
+    	return order;
     }
     
     @Override

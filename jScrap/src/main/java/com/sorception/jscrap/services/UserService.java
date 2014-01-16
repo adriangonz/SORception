@@ -58,7 +58,6 @@ public class UserService {
     }
     
     public UserEntity getUserByUsername(String username) {
-        logger.info("Buscando al usuario " + username + "...");
         UserEntity user = userDAO.getUserByUsername(username);
         if(null == user) {
             throw new ResourceNotFoundException("User does not exist");

@@ -55,7 +55,7 @@ public class OfertasSender {
 		ExposedLineaOferta exposedLineaOferta = 
 				objectFactory.createExposedLineaOferta();
 		exposedLineaOferta.setIdEnDesguace(idEnDesguace);
-		exposedLineaOferta.setIdLinea(idLinea);
+		exposedLineaOferta.setId(idLinea);
 		exposedLineaOferta.setNotes(notes);
 		exposedLineaOferta.setPrice(price);
 		exposedLineaOferta.setQuantity(quantity);
