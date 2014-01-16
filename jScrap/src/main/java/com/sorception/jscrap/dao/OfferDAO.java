@@ -36,6 +36,7 @@ public class OfferDAO {
 	public OfferEntity get(Long id) {
 		OfferEntity offerEntity =
 				(OfferEntity)this.entityManager.find(OfferEntity.class, id);
+		if(offerEntity == null) return null;
 		return offerEntity.isDeleted() ? null : offerEntity;
 	}
 	
@@ -56,7 +57,10 @@ public class OfferDAO {
 	}
 	
 	public OfferEntity update(OfferEntity offer) {
-		return this.entityManager.merge(offer);
+		OfferEntity newOffer = this.entityManager.merge(offer);
+		this.entityManager.flush();
+		this.entityManager.clear();
+		return newOffer;
 	}
 	
 	public void delete(OfferLineEntity offerLine) {

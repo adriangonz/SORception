@@ -66,7 +66,8 @@ public class OfferLineEntity extends AbstractEntity {
 	public String getNotes() {
 		return _notes;
 	}
-
+	
+	@JsonIgnore
 	public Boolean isDeleted() {
 		return this._deleted;
 	}

@@ -10,6 +10,7 @@ import ch.qos.logback.classic.pattern.MessageConverter;
 
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
+import com.sorception.jscrap.services.SettingsService;
 import com.sorception.jscrap.services.TokenService;
 import com.sorception.jscrap.webservices.SolicitudesListener;
 
@@ -59,6 +60,9 @@ public class ActiveMQConfig {
     @Value("${activemq.url}")
     private String _activemqUrl;
     
+    @Autowired
+    SettingsService settingsService;
+    
     @Bean
     public ActiveMQTopic solicitudes() {
         return new ActiveMQTopic("Solicitudes");
@@ -95,7 +99,7 @@ public class ActiveMQConfig {
     public void enableJmsContainer(DefaultMessageListenerContainer jmsContainer, TokenEntity validToken) {
     	logger.info("Valid token found! - Starting jmsContainer with token " + validToken.getToken() + 
     			" and subscribing to topic " + jmsContainer.getDestinationName() + "...");
-        jmsContainer.setDurableSubscriptionName(Long.toString(System.currentTimeMillis()));
+        jmsContainer.setDurableSubscriptionName(settingsService.getGlobalSettings().getName());
         jmsContainer.setClientId(validToken.getToken());
         jmsContainer.setSubscriptionDurable(true);
         jmsContainer.setPubSubDomain(true);

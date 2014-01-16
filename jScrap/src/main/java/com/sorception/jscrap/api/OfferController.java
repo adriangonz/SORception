@@ -98,6 +98,12 @@ public class OfferController {
 				offerService));
 	}
 	
+	@RequestMapping(value = "/{offerId}", method = RequestMethod.GET)
+	@ResponseBody
+	public OfferEntity get(@PathVariable Long offerId) {
+		return offerService.getOfferById(offerId);
+	}
+	
 	@RequestMapping(value = "/{offerId}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteOffer(@PathVariable Long offerId) {

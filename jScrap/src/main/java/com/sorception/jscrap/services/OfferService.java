@@ -63,13 +63,10 @@ public class OfferService {
 	public OfferEntity updateOffer(Long offerId, List<OfferLineEntity> lines) {
 		// Check if we are going to erase all lines (i.e. erase offer)
 		OfferEntity offer = this.getOfferById(offerId);
-		logger.info("Lines: " + Integer.toString(offer.getLines().size()));
 		offer.setLines(lines);
 		offerDAO.update(offer);
 		offer = this.getOfferById(offer.getId());
-		logger.info("Lines: " + Integer.toString(offer.getLines().size()));
 		amqService.sendUpdateOffer(offer, tokenService.getValid());
-		logger.info("Lines: " + Integer.toString(offer.getLines().size()));
 		return offer;
 	}
 	
