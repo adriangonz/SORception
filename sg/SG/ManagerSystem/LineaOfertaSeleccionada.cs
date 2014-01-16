@@ -16,10 +16,8 @@ namespace ManagerSystem
     public partial class LineaOfertaSeleccionada
     {
         public int Id { get; set; }
-        public string quantity { get; set; }
-        public int LineaSolicitudId { get; set; }
+        public int quantity { get; set; }
     
-        public virtual LineaSolicitud LineaSolicitud { get; set; }
         public virtual LineaOferta LineaOferta { get; set; }
     }
 }

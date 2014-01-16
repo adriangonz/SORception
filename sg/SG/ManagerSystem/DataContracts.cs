@@ -84,6 +84,9 @@ namespace ManagerSystem
 
         [DataMember(Name = "status")]
         public string status;
+
+        [DataMember(Name = "deadline")]
+        public DateTime deadline;
     }
 
     [DataContract(Namespace = Constants.Namespace)]
@@ -111,11 +114,14 @@ namespace ManagerSystem
     [DataContract(Namespace = Constants.Namespace)]
     public class ExposedLineaOferta
     {
-        [DataMember(Name = "id_en_desguace")]
-        public int id_en_desguace;
-
         [DataMember(Name = "id")]
         public int id;
+
+        [DataMember(Name = "linea_solicitud_id")]
+        public int linea_solicitud_id;
+        
+        [DataMember(Name = "id_en_desguace")]
+        public int id_en_desguace;
 
         [DataMember(Name = "notes")]
         public string notes;

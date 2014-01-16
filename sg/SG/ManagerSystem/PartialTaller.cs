@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ManagerSystem
 {
-    public class TallerRepository
+    public partial class Taller
     {
         static managersystemEntities ms_ent = new managersystemEntities();
 

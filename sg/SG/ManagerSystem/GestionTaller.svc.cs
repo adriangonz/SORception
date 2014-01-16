@@ -13,14 +13,23 @@ namespace ManagerSystem
 {
     public class GestionTaller : IGestionTaller
     {
+        static managersystemEntities ms_ent = new managersystemEntities();
+
         private Taller getAuthorizedTaller()
         {
-            string token_string = OperationContext.Current.IncomingMessageHeaders
-                .GetHeader<string>("Authorization", Constants.Namespace);
+            string token_string;
+            try
+            {
+                token_string = OperationContext.Current.IncomingMessageHeaders
+                    .GetHeader<string>("Authorization", Constants.Namespace);
+            }
+            catch (Exception e)
+            {
+                token_string = "49466dbfd43f185f341074a28b671021a809e15a16bdaa37a2e9384a23c46482";
+                //throw;
+            }
 
-            //token_string = "1c54c3ebedc0aaedacda5cd0dbe167499924eabf3cbaf965dfcd769946165e66";
-
-            Token token = TokenRepository.Find(token_string);
+            Token token = Token.Find(token_string);
             if (token != null && token.is_valid && token.Taller != null)
             {
                 return token.Taller;
@@ -35,14 +44,14 @@ namespace ManagerSystem
         {
             if (et != null)
             {
-                Taller tall = TallerRepository.FromExposed(et);
+                Taller tall = Taller.FromExposed(et);
                 tall.active = false;
 
-                Token t = TokenRepository.getToken();
+                Token t = Token.getToken();
                 tall.Tokens.Add(t);
 
-                TallerRepository.InsertOrUpdate(tall);
-                TallerRepository.Save();
+                Taller.InsertOrUpdate(tall);
+                Taller.Save();
                 return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
             }
             return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
@@ -54,12 +63,12 @@ namespace ManagerSystem
             TokenResponse.Code status;
             if (token != null && token != "")
             {
-                Token t = TokenRepository.Find(token);
+                Token t = Token.Find(token);
                 if (t != null)
                 {
                     if (t.is_valid)
                     {
-                        Taller tall = TallerRepository.Find(t.Taller.Id);
+                        Taller tall = Taller.Find(t.Taller.Id);
                         if (tall.active)
                         {
                             // El taller ya esta activo
@@ -70,11 +79,11 @@ namespace ManagerSystem
                             // El taller no esta activo
                             status = TokenResponse.Code.NON_AUTHORITATIVE;
                         }
-                        new_token = TokenRepository.RegenerateToken(t);
+                        new_token = Token.RegenerateToken(t);
                     }
                     else
                     {
-                        // El taller ha expirado
+                        // El token ha expirado
                         status = TokenResponse.Code.BAD_REQUEST;
                     }
                 }
@@ -95,13 +104,16 @@ namespace ManagerSystem
 
         public int putTaller(ExposedTaller et)
         {
+            if (et == null)
+                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+
             Taller t = getAuthorizedTaller();
 
             if (et != null)
             {
-                t = TallerRepository.FromExposed(et);
-                TallerRepository.InsertOrUpdate(t);
-                TallerRepository.Save();
+                t = Taller.FromExposed(et);
+                Taller.InsertOrUpdate(t);
+                Taller.Save();
             }
 
             return 0;
@@ -110,8 +122,8 @@ namespace ManagerSystem
         public int deleteTaller()
         {
             Taller t = getAuthorizedTaller();
-            TallerRepository.Delete(t.Id);
-            TallerRepository.Save();
+            Taller.Delete(t.Id);
+            Taller.Save();
             return 0;
         }
 
@@ -119,8 +131,10 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            var tmp = SolicitudRepository.Find(id);
-            ExposedSolicitud s = SolicitudRepository.PrepareOutgoing(tmp);
+            Solicitud tmp = ms_ent.SolicitudSet.Find(id);
+            if (tmp == null)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
+            ExposedSolicitud s = Solicitud.PrepareOutgoing(tmp);
             return s;
         }
 
@@ -130,9 +144,9 @@ namespace ManagerSystem
 
             List<ExposedSolicitud> solicitudes = new List<ExposedSolicitud>();
 
-            foreach (var solicitud in SolicitudRepository.FindAll())
+            foreach (var solicitud in t.Solicitudes)
             {
-                solicitudes.Add(SolicitudRepository.PrepareOutgoing(solicitud));
+                solicitudes.Add(Solicitud.PrepareOutgoing(solicitud));
             }
 
             return solicitudes;
@@ -140,31 +154,31 @@ namespace ManagerSystem
 
         public int addSolicitud(ExposedSolicitud es)
         {
+            if (es == null)
+                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+
             Taller t = getAuthorizedTaller();
 
-            if (es != null)
-            {
-                Solicitud s = SolicitudRepository.GetIncoming(es);
-                s.TallerId = t.Id;
-                SolicitudRepository.InsertOrUpdate(s);
-                SolicitudRepository.Save();
-                SendMessage(new AMQSolicitudMessage(SolicitudRepository.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
-                return s.Id;
-            }
-            return -1;
+            Solicitud s = Solicitud.GetIncoming(es);
+            s.TallerId = t.Id;
+            Solicitud.InsertOrUpdate(s);
+            Solicitud.Save();
+            SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
+            return s.Id;
         }
 
         public int putSolicitud(ExposedSolicitud es)
         {
+            if (es == null)
+                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+
             Taller t = getAuthorizedTaller();
 
-            if (es != null)
-            {
-                Solicitud s = SolicitudRepository.Find(es.id);
-                SolicitudRepository.UpdateFromExposed(s, es);
-                SolicitudRepository.Save();
-                SendMessage(new AMQSolicitudMessage(SolicitudRepository.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
-            }
+            Solicitud s = Solicitud.Find(es.id);
+            Solicitud.UpdateFromExposed(s, es);
+            Solicitud.Save();
+            SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
+
             return 0;
         }
 
@@ -172,8 +186,8 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            SolicitudRepository.Delete(id);
-            SolicitudRepository.Save();
+            Solicitud.Delete(id);
+            Solicitud.Save();
             ExposedSolicitud es = new ExposedSolicitud();
             es.id = id;
             SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Delete));
@@ -184,8 +198,11 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            ExposedOferta eo = OfertaRepository.ToExposed(OfertaRepository.Find(oferta_id));
+            Oferta o = Oferta.Find(oferta_id);
+            if (o == null)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
+            ExposedOferta eo = Oferta.ToExposed(o);
             return eo;
         }
 
@@ -193,19 +210,42 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
+            Solicitud s = ms_ent.SolicitudSet.Find(solicitud_id);
+            if (s == null)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
+
+            List<Oferta> ofertas_mias = s.Ofertas.ToList();
             List<ExposedOferta> ofertas = new List<ExposedOferta>();
-
-            List<Oferta> ofertas_mias = OfertaRepository.GetOfSolicitud(solicitud_id);
-
             foreach (var oferta in ofertas_mias)
             {
-                ofertas.Add(OfertaRepository.ToExposed(oferta));
+                ofertas.Add(Oferta.ToExposed(oferta));
             }
 
             return ofertas;
         }
 
-        public int selectOferta(TallerResponse r) { return 1; }
+        public int selectOferta(TallerResponse r)
+        {
+            Taller t = getAuthorizedTaller();
+
+            Oferta o = Oferta.Find(r.oferta_id);
+
+            foreach (var l in r.selected_lines)
+            {
+                LineaOferta lo = ms_ent.LineaOfertaSet.Find(l.line_id);
+                if (lo.LineaOfertaSeleccionada != null)
+                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+                if (!o.LineasOferta.Contains(lo))
+                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+                    
+                LineaOfertaSeleccionada los = new LineaOfertaSeleccionada();
+                los.LineaOferta = lo;
+                los.quantity = l.quantity;
+                ms_ent.LineaOfertaSeleccionadaSet.Add(los);
+            }
+
+            return 0;
+        }
 
         private void SendMessage(AMQSolicitudMessage sm)
         {

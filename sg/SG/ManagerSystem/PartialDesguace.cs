@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace ManagerSystem
 {
-    public class DesguaceRepository
+    public partial class Desguace
     {
         static managersystemEntities ms_ent = new managersystemEntities();
 
@@ -44,7 +44,7 @@ namespace ManagerSystem
 
         static public Desguace Find(string token)
         {
-            Token t = TokenRepository.Find(token);
+            Token t = Token.Find(token);
             if (t != null)
                 return t.Desguace;
             return null;

@@ -116,7 +116,7 @@
     <Compile Include="Desguace.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DesguaceRepository.cs" />
+    <Compile Include="PartialDesguace.cs" />
     <Compile Include="GestionAdmin.svc.cs">
       <DependentUpon>GestionAdmin.svc</DependentUpon>
     </Compile>
@@ -163,20 +163,20 @@
     <Compile Include="Oferta.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="OfertaRepository.cs" />
+    <Compile Include="PartialOferta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solicitud.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SolicitudRepository.cs" />
+    <Compile Include="PartialSolicitud.cs" />
     <Compile Include="Taller.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TallerRepository.cs" />
+    <Compile Include="PartialTaller.cs" />
     <Compile Include="Token.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="TokenRepository.cs" />
+    <Compile Include="PartialToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ActiveMQHelper\ActiveMQHelper.csproj">

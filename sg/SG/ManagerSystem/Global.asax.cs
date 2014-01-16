@@ -13,16 +13,30 @@ namespace ManagerSystem
     {
         TopicSubscriber subscriber;
 
+        private static string GenerateNumber()
+        {
+            Random random = new Random();
+            string r = "";
+            int i;
+            for (i = 1; i < 11; i++)
+            {
+                r += random.Next(0, 9).ToString();
+            }
+            return r;
+        }
+
         protected void Application_Start(object sender, EventArgs e)
         {
+            Logger.Info("Started the application");
             subscriber = TopicSubscriber.MakeSubscriber(
                 Constants.ActiveMQ.Broker,
-                Constants.ActiveMQ.Oferta.Client_ID + "JAJAJA",
+                Constants.ActiveMQ.Oferta.Client_ID + GenerateNumber(),
                 Constants.ActiveMQ.Oferta.Topic);
 
             //subscriber_OnMessageReceived("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><AMQOfertaMessage xmlns:ns2=\"http://schemas.microsoft.com/2003/10/Serialization/\" xmlns=\"http://sorception.azurewebsites.net/\" xmlns:ns3=\"http://schemas.datacontract.org/2004/07/ManagerSystem\"><code>New</code><oferta><desguace_id>26d9e4609195991a17480da0a94aadab9ea48447d4d22b5fe17cc3eb061a9727</desguace_id><id>66</id><lineas><ExposedLineaOferta><id_en_desguace>64</id_en_desguace><id_linea>2</id_linea><notes>Rabo de rubén 2</notes><price>2.5</price><quantity>2</quantity></ExposedLineaOferta></lineas><solicitud_id>3</solicitud_id></oferta></AMQOfertaMessage>");
-            
+
             subscriber.Start(Constants.ActiveMQ.Oferta.Consumer_ID);
+            
             Logger.Info("Started the ActiveMQ connection");
             subscriber.OnMessageReceived += subscriber_OnMessageReceived;
         }

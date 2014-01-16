@@ -11,19 +11,18 @@
         <EntityTypeShape EntityType="managersystemModel.Taller" Width="1.5" PointX="3" PointY="4.875" />
         <EntityTypeShape EntityType="managersystemModel.Solicitud" Width="1.5" PointX="5.625" PointY="4.875" />
         <EntityTypeShape EntityType="managersystemModel.LineaSolicitud" Width="1.5" PointX="8.25" PointY="5" />
-        <EntityTypeShape EntityType="managersystemModel.LineaOfertaSeleccionada" Width="1.5" PointX="10.75" PointY="3.5" />
+        <EntityTypeShape EntityType="managersystemModel.LineaOfertaSeleccionada" Width="1.5" PointX="11.125" PointY="2.25" />
         <EntityTypeShape EntityType="managersystemModel.Token" Width="1.5" PointX="0.5" PointY="2.625" />
         <AssociationConnector Association="managersystemModel.DesguaceOferta" />
         <AssociationConnector Association="managersystemModel.TallerSolicitud" />
         <AssociationConnector Association="managersystemModel.OfertaLineaOferta" />
         <AssociationConnector Association="managersystemModel.SolicitudLineaSolicitud" />
-        <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOfertaSeleccionada" />
-        <AssociationConnector Association="managersystemModel.LineaOfertaSeleccionadaLineaOferta" />
         <AssociationConnector Association="managersystemModel.DesguaceToken" />
         <AssociationConnector Association="managersystemModel.TallerToken" />
         <AssociationConnector Association="managersystemModel.LineaSolicitudLineaOferta" />
         <EntityTypeShape EntityType="managersystemModel.Log" Width="1.5" PointX="0.875" PointY="6.25" />
         <AssociationConnector Association="managersystemModel.SolicitudOferta" />
+        <AssociationConnector Association="managersystemModel.LineaOfertaLineaOfertaSeleccionada" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

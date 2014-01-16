@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.ServiceModel.Web;
 using System.Web;
 
 namespace ManagerSystem
 {
-    public class SolicitudRepository
+    public partial class Solicitud
     {
         static managersystemEntities ms_ent = new managersystemEntities();
 
@@ -29,12 +30,11 @@ namespace ManagerSystem
 
         static public ExposedSolicitud PrepareOutgoing(Solicitud s)
         {
-            if (s == null) return null;
-
             ExposedSolicitud es = new ExposedSolicitud();
             es.id = s.Id;
             es.id_en_taller = s.id_en_taller;
             es.status = s.state;
+            es.deadline = s.deadline;
             es.lineas = new List<ExposedLineaSolicitud>();
             foreach (var l in s.LineasSolicitud)
             {
@@ -50,12 +50,11 @@ namespace ManagerSystem
         }
 
         static public Solicitud GetIncoming(ExposedSolicitud es)
-        {
-            if (es == null) return null;
-            
+        {            
             Solicitud s = new Solicitud();
             s.id_en_taller = es.id_en_taller;
             s.state = "NEW";
+            s.deadline = es.deadline;
             s.date = DateTime.Now;
             foreach (var el in es.lineas)
             {
@@ -71,8 +70,8 @@ namespace ManagerSystem
 
         static public void UpdateFromExposed(Solicitud s, ExposedSolicitud es)
         {
-            if (s == null || es == null) return;
 
+            s.deadline = es.deadline;
             foreach (var el in es.lineas)
             {
                 LineaSolicitud ls = null;
@@ -130,6 +129,8 @@ namespace ManagerSystem
         static public void Delete(int id)
         {
             Solicitud s = ms_ent.SolicitudSet.Find(id);
+            if (s == null)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
             s.deleted = true;
         }
 

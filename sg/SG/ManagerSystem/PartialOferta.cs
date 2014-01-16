@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ManagerSystem
 {
-    public class OfertaRepository
+    public partial class Oferta
     {
         static managersystemEntities ms_ent = new managersystemEntities();
 
@@ -31,11 +31,15 @@ namespace ManagerSystem
             ExposedOferta eo = new ExposedOferta();
 
             eo.id = s.Id;
+            eo.solicitud_id = s.SolicitudId;
             eo.lineas = new List<ExposedLineaOferta>();
             foreach (var l in s.LineasOferta)
             {
                 ExposedLineaOferta lo = new ExposedLineaOferta();
-                // TODO
+                lo.id = l.Id;
+                lo.linea_solicitud_id = l.LineaSolicitudId;
+                lo.notes = l.notes;
+                lo.price = l.price;
                 lo.quantity = l.quantity;
                 eo.lineas.Add(lo);
             }
@@ -50,7 +54,7 @@ namespace ManagerSystem
             Desguace d;
             try
             { 
-                d = DesguaceRepository.Find(eo.desguace_id);
+                d = Desguace.Find(eo.desguace_id);
             }
             catch (Exception e)
             {
@@ -59,28 +63,21 @@ namespace ManagerSystem
             }
             o.DesguaceId = d.Id;
 
-            Solicitud s = SolicitudRepository.Find(eo.solicitud_id);
-            if (s == null)
-                s = null;
-
             o.SolicitudId = eo.solicitud_id;
             o.LineasOferta = new List<LineaOferta>();
             foreach (var elo in eo.lineas)
             {
                 LineaOferta lo = new LineaOferta();
                 lo.id_en_desguace = elo.id_en_desguace;
-                lo.LineaSolicitudId = elo.id_linea;
+                lo.LineaSolicitudId = elo.id;
                 lo.quantity = elo.quantity;
                 lo.price = elo.price;
                 lo.notes = elo.notes;
                 o.LineasOferta.Add(lo);
-                Logger.Error(String.Format("{0}", lo.LineaSolicitudId));
             }
             o.id_en_desguace = eo.id;
             o.state = "NEW";
             o.date = DateTime.Now;
-
-            Logger.Error(String.Format("{0} {1}", o.DesguaceId, o.SolicitudId));
 
             return o;
         }

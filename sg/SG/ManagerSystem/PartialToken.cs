@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ManagerSystem
 {
-    public class TokenRepository
+    public partial class Token
     {
         static public Token getToken()
         {
@@ -90,7 +90,7 @@ namespace ManagerSystem
             t.updated = DateTime.Now;
             InsertOrUpdate(t);
 
-            Token new_token = TokenRepository.getToken();
+            Token new_token = Token.getToken();
             new_token.Desguace = t.Desguace;
             new_token.Taller = t.Taller;
             InsertOrUpdate(new_token);

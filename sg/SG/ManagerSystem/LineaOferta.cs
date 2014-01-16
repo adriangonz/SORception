@@ -24,7 +24,7 @@ namespace ManagerSystem
         public int LineaSolicitudId { get; set; }
     
         public virtual Oferta Oferta { get; set; }
-        public virtual LineaOfertaSeleccionada LineaOfertaSeleccionada { get; set; }
         public virtual LineaSolicitud LineaSolicitud { get; set; }
+        public virtual LineaOfertaSeleccionada LineaOfertaSeleccionada { get; set; }
     }
 }
