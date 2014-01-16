@@ -36,6 +36,7 @@ public class OfferDAO {
 	public OfferEntity get(Long id) {
 		OfferEntity offerEntity =
 				(OfferEntity)this.entityManager.find(OfferEntity.class, id);
+		if(offerEntity == null) return null;
 		return offerEntity.isDeleted() ? null : offerEntity;
 	}
 	
