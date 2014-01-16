@@ -63,6 +63,43 @@ namespace Eggplant.Controllers
             return Ok();
         }
 
+        [Route("users")]
+        public object GetListUsers()
+        {
+            /*string sqlString = "Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\aspnet-Eggplant-20131216073914.mdf;Initial Catalog=aspnet-Eggplant-20131216073914;"
+        + "Integrated Security=true;";
+            System.Data.SqlClient.SqlConnectionStringBuilder builder = new System.Data.SqlClient.
+                SqlConnectionStringBuilder();
+            builder.DataSource = "(LocalDb)";
+            builder.AttachDBFilename = "App_Data\aspnet-Eggplant-20131216073914.mdf";
+            builder.InitialCatalog = "aspnet-Eggplant-20131216073914";
+            using (System.Data.SqlClient.SqlConnection conn = new System.Data.SqlClient.SqlConnection(builder.ToString()))
+            {
+                
+                using (System.Data.SqlClient.SqlCommand command = conn.CreateCommand())
+                {
+                    conn.Open();
+                    //builder.ConnectionString = "Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\aspnet-Eggplant-20131216073914.mdf;Initial Catalog=aspnet-Eggplant-20131216073914;Integrated Security=True";
+                    command.CommandText = "SELECT * FROM AspNetUsers";
+                    string users = "";
+                    using (System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            users += reader.ToString();
+                        }
+                    }
+
+
+                    conn.Close();
+                    return users;
+                    
+                }
+                
+            }*/
+            return "Ni putas ganas de seguir con esto";
+        }
+
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
