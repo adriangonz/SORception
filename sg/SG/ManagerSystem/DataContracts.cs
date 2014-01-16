@@ -114,8 +114,8 @@ namespace ManagerSystem
         [DataMember(Name = "id_en_desguace")]
         public int id_en_desguace;
 
-        [DataMember(Name = "id_linea")]
-        public int id_linea;
+        [DataMember(Name = "id")]
+        public int id;
 
         [DataMember(Name = "notes")]
         public string notes;
