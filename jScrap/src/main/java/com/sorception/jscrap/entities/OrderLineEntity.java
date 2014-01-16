@@ -63,6 +63,10 @@ public class OrderLineEntity extends AbstractEntity {
 		return _quantity;
 	}
 	
+	public OfferLineEntity getOfferLine() {
+		return _offerLine;
+	}
+	
 	@JsonIgnore
 	public OrderEntity getOrder() {
 		return _order;

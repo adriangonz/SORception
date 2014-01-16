@@ -31,7 +31,7 @@ public class OfferLineEntity extends AbstractEntity {
 	@JoinColumn(name = "offerId", nullable = false)
 	private OfferEntity _offer;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="orderLineId", unique = true)
 	private OrderLineEntity _orderLine;
 	

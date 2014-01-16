@@ -63,11 +63,11 @@ public class SolicitudesListener implements MessageListener {
     public void onMessage(Message message) {
         try {
         	String xml = ((TextMessage)message).getText();
-			// Desearilizing response
+			// Deserializing response
 			JAXBElement<AMQSolicitudMessage> root = 
 					(JAXBElement<AMQSolicitudMessage>) unmarshaller.unmarshal(new StringSource(xml));
 			OrderEntity order = toOrderEntity(root.getValue().getSolicitud().getValue());
-			logger.info("Saving new entity with SG-id " + order.getSgId());
+			logger.info("Saving new order with remote id " + order.getSgId());
 			orderService.addOrder(order);
 		} catch (JMSException e) {
 			logger.error("'text' field not found at message");
