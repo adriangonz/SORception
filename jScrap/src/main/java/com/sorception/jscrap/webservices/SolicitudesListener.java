@@ -48,7 +48,7 @@ public class SolicitudesListener implements MessageListener {
     OrderService orderService;
     
     public OrderEntity toOrderEntity(ExposedSolicitud solicitud) {    	
-    	List<OrderLineEntity> lines = new ArrayList<>();    	
+    	List<OrderLineEntity> lines = new ArrayList<>(); 	
     	List<ExposedLineaSolicitud> lineasSolicitud = 
     			solicitud.getLineas().getValue().getExposedLineaSolicitud();
     	for(ExposedLineaSolicitud lineaSolicitud : lineasSolicitud) {
@@ -56,18 +56,20 @@ public class SolicitudesListener implements MessageListener {
     				lineaSolicitud.getDescription().getValue(),
     				lineaSolicitud.getQuantity()));
     	}
-    	return new OrderEntity(solicitud.getId().toString(), lines);
+    	OrderEntity order = new OrderEntity(solicitud.getId().toString(), lines);
+    	order.setDeadline(solicitud.getDeadline().toGregorianCalendar().getTime());
+    	return order;
     }
     
     @Override
     public void onMessage(Message message) {
         try {
         	String xml = ((TextMessage)message).getText();
-			// Desearilizing response
+			// Deserializing response
 			JAXBElement<AMQSolicitudMessage> root = 
 					(JAXBElement<AMQSolicitudMessage>) unmarshaller.unmarshal(new StringSource(xml));
 			OrderEntity order = toOrderEntity(root.getValue().getSolicitud().getValue());
-			logger.info("Saving new entity with SG-id " + order.getSgId());
+			logger.info("Saving new order with remote id " + order.getSgId());
 			orderService.addOrder(order);
 		} catch (JMSException e) {
 			logger.error("'text' field not found at message");
