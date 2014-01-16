@@ -117,22 +117,20 @@ namespace Eggplant.Controllers
                                 linIn.descripcion = item["descripcion"].ToString();
                                 linIn.cantidad = int.Parse(item["cantidad"].ToString());
                             }
-
-                            if (efecto == LINEA_DELETE)
+                            else if (efecto == LINEA_DELETE)
                             {
                                 int idToDelete = int.Parse(item["id"].ToString());
                                 LineaSolicitud linIn =
                                     c_bd.LineaSolicitudSet.FirstOrDefault(x => x.Id == idToDelete);
                                 c_bd.LineaSolicitudSet.Remove(linIn);//.LineaSolicitud.Remove(linIn);
                             }
-                            else
-                            {
-                                // Modificacion externa
-                                ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
-                                lin.description = item["descripcion"].ToString();
-                                lin.quantity = int.Parse(item["cantidad"].ToString());
-                                lineas.Add(lin);
-                            }
+                            // Modificacion externa
+                            ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
+                            lin.description = item["descripcion"].ToString();
+                            lin.quantity = int.Parse(item["cantidad"].ToString());
+                            lin.action = efecto;
+                            lineas.Add(lin);
+
 
 
                         }
@@ -198,7 +196,8 @@ namespace Eggplant.Controllers
                         foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
                         {
                             var lineaInterna = c_bd_interna.LineaSolicitudSet.FirstOrDefault(x => x.Id == linSolicitudExtern.id_en_taller);
-                            if (lineaInterna != null){
+                            if (lineaInterna != null)
+                            {
                                 lineaInterna.sg_id = linSolicitudExtern.id;
                             }
                         }

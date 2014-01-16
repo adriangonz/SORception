@@ -19,7 +19,7 @@ namespace Eggplant.Controllers
         // GET api/oferta/5
         public object Get(int id)
         {
-            ExposedOferta[] solicitudes = (svcTaller.getOfertas(id));
+            var solicitudes = (svcTaller.getOfertas(id));
             if (solicitudes.Length < 1) return Request.CreateResponse(HttpStatusCode.NotFound, "No existen ofertas");
             return solicitudes;
         }
