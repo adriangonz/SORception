@@ -67,6 +67,10 @@ public class OfferLineEntity extends AbstractEntity {
 		return _notes;
 	}
 	
+	public Long getOfferId() {
+		return this._offer.getId();
+	}
+	
 	@JsonIgnore
 	public Boolean isDeleted() {
 		return this._deleted;
