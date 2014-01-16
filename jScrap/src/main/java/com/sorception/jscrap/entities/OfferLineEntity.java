@@ -31,7 +31,7 @@ public class OfferLineEntity extends AbstractEntity {
 	@JoinColumn(name = "offerId", nullable = false)
 	private OfferEntity _offer;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="orderLineId", unique = true)
 	private OrderLineEntity _orderLine;
 	
@@ -66,7 +66,12 @@ public class OfferLineEntity extends AbstractEntity {
 	public String getNotes() {
 		return _notes;
 	}
-
+	
+	public Long getOfferId() {
+		return this._offer.getId();
+	}
+	
+	@JsonIgnore
 	public Boolean isDeleted() {
 		return this._deleted;
 	}

@@ -63,6 +63,14 @@ namespace Eggplant.Controllers
             return Ok();
         }
 
+        [Route("users")]
+        public object GetListUsers()
+        {
+            var ustr = new UserStore<IdentityUser>();
+            var users = ustr.Context.Set<IdentityUser>();
+            return users;
+        }
+
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)

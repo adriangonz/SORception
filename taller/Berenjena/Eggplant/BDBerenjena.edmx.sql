@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/15/2014 19:05:28
--- Generated from EDMX file: C:\Users\Ruben\Documents\sorception\taller\Berenjena\Eggplant\BDBerenjena.edmx
+-- Date Created: 01/16/2014 17:58:03
+-- Generated from EDMX file: C:\Alex\Desarrollo\SORception\taller\Berenjena\Eggplant\BDBerenjena.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -82,9 +82,7 @@ GO
 -- Creating table 'PedidoSet'
 CREATE TABLE [dbo].[PedidoSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [oferta_id] int  NOT NULL,
     [timeStamp] datetime  NOT NULL,
-    [status] nvarchar(max)  NOT NULL,
     [Solicitud_Id] int  NOT NULL
 );
 GO
@@ -96,7 +94,8 @@ CREATE TABLE [dbo].[LineaPedidoSet] (
     [quantity] int  NOT NULL,
     [price] decimal(18,0)  NOT NULL,
     [PedidoId] int  NOT NULL,
-    [sg_id] int  NOT NULL
+    [sg_id] int  NOT NULL,
+    [state] nvarchar(max)  NOT NULL
 );
 GO
 

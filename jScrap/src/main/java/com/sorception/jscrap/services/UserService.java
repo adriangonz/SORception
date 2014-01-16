@@ -58,7 +58,6 @@ public class UserService {
     }
     
     public UserEntity getUserByUsername(String username) {
-        logger.info("Buscando al usuario " + username + "...");
         UserEntity user = userDAO.getUserByUsername(username);
         if(null == user) {
             throw new ResourceNotFoundException("User does not exist");
@@ -73,7 +72,7 @@ public class UserService {
     
     private String getAuthentication(String username, String password) {
 		String creds = username + ":" + password;
-		creds =  Base64.encodeBase64String(creds.getBytes());
+		creds = Base64.encodeBase64String(creds.getBytes()).trim();
 		return "Basic " + creds;
     }
     

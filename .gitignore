@@ -268,3 +268,7 @@ sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/Apache.NMS.ActiveMQ.1.6.0.nuspec
 sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/lib/net20/Apache.NMS.ActiveMQ.dll
 sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/lib/net35/Apache.NMS.ActiveMQ.dll
 sg/SG/packages/Apache.NMS.ActiveMQ.1.6.0/lib/net40/Apache.NMS.ActiveMQ.dll
+sg/Admin/Manager/AdminManager/App_Data/aspnet-AdminManager-20131028193900.mdf
+sg/Admin/Manager/AdminManager/App_Data/aspnet-AdminManager-20131028193900_log.ldf
+taller/Berenjena/Eggplant/App_Data/aspnet-Eggplant-20131216073914.mdf
+taller/Berenjena/Eggplant/App_Data/aspnet-Eggplant-20131216073914_log.ldf

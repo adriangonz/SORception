@@ -57,9 +57,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="oferta_id" Type="int" Nullable="false" />
     <Property Name="timeStamp" Type="datetime" Nullable="false" />
-    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Solicitud_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="LineaPedidoSet">
@@ -72,6 +70,7 @@
     <Property Name="price" Type="decimal" Nullable="false" />
     <Property Name="PedidoId" Type="int" Nullable="false" />
     <Property Name="sg_id" Type="int" Nullable="false" />
+    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="SolicitudLineaSolicitud">
     <End Role="Solicitud" Type="BDBerenjena.Store.SolicitudSet" Multiplicity="1" />
@@ -180,9 +179,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="oferta_id" Nullable="false" Type="Int32" />
           <Property Name="timeStamp" Type="DateTime" Nullable="false" />
-          <Property Name="status" Type="String" Nullable="false" />
           <NavigationProperty Name="LineaPedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="Pedido" ToRole="LineaPedido" />
           <NavigationProperty Name="Solicitud" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Pedido" ToRole="Solicitud" />
         </EntityType>
@@ -197,6 +194,7 @@
           <NavigationProperty Name="Pedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="LineaPedido" ToRole="Pedido" />
           <Property Name="PedidoId" Type="Int32" Nullable="false" />
           <Property Name="sg_id" Type="Int32" Nullable="false" />
+          <Property Name="state" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="PedidoLineaPedido">
           <End Type="BDBerenjena.Pedido" Role="Pedido" Multiplicity="1" />
@@ -255,9 +253,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Pedido)">
         <MappingFragment StoreEntitySet="PedidoSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="oferta_id" ColumnName="oferta_id" />
           <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
-          <ScalarProperty Name="status" ColumnName="status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -270,6 +266,7 @@
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="PedidoId" ColumnName="PedidoId" />
           <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+          <ScalarProperty Name="state" ColumnName="state" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
