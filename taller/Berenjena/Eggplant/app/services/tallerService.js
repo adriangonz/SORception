@@ -111,8 +111,8 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
             $rootScope.$broadcast('pedido.update');
         },
 
-        postPedido: function (pedido) {
-            $http({ method: 'POST', url: '/api/pedido', data: pedido }).
+        postPedido: function () {
+            $http({ method: 'POST', url: '/api/pedido', data: service.pedido }).
              success(function (data, status, headers, config) {
                  console.log("OK: " + status + " | " + data);
              }).

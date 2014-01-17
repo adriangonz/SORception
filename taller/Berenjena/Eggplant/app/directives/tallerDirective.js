@@ -147,12 +147,9 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
 }]).directive("sendPedidoBtn", ['Taller', '$location', function (Taller, $location) {
     return {
         restrict: "A",
-        scope: {
-            pedido: '='
-        },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                Taller.postPedido(scope.pedido);
+                Taller.postPedido();
                 $location.path("/orders");
                 scope.$apply();
             });
