@@ -52,19 +52,22 @@ namespace Eggplant.Controllers
                 LineaPedido lp = new LineaPedido();
                 lp.linea_oferta_id = int.Parse(item["id_linea_oferta"].ToString());
                 lp.state = FAILED;
-                ExposedLineaOferta lofer = getLineaOferta(lp.linea_oferta_id,idSolcitud);// ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
+                ExposedLineaOferta lofer = getLineaOferta(lp.linea_oferta_id,p.Solicitud.sg_id);// ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
                 if (lofer == null)
                     return Request.CreateResponse(HttpStatusCode.NotFound, "La linea " + lp.linea_oferta_id + " no existe en la oferta ");
                 lp.price = (decimal)lofer.price;
                 lp.quantity = int.Parse(item["cantidad"].ToString());
                 if (lp.quantity > lofer.quantity)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "No puedes pedir mas piezas de las ofertadas");
+                p.LineaPedido.Add(lp);
             }
+
+
+            addPedidoToSG(p.Id);
+
             c_bd.PedidoSet.Add(p);
             c_bd.SaveChanges();
 
-            addPedidoToSG(p.Id);
-            UpdatePedidosFromSG();
 
             return p;
         }
