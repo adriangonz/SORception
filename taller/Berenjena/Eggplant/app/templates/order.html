@@ -28,7 +28,7 @@
 </table>
 
 
-    <table class="table table-striped table-bordered">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>#</th>
@@ -42,10 +42,29 @@
                     <td>{{linea.descripcion}}</td>
                     <td>{{linea.cantidad}}</td>
                 </tr>
-                <tr ng-repeat="oferta in linea.offers">
-                    <td>{{oferta.id}}</td>
-                    <td>{{oferta.notes}}</td>
-                    <td>{{oferta.quantity}}</td>
+                <tr>
+                    <td colspan="3" class="active">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Observacion</th>
+                                    <th>Disponibles</th>
+                                    <th>Precio Unidad</th>
+                                    <th>Pedir</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="oferta in linea.offers">
+                                <tr>
+                                    <td>{{oferta.id}}</td>
+                                    <td>{{oferta.notes}}</td>
+                                    <td>{{oferta.quantity}}</td>
+                                    <td>{{oferta.price}}€</td>
+                                    <td><input class="form-control full" type="number" min="1" id="cant_pedida" ln-pedido="oferta" placeholder="5" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
 
         </tbody>

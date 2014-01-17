@@ -122,5 +122,43 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
             }
         }
     };
-});
+}).directive('lnPedido',  ['Taller', function (Taller) {
+    return {
+        restrict: 'A', // only activate on element attribute
+        scope: {
+            line: '=lnPedido'
+        },
+        link: function (scope, element, attrs, ngModel) {
+
+            element.on('blur keyup change', function () {
+                scope.$apply(readViewText);
+            });
+
+            function readViewText() {
+                var linea_pedido = { "id_linea_oferta": 0, "cantidad": 0 };
+
+                linea_pedido.id_linea_oferta = scope.line.id;
+                linea_pedido.cantidad = element.val();
+
+                Taller.addLineaPedido(linea_pedido);
+            }
+        }
+    };
+}]).directive("sendPedidoBtn", ['Taller', '$location', function (Taller, $location) {
+    return {
+        restrict: "A",
+        scope: {
+            pedido: '='
+        },
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                Taller.postPedido(scope.pedido);
+                $location.path("/orders");
+                scope.$apply();
+            });
+        }
+    }
+}]);
+
+
 
