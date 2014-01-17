@@ -13,13 +13,13 @@ namespace Eggplant.Models
         public void fromObject(Solicitud s)
         {
             this.Id = s.Id;
-            this.LineaSolicitud = s.LineaSolicitud;
+            //this.LineaSolicitud = s.LineaSolicitud;
             this.Pedidos = s.Pedidos;
             this.sg_id = s.sg_id;
             this.status = s.status;
             this.timeStamp = s.timeStamp;
 
-            foreach (LineaSolicitud ls in this.LineaSolicitud)
+            foreach (LineaSolicitud ls in s.LineaSolicitud)
             {
                 LineaSolicitudRepository lsr = new LineaSolicitudRepository();
                 lsr.fromObject(ls);
