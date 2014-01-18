@@ -93,15 +93,16 @@ namespace ManagerSystem
         [DataMember(Name = "action")]
         public string action;
 
+        [DataMember(Name = "status")]
+        public string status;
+
         [DataContract(Namespace = Constants.Namespace)]
         public class ExposedFlag {
-            public enum Type { Price = "PRICE", First = "FIRST", Newest = "NEWEST", Cheapest = "CHEAPEST" };
-
             [DataMember(Name = "type")]
-            public Type type;
+            public string type;
 
-            [DataMember(Name = "additional_data")]
-            public object additional_data;
+            [DataMember(Name = "price")]
+            public int price;
         }
 
         [DataMember(Name = "flag")]
@@ -125,8 +126,6 @@ namespace ManagerSystem
 
         [DataMember(Name = "deadline")]
         public DateTime deadline;
-
-
     }
 
     [DataContract(Namespace = Constants.Namespace)]

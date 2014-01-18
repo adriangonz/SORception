@@ -15,7 +15,7 @@
     <EntitySet Name="LineaOfertaSeleccionadaSet" EntityType="managersystemModel.Store.LineaOfertaSeleccionadaSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TokenSet" EntityType="managersystemModel.Store.TokenSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Logs" EntityType="managersystemModel.Store.Logs" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Flags1" EntityType="managersystemModel.Store.Flags1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FlagSet" EntityType="managersystemModel.Store.FlagSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="DesguaceOferta" Association="managersystemModel.Store.DesguaceOferta">
       <End Role="Desguace" EntitySet="DesguaceSet" />
       <End Role="Oferta" EntitySet="OfertaSet" />
@@ -54,7 +54,7 @@
     </AssociationSet>
     <AssociationSet Name="LineaSolicitudFlag" Association="managersystemModel.Store.LineaSolicitudFlag">
       <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
-      <End Role="Flag" EntitySet="Flags1" />
+      <End Role="Flag" EntitySet="FlagSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="DesguaceSet">
@@ -152,7 +152,7 @@
     <Property Name="message" Type="nvarchar(max)" Nullable="false" />
     <Property Name="level" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Flags1">
+  <EntityType Name="FlagSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -271,7 +271,7 @@
   </Association>
   <Association Name="LineaSolicitudFlag">
     <End Role="LineaSolicitud" Type="managersystemModel.Store.LineasSolicitudSet" Multiplicity="1" />
-    <End Role="Flag" Type="managersystemModel.Store.Flags1" Multiplicity="*" />
+    <End Role="Flag" Type="managersystemModel.Store.FlagSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LineaSolicitud">
         <PropertyRef Name="Id" />
@@ -331,10 +331,10 @@
             <End Role="LineaOferta" EntitySet="LineaOfertaSet" />
             <End Role="LineaOfertaSeleccionada" EntitySet="LineaOfertaSeleccionadaSet" />
           </AssociationSet>
-          <EntitySet Name="Flags1" EntityType="managersystemModel.Flag" />
+          <EntitySet Name="FlagSet" EntityType="managersystemModel.Flag" />
           <AssociationSet Name="LineaSolicitudFlag" Association="managersystemModel.LineaSolicitudFlag">
             <End Role="LineaSolicitud" EntitySet="LineasSolicitudSet" />
-            <End Role="Flag" EntitySet="Flags1" />
+            <End Role="Flag" EntitySet="FlagSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Desguace">
@@ -672,9 +672,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Flags1">
+    <EntitySetMapping Name="FlagSet">
       <EntityTypeMapping TypeName="IsTypeOf(managersystemModel.Flag)">
-        <MappingFragment StoreEntitySet="Flags1">
+        <MappingFragment StoreEntitySet="FlagSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="type" ColumnName="type" />
           <ScalarProperty Name="price" ColumnName="price" />
@@ -689,7 +689,7 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="LineaSolicitudFlag" TypeName="managersystemModel.LineaSolicitudFlag" StoreEntitySet="Flags1">
+    <AssociationSetMapping Name="LineaSolicitudFlag" TypeName="managersystemModel.LineaSolicitudFlag" StoreEntitySet="FlagSet">
       <EndProperty Name="LineaSolicitud">
         <ScalarProperty Name="Id" ColumnName="LineaSolicitud_Id" />
       </EndProperty>

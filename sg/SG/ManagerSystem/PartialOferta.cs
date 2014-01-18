@@ -76,7 +76,7 @@ namespace ManagerSystem
                 o.LineasOferta.Add(lo);
             }
             o.id_en_desguace = eo.id;
-            o.state = "NEW";
+            o.status = "NEW";
             o.date = DateTime.Now;
 
             return o;

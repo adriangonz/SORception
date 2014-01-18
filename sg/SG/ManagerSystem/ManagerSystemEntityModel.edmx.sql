@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 01/18/2014 18:43:58
+-- Date Created: 01/18/2014 20:33:30
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -44,6 +44,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_LineaOfertaLineaOfertaSeleccionada]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaOfertaLineaOfertaSeleccionada];
 GO
+IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudFlag]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Flags1] DROP CONSTRAINT [FK_LineaSolicitudFlag];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -75,6 +78,9 @@ IF OBJECT_ID(N'[dbo].[TokenSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Logs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Logs];
+GO
+IF OBJECT_ID(N'[dbo].[Flags1]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Flags1];
 GO
 
 -- --------------------------------------------------
@@ -176,8 +182,8 @@ CREATE TABLE [dbo].[Logs] (
 );
 GO
 
--- Creating table 'Flags1'
-CREATE TABLE [dbo].[Flags1] (
+-- Creating table 'FlagSet'
+CREATE TABLE [dbo].[FlagSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [type] nvarchar(max)  NOT NULL,
     [price] int  NOT NULL,
@@ -243,9 +249,9 @@ ADD CONSTRAINT [PK_Logs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Flags1'
-ALTER TABLE [dbo].[Flags1]
-ADD CONSTRAINT [PK_Flags1]
+-- Creating primary key on [Id] in table 'FlagSet'
+ALTER TABLE [dbo].[FlagSet]
+ADD CONSTRAINT [PK_FlagSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -379,8 +385,8 @@ ON [dbo].[LineaOfertaSeleccionadaSet]
     ([LineaOferta_Id]);
 GO
 
--- Creating foreign key on [LineaSolicitud_Id] in table 'Flags1'
-ALTER TABLE [dbo].[Flags1]
+-- Creating foreign key on [LineaSolicitud_Id] in table 'FlagSet'
+ALTER TABLE [dbo].[FlagSet]
 ADD CONSTRAINT [FK_LineaSolicitudFlag]
     FOREIGN KEY ([LineaSolicitud_Id])
     REFERENCES [dbo].[LineasSolicitudSet]
@@ -389,7 +395,7 @@ ADD CONSTRAINT [FK_LineaSolicitudFlag]
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_LineaSolicitudFlag'
 CREATE INDEX [IX_FK_LineaSolicitudFlag]
-ON [dbo].[Flags1]
+ON [dbo].[FlagSet]
     ([LineaSolicitud_Id]);
 GO
 

@@ -43,6 +43,13 @@ namespace ManagerSystem
                 el.id_en_taller = l.id_en_taller;
                 el.description = l.description;
                 el.quantity = l.quantity;
+                el.status = l.status;
+                if (l.Flag != null)
+                {
+                    el.flag = new ExposedLineaSolicitud.ExposedFlag();
+                    el.flag.type = l.Flag.type;
+                    el.flag.price = l.Flag.price;
+                }
                 
                 es.lineas.Add(el);
             }
@@ -60,23 +67,25 @@ namespace ManagerSystem
             foreach (var el in es.lineas)
             {
                 LineaSolicitud ls = new LineaSolicitud();
-                ls.id_en_taller = el.id_en_taller;
-                ls.quantity = el.quantity;
-                ls.description = el.description;
-                if (el.flag != null)
-                {
-                    Flag flag = new Flag();
-                    flag.type = el.flag.type.ToString();
-                    if (el.flag.additional_data != null) {
-                        flag.price = (int)el.flag.additional_data;
-                    }
-                    ls.Flag = flag;
-                }
-
+                UpdateLineaFromExposed(ls, el);
+                ls.status = "NEW";
                 s.LineasSolicitud.Add(ls);
             }
 
             return s;
+        }
+
+        static private void UpdateLineaFromExposed(LineaSolicitud ls, ExposedLineaSolicitud el)
+        {
+            ls.id_en_taller = el.id_en_taller;
+            ls.quantity = el.quantity;
+            ls.description = el.description;
+            if (el.flag != null)
+            {
+                ls.Flag = new Flag();
+                ls.Flag.type = el.flag.type;
+                ls.Flag.price = el.flag.price;
+            }
         }
 
         static public void UpdateFromExposed(Solicitud s, ExposedSolicitud es)
@@ -90,14 +99,14 @@ namespace ManagerSystem
                 {
                     case "NEW":
                         ls = new LineaSolicitud();
-                        ls.id_en_taller = el.id_en_taller;
-                        ls.quantity = el.quantity;
-                        ls.description = el.description;
+                        UpdateLineaFromExposed(ls, el);
+                        ls.status = "NEW";
                         s.LineasSolicitud.Add(ls);
                         break;
                     case "UPDATED":
                         ls = ms_ent.LineasSolicitudSet.Find(el.id);
-                        ls.quantity = el.quantity;
+                        UpdateLineaFromExposed(ls, el);
+                        ls.status = "UPDATED";
                         ls.description = el.description;
                         break;
                     case "DELETED":
