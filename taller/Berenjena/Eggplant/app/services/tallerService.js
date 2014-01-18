@@ -3,6 +3,7 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
         orders: [],
         tmp_order: { "data": [] },
         actual_order: undefined,
+        pedido: { "lineas": [], "solicitud": 0 },
 
         addLine: function (line) {
             line.update = 'NEW';
@@ -75,7 +76,7 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
 
         loadActualOrder: function () {
             service.tmp_order.id = service.actual_order.id;
-            service.tmp_order.data = service.actual_order.lineaSolicitud;
+            service.tmp_order.data = service.actual_order.lineas;
             for (var i = 0; i < service.tmp_order.data.length; i++) {
                 service.tmp_order.data[i].update = "UPDATED";
             }
@@ -94,6 +95,32 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
             });
         },
 
+        setSolicitudPedido: function (id) {
+            service.pedido.solicitud = id;
+            $rootScope.$broadcast('pedido.update');
+        },
+
+
+        addLineaPedido: function (line) {
+            //mapeo el array de Lineas por el campo ID y busco la que coincide con el ID de la nueva.
+            var index = service.pedido.lineas.map(function (e) { return e['id_linea_oferta']; }).indexOf(line.id_linea_oferta);
+            //borro la linea de pedido antigua
+            service.pedido.lineas.splice(index, 1);
+            //añado la nueva linea de pedido
+            service.pedido.lineas.push(line);
+            $rootScope.$broadcast('pedido.update');
+        },
+
+        postPedido: function () {
+            $http({ method: 'POST', url: '/api/pedido', data: service.pedido }).
+             success(function (data, status, headers, config) {
+                 console.log("OK: " + status + " | " + data);
+             }).
+             error(function (data, status, headers, config) {
+                 console.log("Error: " + status + " | " + data);
+             });
+            service.pedido = { "lineas": [], "solicitud": 0 };
+        },
     }
 
     return service;

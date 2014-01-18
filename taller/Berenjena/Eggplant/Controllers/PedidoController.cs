@@ -45,34 +45,49 @@ namespace Eggplant.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "La solicitud " + idSolcitud + " no existe en la DB interna");
             foreach (JObject item in values["lineas"])
             {
-                int idOferta = int.Parse(item["oferta"].ToString());
+                /*int idOferta = int.Parse(item["oferta"].ToString());
                 ExposedOferta ofer = svcTaller.getOferta(idOferta);
                 if (ofer == null)
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "La oferta " + idOferta + " no existe en el SG");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "La oferta " + idOferta + " no existe en el SG");*/
                 LineaPedido lp = new LineaPedido();
                 lp.linea_oferta_id = int.Parse(item["id_linea_oferta"].ToString());
                 lp.state = FAILED;
-                ExposedLineaOferta lofer = ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
+                ExposedLineaOferta lofer = getLineaOferta(lp.linea_oferta_id,p.Solicitud.sg_id);// ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
                 if (lofer == null)
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "La linea " + lp.linea_oferta_id + " no existe en la oferta " + idOferta);
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "La linea " + lp.linea_oferta_id + " no existe en la oferta ");
                 lp.price = (decimal)lofer.price;
                 lp.quantity = int.Parse(item["cantidad"].ToString());
                 if (lp.quantity > lofer.quantity)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "No puedes pedir mas piezas de las ofertadas");
+                p.LineaPedido.Add(lp);
             }
+
+
+            addPedidoToSG(p.Id);
+
             c_bd.PedidoSet.Add(p);
             c_bd.SaveChanges();
 
-            addPedidoToSG(p.Id);
-            UpdatePedidosFromSG();
 
             return p;
+        }
+
+        /// Igual esta Funcion deberia esta en el SG
+        private ExposedLineaOferta getLineaOferta(int idLineaOferta, int idSolicitud)
+        {
+            var ofertas = svcTaller.getOfertas(idSolicitud);
+            foreach (var oferta in ofertas)
+            {
+                var linea = oferta.lineas.FirstOrDefault(x => x.id == idLineaOferta);
+                if (linea != null) return linea;
+            }
+            return null;
         }
 
        
 
 
-        //Recorremos el pedido y lo anyadimos el SG
+        /// Recorremos el pedido y lo anyadimos el SG
         private void addPedidoToSG(int idPedido)
         {
             var pedido = c_bd.PedidoSet.FirstOrDefault(x => x.Id == idPedido);

@@ -8,6 +8,7 @@ using System.Web.Http;
 using Eggplant.ServiceTaller;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using Eggplant.Models;
 
 namespace Eggplant.Controllers
 {
@@ -33,14 +34,20 @@ namespace Eggplant.Controllers
         // GET api/solicitud/5
         public object Get(int id)
         {
-            var solicitud = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id);
-            var ofertas = svcTaller.getOfertas(solicitud.sg_id);
-            foreach(dynamic item in solicitud.LineaSolicitud)
+            SolicitudRepository solicitud = new SolicitudRepository();
+            var sol = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id);
+            solicitud.fromObject(sol);
+            var ofertas = svcTaller.getOfertas(solicitud.sg_id).ToList();
+            
+            foreach (var item in solicitud.lineas)
             {
                 int sol_id_sg = item.sg_id;
                 foreach(var oferta in ofertas)
                 {
-                    item.offers = oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg);
+                    //Quitamos las que ya estan pedidas
+                    oferta.lineas = oferta.lineas.AsQueryable().
+                        Where(linoferta => (c_bd.LineaPedidoSet.AsQueryable().Where(linea => linea.linea_oferta_id == linoferta.id).ToList()).Count == 0).ToArray();
+                    item.offers = oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList();
                 }
             }
             return solicitud;

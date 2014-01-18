@@ -22,14 +22,16 @@ namespace Eggplant.Controllers
             var sol = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
             if(sol != null)
             { 
-                var solicitudes = (svcTaller.getOfertas(sol.sg_id));
-                if (solicitudes.Length < 1) return Request.CreateResponse(HttpStatusCode.NotFound, "No existen ofertas");
-                return solicitudes;
+                var ofertas = (svcTaller.getOfertas(sol.sg_id)).ToList();
+                if (ofertas.Count < 1) return Request.CreateResponse(HttpStatusCode.NoContent, "No existen ofertas");
+
+                return ofertas;
             }
             else
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "La solicitud con id " + id + " no existe");
             }
         }
+
     }
 }
