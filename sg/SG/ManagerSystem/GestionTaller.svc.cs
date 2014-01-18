@@ -245,8 +245,10 @@ namespace ManagerSystem
                     
                 LineaOfertaSeleccionada los = new LineaOfertaSeleccionada();
                 los.LineaOferta = lo;
+                lo.status = "SELECTED";
                 los.quantity = l.quantity;
                 ms_ent.LineaOfertaSeleccionadaSet.Add(los);
+                lo.LineaSolicitud.status = "SELECTED";
 
                 AMQPedidoMessage.LineaPedido lp = new AMQPedidoMessage.LineaPedido();
                 lp.line_id = lo.id_en_desguace;
