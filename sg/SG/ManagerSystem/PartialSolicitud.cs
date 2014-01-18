@@ -33,7 +33,7 @@ namespace ManagerSystem
             ExposedSolicitud es = new ExposedSolicitud();
             es.id = s.Id;
             es.id_en_taller = s.id_en_taller;
-            es.status = s.state;
+            es.status = s.status;
             es.deadline = s.deadline;
             es.lineas = new List<ExposedLineaSolicitud>();
             foreach (var l in s.LineasSolicitud)
@@ -43,6 +43,7 @@ namespace ManagerSystem
                 el.id_en_taller = l.id_en_taller;
                 el.description = l.description;
                 el.quantity = l.quantity;
+                
                 es.lineas.Add(el);
             }
 
@@ -53,7 +54,7 @@ namespace ManagerSystem
         {            
             Solicitud s = new Solicitud();
             s.id_en_taller = es.id_en_taller;
-            s.state = "NEW";
+            s.status = "NEW";
             s.deadline = es.deadline;
             s.date = DateTime.Now;
             foreach (var el in es.lineas)
@@ -62,6 +63,16 @@ namespace ManagerSystem
                 ls.id_en_taller = el.id_en_taller;
                 ls.quantity = el.quantity;
                 ls.description = el.description;
+                if (el.flag != null)
+                {
+                    Flag flag = new Flag();
+                    flag.type = el.flag.type.ToString();
+                    if (el.flag.additional_data != null) {
+                        flag.price = (int)el.flag.additional_data;
+                    }
+                    ls.Flag = flag;
+                }
+
                 s.LineasSolicitud.Add(ls);
             }
 

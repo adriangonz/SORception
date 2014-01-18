@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 01/16/2014 21:33:21
+-- Date Created: 01/18/2014 18:43:58
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -95,7 +95,7 @@ CREATE TABLE [dbo].[OfertaSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [id_en_desguace] int  NOT NULL,
     [date] datetime  NOT NULL,
-    [state] nvarchar(max)  NOT NULL,
+    [status] nvarchar(max)  NOT NULL,
     [DesguaceId] int  NOT NULL,
     [SolicitudId] int  NOT NULL,
     [deleted] bit  NOT NULL
@@ -110,7 +110,8 @@ CREATE TABLE [dbo].[LineaOfertaSet] (
     [quantity] int  NOT NULL,
     [OfertaId] int  NOT NULL,
     [notes] nvarchar(max)  NOT NULL,
-    [LineaSolicitudId] int  NOT NULL
+    [LineaSolicitudId] int  NOT NULL,
+    [status] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -128,7 +129,7 @@ CREATE TABLE [dbo].[SolicitudSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [id_en_taller] int  NOT NULL,
     [date] datetime  NOT NULL,
-    [state] nvarchar(max)  NOT NULL,
+    [status] nvarchar(max)  NOT NULL,
     [TallerId] int  NOT NULL,
     [deleted] bit  NOT NULL,
     [deadline] datetime  NOT NULL
@@ -141,7 +142,8 @@ CREATE TABLE [dbo].[LineasSolicitudSet] (
     [quantity] int  NOT NULL,
     [id_en_taller] int  NOT NULL,
     [description] nvarchar(max)  NOT NULL,
-    [SolicitudId] int  NOT NULL
+    [SolicitudId] int  NOT NULL,
+    [status] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -171,6 +173,15 @@ CREATE TABLE [dbo].[Logs] (
     [timestamp] datetime  NOT NULL,
     [message] nvarchar(max)  NOT NULL,
     [level] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Flags1'
+CREATE TABLE [dbo].[Flags1] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [type] nvarchar(max)  NOT NULL,
+    [price] int  NOT NULL,
+    [LineaSolicitud_Id] int  NOT NULL
 );
 GO
 
@@ -229,6 +240,12 @@ GO
 -- Creating primary key on [Id] in table 'Logs'
 ALTER TABLE [dbo].[Logs]
 ADD CONSTRAINT [PK_Logs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Flags1'
+ALTER TABLE [dbo].[Flags1]
+ADD CONSTRAINT [PK_Flags1]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -360,6 +377,20 @@ ADD CONSTRAINT [FK_LineaOfertaLineaOfertaSeleccionada]
 CREATE INDEX [IX_FK_LineaOfertaLineaOfertaSeleccionada]
 ON [dbo].[LineaOfertaSeleccionadaSet]
     ([LineaOferta_Id]);
+GO
+
+-- Creating foreign key on [LineaSolicitud_Id] in table 'Flags1'
+ALTER TABLE [dbo].[Flags1]
+ADD CONSTRAINT [FK_LineaSolicitudFlag]
+    FOREIGN KEY ([LineaSolicitud_Id])
+    REFERENCES [dbo].[LineasSolicitudSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LineaSolicitudFlag'
+CREATE INDEX [IX_FK_LineaSolicitudFlag]
+ON [dbo].[Flags1]
+    ([LineaSolicitud_Id]);
 GO
 
 -- --------------------------------------------------

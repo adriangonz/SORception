@@ -22,6 +22,7 @@ namespace ManagerSystem
         public int OfertaId { get; set; }
         public string notes { get; set; }
         public int LineaSolicitudId { get; set; }
+        public string status { get; set; }
     
         public virtual Oferta Oferta { get; set; }
         public virtual LineaSolicitud LineaSolicitud { get; set; }

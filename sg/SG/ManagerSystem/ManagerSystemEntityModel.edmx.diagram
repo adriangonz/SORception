@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="32bfa663a3d9473aa4d832a7cf0d8428" Name="Diagrama1" ZoomLevel="100" >
+      <Diagram DiagramId="32bfa663a3d9473aa4d832a7cf0d8428" Name="Diagrama1" ZoomLevel="100" DisplayType="true" >
         <EntityTypeShape EntityType="managersystemModel.Desguace" Width="1.5" PointX="2.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="managersystemModel.Oferta" Width="1.5" PointX="5.625" PointY="1.125" />
         <EntityTypeShape EntityType="managersystemModel.LineaOferta" Width="1.5" PointX="8.25" PointY="1" />
@@ -23,6 +23,8 @@
         <EntityTypeShape EntityType="managersystemModel.Log" Width="1.5" PointX="0.875" PointY="6.25" />
         <AssociationConnector Association="managersystemModel.SolicitudOferta" />
         <AssociationConnector Association="managersystemModel.LineaOfertaLineaOfertaSeleccionada" />
+        <EntityTypeShape EntityType="managersystemModel.Flag" Width="1.5" PointX="10.875" PointY="5.125" />
+        <AssociationConnector Association="managersystemModel.LineaSolicitudFlag" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

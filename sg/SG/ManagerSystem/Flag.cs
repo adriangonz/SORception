@@ -13,24 +13,12 @@ namespace ManagerSystem
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     
-    public partial class Oferta
+    public partial class Flag
     {
-        public Oferta()
-        {
-            this.deleted = false;
-            this.LineasOferta = new HashSet<LineaOferta>();
-        }
-    
         public int Id { get; set; }
-        public int id_en_desguace { get; set; }
-        public System.DateTime date { get; set; }
-        public string status { get; set; }
-        public int DesguaceId { get; set; }
-        public int SolicitudId { get; set; }
-        public bool deleted { get; set; }
+        public string type { get; set; }
+        public int price { get; set; }
     
-        public virtual Desguace Desguace { get; set; }
-        public virtual ICollection<LineaOferta> LineasOferta { get; set; }
-        public virtual Solicitud Solicitud { get; set; }
+        public virtual LineaSolicitud LineaSolicitud { get; set; }
     }
 }

@@ -69,7 +69,7 @@ namespace ManagerSystem
             {
                 LineaOferta lo = new LineaOferta();
                 lo.id_en_desguace = elo.id_en_desguace;
-                lo.LineaSolicitudId = elo.id;
+                lo.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(elo.id);
                 lo.quantity = elo.quantity;
                 lo.price = elo.price;
                 lo.notes = elo.notes;

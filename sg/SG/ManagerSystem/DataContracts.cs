@@ -49,6 +49,30 @@ namespace ManagerSystem
         public AMQOfertaMessage() { }
     }
 
+    [DataContract(Namespace = Constants.Namespace)]
+    [KnownType(typeof(ExposedOferta))]
+    public class AMQPedidoMessage
+    {
+        [DataMember(Name = "desguace_id")]
+        public string desguace_id;
+        
+        [DataMember(Name = "oferta_id")]
+        public int oferta_id;
+
+        [DataContract(Namespace = Constants.Namespace)]
+        public class LineaPedido
+        {
+            [DataMember(Name = "line_id")]
+            public int line_id;
+
+            [DataMember(Name = "quantity")]
+            public int quantity;
+        }
+
+        [DataMember(Name = "lineas")]
+        public List<LineaPedido> lineas;
+    }
+
     // Solicitud
 
     [DataContract(Namespace = Constants.Namespace)]
@@ -68,6 +92,20 @@ namespace ManagerSystem
 
         [DataMember(Name = "action")]
         public string action;
+
+        [DataContract(Namespace = Constants.Namespace)]
+        public class ExposedFlag {
+            public enum Type { Price = "PRICE", First = "FIRST", Newest = "NEWEST", Cheapest = "CHEAPEST" };
+
+            [DataMember(Name = "type")]
+            public Type type;
+
+            [DataMember(Name = "additional_data")]
+            public object additional_data;
+        }
+
+        [DataMember(Name = "flag")]
+        public ExposedFlag flag;
     }
 
     [DataContract(Namespace = Constants.Namespace)]
@@ -87,6 +125,8 @@ namespace ManagerSystem
 
         [DataMember(Name = "deadline")]
         public DateTime deadline;
+
+
     }
 
     [DataContract(Namespace = Constants.Namespace)]

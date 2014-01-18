@@ -25,8 +25,10 @@ namespace ManagerSystem
         public int id_en_taller { get; set; }
         public string description { get; set; }
         public int SolicitudId { get; set; }
+        public string status { get; set; }
     
         public virtual Solicitud Solicitud { get; set; }
         public virtual ICollection<LineaOferta> LineasOferta { get; set; }
+        public virtual Flag Flag { get; set; }
     }
 }

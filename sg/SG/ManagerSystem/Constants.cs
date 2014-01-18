@@ -26,6 +26,11 @@ namespace ManagerSystem
                 public const string Consumer_ID = "SistemaGestor";
                 public const string Topic = "Ofertas";
             }
+
+            public class Pedido
+            {
+                public const string Topic = "Pedidos";
+            }
         }
 
     }

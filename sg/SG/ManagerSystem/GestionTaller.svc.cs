@@ -230,19 +230,32 @@ namespace ManagerSystem
 
             Oferta o = Oferta.Find(r.oferta_id);
 
+            AMQPedidoMessage message = new AMQPedidoMessage();
+            message.desguace_id = o.Desguace.Tokens.First(token => token.is_valid == true).token;
+            message.oferta_id = o.id_en_desguace;
+            message.lineas = new List<AMQPedidoMessage.LineaPedido>();
+
             foreach (var l in r.selected_lines)
             {
                 LineaOferta lo = ms_ent.LineaOfertaSet.Find(l.line_id);
                 if (lo.LineaOfertaSeleccionada != null)
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-                if (!o.LineasOferta.Contains(lo))
-                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+                /*if (!o.LineasOferta.Contains(lo))
+                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);*/
                     
                 LineaOfertaSeleccionada los = new LineaOfertaSeleccionada();
                 los.LineaOferta = lo;
                 los.quantity = l.quantity;
                 ms_ent.LineaOfertaSeleccionadaSet.Add(los);
+
+                AMQPedidoMessage.LineaPedido lp = new AMQPedidoMessage.LineaPedido();
+                lp.line_id = lo.id_en_desguace;
+                lp.quantity = l.quantity;
+                message.lineas.Add(lp);
             }
+            ms_ent.SaveChanges();
+
+            SendMessage(message);
 
             return 0;
         }
@@ -252,9 +265,21 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Constants.ActiveMQ.Broker, 
-                    Constants.ActiveMQ.Solicitud.Client_ID, 
+                    Constants.ActiveMQ.Broker,
+                    Constants.ActiveMQ.Solicitud.Client_ID,
                     Constants.ActiveMQ.Solicitud.Topic);
+            publisher.SendMessage(sm);
+            publisher.Dispose();
+        }
+
+        private void SendMessage(AMQPedidoMessage sm)
+        {
+            Taller t = getAuthorizedTaller();
+
+            TopicPublisher publisher = TopicPublisher.MakePublisher(
+                    Constants.ActiveMQ.Broker,
+                    Constants.ActiveMQ.Solicitud.Client_ID,
+                    Constants.ActiveMQ.Pedido.Topic);
             publisher.SendMessage(sm);
             publisher.Dispose();
         }
