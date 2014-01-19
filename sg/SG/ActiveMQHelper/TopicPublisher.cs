@@ -41,7 +41,7 @@ namespace ActiveMQHelper
             connection.Start();
             ISession session = connection.CreateSession();
             TopicPublisher publisher = new TopicPublisher(session, connection, topic);
- 
+
             return publisher;
         }
 
@@ -54,11 +54,12 @@ namespace ActiveMQHelper
             Producer = session.CreateProducer(_topic);
         }
 
-        public void SendMessage(object o)
+        public void SendMessage(object o, long delay = 0)
         {
             string message = ToXML(o);
             if (_disposed) throw new ObjectDisposedException(GetType().Name);
             var textMessage = Producer.CreateTextMessage(message);
+            textMessage.Properties["AMQ_SCHEDULED_DELAY"] = delay;
             Producer.Send(textMessage);
         }
 

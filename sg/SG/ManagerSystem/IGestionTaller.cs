@@ -44,6 +44,8 @@ namespace ManagerSystem
         ExpOferta getOferta(int oferta);
 
         [OperationContract]
-        int selectOferta(ExpPedido p);                
+        int selectOferta(ExpPedido p);
+
+        void runJob(AMQScheduledJob job);
     }
 }

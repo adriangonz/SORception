@@ -85,6 +85,8 @@ namespace ManagerSystem
         public void processAMQMessage(AMQOfertaMessage message)
         {
             Desguace d = Desguace.Find(message.desguace_id);
+            int id_en_desguace = message.oferta.id_en_desguace;
+            Oferta o;
             switch (message.code)
             {
                 case AMQOfertaMessage.Code.New:
@@ -92,10 +94,12 @@ namespace ManagerSystem
                     Oferta.Save();
                     break;
                 case AMQOfertaMessage.Code.Update:
+                    o = ms_ent.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
+                    Oferta.InsertOrUpdate(Oferta.FromExposed(message.oferta, d));
+                    Oferta.Save();
                     break;
                 case AMQOfertaMessage.Code.Delete: 
-                    int id_en_desguace = message.oferta.id_en_desguace;
-                    Oferta o = ms_ent.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
+                    o = ms_ent.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
                     Oferta.Delete(o.Id);
                     Oferta.Save();
                     break;

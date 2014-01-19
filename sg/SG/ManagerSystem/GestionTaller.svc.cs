@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
@@ -166,6 +167,8 @@ namespace ManagerSystem
             s.TallerId = t.Id;
             Solicitud.InsertOrUpdate(s);
             Solicitud.Save();
+            ScheduleJob(s);
+
             SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
             return s.Id;
         }
@@ -281,8 +284,8 @@ namespace ManagerSystem
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Solicitud.Client_ID,
-                    Constants.ActiveMQ.Solicitud.Topic);
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Solicitudes_Topic);
             publisher.SendMessage(sm);
             publisher.Dispose();
         }
@@ -293,10 +296,48 @@ namespace ManagerSystem
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Solicitud.Client_ID,
-                    Constants.ActiveMQ.Pedido.Topic);
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Pedidos_Topic);
             publisher.SendMessage(sm);
             publisher.Dispose();
         }
+
+        private void ScheduleJob(Solicitud s)
+        {
+            AMQScheduledJob job = new AMQScheduledJob();
+            job.deadline = s.deadline;
+            job.id_solicitud = s.Id;
+            job.csrf = GenerateCSRF(s);
+
+            TopicPublisher publisher = TopicPublisher.MakePublisher(
+                    Constants.ActiveMQ.Broker,
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Jobs_Topic);
+
+            TimeSpan delay = s.deadline - DateTime.Now;
+            publisher.SendMessage(job, (long) delay.TotalMilliseconds);
+            publisher.Dispose();
+        }
+
+        public void runJob(AMQScheduledJob job)
+        {
+
+        }
+
+        private string GenerateCSRF(Solicitud s)
+        {
+            SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+
+            byte[] inputBytes = Encoding.UTF8.GetBytes(s.date.ToString());
+            byte[] hashedBytes = provider.ComputeHash(inputBytes);
+
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < hashedBytes.Length; i++)
+                output.Append(hashedBytes[i].ToString("x2").ToLower());
+
+            return output.ToString();
+        }
+
+
     }
 }
