@@ -9,7 +9,6 @@ namespace ManagerSystem
     // ActiveMQ
 
     [DataContract(Namespace = Constants.Namespace)]
-    [KnownType(typeof(ExpSolicitud))]
     public class AMQSolicitudMessage
     {
         public enum Code { New, Update, Delete };
@@ -30,7 +29,6 @@ namespace ManagerSystem
     }
 
     [DataContract(Namespace = Constants.Namespace)]
-    [KnownType(typeof(ExpOferta))]
     public class AMQOfertaMessage
     {
         public enum Code { New, Update, Delete };
@@ -53,7 +51,6 @@ namespace ManagerSystem
     }
 
     [DataContract(Namespace = Constants.Namespace)]
-    [KnownType(typeof(ExpOferta))]
     public class AMQPedidoMessage
     {
         [DataMember(Name = "desguace_id")]
