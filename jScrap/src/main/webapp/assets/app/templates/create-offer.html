@@ -1,23 +1,71 @@
+<h2>Solicitud {{actual_order.id}}</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Informacion</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Identificador:</td>
+            <td>{{actual_order.id}}</td>
+        </tr>
+        <tr>
+            <td>Ref SG:</td>
+            <td>{{actual_order.sgId}}</td>
+        </tr>
+        <tr>
+            <td>Modificado:</td>
+            <td>{{actual_order.updatedDate}}</td>
+        </tr>
+        <tr>
+            <td>Fecha fin:</td>
+            <td>{{actual_order.deadline}}</td>
+        </tr>
+    </tbody>
+</table>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="linea in actual_order.lines">
+            <tr>
+                <td>{{linea.id}}</td>
+                <td>{{linea.description}}</td>
+                <td>{{linea.quantity}}</td>
+            </tr>
+        </tbody>
+    </table>
+
 <h2>Crear Oferta</h2>
 
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>Descripcion</th>
+            <th>Linea de Solicitud</th>
+            <th>Observaciones</th>
             <th>Cantidad disponible</th>
             <th>Precio Unidad</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="line in tmp_offer">
-            <td>{{line.descripcion}}</td>
-            <td>{{line.cantidad}} Unid.</td>
-            <td>{{line.precio}} €<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
+        <tr ng-repeat="line in tmp_offer.lines">
+            <td>{{line.orderLineId}}</td>
+            <td>{{line.notes}}</td>
+            <td>{{line.quantity}}</td>
+            <td>{{line.price}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
-            <td><input class="form-control full" type="text" id="descripcion" ng-model="tmp_line.descripcion" placeholder="bujia" /></td>
-            <td><input class="form-control full" type="number" min='0' id="cantidad" ng-model="tmp_line.cantidad" placeholder="5" /></td>
-            <td><input class="form-control full" type="number" step="0.1" min='0' id="precio" ng-model="tmp_line.precio" placeholder="13.4" /></td>
+            <td><input class="form-control full" type="number" id="idorder" ng-model="tmp_line.orderLineId" placeholder="1" /></td>
+            <td><input class="form-control full" type="text" id="descripcion" ng-model="tmp_line.notes" placeholder="Es de color rojo" /></td>
+            <td><input class="form-control full" type="number" min='0' id="cantidad" ng-model="tmp_line.quantity" placeholder="5" /></td>
+            <td><input class="form-control full" type="number" step="0.1" min='0' id="precio" ng-model="tmp_line.price" placeholder="13.4" /></td>
         </tr>
     </tbody>
 </table>

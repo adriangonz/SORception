@@ -6,7 +6,7 @@ module.directive("addLineBtn", ['Scrap', function (Scrap) {
         },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                if(scope.line.descripcion!="" && scope.line.cantidad && scope.line.precio){
+                if(scope.line.orderLineId && scope.line.notes!="" && scope.line.quantity && scope.line.price){
                     Scrap.addLine(scope.line);
                     console.log(Scrap);
                     scope.line = null;
@@ -15,21 +15,33 @@ module.directive("addLineBtn", ['Scrap', function (Scrap) {
             });
         }
     }
+}]).directive("removeLineBtn", ['Scrap', function (Scrap) {
+    return {
+        restrict: "A",
+        scope: {
+            line: '=removeLineBtn'
+        },
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                Scrap.removeLine(scope.line);
+                scope.$apply();
+            });
+        }
+    }
 }]).directive("sendOfferBtn", ['Scrap', '$location', function (Scrap, $location) {
     return {
         restrict: "A",
         scope: {
-            order: '=sendOrderBtn'
+            offer: '=sendOfferBtn'
         },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                if (scope.order.id)
+                if (scope.offer.id)
                 {
-                    Scrap.putOrder(scope.order);
+                    Scrap.putOffer(scope.offer);
                 } else {
-                    Scrap.postOrder(scope.order);
+                    Scrap.postOffer(scope.offer);
                 }
-                scope.order = [];
                 $location.path("/orders");
                 scope.$apply();
             });

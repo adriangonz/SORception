@@ -18,7 +18,7 @@ module.config(['$routeProvider',
         templateUrl: 'assets/app/templates/orders.html',
         controller: 'OrdersCtrl'
       }).
-      when('/create-offer', {
+      when('/order/:id', {
         templateUrl: 'assets/app/templates/create-offer.html',
         controller: 'CreateOfferCtrl'
       }).
