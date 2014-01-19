@@ -321,7 +321,23 @@ namespace ManagerSystem
 
         public void runJob(AMQScheduledJob job)
         {
+            if (ValidateJob(job))
+            {
+                Logger.Info(String.Format("Running job for {0}", job.id_solicitud));
 
+                // Iterate over the offers for each line and select one according to the criteria of that line
+                Solicitud s = ms_ent.SolicitudSet.Find(job.id_solicitud);
+
+                // Iterate over the lines
+                    // Get the best offer according to the criteria
+
+                    // Mark it as selected
+
+                    // Group the offers by offer_id
+
+                // For each offer ith select lines
+                    // Send a message to the Offer AMQTopic
+            }
         }
 
         private string GenerateCSRF(Solicitud s)
@@ -338,6 +354,25 @@ namespace ManagerSystem
             return output.ToString();
         }
 
+        private bool ValidateJob(AMQScheduledJob job)
+        {
+            Solicitud s = ms_ent.SolicitudSet.Find(job.id_solicitud);
+            if (s == null) {
+                Logger.Error(String.Format("Job with invalid id_solicitud: {0}", job.id_solicitud));
+                return false;
+            }
 
+            if (s.deadline != job.deadline) {
+                Logger.Error(String.Format("Job for {0} is outdated: {1} != {2}", job.id_solicitud, job.deadline, s.deadline));
+                return false;
+            }
+
+            if (job.csrf != GenerateCSRF(s)) {
+                Logger.Error(String.Format("CSRF of job for {0} doesn't match", job.id_solicitud));
+                return false;
+            }
+
+            return true;
+        }
     }
 }
