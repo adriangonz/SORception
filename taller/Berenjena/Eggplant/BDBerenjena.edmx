@@ -41,6 +41,7 @@
     <Property Name="sg_id" Type="int" Nullable="false" />
     <Property Name="timeStamp" Type="datetime" Nullable="false" />
     <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_id" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="LineaSolicitudSet">
     <Key>
@@ -150,6 +151,7 @@
           <Property Name="timeStamp" Type="DateTime" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" />
           <NavigationProperty Name="Pedidos" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Solicitud" ToRole="Pedido" />
+          <Property Name="user_id" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="LineaSolicitud">
           <Key>
@@ -235,6 +237,7 @@
           <ScalarProperty Name="sg_id" ColumnName="sg_id" />
           <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
           <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
