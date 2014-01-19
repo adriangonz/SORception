@@ -26,16 +26,16 @@ namespace ManagerSystem
             return Copy(o);
         }
         
-        static public ExposedOferta ToExposed(Oferta s)
+        static public ExpOferta ToExposed(Oferta s)
         {
-            ExposedOferta eo = new ExposedOferta();
+            ExpOferta eo = new ExpOferta();
 
             eo.id = s.Id;
             eo.solicitud_id = s.SolicitudId;
-            eo.lineas = new List<ExposedLineaOferta>();
+            eo.lineas = new List<ExpOferta.Line>();
             foreach (var l in s.LineasOferta)
             {
-                ExposedLineaOferta lo = new ExposedLineaOferta();
+                ExpOferta.Line lo = new ExpOferta.Line();
                 lo.id = l.Id;
                 lo.linea_solicitud_id = l.LineaSolicitudId;
                 lo.notes = l.notes;
@@ -47,22 +47,10 @@ namespace ManagerSystem
             return eo;
         }
 
-        static public Oferta FromExposed(ExposedOferta eo)
+        static public Oferta FromExposed(ExpOferta eo, Desguace d)
         {
             Oferta o = new Oferta();
-
-            Desguace d;
-            try
-            { 
-                d = Desguace.Find(eo.desguace_id);
-            }
-            catch (Exception e)
-            {
-                Logger.Error(String.Format("Exception thrown at Oferta.FromExposed with message: {0}", e.Message));
-                throw;
-            }
             o.DesguaceId = d.Id;
-
             o.SolicitudId = eo.solicitud_id;
             o.LineasOferta = new List<LineaOferta>();
             foreach (var elo in eo.lineas)
@@ -75,7 +63,7 @@ namespace ManagerSystem
                 lo.notes = elo.notes;
                 o.LineasOferta.Add(lo);
             }
-            o.id_en_desguace = eo.id;
+            o.id_en_desguace = eo.id_en_desguace;
             o.status = "NEW";
             o.date = DateTime.Now;
 

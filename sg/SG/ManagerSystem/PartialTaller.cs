@@ -19,16 +19,16 @@ namespace ManagerSystem
             return d;
         }
 
-        static public ExposedTaller ToExposed(Taller t)
+        static public ExpTaller ToExposed(Taller t)
         {
-            ExposedTaller et = new ExposedTaller();
+            ExpTaller et = new ExpTaller();
 
             et.name = t.name;
 
             return et;
         }
 
-        static public Taller FromExposed(ExposedTaller et)
+        static public Taller FromExposed(ExpTaller et)
         {
             Taller t = new Taller();
 

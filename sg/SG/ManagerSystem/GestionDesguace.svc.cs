@@ -14,7 +14,7 @@ namespace ManagerSystem
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        public TokenResponse signUp(ExposedDesguace ed)
+        public TokenResponse signUp(ExpDesguace ed)
         {
             if (ed != null)
             {
@@ -85,7 +85,8 @@ namespace ManagerSystem
             switch (message.code)
             {
                 case AMQOfertaMessage.Code.New:
-                    Oferta.InsertOrUpdate(Oferta.FromExposed(message.oferta));
+                    Desguace d = Desguace.Find(message.desguace_id);
+                    Oferta.InsertOrUpdate(Oferta.FromExposed(message.oferta, d));
                     Oferta.Save();
                     break;
                 case AMQOfertaMessage.Code.Update:

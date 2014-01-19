@@ -40,7 +40,7 @@ namespace ManagerSystem
             }
         }
 
-        public TokenResponse signUp(ExposedTaller et)
+        public TokenResponse signUp(ExpTaller et)
         {
             if (et != null)
             {
@@ -102,7 +102,7 @@ namespace ManagerSystem
             return new TokenResponse(new_token, status);
         }
 
-        public int putTaller(ExposedTaller et)
+        public int putTaller(ExpTaller et)
         {
             if (et == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
@@ -127,22 +127,22 @@ namespace ManagerSystem
             return 0;
         }
 
-        public ExposedSolicitud getSolicitud(int id)
+        public ExpSolicitud getSolicitud(int id)
         {
             Taller t = getAuthorizedTaller();
 
             Solicitud tmp = ms_ent.SolicitudSet.Find(id);
             if (tmp == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-            ExposedSolicitud s = Solicitud.PrepareOutgoing(tmp);
+            ExpSolicitud s = Solicitud.PrepareOutgoing(tmp);
             return s;
         }
 
-        public List<ExposedSolicitud> getSolicitudes()
+        public List<ExpSolicitud> getSolicitudes()
         {
             Taller t = getAuthorizedTaller();
 
-            List<ExposedSolicitud> solicitudes = new List<ExposedSolicitud>();
+            List<ExpSolicitud> solicitudes = new List<ExpSolicitud>();
 
             foreach (var solicitud in t.Solicitudes)
             {
@@ -152,7 +152,7 @@ namespace ManagerSystem
             return solicitudes;
         }
 
-        public int addSolicitud(ExposedSolicitud es)
+        public int addSolicitud(ExpSolicitud es)
         {
             if (es == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
@@ -167,7 +167,7 @@ namespace ManagerSystem
             return s.Id;
         }
 
-        public int putSolicitud(ExposedSolicitud es)
+        public int putSolicitud(ExpSolicitud es)
         {
             if (es == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
@@ -188,13 +188,13 @@ namespace ManagerSystem
 
             Solicitud.Delete(id);
             Solicitud.Save();
-            ExposedSolicitud es = new ExposedSolicitud();
+            ExpSolicitud es = new ExpSolicitud();
             es.id = id;
             SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Delete));
             return 0;
         }
 
-        public ExposedOferta getOferta(int oferta_id)
+        public ExpOferta getOferta(int oferta_id)
         {
             Taller t = getAuthorizedTaller();
 
@@ -202,11 +202,11 @@ namespace ManagerSystem
             if (o == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
-            ExposedOferta eo = Oferta.ToExposed(o);
+            ExpOferta eo = Oferta.ToExposed(o);
             return eo;
         }
 
-        public List<ExposedOferta> getOfertas(int solicitud_id)
+        public List<ExpOferta> getOfertas(int solicitud_id)
         {
             Taller t = getAuthorizedTaller();
 
@@ -215,7 +215,7 @@ namespace ManagerSystem
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             List<Oferta> ofertas_mias = s.Ofertas.ToList();
-            List<ExposedOferta> ofertas = new List<ExposedOferta>();
+            List<ExpOferta> ofertas = new List<ExpOferta>();
             foreach (var oferta in ofertas_mias)
             {
                 ofertas.Add(Oferta.ToExposed(oferta));
@@ -224,20 +224,19 @@ namespace ManagerSystem
             return ofertas;
         }
 
-        public int selectOferta(TallerResponse r)
+        public int selectOferta(ExpPedido r)
         {
             Taller t = getAuthorizedTaller();
 
             Oferta o = Oferta.Find(r.oferta_id);
 
-            AMQPedidoMessage message = new AMQPedidoMessage();
-            message.desguace_id = o.Desguace.Tokens.First(token => token.is_valid == true).token;
-            message.oferta_id = o.id_en_desguace;
-            message.lineas = new List<AMQPedidoMessage.LineaPedido>();
+            ExpPedido amq_pedido = new ExpPedido();
+            amq_pedido.oferta_id = o.id_en_desguace;
+            amq_pedido.lineas = new List<ExpPedido.Line>();
 
-            foreach (var l in r.selected_lines)
+            foreach (var l in r.lineas)
             {
-                LineaOferta lo = ms_ent.LineaOfertaSet.Find(l.line_id);
+                LineaOferta lo = ms_ent.LineaOfertaSet.Find(l.linea_solicitud_id);
                 if (lo.LineaOfertaSeleccionada != null)
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
                 /*if (!o.LineasOferta.Contains(lo))
@@ -250,13 +249,16 @@ namespace ManagerSystem
                 ms_ent.LineaOfertaSeleccionadaSet.Add(los);
                 lo.LineaSolicitud.status = "SELECTED";
 
-                AMQPedidoMessage.LineaPedido lp = new AMQPedidoMessage.LineaPedido();
-                lp.line_id = lo.id_en_desguace;
+                ExpPedido.Line lp = new ExpPedido.Line();
+                lp.linea_solicitud_id = lo.id_en_desguace;
                 lp.quantity = l.quantity;
-                message.lineas.Add(lp);
+                amq_pedido.lineas.Add(lp);
             }
             ms_ent.SaveChanges();
 
+            AMQPedidoMessage message = new AMQPedidoMessage();
+            message.desguace_id = o.Desguace.Tokens.First(token => token.is_valid == true).token;
+            message.pedido = amq_pedido;
             SendMessage(message);
 
             return 0;
