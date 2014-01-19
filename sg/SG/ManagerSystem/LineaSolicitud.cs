@@ -17,7 +17,6 @@ namespace ManagerSystem
     {
         public LineaSolicitud()
         {
-            this.LineasOfertaSeleccionada = new HashSet<LineaOfertaSeleccionada>();
             this.LineasOferta = new HashSet<LineaOferta>();
         }
     
@@ -26,9 +25,10 @@ namespace ManagerSystem
         public int id_en_taller { get; set; }
         public string description { get; set; }
         public int SolicitudId { get; set; }
+        public string status { get; set; }
+        public string flag { get; set; }
     
         public virtual Solicitud Solicitud { get; set; }
-        public virtual ICollection<LineaOfertaSeleccionada> LineasOfertaSeleccionada { get; set; }
         public virtual ICollection<LineaOferta> LineasOferta { get; set; }
     }
 }

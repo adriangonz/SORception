@@ -24,7 +24,7 @@ namespace ManagerSystem
         public int Id { get; set; }
         public int id_en_desguace { get; set; }
         public System.DateTime date { get; set; }
-        public string state { get; set; }
+        public string status { get; set; }
         public int DesguaceId { get; set; }
         public int SolicitudId { get; set; }
         public bool deleted { get; set; }

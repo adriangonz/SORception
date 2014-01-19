@@ -14,18 +14,18 @@ namespace ManagerSystem
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        public TokenResponse signUp(ExposedDesguace ed)
+        public TokenResponse signUp(ExpDesguace ed)
         {
             if (ed != null)
             {
-                Desguace d = DesguaceRepository.FromExposed(ed);
+                Desguace d = Desguace.FromExposed(ed);
                 d.active = false;
 
-                Token t = TokenRepository.getToken();
+                Token t = Token.getToken();
                 d.Tokens.Add(t);
 
-                DesguaceRepository.InsertOrUpdate(d);
-                DesguaceRepository.Save();
+                Desguace.InsertOrUpdate(d);
+                Desguace.Save();
                 return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
             }
             return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
@@ -37,12 +37,12 @@ namespace ManagerSystem
             TokenResponse.Code status;
             if (token != null && token != "")
             {
-                Token t = TokenRepository.Find(token);
+                Token t = Token.Find(token);
                 if (t != null)
                 {
                     if (t.is_valid)
                     {
-                        Desguace d = DesguaceRepository.Find(t.Desguace.Id);
+                        Desguace d = Desguace.Find(t.Desguace.Id);
                         if (d.active)
                         {
                             // El desgauce ya esta activo
@@ -53,7 +53,7 @@ namespace ManagerSystem
                             // EL desguace no esta activo
                             status = TokenResponse.Code.NON_AUTHORITATIVE;
                         }
-                        new_token = TokenRepository.RegenerateToken(t);
+                        new_token = Token.RegenerateToken(t);
                     }
                     else
                     {
@@ -76,6 +76,24 @@ namespace ManagerSystem
             return new TokenResponse(new_token, status);
         }
 
-        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o) { }
+        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o) {
+            processAMQMessage(o);
+        }
+
+        public void processAMQMessage(AMQOfertaMessage message)
+        {
+            switch (message.code)
+            {
+                case AMQOfertaMessage.Code.New:
+                    Desguace d = Desguace.Find(message.desguace_id);
+                    Oferta.InsertOrUpdate(Oferta.FromExposed(message.oferta, d));
+                    Oferta.Save();
+                    break;
+                case AMQOfertaMessage.Code.Update:
+                    break;
+                case AMQOfertaMessage.Code.Delete:
+                    break;
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace Eggplant
         public int sg_id { get; set; }
         public System.DateTime timeStamp { get; set; }
         public string status { get; set; }
+        public string user_id { get; set; }
     
         public virtual ICollection<LineaSolicitud> LineaSolicitud { get; set; }
         public virtual ICollection<Pedido> Pedidos { get; set; }

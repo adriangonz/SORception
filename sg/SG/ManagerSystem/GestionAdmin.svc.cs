@@ -13,51 +13,51 @@ namespace ManagerSystem
     {
         public List<Desguace> getDesguaces()
         {
-            return DesguaceRepository.FindAll();
+            return Desguace.FindAll();
         }
 
         public List<Taller> getTalleres()
         {
-            return TallerRepository.FindAll();
+            return Taller.FindAll();
         }
 
         public int activeDesguace(int id, bool active)
         {
-            Desguace d = DesguaceRepository.Find(id);
+            Desguace d = Desguace.Find(id);
             if (d == null)
             {
                 throw new WebFaultException<string>("Desguace not found", HttpStatusCode.NotFound);
             }
             d.active = active;
-            DesguaceRepository.InsertOrUpdate(d);
-            DesguaceRepository.Save();
+            Desguace.InsertOrUpdate(d);
+            Desguace.Save();
             return 1;
         }
 
         public int activeTaller(int id, bool active)
         {
-            Taller t = TallerRepository.Find(id);
+            Taller t = Taller.Find(id);
             if (t == null)
             {
                 throw new WebFaultException<string>("Taller not found", HttpStatusCode.NotFound);
             }
             t.active = active;
-            TallerRepository.InsertOrUpdate(t);
-            TallerRepository.Save();
+            Taller.InsertOrUpdate(t);
+            Taller.Save();
             return 1;
         }
 
         public int deleteTaller(int id)
         {
-            TallerRepository.Delete(id);
-            TallerRepository.Save();
+            Taller.Delete(id);
+            Taller.Save();
             return 1;
         }
 
         public int deleteDesguace(int id)
         {
-            DesguaceRepository.Delete(id);
-            DesguaceRepository.Save();
+            Desguace.Delete(id);
+            Desguace.Save();
             return 1;
         }
     }

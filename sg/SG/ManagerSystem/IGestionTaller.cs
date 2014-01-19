@@ -11,36 +11,39 @@ namespace ManagerSystem
     public interface IGestionTaller
     {
         [OperationContract]
-        TokenResponse signUp(ExposedTaller et);
+        TokenResponse signUp(ExpTaller et);
 
         [OperationContract]
         TokenResponse getState(string token);
 
         [OperationContract]
-        int putTaller(ExposedTaller t);
+        int putTaller(ExpTaller t);
 
         [OperationContract]
         int deleteTaller();
 
         [OperationContract]
-        ExposedSolicitud getSolicitud(int id);
+        ExpSolicitud getSolicitud(int id);
 
         [OperationContract]
-        List<ExposedSolicitud> getSolicitudes();
+        List<ExpSolicitud> getSolicitudes();
 
         [OperationContract]
-        int addSolicitud(ExposedSolicitud s);
+        int addSolicitud(ExpSolicitud s);
 
         [OperationContract]
-        int putSolicitud(ExposedSolicitud s);
+        int putSolicitud(ExpSolicitud s);
 
         [OperationContract]
         int deleteSolicitud(int id);
 
         [OperationContract]
-        List<ExposedOferta> getOfertas(int solicitud);
+        List<ExpOferta> getOfertas(int solicitud);
 
         [OperationContract]
-        int selectOferta(TallerResponse r);                
+        ExpOferta getOferta(int oferta);
+
+        [OperationContract]
+        int selectOferta(ExpPedido p);                
     }
 }

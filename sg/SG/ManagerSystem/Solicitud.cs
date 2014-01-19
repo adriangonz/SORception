@@ -25,9 +25,10 @@ namespace ManagerSystem
         public int Id { get; set; }
         public int id_en_taller { get; set; }
         public System.DateTime date { get; set; }
-        public string state { get; set; }
+        public string status { get; set; }
         public int TallerId { get; set; }
         public bool deleted { get; set; }
+        public System.DateTime deadline { get; set; }
     
         public virtual Taller Taller { get; set; }
         public virtual ICollection<LineaSolicitud> LineasSolicitud { get; set; }

@@ -12,12 +12,14 @@ namespace ManagerSystem
     public interface IGestionDesguace
     {
         [OperationContract]
-        TokenResponse signUp(ExposedDesguace d);
+        TokenResponse signUp(ExpDesguace d);
 
         [OperationContract]
         TokenResponse getState(string id);
 
         [OperationContract]
         void dummy(AMQSolicitudMessage s, AMQOfertaMessage o);
+
+        void processAMQMessage(AMQOfertaMessage message);
     }
 }

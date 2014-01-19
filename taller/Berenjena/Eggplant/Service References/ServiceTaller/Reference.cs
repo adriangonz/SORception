@@ -149,6 +149,9 @@ namespace Eggplant.ServiceTaller {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime deadlineField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -167,6 +170,19 @@ namespace Eggplant.ServiceTaller {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime deadline {
+            get {
+                return this.deadlineField;
+            }
+            set {
+                if ((this.deadlineField.Equals(value) != true)) {
+                    this.deadlineField = value;
+                    this.RaisePropertyChanged("deadline");
+                }
             }
         }
         
@@ -444,10 +460,13 @@ namespace Eggplant.ServiceTaller {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int id_en_desguaceField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int id_lineaField;
+        private int linea_solicitud_idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string notesField;
@@ -469,6 +488,19 @@ namespace Eggplant.ServiceTaller {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public int id_en_desguace {
             get {
                 return this.id_en_desguaceField;
@@ -482,14 +514,14 @@ namespace Eggplant.ServiceTaller {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int id_linea {
+        public int linea_solicitud_id {
             get {
-                return this.id_lineaField;
+                return this.linea_solicitud_idField;
             }
             set {
-                if ((this.id_lineaField.Equals(value) != true)) {
-                    this.id_lineaField = value;
-                    this.RaisePropertyChanged("id_linea");
+                if ((this.linea_solicitud_idField.Equals(value) != true)) {
+                    this.linea_solicitud_idField = value;
+                    this.RaisePropertyChanged("linea_solicitud_id");
                 }
             }
         }

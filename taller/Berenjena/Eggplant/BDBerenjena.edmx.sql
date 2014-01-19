@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/16/2014 17:18:05
+-- Date Created: 01/19/2014 19:09:33
 -- Generated from EDMX file: C:\Users\Ruben\Documents\sorception\taller\Berenjena\Eggplant\BDBerenjena.edmx
 -- --------------------------------------------------
 
@@ -65,7 +65,8 @@ CREATE TABLE [dbo].[SolicitudSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [sg_id] int  NOT NULL,
     [timeStamp] datetime  NOT NULL,
-    [status] nvarchar(max)  NOT NULL
+    [status] nvarchar(max)  NOT NULL,
+    [user_id] nvarchar(max)  NOT NULL
 );
 GO
 

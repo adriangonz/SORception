@@ -8,9 +8,13 @@ using System.Web.Http;
 using Eggplant.ServiceTaller;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using Eggplant.Models;
+using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace Eggplant.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/solicitud")]
     public class SolicitudController : ApiController
     {
@@ -23,17 +27,41 @@ namespace Eggplant.Controllers
         public static string LINEA_DELETE = "DELETED";
         public static string LINEA_NOEFECT = "NOEFECT";
 
+        public Microsoft.AspNet.Identity.UserManager<Microsoft.AspNet.Identity.EntityFramework.IdentityUser> UserManager { get; private set; }
+
         // GET api/solicitud
         public object Get()
         {
-            var solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED).ToList();
+            var userId = User.Identity.GetUserId();
+            var solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED && x.user_id == userId).ToList();
             return solicitudes;
         }
 
         // GET api/solicitud/5
         public object Get(int id)
         {
-            var solicitud = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id);
+            var userId = User.Identity.GetUserId();
+            var solicitud = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id && x.user_id == userId);
+            var ofertas = svcTaller.getOfertas(solicitud.sg_id).ToList();
+            
+            foreach (var item in solicitud.LineaSolicitud)
+            {
+                int sol_id_sg = item.sg_id;
+                foreach(var oferta in ofertas)
+                {
+                    foreach (var lineaOferta in oferta.lineas)
+                    {
+                        var linPedidas = c_bd.LineaPedidoSet.AsQueryable().Where(linPed => linPed.linea_oferta_id == lineaOferta.id).ToList();
+                        if (linPedidas.Count > 0)
+                        {
+                            lineaOferta.CantidadPedida = linPedidas.First().quantity;
+                            
+                        }
+                        item.offers.Add(lineaOferta);
+                    }
+                    //item.offers = oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList();
+                }
+            }
             return solicitud;
         }
 
@@ -45,6 +73,7 @@ namespace Eggplant.Controllers
             var s = new Solicitud();
             s.timeStamp = DateTime.Now;
             s.status = "FAILED";
+            s.user_id = User.Identity.GetUserId();
 
             var solResult = c_bd.SolicitudSet.Add(s);
 
@@ -70,7 +99,9 @@ namespace Eggplant.Controllers
                 //expoLinSol.taller_lin_sol_id = linSol.Id;
             }
             sol.id_en_taller = s.Id;
+            sol.deadline = DateTime.Now.AddDays(14);
             sol.lineas = lineas.ToArray();
+           
 
             //Lanzo la peticion de alta al sistema gestor
             int resId = svcTaller.addSolicitud(sol);

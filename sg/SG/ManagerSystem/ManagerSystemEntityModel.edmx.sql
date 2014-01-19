@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 01/15/2014 19:05:36
+-- Date Created: 01/19/2014 20:11:55
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -29,12 +29,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SolicitudLineaSolicitud]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineasSolicitudSet] DROP CONSTRAINT [FK_SolicitudLineaSolicitud];
 GO
-IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOfertaSeleccionada]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada];
-GO
-IF OBJECT_ID(N'[dbo].[FK_LineaOfertaSeleccionadaLineaOferta]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta];
-GO
 IF OBJECT_ID(N'[dbo].[FK_DesguaceToken]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[TokenSet] DROP CONSTRAINT [FK_DesguaceToken];
 GO
@@ -46,6 +40,9 @@ IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudLineaOferta]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_SolicitudOferta]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OfertaSet] DROP CONSTRAINT [FK_SolicitudOferta];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LineaOfertaLineaOfertaSeleccionada]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaOfertaLineaOfertaSeleccionada];
 GO
 
 -- --------------------------------------------------
@@ -98,7 +95,7 @@ CREATE TABLE [dbo].[OfertaSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [id_en_desguace] int  NOT NULL,
     [date] datetime  NOT NULL,
-    [state] nvarchar(max)  NOT NULL,
+    [status] nvarchar(max)  NOT NULL,
     [DesguaceId] int  NOT NULL,
     [SolicitudId] int  NOT NULL,
     [deleted] bit  NOT NULL
@@ -113,7 +110,8 @@ CREATE TABLE [dbo].[LineaOfertaSet] (
     [quantity] int  NOT NULL,
     [OfertaId] int  NOT NULL,
     [notes] nvarchar(max)  NOT NULL,
-    [LineaSolicitudId] int  NOT NULL
+    [LineaSolicitudId] int  NOT NULL,
+    [status] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -131,9 +129,10 @@ CREATE TABLE [dbo].[SolicitudSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [id_en_taller] int  NOT NULL,
     [date] datetime  NOT NULL,
-    [state] nvarchar(max)  NOT NULL,
+    [status] nvarchar(max)  NOT NULL,
     [TallerId] int  NOT NULL,
-    [deleted] bit  NOT NULL
+    [deleted] bit  NOT NULL,
+    [deadline] datetime  NOT NULL
 );
 GO
 
@@ -143,15 +142,16 @@ CREATE TABLE [dbo].[LineasSolicitudSet] (
     [quantity] int  NOT NULL,
     [id_en_taller] int  NOT NULL,
     [description] nvarchar(max)  NOT NULL,
-    [SolicitudId] int  NOT NULL
+    [SolicitudId] int  NOT NULL,
+    [status] nvarchar(max)  NOT NULL,
+    [flag] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'LineaOfertaSeleccionadaSet'
 CREATE TABLE [dbo].[LineaOfertaSeleccionadaSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [quantity] nvarchar(max)  NOT NULL,
-    [LineaSolicitudId] int  NOT NULL,
+    [quantity] int  NOT NULL,
     [LineaOferta_Id] int  NOT NULL
 );
 GO
@@ -295,34 +295,6 @@ ON [dbo].[LineasSolicitudSet]
     ([SolicitudId]);
 GO
 
--- Creating foreign key on [LineaSolicitudId] in table 'LineaOfertaSeleccionadaSet'
-ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet]
-ADD CONSTRAINT [FK_LineaSolicitudLineaOfertaSeleccionada]
-    FOREIGN KEY ([LineaSolicitudId])
-    REFERENCES [dbo].[LineasSolicitudSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_LineaSolicitudLineaOfertaSeleccionada'
-CREATE INDEX [IX_FK_LineaSolicitudLineaOfertaSeleccionada]
-ON [dbo].[LineaOfertaSeleccionadaSet]
-    ([LineaSolicitudId]);
-GO
-
--- Creating foreign key on [LineaOferta_Id] in table 'LineaOfertaSeleccionadaSet'
-ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet]
-ADD CONSTRAINT [FK_LineaOfertaSeleccionadaLineaOferta]
-    FOREIGN KEY ([LineaOferta_Id])
-    REFERENCES [dbo].[LineaOfertaSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_LineaOfertaSeleccionadaLineaOferta'
-CREATE INDEX [IX_FK_LineaOfertaSeleccionadaLineaOferta]
-ON [dbo].[LineaOfertaSeleccionadaSet]
-    ([LineaOferta_Id]);
-GO
-
 -- Creating foreign key on [DesguaceId] in table 'TokenSet'
 ALTER TABLE [dbo].[TokenSet]
 ADD CONSTRAINT [FK_DesguaceToken]
@@ -377,6 +349,20 @@ ADD CONSTRAINT [FK_SolicitudOferta]
 CREATE INDEX [IX_FK_SolicitudOferta]
 ON [dbo].[OfertaSet]
     ([SolicitudId]);
+GO
+
+-- Creating foreign key on [LineaOferta_Id] in table 'LineaOfertaSeleccionadaSet'
+ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet]
+ADD CONSTRAINT [FK_LineaOfertaLineaOfertaSeleccionada]
+    FOREIGN KEY ([LineaOferta_Id])
+    REFERENCES [dbo].[LineaOfertaSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LineaOfertaLineaOfertaSeleccionada'
+CREATE INDEX [IX_FK_LineaOfertaLineaOfertaSeleccionada]
+ON [dbo].[LineaOfertaSeleccionadaSet]
+    ([LineaOferta_Id]);
 GO
 
 -- --------------------------------------------------

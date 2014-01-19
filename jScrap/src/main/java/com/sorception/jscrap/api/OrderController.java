@@ -63,7 +63,7 @@ public class OrderController {
 	public OrderEntity getOrder(@PathVariable Long orderId) {
 		return orderService.getOrderById(orderId);
 	}
-	
+	/*
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
@@ -71,4 +71,5 @@ public class OrderController {
 		return orderService.addOrder(order.sgId, 
 				order.getOrderLinesList());
 	}
+	*/
 }
