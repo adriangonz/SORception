@@ -14,6 +14,8 @@ namespace ManagerSystem
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
+        static managersystemEntities ms_ent = new managersystemEntities();
+
         public TokenResponse signUp(ExpDesguace ed)
         {
             if (ed != null)
@@ -82,16 +84,20 @@ namespace ManagerSystem
 
         public void processAMQMessage(AMQOfertaMessage message)
         {
+            Desguace d = Desguace.Find(message.desguace_id);
             switch (message.code)
             {
                 case AMQOfertaMessage.Code.New:
-                    Desguace d = Desguace.Find(message.desguace_id);
                     Oferta.InsertOrUpdate(Oferta.FromExposed(message.oferta, d));
                     Oferta.Save();
                     break;
                 case AMQOfertaMessage.Code.Update:
                     break;
-                case AMQOfertaMessage.Code.Delete:
+                case AMQOfertaMessage.Code.Delete: 
+                    int id_en_desguace = message.oferta.id_en_desguace;
+                    Oferta o = ms_ent.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
+                    Oferta.Delete(o.Id);
+                    Oferta.Save();
                     break;
             }
         }
