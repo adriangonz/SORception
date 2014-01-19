@@ -26,25 +26,31 @@ namespace ManagerSystem
             return Copy(o);
         }
         
-        static public ExpOferta ToExposed(Oferta s)
+        static public ExpOferta ToExposed(Oferta oferta)
         {
-            ExpOferta eo = new ExpOferta();
+            ExpOferta out_oferta = new ExpOferta();
 
-            eo.id = s.Id;
-            eo.solicitud_id = s.SolicitudId;
-            eo.lineas = new List<ExpOferta.Line>();
-            foreach (var l in s.LineasOferta)
+            out_oferta.id = oferta.Id;
+            out_oferta.solicitud_id = oferta.SolicitudId;
+            out_oferta.lineas = new List<ExpOferta.Line>();
+            foreach (var l_oferta in oferta.LineasOferta)
             {
-                ExpOferta.Line lo = new ExpOferta.Line();
-                lo.id = l.Id;
-                lo.linea_solicitud_id = l.LineaSolicitudId;
-                lo.notes = l.notes;
-                lo.price = l.price;
-                lo.quantity = l.quantity;
-                eo.lineas.Add(lo);
+                ExpOferta.Line out_l_oferta = new ExpOferta.Line();
+                out_l_oferta.id = l_oferta.Id;
+                out_l_oferta.linea_solicitud_id = l_oferta.LineaSolicitudId;
+                out_l_oferta.notes = l_oferta.notes;
+                out_l_oferta.price = l_oferta.price;
+                out_l_oferta.quantity = l_oferta.quantity;
+                if (l_oferta.LineaOfertaSeleccionada != null)
+                {
+                    out_l_oferta.linea_pedido = new ExpPedido.Line();
+                    out_l_oferta.linea_pedido.linea_solicitud_id = l_oferta.LineaSolicitudId;
+                    out_l_oferta.linea_pedido.quantity = l_oferta.LineaOfertaSeleccionada.quantity;
+                }
+                out_oferta.lineas.Add(out_l_oferta);
             }
 
-            return eo;
+            return out_oferta;
         }
 
         static public Oferta FromExposed(ExpOferta eo, Desguace d)
