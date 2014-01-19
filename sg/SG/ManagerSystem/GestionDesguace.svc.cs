@@ -95,7 +95,8 @@ namespace ManagerSystem
                     break;
                 case AMQOfertaMessage.Code.Update:
                     o = ms_ent.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
-                    Oferta.InsertOrUpdate(Oferta.FromExposed(message.oferta, d));
+                    Oferta.UpdateFromExposed(o, message.oferta);
+                    Oferta.InsertOrUpdate(o);
                     Oferta.Save();
                     break;
                 case AMQOfertaMessage.Code.Delete: 

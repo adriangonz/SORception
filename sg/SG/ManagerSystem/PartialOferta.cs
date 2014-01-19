@@ -74,7 +74,6 @@ namespace ManagerSystem
             }
             oferta.id_en_desguace = exp_oferta.id_en_desguace;
             oferta.status = "UPDATED";
-            oferta.date = DateTime.Now;
         }
 
         static public Oferta FromExposed(ExpOferta exp_oferta, Desguace d)
