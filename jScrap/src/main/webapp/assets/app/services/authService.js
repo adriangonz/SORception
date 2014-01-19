@@ -6,7 +6,7 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 			  success(function(data, status, headers, config) {
 			      $cookies["SessionScrap"] = JSON.stringify(data);
 			      console.log(data+"|plus");
-			      $http.defaults.headers.common.Authorization = "Basic YWRtaW46";
+			      $http.defaults.headers.common.Authorization = data;
 			    $rootScope.$broadcast('auth.login');
 	       		$location.path("/config");
 			  }).

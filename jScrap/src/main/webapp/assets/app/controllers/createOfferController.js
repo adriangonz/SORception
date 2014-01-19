@@ -1,4 +1,4 @@
-module.controller( "CreateOfferCtrl", [ '$scope', 'Scrap','Auth', function( $scope, Scrap, Auth ) {
+module.controller( "CreateOfferCtrl", [ '$scope','$routeParams', 'Scrap','Auth', function( $scope, $routeParams, Scrap, Auth ) {
 	$scope.$on( 'tmp_offer.update', function( event ) {
 		$scope.tmp_offer = Scrap.tmp_offer;
 	});
@@ -8,7 +8,7 @@ module.controller( "CreateOfferCtrl", [ '$scope', 'Scrap','Auth', function( $sco
 
 
 	Auth.isLoggedIn();
-	
-  	$scope.tmp_offer;
+	Scrap.getActualOrder($routeParams.id);
+  	$scope.tmp_offer= {"lines": []};
 
 }]);
