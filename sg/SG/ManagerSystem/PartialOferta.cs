@@ -26,60 +26,55 @@ namespace ManagerSystem
             return Copy(o);
         }
         
-        static public ExposedOferta ToExposed(Oferta s)
+        static public ExpOferta ToExposed(Oferta oferta)
         {
-            ExposedOferta eo = new ExposedOferta();
+            ExpOferta out_oferta = new ExpOferta();
 
-            eo.id = s.Id;
-            eo.solicitud_id = s.SolicitudId;
-            eo.lineas = new List<ExposedLineaOferta>();
-            foreach (var l in s.LineasOferta)
+            out_oferta.id = oferta.Id;
+            out_oferta.solicitud_id = oferta.SolicitudId;
+            out_oferta.lineas = new List<ExpOferta.Line>();
+            foreach (var l_oferta in oferta.LineasOferta)
             {
-                ExposedLineaOferta lo = new ExposedLineaOferta();
-                lo.id = l.Id;
-                lo.linea_solicitud_id = l.LineaSolicitudId;
-                lo.notes = l.notes;
-                lo.price = l.price;
-                lo.quantity = l.quantity;
-                eo.lineas.Add(lo);
+                ExpOferta.Line out_l_oferta = new ExpOferta.Line();
+                out_l_oferta.id = l_oferta.Id;
+                out_l_oferta.linea_solicitud_id = l_oferta.LineaSolicitudId;
+                out_l_oferta.notes = l_oferta.notes;
+                out_l_oferta.price = l_oferta.price;
+                out_l_oferta.quantity = l_oferta.quantity;
+                if (l_oferta.LineaOfertaSeleccionada != null)
+                {
+                    out_l_oferta.linea_pedido = new ExpPedido.Line();
+                    out_l_oferta.linea_pedido.linea_solicitud_id = l_oferta.LineaSolicitudId;
+                    out_l_oferta.linea_pedido.quantity = l_oferta.LineaOfertaSeleccionada.quantity;
+                }
+                out_oferta.lineas.Add(out_l_oferta);
             }
 
-            return eo;
+            return out_oferta;
         }
 
-        static public Oferta FromExposed(ExposedOferta eo)
+        static public Oferta FromExposed(ExpOferta exp_oferta, Desguace d)
         {
-            Oferta o = new Oferta();
-
-            Desguace d;
-            try
-            { 
-                d = Desguace.Find(eo.desguace_id);
-            }
-            catch (Exception e)
+            Oferta oferta = new Oferta();
+            oferta.DesguaceId = d.Id;
+            oferta.SolicitudId = exp_oferta.solicitud_id;
+            oferta.LineasOferta = new List<LineaOferta>();
+            foreach (var exp_l_oferta in exp_oferta.lineas)
             {
-                Logger.Error(String.Format("Exception thrown at Oferta.FromExposed with message: {0}", e.Message));
-                throw;
+                LineaOferta l_oferta = new LineaOferta();
+                l_oferta.id_en_desguace = exp_l_oferta.id_en_desguace;
+                l_oferta.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(exp_l_oferta.linea_solicitud_id);
+                l_oferta.quantity = exp_l_oferta.quantity;
+                l_oferta.price = exp_l_oferta.price;
+                l_oferta.notes = exp_l_oferta.notes;
+                l_oferta.status = "NEW";
+                oferta.LineasOferta.Add(l_oferta);
             }
-            o.DesguaceId = d.Id;
+            oferta.id_en_desguace = exp_oferta.id_en_desguace;
+            oferta.status = "NEW";
+            oferta.date = DateTime.Now;
 
-            o.SolicitudId = eo.solicitud_id;
-            o.LineasOferta = new List<LineaOferta>();
-            foreach (var elo in eo.lineas)
-            {
-                LineaOferta lo = new LineaOferta();
-                lo.id_en_desguace = elo.id_en_desguace;
-                lo.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(elo.id);
-                lo.quantity = elo.quantity;
-                lo.price = elo.price;
-                lo.notes = elo.notes;
-                o.LineasOferta.Add(lo);
-            }
-            o.id_en_desguace = eo.id;
-            o.status = "NEW";
-            o.date = DateTime.Now;
-
-            return o;
+            return oferta;
         }
 
         static public List<Oferta> GetOfSolicitud(int solicitud_id)

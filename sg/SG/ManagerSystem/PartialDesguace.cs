@@ -19,7 +19,7 @@ namespace ManagerSystem
             return d;
         }
 
-        static public Desguace FromExposed(ExposedDesguace ed) 
+        static public Desguace FromExposed(ExpDesguace ed) 
         {
             Desguace d = new Desguace();
 
@@ -28,9 +28,9 @@ namespace ManagerSystem
             return d;
         }
 
-        static public ExposedDesguace ToExposed(Desguace d)
+        static public ExpDesguace ToExposed(Desguace d)
         {
-            ExposedDesguace ed = new ExposedDesguace();
+            ExpDesguace ed = new ExpDesguace();
 
             ed.name = d.name;
 

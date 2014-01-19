@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 01/18/2014 20:33:30
+-- Date Created: 01/19/2014 20:11:55
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -44,9 +44,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_LineaOfertaLineaOfertaSeleccionada]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LineaOfertaSeleccionadaSet] DROP CONSTRAINT [FK_LineaOfertaLineaOfertaSeleccionada];
 GO
-IF OBJECT_ID(N'[dbo].[FK_LineaSolicitudFlag]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Flags1] DROP CONSTRAINT [FK_LineaSolicitudFlag];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -78,9 +75,6 @@ IF OBJECT_ID(N'[dbo].[TokenSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Logs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Logs];
-GO
-IF OBJECT_ID(N'[dbo].[Flags1]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Flags1];
 GO
 
 -- --------------------------------------------------
@@ -149,7 +143,8 @@ CREATE TABLE [dbo].[LineasSolicitudSet] (
     [id_en_taller] int  NOT NULL,
     [description] nvarchar(max)  NOT NULL,
     [SolicitudId] int  NOT NULL,
-    [status] nvarchar(max)  NOT NULL
+    [status] nvarchar(max)  NOT NULL,
+    [flag] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -179,15 +174,6 @@ CREATE TABLE [dbo].[Logs] (
     [timestamp] datetime  NOT NULL,
     [message] nvarchar(max)  NOT NULL,
     [level] nvarchar(max)  NOT NULL
-);
-GO
-
--- Creating table 'FlagSet'
-CREATE TABLE [dbo].[FlagSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [type] nvarchar(max)  NOT NULL,
-    [price] int  NOT NULL,
-    [LineaSolicitud_Id] int  NOT NULL
 );
 GO
 
@@ -246,12 +232,6 @@ GO
 -- Creating primary key on [Id] in table 'Logs'
 ALTER TABLE [dbo].[Logs]
 ADD CONSTRAINT [PK_Logs]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'FlagSet'
-ALTER TABLE [dbo].[FlagSet]
-ADD CONSTRAINT [PK_FlagSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -383,20 +363,6 @@ ADD CONSTRAINT [FK_LineaOfertaLineaOfertaSeleccionada]
 CREATE INDEX [IX_FK_LineaOfertaLineaOfertaSeleccionada]
 ON [dbo].[LineaOfertaSeleccionadaSet]
     ([LineaOferta_Id]);
-GO
-
--- Creating foreign key on [LineaSolicitud_Id] in table 'FlagSet'
-ALTER TABLE [dbo].[FlagSet]
-ADD CONSTRAINT [FK_LineaSolicitudFlag]
-    FOREIGN KEY ([LineaSolicitud_Id])
-    REFERENCES [dbo].[LineasSolicitudSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_LineaSolicitudFlag'
-CREATE INDEX [IX_FK_LineaSolicitudFlag]
-ON [dbo].[FlagSet]
-    ([LineaSolicitud_Id]);
 GO
 
 -- --------------------------------------------------

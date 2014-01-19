@@ -116,9 +116,6 @@
     <Compile Include="Desguace.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Flag.cs">
-      <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="PartialDesguace.cs" />
     <Compile Include="GestionAdmin.svc.cs">
       <DependentUpon>GestionAdmin.svc</DependentUpon>

@@ -28,28 +28,23 @@ namespace ManagerSystem
             return Copy(s);
         }
 
-        static public ExposedSolicitud PrepareOutgoing(Solicitud s)
+        static public ExpSolicitud PrepareOutgoing(Solicitud s)
         {
-            ExposedSolicitud es = new ExposedSolicitud();
+            ExpSolicitud es = new ExpSolicitud();
             es.id = s.Id;
             es.id_en_taller = s.id_en_taller;
             es.status = s.status;
             es.deadline = s.deadline;
-            es.lineas = new List<ExposedLineaSolicitud>();
+            es.lineas = new List<ExpSolicitud.Line>();
             foreach (var l in s.LineasSolicitud)
             {
-                ExposedLineaSolicitud el = new ExposedLineaSolicitud();
+                ExpSolicitud.Line el = new ExpSolicitud.Line();
                 el.id = l.Id;
                 el.id_en_taller = l.id_en_taller;
                 el.description = l.description;
                 el.quantity = l.quantity;
                 el.status = l.status;
-                if (l.Flag != null)
-                {
-                    el.flag = new ExposedLineaSolicitud.ExposedFlag();
-                    el.flag.type = l.Flag.type;
-                    el.flag.price = l.Flag.price;
-                }
+                el.flag = l.flag;
                 
                 es.lineas.Add(el);
             }
@@ -57,7 +52,7 @@ namespace ManagerSystem
             return es;
         }
 
-        static public Solicitud GetIncoming(ExposedSolicitud es)
+        static public Solicitud GetIncoming(ExpSolicitud es)
         {            
             Solicitud s = new Solicitud();
             s.id_en_taller = es.id_en_taller;
@@ -75,22 +70,16 @@ namespace ManagerSystem
             return s;
         }
 
-        static private void UpdateLineaFromExposed(LineaSolicitud ls, ExposedLineaSolicitud el)
+        static private void UpdateLineaFromExposed(LineaSolicitud ls, ExpSolicitud.Line el)
         {
             ls.id_en_taller = el.id_en_taller;
             ls.quantity = el.quantity;
             ls.description = el.description;
-            if (el.flag != null)
-            {
-                ls.Flag = new Flag();
-                ls.Flag.type = el.flag.type;
-                ls.Flag.price = el.flag.price;
-            }
+            ls.flag = el.flag;
         }
 
-        static public void UpdateFromExposed(Solicitud s, ExposedSolicitud es)
+        static public void UpdateFromExposed(Solicitud s, ExpSolicitud es)
         {
-
             s.deadline = es.deadline;
             foreach (var el in es.lineas)
             {

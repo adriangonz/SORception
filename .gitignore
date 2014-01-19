@@ -272,3 +272,5 @@ sg/Admin/Manager/AdminManager/App_Data/aspnet-AdminManager-20131028193900.mdf
 sg/Admin/Manager/AdminManager/App_Data/aspnet-AdminManager-20131028193900_log.ldf
 taller/Berenjena/Eggplant/App_Data/aspnet-Eggplant-20131216073914.mdf
 taller/Berenjena/Eggplant/App_Data/aspnet-Eggplant-20131216073914_log.ldf
+*.mdf
+*.ldf
