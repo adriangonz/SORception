@@ -23,8 +23,6 @@
         <EntityTypeShape EntityType="managersystemModel.Log" Width="1.5" PointX="0.875" PointY="6.25" />
         <AssociationConnector Association="managersystemModel.SolicitudOferta" />
         <AssociationConnector Association="managersystemModel.LineaOfertaLineaOfertaSeleccionada" />
-        <EntityTypeShape EntityType="managersystemModel.Flag" Width="1.5" PointX="10.875" PointY="5.125" />
-        <AssociationConnector Association="managersystemModel.LineaSolicitudFlag" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -34,6 +34,5 @@ namespace ManagerSystem
         public DbSet<LineaOfertaSeleccionada> LineaOfertaSeleccionadaSet { get; set; }
         public DbSet<Token> TokenSet { get; set; }
         public DbSet<Log> Logs { get; set; }
-        public DbSet<Flag> FlagSet { get; set; }
     }
 }

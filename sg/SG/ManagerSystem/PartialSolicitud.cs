@@ -44,7 +44,7 @@ namespace ManagerSystem
                 el.description = l.description;
                 el.quantity = l.quantity;
                 el.status = l.status;
-                el.flag = l.Flag.type;
+                el.flag = l.flag;
                 
                 es.lineas.Add(el);
             }
@@ -75,7 +75,7 @@ namespace ManagerSystem
             ls.id_en_taller = el.id_en_taller;
             ls.quantity = el.quantity;
             ls.description = el.description;
-            ls.Flag.type = el.flag;
+            ls.flag = el.flag;
         }
 
         static public void UpdateFromExposed(Solicitud s, ExpSolicitud es)

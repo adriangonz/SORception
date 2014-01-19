@@ -53,27 +53,28 @@ namespace ManagerSystem
             return out_oferta;
         }
 
-        static public Oferta FromExposed(ExpOferta eo, Desguace d)
+        static public Oferta FromExposed(ExpOferta exp_oferta, Desguace d)
         {
-            Oferta o = new Oferta();
-            o.DesguaceId = d.Id;
-            o.SolicitudId = eo.solicitud_id;
-            o.LineasOferta = new List<LineaOferta>();
-            foreach (var elo in eo.lineas)
+            Oferta oferta = new Oferta();
+            oferta.DesguaceId = d.Id;
+            oferta.SolicitudId = exp_oferta.solicitud_id;
+            oferta.LineasOferta = new List<LineaOferta>();
+            foreach (var exp_l_oferta in exp_oferta.lineas)
             {
-                LineaOferta lo = new LineaOferta();
-                lo.id_en_desguace = elo.id_en_desguace;
-                lo.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(elo.id);
-                lo.quantity = elo.quantity;
-                lo.price = elo.price;
-                lo.notes = elo.notes;
-                o.LineasOferta.Add(lo);
+                LineaOferta l_oferta = new LineaOferta();
+                l_oferta.id_en_desguace = exp_l_oferta.id_en_desguace;
+                l_oferta.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(exp_l_oferta.linea_solicitud_id);
+                l_oferta.quantity = exp_l_oferta.quantity;
+                l_oferta.price = exp_l_oferta.price;
+                l_oferta.notes = exp_l_oferta.notes;
+                l_oferta.status = "NEW";
+                oferta.LineasOferta.Add(l_oferta);
             }
-            o.id_en_desguace = eo.id_en_desguace;
-            o.status = "NEW";
-            o.date = DateTime.Now;
+            oferta.id_en_desguace = exp_oferta.id_en_desguace;
+            oferta.status = "NEW";
+            oferta.date = DateTime.Now;
 
-            return o;
+            return oferta;
         }
 
         static public List<Oferta> GetOfSolicitud(int solicitud_id)
