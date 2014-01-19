@@ -132,7 +132,7 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Solicitud tmp = ms_ent.SolicitudSet.Find(id);
-            if (tmp == null)
+            if (tmp == null || tmp.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
             ExpSolicitud s = Solicitud.PrepareOutgoing(tmp);
             return s;
@@ -146,7 +146,10 @@ namespace ManagerSystem
 
             foreach (var solicitud in t.Solicitudes)
             {
-                solicitudes.Add(Solicitud.PrepareOutgoing(solicitud));
+                if (!solicitud.deleted)
+                {
+                    solicitudes.Add(Solicitud.PrepareOutgoing(solicitud));
+                }
             }
 
             return solicitudes;
@@ -175,6 +178,9 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Solicitud s = Solicitud.Find(es.id);
+            if (s.deleted)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
+
             Solicitud.UpdateFromExposed(s, es);
             Solicitud.Save();
             SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
@@ -199,7 +205,7 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Oferta o = Oferta.Find(oferta_id);
-            if (o == null)
+            if (o == null || o.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             ExpOferta eo = Oferta.ToExposed(o);
@@ -211,14 +217,17 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Solicitud s = ms_ent.SolicitudSet.Find(solicitud_id);
-            if (s == null)
+            if (s == null || s.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             List<Oferta> ofertas_mias = s.Ofertas.ToList();
             List<ExpOferta> ofertas = new List<ExpOferta>();
             foreach (var oferta in ofertas_mias)
             {
-                ofertas.Add(Oferta.ToExposed(oferta));
+                if (!oferta.deleted)
+                {
+                    ofertas.Add(Oferta.ToExposed(oferta));
+                }
             }
 
             return ofertas;
@@ -229,6 +238,8 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Oferta o = Oferta.Find(r.oferta_id);
+            if (o.deleted)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             ExpPedido amq_pedido = new ExpPedido();
             amq_pedido.oferta_id = o.id_en_desguace;
