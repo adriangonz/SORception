@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using ScrapWeb.DataAccess;
 using ScrapWeb.DTO;
 using ScrapWeb.Exceptions;
 using System;
@@ -47,6 +48,22 @@ namespace ScrapWeb.Services
                 username = user.UserName,
                 isAdmin = false
             };
+        }
+
+        internal IEnumerable<UserInfoDTO> getAll()
+        {
+            var dbcontext = new ScrapContext();
+            var users = dbcontext.Users.ToList();
+            var userinfos = new List<UserInfoDTO>();
+            foreach(var user in users) {
+                userinfos.Add(new UserInfoDTO
+                {
+                    id = user.Id,
+                    isAdmin = false, // TODO: Fix this
+                    username = user.UserName
+                });
+            }
+            return userinfos;
         }
     }
 }

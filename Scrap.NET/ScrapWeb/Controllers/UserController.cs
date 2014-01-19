@@ -25,10 +25,9 @@ namespace ScrapWeb.Controllers
         }
 
         // GET api/user
-        public IEnumerable<IdentityUser> Get()
+        public IEnumerable<UserInfoDTO> Get()
         {
-            var userStore = new UserStore<IdentityUser>();
-            return userStore.Context.Set<IdentityUser>();
+            return userService.getAll();
         }
 
         // GET api/user/5
