@@ -50,6 +50,14 @@ namespace Eggplant.Controllers
                 int sol_id_sg = item.sg_id;
                 foreach(var oferta in ofertas)
                 {
+                    // las lineas de oferta que tienen un pedido asociado y no estan en la bd
+                    var lineasQueNoEstanInternas = oferta.lineas.AsQueryable().
+                        Where(lineaOferta => c_bd.LineaPedidoSet.AsQueryable().                         
+                            Where(lineaPedido => lineaPedido.linea_oferta_id == lineaOferta.id && lineaOferta.linea_solicitud.quantity > 0).ToList().Count == 0).ToList();
+                    if (lineasQueNoEstanInternas.Count > 0)// se anyaden a la bd interna
+                    {
+                        addLineasNoAgregadas(lineasQueNoEstanInternas,id);
+                    }
                     item.offers.AddRange(oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList());
                 }
             }
@@ -59,8 +67,6 @@ namespace Eggplant.Controllers
         // POST api/solicitud
         public object Post([FromBody]JObject values)
         {
-            ExpSolicitud sol = new ExpSolicitud();
-
             var s = new Solicitud();
             s.timeStamp = DateTime.Now;
             s.status = "FAILED";
@@ -69,26 +75,30 @@ namespace Eggplant.Controllers
             var solResult = c_bd.SolicitudSet.Add(s);
 
             //Creo las lineas de la solicitud desde los datos pasado por json
+            List<ExpSolicitudLine> lineas = new List<ExpSolicitudLine>();
             foreach (JObject item in values["data"])
             {
                 LineaSolicitud linInt = new LineaSolicitud();
                 linInt.cantidad = int.Parse(item["cantidad"].ToString());
                 linInt.descripcion = item["descripcion"].ToString();
                 solResult.LineaSolicitud.Add(linInt);
+
+                ExpSolicitudLine expoLinSol = new ExpSolicitudLine();
+                expoLinSol.description = linInt.descripcion;
+                expoLinSol.quantity = linInt.cantidad;
+                expoLinSol.flag = ExpSolicitudLine.castToFlag(item["criterio"]["code"].ToString());
+                lineas.Add(expoLinSol);
             }
             c_bd.SaveChanges();
 
             //Pasamos los ids locales al sistema gestor
-            List<ExpSolicitudLine> lineas = new List<ExpSolicitudLine>();
-            foreach (LineaSolicitud linSol in s.LineaSolicitud)
+            for (int i = 0; i < s.LineaSolicitud.Count; i++)
             {
-                ExpSolicitudLine expoLinSol = new ExpSolicitudLine();
-                expoLinSol.description = linSol.descripcion;
-                expoLinSol.quantity = linSol.cantidad;
+                var linSol = s.LineaSolicitud.ToList()[i];
+                var expoLinSol = lineas[i];
                 expoLinSol.id_en_taller = linSol.Id;
-                lineas.Add(expoLinSol);
-                //expoLinSol.taller_lin_sol_id = linSol.Id;
-            }
+            } 
+            ExpSolicitud sol = new ExpSolicitud();
             sol.id_en_taller = s.Id;
             sol.deadline = DateTime.Now.AddDays(14);
             sol.lineas = lineas.ToArray();
@@ -228,6 +238,23 @@ namespace Eggplant.Controllers
                 }
             }
         }
+
+        private void addLineasNoAgregadas(List<ExpOfertaLine> lineas, int idSolicitud)
+        {
+            Pedido p = new Pedido();
+            p.Solicitud = c_bd.SolicitudSet.FirstOrDefault(solicitud => solicitud.sg_id == idSolicitud);
+            foreach (var lineaPedidoExterna in lineas)
+            {
+                LineaPedido lp = new LineaPedido();
+                lp.quantity = lineaPedidoExterna.linea_solicitud.quantity;
+                lp.linea_oferta_id = lineaPedidoExterna.id;
+                lp.price = (decimal)lineaPedidoExterna.price;
+                p.LineaPedido.Add(lp);
+            }
+            c_bd.PedidoSet.Add(p);
+            c_bd.SaveChanges();
+        }
+
         /*
         private int getIdActive()
         {
