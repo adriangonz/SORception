@@ -63,7 +63,9 @@ namespace ManagerSystem
             Logger.Info(String.Format("Received a message from the {0} ActiveMQ Topic", Constants.ActiveMQ.Ofertas_Topic));
             AMQOfertaMessage amqof = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
             GestionDesguace gDesguace = new GestionDesguace();
-            gDesguace.processAMQMessage(amqof);
+            Oferta o = gDesguace.processAMQMessage(amqof);
+            GestionTaller gTaller = new GestionTaller();
+            gTaller.checkAutoBuy(o);
         }
 
         protected void Session_Start(object sender, EventArgs e)

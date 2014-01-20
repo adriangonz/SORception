@@ -7,7 +7,7 @@ namespace ManagerSystem
 {
     public partial class Oferta
     {
-        static managersystemEntities ms_ent = new managersystemEntities();
+        public static managersystemEntities ms_ent = Constants.context;
 
         static private Oferta Copy(Oferta tmp)
         {

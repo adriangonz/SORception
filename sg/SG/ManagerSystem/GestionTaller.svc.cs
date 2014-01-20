@@ -14,7 +14,7 @@ namespace ManagerSystem
 {
     public class GestionTaller : IGestionTaller
     {
-        static managersystemEntities ms_ent = new managersystemEntities();
+        managersystemEntities ms_ent = Constants.context;
 
         private Taller getAuthorizedTaller()
         {
@@ -261,7 +261,7 @@ namespace ManagerSystem
                 lo.status = "SELECTED";
                 los.quantity = l.quantity;
                 ms_ent.LineaOfertaSeleccionadaSet.Add(los);
-                lo.LineaSolicitud.status = "SELECTED";
+                lo.LineaSolicitud.status = l.quantity >= lo.LineaSolicitud.quantity ? "COMPLETE" : "SELECTED";
 
                 ExpPedido.Line lp = new ExpPedido.Line();
                 lp.linea_oferta_id = lo.id_en_desguace;
@@ -319,6 +319,63 @@ namespace ManagerSystem
             publisher.Dispose();
         }
 
+        public void checkAutoBuy(Oferta o)
+        {
+            if (o == null)
+                return;
+
+            List<LineaOfertaSeleccionada> pedidas_ahora = new List<LineaOfertaSeleccionada>();
+            foreach (var linea in o.LineasOferta)
+            {
+                if (linea.LineaSolicitud.flag == "FIRST" && linea.LineaSolicitud.status != "COMPLETE")
+                {
+                    LineaOfertaSeleccionada selec = new LineaOfertaSeleccionada();
+
+                    int ammount_left = linea.LineaSolicitud.quantity;
+                    List<LineaOfertaSeleccionada> ya_hechas = ms_ent.LineaOfertaSeleccionadaSet.Where(l => l.LineaOferta.LineaSolicitudId == linea.LineaSolicitud.Id).ToList();
+                    foreach (LineaOfertaSeleccionada l in ya_hechas)
+                    {
+                        ammount_left -= l.quantity;
+                    }
+                    if (ammount_left <= 0)
+                        continue;
+
+                    if (linea.quantity < ammount_left)
+                    {
+                        selec.quantity = linea.quantity;
+                        linea.LineaSolicitud.status = "INCOMPLETE";
+                    }
+                    else
+                    {
+                        selec.quantity = ammount_left;
+                        linea.LineaSolicitud.status = "COMPLETE";
+                    }
+                    linea.status = "SELECTED";
+                    
+                    selec.LineaOferta = linea;
+                    pedidas_ahora.Add(selec);
+                    ms_ent.LineaOfertaSeleccionadaSet.Add(selec);
+                }
+            }
+            ms_ent.SaveChanges();
+
+            ExpPedido pedido = new ExpPedido();
+            pedido.oferta_id = o.Id;
+            pedido.lineas = new List<ExpPedido.Line>();
+            foreach (var linea in pedidas_ahora)
+            {
+                ExpPedido.Line linea_ped = new ExpPedido.Line();
+                linea_ped.quantity = linea.quantity;
+                linea_ped.linea_oferta_id = linea.LineaOferta.Id;
+                pedido.lineas.Add(linea_ped);
+            }
+
+            AMQPedidoMessage message = new AMQPedidoMessage();
+            message.pedido = pedido;
+            message.desguace_id = ms_ent.TokenSet.First(t => t.is_valid && t.DesguaceId == o.DesguaceId).token;
+            SendMessage(message);
+        }
+
         public void runJob(AMQScheduledJob job)
         {
             if (ValidateJob(job))
@@ -328,15 +385,92 @@ namespace ManagerSystem
                 // Iterate over the offers for each line and select one according to the criteria of that line
                 Solicitud s = ms_ent.SolicitudSet.Find(job.id_solicitud);
 
+                Dictionary<int, List<LineaOfertaSeleccionada>> pedidas_ahora = new Dictionary<int, List<LineaOfertaSeleccionada>>();
                 // Iterate over the lines
-                    // Get the best offer according to the criteria
+                foreach (LineaSolicitud l_sol in s.LineasSolicitud)
+                {
+                    if (l_sol.status == "COMPLETE")
+                        continue;
 
-                    // Mark it as selected
+                    // Sort the offers
+                    List<LineaOferta> ofertas_ordenadas;
+                    switch (l_sol.flag)
+                    {
+                        case "CHEAPEST":
+                            ofertas_ordenadas = l_sol.LineasOferta.OrderBy(lo => lo.price).ToList();
+                            break;
+                        case "NEWEST":
+                            //ofertas_ordenadas = l_sol.LineasOferta.OrderBy(lo => lo.date).ToList();
+                            break;
+                        case "NONE":
+                            continue;
+                    }
 
-                    // Group the offers by offer_id
+                    int ammount_left = l_sol.quantity;
+                    List<LineaOfertaSeleccionada> ya_hechas = ms_ent.LineaOfertaSeleccionadaSet.Where(l => l.LineaOferta.LineaSolicitudId == l_sol.Id).ToList();
+                    foreach (LineaOfertaSeleccionada l in ya_hechas)
+                    {
+                        ammount_left -= l.quantity;
+                    }
 
-                // For each offer ith select lines
+                    // Get offers until you have enough pieces
+                    List<LineaOferta> ofertas = ms_ent.LineaOfertaSet.Where(l => l.LineaSolicitudId == l_sol.Id).ToList();
+                    foreach (LineaOferta lo in ofertas)
+                    {
+                        if (ammount_left <= 0)
+                            break;
+
+                        LineaOfertaSeleccionada selec = new LineaOfertaSeleccionada();
+                        selec.LineaOferta = lo;
+                        if (lo.quantity < ammount_left)
+                        {
+                            selec.quantity = lo.quantity;
+                            ammount_left -= lo.quantity;
+                        }
+                        else
+                        {
+                            selec.quantity = ammount_left;
+                            ammount_left = 0;
+                        }
+                        if (!pedidas_ahora.ContainsKey(lo.OfertaId))
+                            pedidas_ahora[lo.OfertaId] = new List<LineaOfertaSeleccionada>();
+                        pedidas_ahora[lo.OfertaId].Add(selec);
+                        lo.status = "SELECTED";
+
+                        ms_ent.LineaOfertaSeleccionadaSet.Add(selec);
+                    }
+
+                    if (ammount_left <= 0)
+                    {
+                        l_sol.status = "COMPLETE";
+                    }
+                    else
+                    {
+                        l_sol.status = "INCOMPLETE";
+                    }
+                }
+                ms_ent.SaveChanges();
+
+                // For each offer with select lines
+                foreach (var entry in pedidas_ahora)
+                {
                     // Send a message to the Offer AMQTopic
+                    ExpPedido pedido = new ExpPedido();
+                    pedido.oferta_id = entry.Key;
+                    pedido.lineas = new List<ExpPedido.Line>();
+                    foreach (var linea in entry.Value)
+                    {
+                        ExpPedido.Line linea_ped = new ExpPedido.Line();
+                        linea_ped.quantity = linea.quantity;
+                        linea_ped.linea_oferta_id = linea.LineaOferta.Id;
+                        pedido.lineas.Add(linea_ped);
+                    }
+
+                    AMQPedidoMessage message = new AMQPedidoMessage();
+                    message.pedido = pedido;
+                    message.desguace_id = ms_ent.OfertaSet.Find(entry.Key).Desguace.Tokens.First(t => t.is_valid).token;
+                    SendMessage(message);
+                }
             }
         }
 
