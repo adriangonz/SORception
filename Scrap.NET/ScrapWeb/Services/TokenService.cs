@@ -16,12 +16,14 @@ namespace ScrapWeb.Services
         private GenericRepository<TokenEntity> tokenRepository;
 
         private SGService sgService;
+        private AMQService amqService;
 
         public TokenService()
         {
             scrapContext = new ScrapContext();
             tokenRepository = new GenericRepository<TokenEntity>(scrapContext);
             sgService = new SGService();
+            amqService = new AMQService();
         }
 
         public IEnumerable<TokenEntity> getAll() {
@@ -32,6 +34,9 @@ namespace ScrapWeb.Services
         {
             // Set valid tokens to null
             nullValidTokens();
+
+            // Disable topic subscriber
+            amqService.destroyTopicSubscriber();
 
             // Request new token as temporal
             TokenEntity tokenEntity = sgService.signUp();
@@ -64,6 +69,7 @@ namespace ScrapWeb.Services
                 if (tokenEntity.status != TokenStatus.VALID)
                     throw new ServiceException("Token request has not been accepted", HttpStatusCode.NotFound);
                 // If we have a token, enable it here
+                amqService.createTopicSubscriber(tokenEntity);
             }
             return tokenEntity;
         }

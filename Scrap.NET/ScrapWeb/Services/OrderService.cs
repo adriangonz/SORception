@@ -27,5 +27,12 @@ namespace ScrapWeb.Services
         {
             return orderRepository.GetAll("lines");
         }
+
+        public OrderEntity save(OrderEntity orderEntity)
+        {
+            orderRepository.Insert(orderEntity);
+            scrapContext.SaveChanges();
+            return orderEntity;
+        }
     }
 }
