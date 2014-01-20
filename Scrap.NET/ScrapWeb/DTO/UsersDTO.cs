@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +19,15 @@ namespace ScrapWeb.DTO
 
     public class UserInfoDTO
     {
+        public UserInfoDTO() { }
+
+        public UserInfoDTO(IdentityUser user)
+        {
+            id = user.Id;
+            username = user.UserName;
+            isAdmin = false; // TODO
+        }
+
         [Required]
         public string id { get; set; }
 

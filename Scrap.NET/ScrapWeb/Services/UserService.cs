@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using ScrapWeb.DataAccess;
 using ScrapWeb.DTO;
 using ScrapWeb.Exceptions;
 using System;
@@ -37,16 +38,30 @@ namespace ScrapWeb.Services
                 UserName = model.username
             };
 
-            IdentityResult result = UserManager.Create<IdentityUser>(user, model.password);
+            IdentityResult result = UserManager.Create(user, model.password);
             if (!result.Succeeded)
                 throw new ServiceException(result.Errors);
 
-            return new UserInfoDTO
-            {
-                id = user.Id,
-                username = user.UserName,
-                isAdmin = false
-            };
+            return new UserInfoDTO(user);
+        }
+
+        public IEnumerable<UserInfoDTO> getAll()
+        {
+            var dbcontext = new ScrapContext();
+            var users = dbcontext.Users.ToList();
+            var userinfos = new List<UserInfoDTO>();
+            foreach(var user in users) {
+                userinfos.Add(new UserInfoDTO(user));
+            }
+            return userinfos;
+        }
+
+        public UserInfoDTO getById(string id)
+        {
+            var user = UserManager.FindById(id);
+            if (user == null)
+                throw new ServiceException("User " + id + " was not found", System.Net.HttpStatusCode.NotFound);
+            return new UserInfoDTO(user);
         }
     }
 }

@@ -25,16 +25,15 @@ namespace ScrapWeb.Controllers
         }
 
         // GET api/user
-        public IEnumerable<IdentityUser> Get()
+        public IEnumerable<UserInfoDTO> Get()
         {
-            var userStore = new UserStore<IdentityUser>();
-            return userStore.Context.Set<IdentityUser>();
+            return userService.getAll();
         }
 
         // GET api/user/5
-        public string Get(int id)
+        public UserInfoDTO Get(String id)
         {
-            return "value";
+            return userService.getById(id);
         }
 
         // POST api/user
@@ -43,9 +42,5 @@ namespace ScrapWeb.Controllers
             return userService.registerUser(user);
         }
 
-        // DELETE api/user/5
-        public void Delete(int id)
-        {
-        }
     }
 }
