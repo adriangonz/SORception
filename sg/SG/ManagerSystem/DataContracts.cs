@@ -9,6 +9,19 @@ namespace ManagerSystem
     // ActiveMQ
 
     [DataContract(Namespace = Constants.Namespace)]
+    public class AMQScheduledJob
+    {
+        [DataMember(Name = "id_solicitud")]
+        public int id_solicitud;
+
+        [DataMember(Name = "deadline")]
+        public DateTime deadline;
+
+        [DataMember(Name = "csrf")]
+        public string csrf;
+    }
+
+    [DataContract(Namespace = Constants.Namespace)]
     public class AMQSolicitudMessage
     {
         public enum Code { New, Update, Delete };

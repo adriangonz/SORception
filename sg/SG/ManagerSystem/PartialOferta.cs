@@ -53,6 +53,29 @@ namespace ManagerSystem
             return out_oferta;
         }
 
+        static public void UpdateFromExposed(Oferta oferta, ExpOferta exp_oferta)
+        {
+            foreach (var l_oferta in oferta.LineasOferta)
+            {
+                l_oferta.status = "DELETED";
+            }
+
+            oferta.LineasOferta = new List<LineaOferta>();
+            foreach (var exp_l_oferta in exp_oferta.lineas)
+            {
+                LineaOferta l_oferta = new LineaOferta();
+                l_oferta.id_en_desguace = exp_l_oferta.id_en_desguace;
+                l_oferta.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(exp_l_oferta.linea_solicitud_id);
+                l_oferta.quantity = exp_l_oferta.quantity;
+                l_oferta.price = exp_l_oferta.price;
+                l_oferta.notes = exp_l_oferta.notes;
+                l_oferta.status = "UPDATED";
+                oferta.LineasOferta.Add(l_oferta);
+            }
+            oferta.id_en_desguace = exp_oferta.id_en_desguace;
+            oferta.status = "UPDATED";
+        }
+
         static public Oferta FromExposed(ExpOferta exp_oferta, Desguace d)
         {
             Oferta oferta = new Oferta();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
@@ -132,7 +133,7 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Solicitud tmp = ms_ent.SolicitudSet.Find(id);
-            if (tmp == null)
+            if (tmp == null || tmp.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
             ExpSolicitud s = Solicitud.PrepareOutgoing(tmp);
             return s;
@@ -146,7 +147,10 @@ namespace ManagerSystem
 
             foreach (var solicitud in t.Solicitudes)
             {
-                solicitudes.Add(Solicitud.PrepareOutgoing(solicitud));
+                if (!solicitud.deleted)
+                {
+                    solicitudes.Add(Solicitud.PrepareOutgoing(solicitud));
+                }
             }
 
             return solicitudes;
@@ -163,6 +167,8 @@ namespace ManagerSystem
             s.TallerId = t.Id;
             Solicitud.InsertOrUpdate(s);
             Solicitud.Save();
+            ScheduleJob(s);
+
             SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
             return s.Id;
         }
@@ -175,6 +181,9 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Solicitud s = Solicitud.Find(es.id);
+            if (s.deleted)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
+
             Solicitud.UpdateFromExposed(s, es);
             Solicitud.Save();
             SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
@@ -199,7 +208,7 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Oferta o = Oferta.Find(oferta_id);
-            if (o == null)
+            if (o == null || o.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             ExpOferta eo = Oferta.ToExposed(o);
@@ -211,14 +220,17 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Solicitud s = ms_ent.SolicitudSet.Find(solicitud_id);
-            if (s == null)
+            if (s == null || s.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             List<Oferta> ofertas_mias = s.Ofertas.ToList();
             List<ExpOferta> ofertas = new List<ExpOferta>();
             foreach (var oferta in ofertas_mias)
             {
-                ofertas.Add(Oferta.ToExposed(oferta));
+                if (!oferta.deleted)
+                {
+                    ofertas.Add(Oferta.ToExposed(oferta));
+                }
             }
 
             return ofertas;
@@ -229,6 +241,8 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Oferta o = Oferta.Find(r.oferta_id);
+            if (o.deleted)
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             ExpPedido amq_pedido = new ExpPedido();
             amq_pedido.oferta_id = o.id_en_desguace;
@@ -270,8 +284,8 @@ namespace ManagerSystem
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Solicitud.Client_ID,
-                    Constants.ActiveMQ.Solicitud.Topic);
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Solicitudes_Topic);
             publisher.SendMessage(sm);
             publisher.Dispose();
         }
@@ -282,10 +296,83 @@ namespace ManagerSystem
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Solicitud.Client_ID,
-                    Constants.ActiveMQ.Pedido.Topic);
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Pedidos_Topic);
             publisher.SendMessage(sm);
             publisher.Dispose();
+        }
+
+        private void ScheduleJob(Solicitud s)
+        {
+            AMQScheduledJob job = new AMQScheduledJob();
+            job.deadline = s.deadline;
+            job.id_solicitud = s.Id;
+            job.csrf = GenerateCSRF(s);
+
+            TopicPublisher publisher = TopicPublisher.MakePublisher(
+                    Constants.ActiveMQ.Broker,
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Jobs_Topic);
+
+            TimeSpan delay = s.deadline - DateTime.Now;
+            publisher.SendMessage(job, (long) delay.TotalMilliseconds);
+            publisher.Dispose();
+        }
+
+        public void runJob(AMQScheduledJob job)
+        {
+            if (ValidateJob(job))
+            {
+                Logger.Info(String.Format("Running job for {0}", job.id_solicitud));
+
+                // Iterate over the offers for each line and select one according to the criteria of that line
+                Solicitud s = ms_ent.SolicitudSet.Find(job.id_solicitud);
+
+                // Iterate over the lines
+                    // Get the best offer according to the criteria
+
+                    // Mark it as selected
+
+                    // Group the offers by offer_id
+
+                // For each offer ith select lines
+                    // Send a message to the Offer AMQTopic
+            }
+        }
+
+        private string GenerateCSRF(Solicitud s)
+        {
+            SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+
+            byte[] inputBytes = Encoding.UTF8.GetBytes(s.date.ToString());
+            byte[] hashedBytes = provider.ComputeHash(inputBytes);
+
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < hashedBytes.Length; i++)
+                output.Append(hashedBytes[i].ToString("x2").ToLower());
+
+            return output.ToString();
+        }
+
+        private bool ValidateJob(AMQScheduledJob job)
+        {
+            Solicitud s = ms_ent.SolicitudSet.Find(job.id_solicitud);
+            if (s == null) {
+                Logger.Error(String.Format("Job with invalid id_solicitud: {0}", job.id_solicitud));
+                return false;
+            }
+
+            if (s.deadline != job.deadline) {
+                Logger.Error(String.Format("Job for {0} is outdated: {1} != {2}", job.id_solicitud, job.deadline, s.deadline));
+                return false;
+            }
+
+            if (job.csrf != GenerateCSRF(s)) {
+                Logger.Error(String.Format("CSRF of job for {0} doesn't match", job.id_solicitud));
+                return false;
+            }
+
+            return true;
         }
     }
 }
