@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="8547c7b0-62aa-4710-b71d-7764ecda0e65" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://sorception.azurewebsites.net/GestionDesguace.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="GestionDesguace.xsd" MetadataType="Schema" ID="f633d8fc-c16c-48cf-96c0-c6a8045a2311" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionDesguace1.xsd" MetadataType="Schema" ID="b73fd3e2-7987-4897-b2e9-6e431b5b26ce" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd2" />
+    <MetadataFile FileName="GestionDesguace.wsdl" MetadataType="Wsdl" ID="b1694095-a48c-40d0-bf97-37f08137d41a" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?wsdl" />
+    <MetadataFile FileName="GestionDesguace.disco" MetadataType="Disco" ID="aee4ce81-0867-41f9-bf4b-e734d9f59768" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?disco" />
+    <MetadataFile FileName="GestionDesguace2.xsd" MetadataType="Schema" ID="9e064043-e35d-42e5-aa1c-e3df511cca70" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

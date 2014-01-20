@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScrapWeb.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScrapWeb.Repository
+namespace ScrapWeb.Repositories
 {
-    class GenericRepository<TEntity> where TEntity : class
+    class GenericRepository<TEntity> where TEntity : AbstractEntity
     {
         internal DbContext context;
         internal DbSet<TEntity> dbSet;
@@ -17,6 +18,11 @@ namespace ScrapWeb.Repository
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();
+        }
+
+        public virtual IEnumerable<TEntity> GetAll()
+        {
+            return this.Get();
         }
 
         public virtual IEnumerable<TEntity> Get(
@@ -43,7 +49,7 @@ namespace ScrapWeb.Repository
             }
             else
             {
-                return query.ToList();
+                return query.OrderByDescending(t => t.creationDate).ToList();
             }
         }
 

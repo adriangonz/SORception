@@ -6,6 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using ScrapWeb.Filters;
+using Newtonsoft.Json.Converters;
 
 namespace ScrapWeb
 {
@@ -22,6 +23,11 @@ namespace ScrapWeb
             // Configure exception handling filter
             config.Filters.Add(new ExceptionHandlingFilter());
 
+            var jsonConfig = config.Formatters.JsonFormatter.SerializerSettings;
+
+            // Add for enum to string when serializing
+            jsonConfig.Converters.Add(new StringEnumConverter());
+                
             // Web API routes
             config.MapHttpAttributeRoutes();
 
