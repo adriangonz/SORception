@@ -8,6 +8,6 @@ namespace Eggplant
 {
     public partial class LineaSolicitud
     {
-        public List<ExpOfertaLine> offers = new List<ExpOfertaLine>();
+        //public List<ExpOfertaLine> offers = new List<ExpOfertaLine>();
     }
 }

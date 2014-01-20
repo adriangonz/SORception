@@ -11,7 +11,7 @@ namespace Eggplant.Controllers
 {
     public class OfertaController : ApiController
     {
-        static BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
+        //static BDBerenjenaContainer c_bd = EggplantContextFactory.getContext();
         static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
 
 
@@ -20,7 +20,11 @@ namespace Eggplant.Controllers
         // GET api/oferta/5
         public object Get(int id)
         {
-            var sol = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
+            Solicitud sol = null;
+            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
+            {
+                sol = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
+            }
             if(sol != null)
             { 
                 var ofertas = (svcTaller.getOfertas(sol.sg_id)).ToList();
@@ -29,9 +33,8 @@ namespace Eggplant.Controllers
                 return ofertas;
             }
             else
-            {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "La solicitud con id " + id + " no existe");
-            }
+            
         }
 
         public object Post([FromBody]JObject values)

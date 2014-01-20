@@ -11,7 +11,7 @@ namespace Eggplant.Controllers
 {
     public class PedidoController : ApiController
     {
-        static BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
+        //static BDBerenjenaContainer c_bd = EggplantContextFactory.getContext();
         static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
 
         public static string FAILED = "FAILED";
@@ -21,54 +21,59 @@ namespace Eggplant.Controllers
         // GET api/pedido
         public object Get()
         {
-            UpdatePedidosFromSG();
-            var pedidos = c_bd.PedidoSet.AsQueryable().ToList();
-            return pedidos;
+            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
+            {
+                UpdatePedidosFromSG();
+                var pedidos = c_bd.PedidoSet.AsQueryable().ToList();
+                return pedidos;
+            }
         }
 
         // GET api/pedido/5
         public object Get(int id)
         {
             UpdatePedidosFromSG();
-            var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id);
-            return pedido;
+            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
+            {
+                var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id);
+                return pedido;
+            }
         }
 
         // POST api/pedido
         public object Post([FromBody]JObject values)
         {
             Pedido p = new Pedido();
-            p.timeStamp = DateTime.Now;
-            int idSolcitud = int.Parse(values["solicitud"].ToString());
-            p.Solicitud = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == idSolcitud);
-            if (p.Solicitud == null)
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "La solicitud " + idSolcitud + " no existe en la DB interna");
-            foreach (JObject item in values["lineas"])
+            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
-                /*int idOferta = int.Parse(item["oferta"].ToString());
-                ExposedOferta ofer = svcTaller.getOferta(idOferta);
-                if (ofer == null)
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "La oferta " + idOferta + " no existe en el SG");*/
-                LineaPedido lp = new LineaPedido();
-                lp.linea_oferta_id = int.Parse(item["id_linea_oferta"].ToString());
-                lp.state = FAILED;
-                var lofer = getLineaOferta(lp.linea_oferta_id,p.Solicitud.sg_id);// ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
-                if (lofer == null)
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "La linea " + lp.linea_oferta_id + " no existe en la oferta ");
-                lp.price = (decimal)lofer.price;
-                lp.quantity = int.Parse(item["cantidad"].ToString());
-                if (lp.quantity > lofer.quantity)
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "No puedes pedir mas piezas de las ofertadas");
-                p.LineaPedido.Add(lp);
+                p.timeStamp = DateTime.Now;
+                int idSolcitud = int.Parse(values["solicitud"].ToString());
+                p.Solicitud = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == idSolcitud);
+                if (p.Solicitud == null)
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "La solicitud " + idSolcitud + " no existe en la DB interna");
+                foreach (JObject item in values["lineas"])
+                {
+                    /*int idOferta = int.Parse(item["oferta"].ToString());
+                    ExposedOferta ofer = svcTaller.getOferta(idOferta);
+                    if (ofer == null)
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "La oferta " + idOferta + " no existe en el SG");*/
+                    LineaPedido lp = new LineaPedido();
+                    lp.linea_oferta_id = int.Parse(item["id_linea_oferta"].ToString());
+                    lp.state = FAILED;
+                    var lofer = getLineaOferta(lp.linea_oferta_id, p.Solicitud.sg_id);// ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
+                    if (lofer == null)
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "La linea " + lp.linea_oferta_id + " no existe en la oferta ");
+                    lp.price = (decimal)lofer.price;
+                    lp.quantity = int.Parse(item["cantidad"].ToString());
+                    if (lp.quantity > lofer.quantity)
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "No puedes pedir mas piezas de las ofertadas");
+                    p.LineaPedido.Add(lp);
+                }
+                c_bd.PedidoSet.Add(p);
+                c_bd.SaveChanges();
+
             }
-
-
             addPedidoToSG(p.Id);
-
-            c_bd.PedidoSet.Add(p);
-            c_bd.SaveChanges();
-
-
             return p;
         }
 
@@ -84,43 +89,49 @@ namespace Eggplant.Controllers
             return null;
         }
 
-       
+
 
 
         /// Recorremos el pedido y lo anyadimos el SG
         private void addPedidoToSG(int idPedido)
         {
-            var pedido = c_bd.PedidoSet.FirstOrDefault(x => x.Id == idPedido);
-            if (pedido != null)
+            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
-                ExpPedido tr = new ExpPedido();
-                List<ExpPedidoLine> lineasHelper = new List<ExpPedidoLine>();
-                foreach (var lineaPedido in pedido.LineaPedido)
+                var pedido = c_bd.PedidoSet.FirstOrDefault(x => x.Id == idPedido);
+                if (pedido != null)
                 {
-                    ExpPedidoLine sl = new ExpPedidoLine();
-                    sl.linea_oferta_id = lineaPedido.linea_oferta_id;
-                    sl.quantity = lineaPedido.quantity;
+                    ExpPedido tr = new ExpPedido();
+                    List<ExpPedidoLine> lineasHelper = new List<ExpPedidoLine>();
+                    foreach (var lineaPedido in pedido.LineaPedido)
+                    {
+                        ExpPedidoLine sl = new ExpPedidoLine();
+                        sl.linea_oferta_id = lineaPedido.linea_oferta_id;
+                        sl.quantity = lineaPedido.quantity;
 
-                    // Anyado la linea al pedido
-                    lineasHelper.Add(sl);
+                        // Anyado la linea al pedido
+                        lineasHelper.Add(sl);
+                    }
+                    tr.lineas = lineasHelper.ToArray();
+                    svcTaller.selectOferta(tr);
                 }
-                tr.lineas = lineasHelper.ToArray();
-                svcTaller.selectOferta(tr);
             }
         }
 
         //Recorremos todos los pedidos internos y los actualizamos con los datos del SG
         private void UpdatePedidosFromSG()
         {
-            var pedidos = c_bd.PedidoSet.AsQueryable().ToList();
-            foreach (var pedido in pedidos)
+            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
-                foreach (var lineaPedido in pedido.LineaPedido)
+                var pedidos = c_bd.PedidoSet.AsQueryable().ToList();
+                foreach (var pedido in pedidos)
                 {
-                    int sgId = lineaPedido.sg_id;
-                    //TODO var ofertaSelec = svcTaller.getOfertaSeleccionada(sgId);
-                    //Actualizamos todo los campos
-                    //lineaPedido.status = ofertaSelec.status; o algo asi
+                    foreach (var lineaPedido in pedido.LineaPedido)
+                    {
+                        int sgId = lineaPedido.sg_id;
+                        //TODO var ofertaSelec = svcTaller.getOfertaSeleccionada(sgId);
+                        //Actualizamos todo los campos
+                        //lineaPedido.status = ofertaSelec.status; o algo asi
+                    }
                 }
             }
         }
