@@ -42,24 +42,15 @@ namespace Eggplant.Controllers
         {
             var userId = User.Identity.GetUserId();
             var solicitud = c_bd.SolicitudSet.AsQueryable().First(x => x.Id == id && x.user_id == userId);
+            if (solicitud == null) return Request.CreateResponse(HttpStatusCode.NotFound,"La solicitud "+id+" no existe o no es de el usuario actual");
             var ofertas = svcTaller.getOfertas(solicitud.sg_id).ToList();
-            
+
             foreach (var item in solicitud.LineaSolicitud)
             {
                 int sol_id_sg = item.sg_id;
                 foreach(var oferta in ofertas)
                 {
-                    foreach (var lineaOferta in oferta.lineas)
-                    {
-                        var linPedidas = c_bd.LineaPedidoSet.AsQueryable().Where(linPed => linPed.linea_oferta_id == lineaOferta.id).ToList();
-                        if (linPedidas.Count > 0)
-                        {
-                            lineaOferta.CantidadPedida = linPedidas.First().quantity;
-                            
-                        }
-                        item.offers.Add(lineaOferta);
-                    }
-                    //item.offers = oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList();
+                    item.offers.AddRange(oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList());
                 }
             }
             return solicitud;
@@ -68,7 +59,7 @@ namespace Eggplant.Controllers
         // POST api/solicitud
         public object Post([FromBody]JObject values)
         {
-            ExposedSolicitud sol = new ExposedSolicitud();
+            ExpSolicitud sol = new ExpSolicitud();
 
             var s = new Solicitud();
             s.timeStamp = DateTime.Now;
@@ -88,10 +79,10 @@ namespace Eggplant.Controllers
             c_bd.SaveChanges();
 
             //Pasamos los ids locales al sistema gestor
-            List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
+            List<ExpSolicitudLine> lineas = new List<ExpSolicitudLine>();
             foreach (LineaSolicitud linSol in s.LineaSolicitud)
             {
-                ExposedLineaSolicitud expoLinSol = new ExposedLineaSolicitud();
+                ExpSolicitudLine expoLinSol = new ExpSolicitudLine();
                 expoLinSol.description = linSol.descripcion;
                 expoLinSol.quantity = linSol.cantidad;
                 expoLinSol.id_en_taller = linSol.Id;
@@ -121,11 +112,11 @@ namespace Eggplant.Controllers
             Solicitud solInterna = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
             if (solInterna != null)
             {
-                ExposedSolicitud solExterna = svcTaller.getSolicitud(solInterna.sg_id);
+                ExpSolicitud solExterna = svcTaller.getSolicitud(solInterna.sg_id);
                 if (solExterna != null)
                 {
                     //Creo las lineas de la solicitud desde los datos pasado por json
-                    List<ExposedLineaSolicitud> lineas = new List<ExposedLineaSolicitud>();
+                    List<ExpSolicitudLine> lineas = new List<ExpSolicitudLine>();
                     foreach (JObject item in values["data"])
                     {
                         string efecto = item["update"].ToString();
@@ -156,7 +147,7 @@ namespace Eggplant.Controllers
                                 c_bd.LineaSolicitudSet.Remove(linIn);//.LineaSolicitud.Remove(linIn);
                             }
                             // Modificacion externa
-                            ExposedLineaSolicitud lin = new ExposedLineaSolicitud();
+                            ExpSolicitudLine lin = new ExpSolicitudLine();
                             lin.description = item["descripcion"].ToString();
                             lin.quantity = int.Parse(item["cantidad"].ToString());
                             lin.action = efecto;
@@ -185,7 +176,7 @@ namespace Eggplant.Controllers
             {
                 sol.status = DELETED;
                 c_bd.SaveChanges();
-                ExposedSolicitud sExt = svcTaller.getSolicitud(sol.sg_id);
+                ExpSolicitud sExt = svcTaller.getSolicitud(sol.sg_id);
                 sExt.status = DELETED;
                 svcTaller.putSolicitud(sExt);
             }
@@ -203,7 +194,7 @@ namespace Eggplant.Controllers
         {
             //Si no hay taller activo devuelve -1 y no encontrara nada digo yo
             var solicitudes = svcTaller.getSolicitudes().ToList();
-            foreach (ExposedSolicitud solicitud in solicitudes)
+            foreach (ExpSolicitud solicitud in solicitudes)
             {
                 Solicitud s = c_bd.SolicitudSet.FirstOrDefault(x => x.sg_id == solicitud.id);
                 if (s != null)
@@ -213,7 +204,7 @@ namespace Eggplant.Controllers
         }
         private void addSolicitudToLocalDB(int idSol, int idInterno)
         {
-            ExposedSolicitud solExtern = svcTaller.getSolicitud(idSol);
+            ExpSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
             {
                 using (BDBerenjenaContainer c_bd_interna = new BDBerenjenaContainer())
@@ -224,7 +215,7 @@ namespace Eggplant.Controllers
                         s.sg_id = solExtern.id;
                         s.timeStamp = DateTime.Now;
                         s.status = solExtern.status;
-                        foreach (ExposedLineaSolicitud linSolicitudExtern in solExtern.lineas)
+                        foreach (var linSolicitudExtern in solExtern.lineas)
                         {
                             var lineaInterna = c_bd_interna.LineaSolicitudSet.FirstOrDefault(x => x.Id == linSolicitudExtern.id_en_taller);
                             if (lineaInterna != null)
