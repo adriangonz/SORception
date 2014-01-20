@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ScrapWeb.DataAccess;
+using ScrapWeb.Entities;
+using ScrapWeb.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -28,6 +30,25 @@ namespace ScrapWeb
                 UserManager.AddToRole(user.Id, "ROLE_ADMIN");
             }
 
+            //TEST (REMOVE)
+            var orderRepository = new GenericRepository<OrderEntity>(context);
+            var orderLineRepository = new GenericRepository<OrderLineEntity>(context);
+            var orderline = new OrderLineEntity
+            {
+                quantity = 2,
+                sgId = "2",
+                description = "Ola ke ase"
+            };
+
+            var order = new OrderEntity
+            {
+                sgId = "1",
+                deadline = DateTime.Now
+            };
+            order.lines.Add(orderline);
+            orderRepository.Insert(order);
+            //orderLineRepository.Insert(orderline);
+            
             base.Seed(context);
         }
     }

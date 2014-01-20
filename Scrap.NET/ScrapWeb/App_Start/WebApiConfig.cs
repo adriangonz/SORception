@@ -27,6 +27,7 @@ namespace ScrapWeb
 
             // Add for enum to string when serializing
             jsonConfig.Converters.Add(new StringEnumConverter());
+            jsonConfig.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 
             // Web API routes
             config.MapHttpAttributeRoutes();
