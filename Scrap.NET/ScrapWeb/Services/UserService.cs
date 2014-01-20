@@ -38,32 +38,30 @@ namespace ScrapWeb.Services
                 UserName = model.username
             };
 
-            IdentityResult result = UserManager.Create<IdentityUser>(user, model.password);
+            IdentityResult result = UserManager.Create(user, model.password);
             if (!result.Succeeded)
                 throw new ServiceException(result.Errors);
 
-            return new UserInfoDTO
-            {
-                id = user.Id,
-                username = user.UserName,
-                isAdmin = false
-            };
+            return new UserInfoDTO(user);
         }
 
-        internal IEnumerable<UserInfoDTO> getAll()
+        public IEnumerable<UserInfoDTO> getAll()
         {
             var dbcontext = new ScrapContext();
             var users = dbcontext.Users.ToList();
             var userinfos = new List<UserInfoDTO>();
             foreach(var user in users) {
-                userinfos.Add(new UserInfoDTO
-                {
-                    id = user.Id,
-                    isAdmin = false, // TODO: Fix this
-                    username = user.UserName
-                });
+                userinfos.Add(new UserInfoDTO(user));
             }
             return userinfos;
+        }
+
+        public UserInfoDTO getById(string id)
+        {
+            var user = UserManager.FindById(id);
+            if (user == null)
+                throw new ServiceException("User " + id + " was not found", System.Net.HttpStatusCode.NotFound);
+            return new UserInfoDTO(user);
         }
     }
 }

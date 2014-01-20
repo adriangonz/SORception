@@ -14,9 +14,10 @@ namespace ScrapWeb.Filters
         {
             if (context.Exception is ServiceException)
             {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                var exception = context.Exception as ServiceException;
+                throw new HttpResponseException(new HttpResponseMessage(exception.StatusCode)
                 {
-                    Content = new StringContent(context.Exception.Message),
+                    Content = new StringContent(exception.Message),
                     ReasonPhrase = "Exception"
                 });
             }
