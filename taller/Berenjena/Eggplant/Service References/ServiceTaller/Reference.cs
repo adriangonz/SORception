@@ -15,9 +15,9 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExposedTaller", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpTaller", Namespace="http://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
-    public partial class ExposedTaller : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ExpTaller : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -141,9 +141,9 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExposedSolicitud", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpSolicitud", Namespace="http://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
-    public partial class ExposedSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ExpSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -158,7 +158,7 @@ namespace Eggplant.ServiceTaller {
         private int id_en_tallerField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Eggplant.ServiceTaller.ExposedLineaSolicitud[] lineasField;
+        private Eggplant.ServiceTaller.ExpSolicitudLine[] lineasField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string statusField;
@@ -213,7 +213,7 @@ namespace Eggplant.ServiceTaller {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Eggplant.ServiceTaller.ExposedLineaSolicitud[] lineas {
+        public Eggplant.ServiceTaller.ExpSolicitudLine[] lineas {
             get {
                 return this.lineasField;
             }
@@ -250,9 +250,9 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExposedLineaSolicitud", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpSolicitud.Line", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
     [System.SerializableAttribute()]
-    public partial class ExposedLineaSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ExpSolicitudLine : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -264,6 +264,9 @@ namespace Eggplant.ServiceTaller {
         private string descriptionField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string flagField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -271,6 +274,9 @@ namespace Eggplant.ServiceTaller {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int quantityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string statusField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -304,6 +310,19 @@ namespace Eggplant.ServiceTaller {
                 if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
                     this.descriptionField = value;
                     this.RaisePropertyChanged("description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string flag {
+            get {
+                return this.flagField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.flagField, value) != true)) {
+                    this.flagField = value;
+                    this.RaisePropertyChanged("flag");
                 }
             }
         }
@@ -347,6 +366,19 @@ namespace Eggplant.ServiceTaller {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string status {
+            get {
+                return this.statusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.statusField, value) != true)) {
+                    this.statusField = value;
+                    this.RaisePropertyChanged("status");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -359,21 +391,21 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExposedOferta", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpOferta", Namespace="http://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
-    public partial class ExposedOferta : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ExpOferta : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string desguace_idField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Eggplant.ServiceTaller.ExposedLineaOferta[] lineasField;
+        private int id_en_desguaceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Eggplant.ServiceTaller.ExpOfertaLine[] lineasField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int solicitud_idField;
@@ -385,19 +417,6 @@ namespace Eggplant.ServiceTaller {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string desguace_id {
-            get {
-                return this.desguace_idField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.desguace_idField, value) != true)) {
-                    this.desguace_idField = value;
-                    this.RaisePropertyChanged("desguace_id");
-                }
             }
         }
         
@@ -415,7 +434,20 @@ namespace Eggplant.ServiceTaller {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Eggplant.ServiceTaller.ExposedLineaOferta[] lineas {
+        public int id_en_desguace {
+            get {
+                return this.id_en_desguaceField;
+            }
+            set {
+                if ((this.id_en_desguaceField.Equals(value) != true)) {
+                    this.id_en_desguaceField = value;
+                    this.RaisePropertyChanged("id_en_desguace");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Eggplant.ServiceTaller.ExpOfertaLine[] lineas {
             get {
                 return this.lineasField;
             }
@@ -452,9 +484,9 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExposedLineaOferta", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpOferta.Line", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
     [System.SerializableAttribute()]
-    public partial class ExposedLineaOferta : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ExpOfertaLine : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -464,6 +496,9 @@ namespace Eggplant.ServiceTaller {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int id_en_desguaceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Eggplant.ServiceTaller.ExpOfertaLine.RelatedSolicitud linea_solicitudField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int linea_solicitud_idField;
@@ -509,6 +544,19 @@ namespace Eggplant.ServiceTaller {
                 if ((this.id_en_desguaceField.Equals(value) != true)) {
                     this.id_en_desguaceField = value;
                     this.RaisePropertyChanged("id_en_desguace");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Eggplant.ServiceTaller.ExpOfertaLine.RelatedSolicitud linea_solicitud {
+            get {
+                return this.linea_solicitudField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.linea_solicitudField, value) != true)) {
+                    this.linea_solicitudField = value;
+                    this.RaisePropertyChanged("linea_solicitud");
                 }
             }
         }
@@ -573,79 +621,18 @@ namespace Eggplant.ServiceTaller {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TallerResponse", Namespace="http://sorception.azurewebsites.net/")]
-    [System.SerializableAttribute()]
-    public partial class TallerResponse : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int oferta_idField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Eggplant.ServiceTaller.TallerResponse.SelectedLine[] selected_linesField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int oferta_id {
-            get {
-                return this.oferta_idField;
-            }
-            set {
-                if ((this.oferta_idField.Equals(value) != true)) {
-                    this.oferta_idField = value;
-                    this.RaisePropertyChanged("oferta_id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public Eggplant.ServiceTaller.TallerResponse.SelectedLine[] selected_lines {
-            get {
-                return this.selected_linesField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.selected_linesField, value) != true)) {
-                    this.selected_linesField = value;
-                    this.RaisePropertyChanged("selected_lines");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
         
         [System.Diagnostics.DebuggerStepThroughAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-        [System.Runtime.Serialization.DataContractAttribute(Name="TallerResponse.SelectedLine", Namespace="http://sorception.azurewebsites.net/")]
+        [System.Runtime.Serialization.DataContractAttribute(Name="ExpOferta.Line.RelatedSolicitud", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
         [System.SerializableAttribute()]
-        public partial class SelectedLine : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        public partial class RelatedSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
             
             [System.NonSerializedAttribute()]
             private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
             
             [System.Runtime.Serialization.OptionalFieldAttribute()]
-            private int line_idField;
+            private int linea_solicitud_idField;
             
             [System.Runtime.Serialization.OptionalFieldAttribute()]
             private int quantityField;
@@ -660,14 +647,14 @@ namespace Eggplant.ServiceTaller {
             }
             
             [System.Runtime.Serialization.DataMemberAttribute()]
-            public int line_id {
+            public int linea_solicitud_id {
                 get {
-                    return this.line_idField;
+                    return this.linea_solicitud_idField;
                 }
                 set {
-                    if ((this.line_idField.Equals(value) != true)) {
-                        this.line_idField = value;
-                        this.RaisePropertyChanged("line_id");
+                    if ((this.linea_solicitud_idField.Equals(value) != true)) {
+                        this.linea_solicitud_idField = value;
+                        this.RaisePropertyChanged("linea_solicitud_id");
                     }
                 }
             }
@@ -696,15 +683,137 @@ namespace Eggplant.ServiceTaller {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpPedido", Namespace="http://sorception.azurewebsites.net/")]
+    [System.SerializableAttribute()]
+    public partial class ExpPedido : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Eggplant.ServiceTaller.ExpPedidoLine[] lineasField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int oferta_idField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public Eggplant.ServiceTaller.ExpPedidoLine[] lineas {
+            get {
+                return this.lineasField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.lineasField, value) != true)) {
+                    this.lineasField = value;
+                    this.RaisePropertyChanged("lineas");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int oferta_id {
+            get {
+                return this.oferta_idField;
+            }
+            set {
+                if ((this.oferta_idField.Equals(value) != true)) {
+                    this.oferta_idField = value;
+                    this.RaisePropertyChanged("oferta_id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpPedido.Line", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
+    [System.SerializableAttribute()]
+    public partial class ExpPedidoLine : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int linea_oferta_idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int quantityField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int linea_oferta_id {
+            get {
+                return this.linea_oferta_idField;
+            }
+            set {
+                if ((this.linea_oferta_idField.Equals(value) != true)) {
+                    this.linea_oferta_idField = value;
+                    this.RaisePropertyChanged("linea_oferta_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int quantity {
+            get {
+                return this.quantityField;
+            }
+            set {
+                if ((this.quantityField.Equals(value) != true)) {
+                    this.quantityField = value;
+                    this.RaisePropertyChanged("quantity");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceTaller.IGestionTaller")]
     public interface IGestionTaller {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/signUp", ReplyAction="http://tempuri.org/IGestionTaller/signUpResponse")]
-        Eggplant.ServiceTaller.TokenResponse signUp(Eggplant.ServiceTaller.ExposedTaller et);
+        Eggplant.ServiceTaller.TokenResponse signUp(Eggplant.ServiceTaller.ExpTaller et);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/signUp", ReplyAction="http://tempuri.org/IGestionTaller/signUpResponse")]
-        System.Threading.Tasks.Task<Eggplant.ServiceTaller.TokenResponse> signUpAsync(Eggplant.ServiceTaller.ExposedTaller et);
+        System.Threading.Tasks.Task<Eggplant.ServiceTaller.TokenResponse> signUpAsync(Eggplant.ServiceTaller.ExpTaller et);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getState", ReplyAction="http://tempuri.org/IGestionTaller/getStateResponse")]
         Eggplant.ServiceTaller.TokenResponse getState(string token);
@@ -713,10 +822,10 @@ namespace Eggplant.ServiceTaller {
         System.Threading.Tasks.Task<Eggplant.ServiceTaller.TokenResponse> getStateAsync(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/putTaller", ReplyAction="http://tempuri.org/IGestionTaller/putTallerResponse")]
-        int putTaller(Eggplant.ServiceTaller.ExposedTaller t);
+        int putTaller(Eggplant.ServiceTaller.ExpTaller t);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/putTaller", ReplyAction="http://tempuri.org/IGestionTaller/putTallerResponse")]
-        System.Threading.Tasks.Task<int> putTallerAsync(Eggplant.ServiceTaller.ExposedTaller t);
+        System.Threading.Tasks.Task<int> putTallerAsync(Eggplant.ServiceTaller.ExpTaller t);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/deleteTaller", ReplyAction="http://tempuri.org/IGestionTaller/deleteTallerResponse")]
         int deleteTaller();
@@ -725,28 +834,28 @@ namespace Eggplant.ServiceTaller {
         System.Threading.Tasks.Task<int> deleteTallerAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudResponse")]
-        Eggplant.ServiceTaller.ExposedSolicitud getSolicitud(int id);
+        Eggplant.ServiceTaller.ExpSolicitud getSolicitud(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudResponse")]
-        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedSolicitud> getSolicitudAsync(int id);
+        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpSolicitud> getSolicitudAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitudes", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudesResponse")]
-        Eggplant.ServiceTaller.ExposedSolicitud[] getSolicitudes();
+        Eggplant.ServiceTaller.ExpSolicitud[] getSolicitudes();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getSolicitudes", ReplyAction="http://tempuri.org/IGestionTaller/getSolicitudesResponse")]
-        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedSolicitud[]> getSolicitudesAsync();
+        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpSolicitud[]> getSolicitudesAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/addSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/addSolicitudResponse")]
-        int addSolicitud(Eggplant.ServiceTaller.ExposedSolicitud s);
+        int addSolicitud(Eggplant.ServiceTaller.ExpSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/addSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/addSolicitudResponse")]
-        System.Threading.Tasks.Task<int> addSolicitudAsync(Eggplant.ServiceTaller.ExposedSolicitud s);
+        System.Threading.Tasks.Task<int> addSolicitudAsync(Eggplant.ServiceTaller.ExpSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/putSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/putSolicitudResponse")]
-        int putSolicitud(Eggplant.ServiceTaller.ExposedSolicitud s);
+        int putSolicitud(Eggplant.ServiceTaller.ExpSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/putSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/putSolicitudResponse")]
-        System.Threading.Tasks.Task<int> putSolicitudAsync(Eggplant.ServiceTaller.ExposedSolicitud s);
+        System.Threading.Tasks.Task<int> putSolicitudAsync(Eggplant.ServiceTaller.ExpSolicitud s);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/deleteSolicitud", ReplyAction="http://tempuri.org/IGestionTaller/deleteSolicitudResponse")]
         int deleteSolicitud(int id);
@@ -755,22 +864,22 @@ namespace Eggplant.ServiceTaller {
         System.Threading.Tasks.Task<int> deleteSolicitudAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getOfertas", ReplyAction="http://tempuri.org/IGestionTaller/getOfertasResponse")]
-        Eggplant.ServiceTaller.ExposedOferta[] getOfertas(int solicitud);
+        Eggplant.ServiceTaller.ExpOferta[] getOfertas(int solicitud);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getOfertas", ReplyAction="http://tempuri.org/IGestionTaller/getOfertasResponse")]
-        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta[]> getOfertasAsync(int solicitud);
+        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpOferta[]> getOfertasAsync(int solicitud);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getOferta", ReplyAction="http://tempuri.org/IGestionTaller/getOfertaResponse")]
-        Eggplant.ServiceTaller.ExposedOferta getOferta(int oferta);
+        Eggplant.ServiceTaller.ExpOferta getOferta(int oferta);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/getOferta", ReplyAction="http://tempuri.org/IGestionTaller/getOfertaResponse")]
-        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta> getOfertaAsync(int oferta);
+        System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpOferta> getOfertaAsync(int oferta);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/selectOferta", ReplyAction="http://tempuri.org/IGestionTaller/selectOfertaResponse")]
-        int selectOferta(Eggplant.ServiceTaller.TallerResponse r);
+        int selectOferta(Eggplant.ServiceTaller.ExpPedido p);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionTaller/selectOferta", ReplyAction="http://tempuri.org/IGestionTaller/selectOfertaResponse")]
-        System.Threading.Tasks.Task<int> selectOfertaAsync(Eggplant.ServiceTaller.TallerResponse r);
+        System.Threading.Tasks.Task<int> selectOfertaAsync(Eggplant.ServiceTaller.ExpPedido p);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -800,11 +909,11 @@ namespace Eggplant.ServiceTaller {
                 base(binding, remoteAddress) {
         }
         
-        public Eggplant.ServiceTaller.TokenResponse signUp(Eggplant.ServiceTaller.ExposedTaller et) {
+        public Eggplant.ServiceTaller.TokenResponse signUp(Eggplant.ServiceTaller.ExpTaller et) {
             return base.Channel.signUp(et);
         }
         
-        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.TokenResponse> signUpAsync(Eggplant.ServiceTaller.ExposedTaller et) {
+        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.TokenResponse> signUpAsync(Eggplant.ServiceTaller.ExpTaller et) {
             return base.Channel.signUpAsync(et);
         }
         
@@ -816,11 +925,11 @@ namespace Eggplant.ServiceTaller {
             return base.Channel.getStateAsync(token);
         }
         
-        public int putTaller(Eggplant.ServiceTaller.ExposedTaller t) {
+        public int putTaller(Eggplant.ServiceTaller.ExpTaller t) {
             return base.Channel.putTaller(t);
         }
         
-        public System.Threading.Tasks.Task<int> putTallerAsync(Eggplant.ServiceTaller.ExposedTaller t) {
+        public System.Threading.Tasks.Task<int> putTallerAsync(Eggplant.ServiceTaller.ExpTaller t) {
             return base.Channel.putTallerAsync(t);
         }
         
@@ -832,35 +941,35 @@ namespace Eggplant.ServiceTaller {
             return base.Channel.deleteTallerAsync();
         }
         
-        public Eggplant.ServiceTaller.ExposedSolicitud getSolicitud(int id) {
+        public Eggplant.ServiceTaller.ExpSolicitud getSolicitud(int id) {
             return base.Channel.getSolicitud(id);
         }
         
-        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedSolicitud> getSolicitudAsync(int id) {
+        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpSolicitud> getSolicitudAsync(int id) {
             return base.Channel.getSolicitudAsync(id);
         }
         
-        public Eggplant.ServiceTaller.ExposedSolicitud[] getSolicitudes() {
+        public Eggplant.ServiceTaller.ExpSolicitud[] getSolicitudes() {
             return base.Channel.getSolicitudes();
         }
         
-        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedSolicitud[]> getSolicitudesAsync() {
+        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpSolicitud[]> getSolicitudesAsync() {
             return base.Channel.getSolicitudesAsync();
         }
         
-        public int addSolicitud(Eggplant.ServiceTaller.ExposedSolicitud s) {
+        public int addSolicitud(Eggplant.ServiceTaller.ExpSolicitud s) {
             return base.Channel.addSolicitud(s);
         }
         
-        public System.Threading.Tasks.Task<int> addSolicitudAsync(Eggplant.ServiceTaller.ExposedSolicitud s) {
+        public System.Threading.Tasks.Task<int> addSolicitudAsync(Eggplant.ServiceTaller.ExpSolicitud s) {
             return base.Channel.addSolicitudAsync(s);
         }
         
-        public int putSolicitud(Eggplant.ServiceTaller.ExposedSolicitud s) {
+        public int putSolicitud(Eggplant.ServiceTaller.ExpSolicitud s) {
             return base.Channel.putSolicitud(s);
         }
         
-        public System.Threading.Tasks.Task<int> putSolicitudAsync(Eggplant.ServiceTaller.ExposedSolicitud s) {
+        public System.Threading.Tasks.Task<int> putSolicitudAsync(Eggplant.ServiceTaller.ExpSolicitud s) {
             return base.Channel.putSolicitudAsync(s);
         }
         
@@ -872,28 +981,28 @@ namespace Eggplant.ServiceTaller {
             return base.Channel.deleteSolicitudAsync(id);
         }
         
-        public Eggplant.ServiceTaller.ExposedOferta[] getOfertas(int solicitud) {
+        public Eggplant.ServiceTaller.ExpOferta[] getOfertas(int solicitud) {
             return base.Channel.getOfertas(solicitud);
         }
         
-        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta[]> getOfertasAsync(int solicitud) {
+        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpOferta[]> getOfertasAsync(int solicitud) {
             return base.Channel.getOfertasAsync(solicitud);
         }
         
-        public Eggplant.ServiceTaller.ExposedOferta getOferta(int oferta) {
+        public Eggplant.ServiceTaller.ExpOferta getOferta(int oferta) {
             return base.Channel.getOferta(oferta);
         }
         
-        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExposedOferta> getOfertaAsync(int oferta) {
+        public System.Threading.Tasks.Task<Eggplant.ServiceTaller.ExpOferta> getOfertaAsync(int oferta) {
             return base.Channel.getOfertaAsync(oferta);
         }
         
-        public int selectOferta(Eggplant.ServiceTaller.TallerResponse r) {
-            return base.Channel.selectOferta(r);
+        public int selectOferta(Eggplant.ServiceTaller.ExpPedido p) {
+            return base.Channel.selectOferta(p);
         }
         
-        public System.Threading.Tasks.Task<int> selectOfertaAsync(Eggplant.ServiceTaller.TallerResponse r) {
-            return base.Channel.selectOfertaAsync(r);
+        public System.Threading.Tasks.Task<int> selectOfertaAsync(Eggplant.ServiceTaller.ExpPedido p) {
+            return base.Channel.selectOfertaAsync(p);
         }
     }
 }

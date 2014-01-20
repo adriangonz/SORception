@@ -123,8 +123,8 @@ namespace ManagerSystem
     {
         public class Line
         {
-            [DataMember(Name = "linea_solicitud_id")]
-            public int linea_solicitud_id;
+            [DataMember(Name = "linea_oferta_id")]
+            public int linea_oferta_id;
 
             [DataMember(Name = "quantity")]
             public int quantity;
@@ -144,6 +144,15 @@ namespace ManagerSystem
     {
         public class Line
         {
+            public class RelatedSolicitud
+            {
+                [DataMember(Name = "linea_solicitud_id")]
+                public int linea_solicitud_id;
+
+                [DataMember(Name = "quantity")]
+                public int quantity;
+            }
+
             [DataMember(Name = "id")]
             public int id;
 
@@ -162,8 +171,8 @@ namespace ManagerSystem
             [DataMember(Name = "price")]
             public double price;
 
-            [DataMember(Name = "linea_pedido")]
-            public ExpPedido.Line linea_pedido;
+            [DataMember(Name = "linea_solicitud")]
+            public RelatedSolicitud linea_solicitud;
         }
 
         [DataMember(Name = "id")]

@@ -250,7 +250,7 @@ namespace ManagerSystem
 
             foreach (var l in r.lineas)
             {
-                LineaOferta lo = ms_ent.LineaOfertaSet.Find(l.linea_solicitud_id);
+                LineaOferta lo = ms_ent.LineaOfertaSet.Find(l.linea_oferta_id);
                 if (lo.LineaOfertaSeleccionada != null)
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
                 /*if (!o.LineasOferta.Contains(lo))
@@ -264,7 +264,7 @@ namespace ManagerSystem
                 lo.LineaSolicitud.status = "SELECTED";
 
                 ExpPedido.Line lp = new ExpPedido.Line();
-                lp.linea_solicitud_id = lo.id_en_desguace;
+                lp.linea_oferta_id = lo.id_en_desguace;
                 lp.quantity = l.quantity;
                 amq_pedido.lineas.Add(lp);
             }

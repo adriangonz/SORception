@@ -52,7 +52,7 @@ namespace Eggplant.Controllers
                 LineaPedido lp = new LineaPedido();
                 lp.linea_oferta_id = int.Parse(item["id_linea_oferta"].ToString());
                 lp.state = FAILED;
-                ExposedLineaOferta lofer = getLineaOferta(lp.linea_oferta_id,p.Solicitud.sg_id);// ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
+                var lofer = getLineaOferta(lp.linea_oferta_id,p.Solicitud.sg_id);// ofer.lineas.FirstOrDefault(x => x.id == lp.linea_oferta_id);
                 if (lofer == null)
                     return Request.CreateResponse(HttpStatusCode.NotFound, "La linea " + lp.linea_oferta_id + " no existe en la oferta ");
                 lp.price = (decimal)lofer.price;
@@ -73,7 +73,7 @@ namespace Eggplant.Controllers
         }
 
         /// Igual esta Funcion deberia esta en el SG
-        private ExposedLineaOferta getLineaOferta(int idLineaOferta, int idSolicitud)
+        private ExpOfertaLine getLineaOferta(int idLineaOferta, int idSolicitud)
         {
             var ofertas = svcTaller.getOfertas(idSolicitud);
             foreach (var oferta in ofertas)
@@ -93,14 +93,19 @@ namespace Eggplant.Controllers
             var pedido = c_bd.PedidoSet.FirstOrDefault(x => x.Id == idPedido);
             if (pedido != null)
             {
-                TallerResponse tr = new TallerResponse();
+                ExpPedido tr = new ExpPedido();
+                List<ExpPedidoLine> lineasHelper = new List<ExpPedidoLine>();
                 foreach (var lineaPedido in pedido.LineaPedido)
                 {
-                    TallerResponse.SelectedLine sl = new TallerResponse.SelectedLine();
-                    sl.line_id = lineaPedido.linea_oferta_id;//espero que con line_id se refiera a la linea de oferta a la que responde
+                    ExpPedidoLine sl = new ExpPedidoLine();
+                    sl.linea_oferta_id = lineaPedido.linea_oferta_id;
                     sl.quantity = lineaPedido.quantity;
-                    svcTaller.selectOferta(tr);
+
+                    // Anyado la linea al pedido
+                    lineasHelper.Add(sl);
                 }
+                tr.lineas = lineasHelper.ToArray();
+                svcTaller.selectOferta(tr);
             }
         }
 

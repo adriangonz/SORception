@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Eggplant.ServiceTaller
 {
-    public partial class ExposedLineaOferta 
+    public partial class ExpOfertaLine
     {
         private int cantidadPedida;
 
