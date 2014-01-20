@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Eggplant.ServiceTaller;
+using Newtonsoft.Json.Linq;
 
 namespace Eggplant.Controllers
 {
@@ -31,6 +32,12 @@ namespace Eggplant.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "La solicitud con id " + id + " no existe");
             }
+        }
+
+        public object Post([FromBody]JObject values)
+        {
+            
+            return "Tramposilloooo";
         }
 
     }

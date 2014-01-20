@@ -35,7 +35,7 @@ namespace Berenjena.Controllers
         {
             setLastTokenAsExpired();
             Tokens to = new Tokens();
-            ExposedTaller extTaller = new ExposedTaller();
+            ExpTaller extTaller = new ExpTaller();
             extTaller.name = value["nombre"].ToString();
             to.token = svcTaller.signUp(extTaller).token;
             to.timeStamp = DateTime.Now;
@@ -50,7 +50,7 @@ namespace Berenjena.Controllers
         public void Put([FromBody]JObject value)
         {
             var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
-            ExposedTaller t = new ExposedTaller();
+            ExpTaller t = new ExpTaller();
             t.name = value["nombre"].ToString();
             svcTaller.putTaller(t);
         }
