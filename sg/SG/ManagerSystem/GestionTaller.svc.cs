@@ -14,7 +14,30 @@ namespace ManagerSystem
 {
     public class GestionTaller : IGestionTaller
     {
-        managersystemEntities ms_ent = Constants.context;
+        public static managersystemEntities db_context;
+        private RTaller r_taller;
+        private RSolicitud r_solicitud;
+        private ROferta r_oferta;
+        private RToken r_token;
+
+        public GestionTaller()
+        {
+            init(new managersystemEntities());            
+        }
+
+        public GestionTaller(managersystemEntities context)
+        {
+            init(context);
+        }
+
+        private void init(managersystemEntities context)
+        {
+            db_context = context;
+            r_taller = new RTaller(db_context);
+            r_solicitud = new RSolicitud(db_context);
+            r_oferta = new ROferta(db_context);
+            r_token = new RToken(db_context);
+        }
 
         private Taller getAuthorizedTaller()
         {
@@ -30,7 +53,7 @@ namespace ManagerSystem
                 //throw;
             }
 
-            Token token = Token.Find(token_string);
+            Token token = r_token.Find(token_string);
             if (token != null && token.is_valid && token.Taller != null)
             {
                 return token.Taller;
@@ -45,14 +68,14 @@ namespace ManagerSystem
         {
             if (et != null)
             {
-                Taller tall = Taller.FromExposed(et);
+                Taller tall = r_taller.FromExposed(et);
                 tall.active = false;
 
-                Token t = Token.getToken();
+                Token t = r_token.getToken();
                 tall.Tokens.Add(t);
 
-                Taller.InsertOrUpdate(tall);
-                Taller.Save();
+                r_taller.InsertOrUpdate(tall);
+                r_taller.Save();
                 return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
             }
             return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
@@ -64,12 +87,12 @@ namespace ManagerSystem
             TokenResponse.Code status;
             if (token != null && token != "")
             {
-                Token t = Token.Find(token);
+                Token t = r_token.Find(token);
                 if (t != null)
                 {
                     if (t.is_valid)
                     {
-                        Taller tall = Taller.Find(t.Taller.Id);
+                        Taller tall = r_taller.Find(t.Taller.Id);
                         if (tall.active)
                         {
                             // El taller ya esta activo
@@ -80,7 +103,7 @@ namespace ManagerSystem
                             // El taller no esta activo
                             status = TokenResponse.Code.NON_AUTHORITATIVE;
                         }
-                        new_token = Token.RegenerateToken(t);
+                        new_token = r_token.RegenerateToken(t);
                     }
                     else
                     {
@@ -112,9 +135,9 @@ namespace ManagerSystem
 
             if (et != null)
             {
-                t = Taller.FromExposed(et);
-                Taller.InsertOrUpdate(t);
-                Taller.Save();
+                t = r_taller.FromExposed(et);
+                r_taller.InsertOrUpdate(t);
+                r_taller.Save();
             }
 
             return 0;
@@ -123,8 +146,8 @@ namespace ManagerSystem
         public int deleteTaller()
         {
             Taller t = getAuthorizedTaller();
-            Taller.Delete(t.Id);
-            Taller.Save();
+            r_taller.Delete(t.Id);
+            r_taller.Save();
             return 0;
         }
 
@@ -132,10 +155,10 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            Solicitud tmp = ms_ent.SolicitudSet.Find(id);
+            Solicitud tmp = db_context.SolicitudSet.Find(id);
             if (tmp == null || tmp.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-            ExpSolicitud s = Solicitud.PrepareOutgoing(tmp);
+            ExpSolicitud s = r_solicitud.PrepareOutgoing(tmp);
             return s;
         }
 
@@ -149,7 +172,7 @@ namespace ManagerSystem
             {
                 if (!solicitud.deleted)
                 {
-                    solicitudes.Add(Solicitud.PrepareOutgoing(solicitud));
+                    solicitudes.Add(r_solicitud.PrepareOutgoing(solicitud));
                 }
             }
 
@@ -163,13 +186,13 @@ namespace ManagerSystem
 
             Taller t = getAuthorizedTaller();
 
-            Solicitud s = Solicitud.GetIncoming(es);
+            Solicitud s = r_solicitud.GetIncoming(es);
             s.TallerId = t.Id;
-            Solicitud.InsertOrUpdate(s);
-            Solicitud.Save();
+            r_solicitud.InsertOrUpdate(s);
+            r_solicitud.Save();
             ScheduleJob(s);
 
-            SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
+            SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
             return s.Id;
         }
 
@@ -180,13 +203,13 @@ namespace ManagerSystem
 
             Taller t = getAuthorizedTaller();
 
-            Solicitud s = Solicitud.Find(es.id);
+            Solicitud s = r_solicitud.Find(es.id);
             if (s.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
-            Solicitud.UpdateFromExposed(s, es);
-            Solicitud.Save();
-            SendMessage(new AMQSolicitudMessage(Solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
+            r_solicitud.UpdateFromExposed(s, es);
+            r_solicitud.Save();
+            SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
 
             return 0;
         }
@@ -195,8 +218,8 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            Solicitud.Delete(id);
-            Solicitud.Save();
+            r_solicitud.Delete(id);
+            r_solicitud.Save();
             ExpSolicitud es = new ExpSolicitud();
             es.id = id;
             SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Delete));
@@ -207,11 +230,11 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            Oferta o = Oferta.Find(oferta_id);
+            Oferta o = r_oferta.Find(oferta_id);
             if (o == null || o.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
-            ExpOferta eo = Oferta.ToExposed(o);
+            ExpOferta eo = r_oferta.ToExposed(o);
             return eo;
         }
 
@@ -219,7 +242,7 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            Solicitud s = ms_ent.SolicitudSet.Find(solicitud_id);
+            Solicitud s = db_context.SolicitudSet.Find(solicitud_id);
             if (s == null || s.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
@@ -229,7 +252,7 @@ namespace ManagerSystem
             {
                 if (!oferta.deleted)
                 {
-                    ofertas.Add(Oferta.ToExposed(oferta));
+                    ofertas.Add(r_oferta.ToExposed(oferta));
                 }
             }
 
@@ -240,7 +263,7 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            Oferta o = Oferta.Find(r.oferta_id);
+            Oferta o = r_oferta.Find(r.oferta_id);
             if (o.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
@@ -250,7 +273,7 @@ namespace ManagerSystem
 
             foreach (var l in r.lineas)
             {
-                LineaOferta lo = ms_ent.LineaOfertaSet.Find(l.linea_oferta_id);
+                LineaOferta lo = db_context.LineaOfertaSet.Find(l.linea_oferta_id);
                 if (lo.LineaOfertaSeleccionada != null)
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
                 /*if (!o.LineasOferta.Contains(lo))
@@ -260,7 +283,7 @@ namespace ManagerSystem
                 los.LineaOferta = lo;
                 lo.status = "SELECTED";
                 los.quantity = l.quantity;
-                ms_ent.LineaOfertaSeleccionadaSet.Add(los);
+                db_context.LineaOfertaSeleccionadaSet.Add(los);
                 lo.LineaSolicitud.status = l.quantity >= lo.LineaSolicitud.quantity ? "COMPLETE" : "SELECTED";
 
                 ExpPedido.Line lp = new ExpPedido.Line();
@@ -268,7 +291,7 @@ namespace ManagerSystem
                 lp.quantity = l.quantity;
                 amq_pedido.lineas.Add(lp);
             }
-            ms_ent.SaveChanges();
+            db_context.SaveChanges();
 
             AMQPedidoMessage message = new AMQPedidoMessage();
             message.desguace_id = o.Desguace.Tokens.First(token => token.is_valid == true).token;
@@ -332,7 +355,7 @@ namespace ManagerSystem
                     LineaOfertaSeleccionada selec = new LineaOfertaSeleccionada();
 
                     int ammount_left = linea.LineaSolicitud.quantity;
-                    List<LineaOfertaSeleccionada> ya_hechas = ms_ent.LineaOfertaSeleccionadaSet.Where(l => l.LineaOferta.LineaSolicitudId == linea.LineaSolicitud.Id).ToList();
+                    List<LineaOfertaSeleccionada> ya_hechas = db_context.LineaOfertaSeleccionadaSet.Where(l => l.LineaOferta.LineaSolicitudId == linea.LineaSolicitud.Id).ToList();
                     foreach (LineaOfertaSeleccionada l in ya_hechas)
                     {
                         ammount_left -= l.quantity;
@@ -354,10 +377,10 @@ namespace ManagerSystem
                     
                     selec.LineaOferta = linea;
                     pedidas_ahora.Add(selec);
-                    ms_ent.LineaOfertaSeleccionadaSet.Add(selec);
+                    db_context.LineaOfertaSeleccionadaSet.Add(selec);
                 }
             }
-            ms_ent.SaveChanges();
+            db_context.SaveChanges();
 
             ExpPedido pedido = new ExpPedido();
             pedido.oferta_id = o.Id;
@@ -372,7 +395,7 @@ namespace ManagerSystem
 
             AMQPedidoMessage message = new AMQPedidoMessage();
             message.pedido = pedido;
-            message.desguace_id = ms_ent.TokenSet.First(t => t.is_valid && t.DesguaceId == o.DesguaceId).token;
+            message.desguace_id = db_context.TokenSet.First(t => t.is_valid && t.DesguaceId == o.DesguaceId).token;
             SendMessage(message);
         }
 
@@ -383,7 +406,7 @@ namespace ManagerSystem
                 Logger.Info(String.Format("Running job for {0}", job.id_solicitud));
 
                 // Iterate over the offers for each line and select one according to the criteria of that line
-                Solicitud s = ms_ent.SolicitudSet.Find(job.id_solicitud);
+                Solicitud s = db_context.SolicitudSet.Find(job.id_solicitud);
 
                 Dictionary<int, List<LineaOfertaSeleccionada>> pedidas_ahora = new Dictionary<int, List<LineaOfertaSeleccionada>>();
                 // Iterate over the lines
@@ -407,14 +430,14 @@ namespace ManagerSystem
                     }
 
                     int ammount_left = l_sol.quantity;
-                    List<LineaOfertaSeleccionada> ya_hechas = ms_ent.LineaOfertaSeleccionadaSet.Where(l => l.LineaOferta.LineaSolicitudId == l_sol.Id).ToList();
+                    List<LineaOfertaSeleccionada> ya_hechas = db_context.LineaOfertaSeleccionadaSet.Where(l => l.LineaOferta.LineaSolicitudId == l_sol.Id).ToList();
                     foreach (LineaOfertaSeleccionada l in ya_hechas)
                     {
                         ammount_left -= l.quantity;
                     }
 
                     // Get offers until you have enough pieces
-                    List<LineaOferta> ofertas = ms_ent.LineaOfertaSet.Where(l => l.LineaSolicitudId == l_sol.Id).ToList();
+                    List<LineaOferta> ofertas = db_context.LineaOfertaSet.Where(l => l.LineaSolicitudId == l_sol.Id).ToList();
                     foreach (LineaOferta lo in ofertas)
                     {
                         if (ammount_left <= 0)
@@ -437,7 +460,7 @@ namespace ManagerSystem
                         pedidas_ahora[lo.OfertaId].Add(selec);
                         lo.status = "SELECTED";
 
-                        ms_ent.LineaOfertaSeleccionadaSet.Add(selec);
+                        db_context.LineaOfertaSeleccionadaSet.Add(selec);
                     }
 
                     if (ammount_left <= 0)
@@ -449,7 +472,7 @@ namespace ManagerSystem
                         l_sol.status = "INCOMPLETE";
                     }
                 }
-                ms_ent.SaveChanges();
+                db_context.SaveChanges();
 
                 // For each offer with select lines
                 foreach (var entry in pedidas_ahora)
@@ -468,7 +491,7 @@ namespace ManagerSystem
 
                     AMQPedidoMessage message = new AMQPedidoMessage();
                     message.pedido = pedido;
-                    message.desguace_id = ms_ent.OfertaSet.Find(entry.Key).Desguace.Tokens.First(t => t.is_valid).token;
+                    message.desguace_id = db_context.OfertaSet.Find(entry.Key).Desguace.Tokens.First(t => t.is_valid).token;
                     SendMessage(message);
                 }
             }
@@ -490,7 +513,7 @@ namespace ManagerSystem
 
         private bool ValidateJob(AMQScheduledJob job)
         {
-            Solicitud s = ms_ent.SolicitudSet.Find(job.id_solicitud);
+            Solicitud s = db_context.SolicitudSet.Find(job.id_solicitud);
             if (s == null) {
                 Logger.Error(String.Format("Job with invalid id_solicitud: {0}", job.id_solicitud));
                 return false;

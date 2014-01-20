@@ -7,28 +7,38 @@ using System.Web;
 
 namespace ManagerSystem
 {
-    public partial class Solicitud
+    public class RSolicitud
     {
-        static managersystemEntities ms_ent = new managersystemEntities();
+        public managersystemEntities db_context;
 
-        static private Solicitud Copy(Solicitud tmp)
+        public RSolicitud()
+        {
+            db_context = new managersystemEntities();
+        }
+
+        public RSolicitud(managersystemEntities context)
+        {
+            db_context = context;
+        }
+
+        private Solicitud Copy(Solicitud tmp)
         {
             Solicitud s = new Solicitud();
 
             return s;
         }
 
-        static public Solicitud Find(int id)
+        public Solicitud Find(int id)
         {
-            return ms_ent.SolicitudSet.Find(id);
+            return db_context.SolicitudSet.Find(id);
         }
 
-        static public Solicitud Sanitize(Solicitud s)
+        public Solicitud Sanitize(Solicitud s)
         {
             return Copy(s);
         }
 
-        static public ExpSolicitud PrepareOutgoing(Solicitud s)
+        public ExpSolicitud PrepareOutgoing(Solicitud s)
         {
             ExpSolicitud es = new ExpSolicitud();
             es.id = s.Id;
@@ -52,7 +62,7 @@ namespace ManagerSystem
             return es;
         }
 
-        static public Solicitud GetIncoming(ExpSolicitud es)
+        public Solicitud GetIncoming(ExpSolicitud es)
         {            
             Solicitud s = new Solicitud();
             s.id_en_taller = es.id_en_taller;
@@ -70,7 +80,7 @@ namespace ManagerSystem
             return s;
         }
 
-        static private void UpdateLineaFromExposed(LineaSolicitud ls, ExpSolicitud.Line el)
+        private void UpdateLineaFromExposed(LineaSolicitud ls, ExpSolicitud.Line el)
         {
             ls.id_en_taller = el.id_en_taller;
             ls.quantity = el.quantity;
@@ -78,7 +88,7 @@ namespace ManagerSystem
             ls.flag = el.flag;
         }
 
-        static public void UpdateFromExposed(Solicitud s, ExpSolicitud es)
+        public void UpdateFromExposed(Solicitud s, ExpSolicitud es)
         {
             s.deadline = es.deadline;
             foreach (var el in es.lineas)
@@ -93,24 +103,24 @@ namespace ManagerSystem
                         s.LineasSolicitud.Add(ls);
                         break;
                     case "UPDATED":
-                        ls = ms_ent.LineasSolicitudSet.Find(el.id);
+                        ls = db_context.LineasSolicitudSet.Find(el.id);
                         UpdateLineaFromExposed(ls, el);
                         ls.status = "UPDATED";
                         ls.description = el.description;
                         break;
                     case "DELETED":
-                        ls = ms_ent.LineasSolicitudSet.Find(el.id);
+                        ls = db_context.LineasSolicitudSet.Find(el.id);
                         s.LineasSolicitud.Remove(ls);
                         break;
                 }
             }
         }
 
-        static public List<Solicitud> FindAll()
+        public List<Solicitud> FindAll()
         {
             List<Solicitud> l = new List<Solicitud>();
 
-            var lq_l = from d in ms_ent.SolicitudSet select d;
+            var lq_l = from d in db_context.SolicitudSet select d;
             foreach (var singleDesguace in lq_l)
             {
                 Solicitud s = Copy(singleDesguace);
@@ -119,14 +129,14 @@ namespace ManagerSystem
             return l;
         }
 
-        static public void InsertOrUpdate(Solicitud s)
+        public void InsertOrUpdate(Solicitud s)
         {
             if (s == null) return;
 
             if (s.Id == default(int))
             {
                 // New entity
-                ms_ent.SolicitudSet.Add(s);
+                db_context.SolicitudSet.Add(s);
             }
             else
             {
@@ -135,22 +145,22 @@ namespace ManagerSystem
             }
         }
 
-        static public void Delete(int id)
+        public void Delete(int id)
         {
-            Solicitud s = ms_ent.SolicitudSet.Find(id);
+            Solicitud s = db_context.SolicitudSet.Find(id);
             if (s == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
             s.deleted = true;
         }
 
-        static public void Save()
+        public void Save()
         {
-            ms_ent.SaveChanges();
+            db_context.SaveChanges();
         }
 
-        static public void Dispose()
+        public void Dispose()
         {
-            ms_ent.Dispose();
+            db_context.Dispose();
         }
     }
 }

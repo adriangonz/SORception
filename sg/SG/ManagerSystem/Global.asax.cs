@@ -62,9 +62,11 @@ namespace ManagerSystem
         {
             Logger.Info(String.Format("Received a message from the {0} ActiveMQ Topic", Constants.ActiveMQ.Ofertas_Topic));
             AMQOfertaMessage amqof = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
-            GestionDesguace gDesguace = new GestionDesguace();
+
+            managersystemEntities context = new managersystemEntities();
+            GestionDesguace gDesguace = new GestionDesguace(context);
             Oferta o = gDesguace.processAMQMessage(amqof);
-            GestionTaller gTaller = new GestionTaller();
+            GestionTaller gTaller = new GestionTaller(context);
             gTaller.checkAutoBuy(o);
         }
 

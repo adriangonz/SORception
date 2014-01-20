@@ -11,53 +11,74 @@ namespace ManagerSystem
 {
     public class GestionAdmin : IGestionAdmin
     {
+        private managersystemEntities db_context;
+        private RDesguace r_desguace;
+        private RTaller r_taller;
+
+        public GestionAdmin()
+        {
+            init(new managersystemEntities());
+        }
+
+        public GestionAdmin(managersystemEntities context)
+        {
+            init(context);
+        }
+
+        private void init(managersystemEntities context)
+        {
+            db_context = context;
+            r_desguace = new RDesguace(db_context);
+            r_taller = new RTaller(db_context);
+        }
+
         public List<Desguace> getDesguaces()
         {
-            return Desguace.FindAll();
+            return r_desguace.FindAll();
         }
 
         public List<Taller> getTalleres()
         {
-            return Taller.FindAll();
+            return r_taller.FindAll();
         }
 
         public int activeDesguace(int id, bool active)
         {
-            Desguace d = Desguace.Find(id);
+            Desguace d = r_desguace.Find(id);
             if (d == null)
             {
                 throw new WebFaultException<string>("Desguace not found", HttpStatusCode.NotFound);
             }
             d.active = active;
-            Desguace.InsertOrUpdate(d);
-            Desguace.Save();
+            r_desguace.InsertOrUpdate(d);
+            r_desguace.Save();
             return 1;
         }
 
         public int activeTaller(int id, bool active)
         {
-            Taller t = Taller.Find(id);
+            Taller t = r_taller.Find(id);
             if (t == null)
             {
                 throw new WebFaultException<string>("Taller not found", HttpStatusCode.NotFound);
             }
             t.active = active;
-            Taller.InsertOrUpdate(t);
-            Taller.Save();
+            r_taller.InsertOrUpdate(t);
+            r_taller.Save();
             return 1;
         }
 
         public int deleteTaller(int id)
         {
-            Taller.Delete(id);
-            Taller.Save();
+            r_taller.Delete(id);
+            r_taller.Save();
             return 1;
         }
 
         public int deleteDesguace(int id)
         {
-            Desguace.Delete(id);
-            Desguace.Save();
+            r_desguace.Delete(id);
+            r_desguace.Save();
             return 1;
         }
     }

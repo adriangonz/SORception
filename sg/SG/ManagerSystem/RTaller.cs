@@ -6,11 +6,21 @@ using System.Web;
 
 namespace ManagerSystem
 {
-    public partial class Taller
+    public class RTaller
     {
-        static managersystemEntities ms_ent = new managersystemEntities();
+        public managersystemEntities db_context;
 
-        static private Taller Copy(Taller tmp)
+        public RTaller()
+        {
+            db_context = new managersystemEntities();
+        }
+
+        public RTaller(managersystemEntities context)
+        {
+            db_context = context;
+        }
+
+        private Taller Copy(Taller tmp)
         {
             Taller d = new Taller();
             d.Id = tmp.Id;
@@ -19,7 +29,7 @@ namespace ManagerSystem
             return d;
         }
 
-        static public ExpTaller ToExposed(Taller t)
+        public ExpTaller ToExposed(Taller t)
         {
             ExpTaller et = new ExpTaller();
 
@@ -28,7 +38,7 @@ namespace ManagerSystem
             return et;
         }
 
-        static public Taller FromExposed(ExpTaller et)
+        public Taller FromExposed(ExpTaller et)
         {
             Taller t = new Taller();
 
@@ -37,22 +47,22 @@ namespace ManagerSystem
             return t;
         }
 
-        static public Taller Find(int id)
+        public Taller Find(int id)
         {
-            return ms_ent.TallerSet.Find(id);
+            return db_context.TallerSet.Find(id);
         }
 
-        static public Taller Sanitize(Taller d)
+        public Taller Sanitize(Taller d)
         {
             return Copy(d);
         }
 
 
-        static public List<Taller> FindAll()
+        public List<Taller> FindAll()
         {
             List<Taller> l = new List<Taller>();
 
-            var lq_l = from d in ms_ent.TallerSet select d;
+            var lq_l = from d in db_context.TallerSet select d;
             foreach (var singleTaller in lq_l)
             {
                 Taller d = new Taller();
@@ -65,12 +75,12 @@ namespace ManagerSystem
             return l;
         }
 
-        static public void InsertOrUpdate(Taller taller)
+        public void InsertOrUpdate(Taller taller)
         {
             if (taller.Id == default(int))
             {
                 // New entity
-                ms_ent.TallerSet.Add(taller);
+                db_context.TallerSet.Add(taller);
             }
             else
             {
@@ -83,20 +93,20 @@ namespace ManagerSystem
             }
         }
 
-        static public void Delete(int id)
+        public void Delete(int id)
         {
             Taller t = Find(id);
             t.deleted = true;
         }
 
-        static public void Save()
+        public void Save()
         {
-            ms_ent.SaveChanges();
+            db_context.SaveChanges();
         }
 
-        static public void Dispose()
+        public void Dispose()
         {
-            ms_ent.Dispose();
+            db_context.Dispose();
         }
     }
 }

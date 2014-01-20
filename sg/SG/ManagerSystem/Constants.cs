@@ -10,8 +10,6 @@ namespace ManagerSystem
         // Ensures consistency in the namespace declarations across services
         public const string Namespace = "http://sorception.azurewebsites.net/";
 
-        public static managersystemEntities context = new managersystemEntities();
-
         public class ActiveMQ
         {
             public const string Broker = "failover:tcp://sorceptionjava.cloudapp.net:61616?maximumConnections=1000";

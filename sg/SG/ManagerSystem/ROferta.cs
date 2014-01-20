@@ -5,28 +5,38 @@ using System.Web;
 
 namespace ManagerSystem
 {
-    public partial class Oferta
+    public class ROferta
     {
-        public static managersystemEntities ms_ent = Constants.context;
+        public managersystemEntities db_context;
 
-        static private Oferta Copy(Oferta tmp)
+        public ROferta()
+        {
+            db_context = new managersystemEntities();
+        }
+
+        public ROferta(managersystemEntities context)
+        {
+            db_context = context;
+        }
+
+        private Oferta Copy(Oferta tmp)
         {
             Oferta o = new Oferta();
 
             return o;
         }
 
-        static public Oferta Find(int id)
+        public Oferta Find(int id)
         {
-            return ms_ent.OfertaSet.Find(id);
+            return db_context.OfertaSet.Find(id);
         }
 
-        static public Oferta Sanitize(Oferta o)
+        public Oferta Sanitize(Oferta o)
         {
             return Copy(o);
         }
         
-        static public ExpOferta ToExposed(Oferta oferta)
+        public ExpOferta ToExposed(Oferta oferta)
         {
             ExpOferta out_oferta = new ExpOferta();
 
@@ -53,7 +63,7 @@ namespace ManagerSystem
             return out_oferta;
         }
 
-        static public void UpdateFromExposed(Oferta oferta, ExpOferta exp_oferta)
+        public void UpdateFromExposed(Oferta oferta, ExpOferta exp_oferta)
         {
             foreach (var l_oferta in oferta.LineasOferta)
             {
@@ -65,7 +75,7 @@ namespace ManagerSystem
             {
                 LineaOferta l_oferta = new LineaOferta();
                 l_oferta.id_en_desguace = exp_l_oferta.id_en_desguace;
-                l_oferta.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(exp_l_oferta.linea_solicitud_id);
+                l_oferta.LineaSolicitud = db_context.LineasSolicitudSet.Find(exp_l_oferta.linea_solicitud_id);
                 l_oferta.quantity = exp_l_oferta.quantity;
                 l_oferta.price = exp_l_oferta.price;
                 l_oferta.notes = exp_l_oferta.notes;
@@ -76,7 +86,7 @@ namespace ManagerSystem
             oferta.status = "UPDATED";
         }
 
-        static public Oferta FromExposed(ExpOferta exp_oferta, Desguace d)
+        public Oferta FromExposed(ExpOferta exp_oferta, Desguace d)
         {
             Oferta oferta = new Oferta();
             oferta.DesguaceId = d.Id;
@@ -86,7 +96,7 @@ namespace ManagerSystem
             {
                 LineaOferta l_oferta = new LineaOferta();
                 l_oferta.id_en_desguace = exp_l_oferta.id_en_desguace;
-                l_oferta.LineaSolicitud = ms_ent.LineasSolicitudSet.Find(exp_l_oferta.linea_solicitud_id);
+                l_oferta.LineaSolicitud = db_context.LineasSolicitudSet.Find(exp_l_oferta.linea_solicitud_id);
                 l_oferta.quantity = exp_l_oferta.quantity;
                 l_oferta.price = exp_l_oferta.price;
                 l_oferta.notes = exp_l_oferta.notes;
@@ -100,22 +110,22 @@ namespace ManagerSystem
             return oferta;
         }
 
-        static public List<Oferta> GetOfSolicitud(int solicitud_id)
+        public List<Oferta> GetOfSolicitud(int solicitud_id)
         {
-            return ms_ent.OfertaSet.AsQueryable().Where(o => o.SolicitudId == solicitud_id).ToList();
+            return db_context.OfertaSet.AsQueryable().Where(o => o.SolicitudId == solicitud_id).ToList();
         }
 
-        static public List<Oferta> FindAll()
+        public List<Oferta> FindAll()
         {
-            return ms_ent.OfertaSet.ToList();
+            return db_context.OfertaSet.ToList();
         }
         
-        static public void InsertOrUpdate(Oferta s)
+        public void InsertOrUpdate(Oferta s)
         {
             if (s.Id == default(int))
             {
                 // New entity
-                ms_ent.OfertaSet.Add(s);
+                db_context.OfertaSet.Add(s);
             }
             else
             {
@@ -124,20 +134,20 @@ namespace ManagerSystem
             }
         }
 
-        static public void Delete(int id)
+        public void Delete(int id)
         {
-            Oferta o = ms_ent.OfertaSet.Find(id);
+            Oferta o = db_context.OfertaSet.Find(id);
             o.deleted = true;
         }
 
-        static public void Save()
+        public void Save()
         {
-            ms_ent.SaveChanges();
+            db_context.SaveChanges();
         }
 
-        static public void Dispose()
+        public void Dispose()
         {
-            ms_ent.Dispose();
+            db_context.Dispose();
         }
     }
 }
