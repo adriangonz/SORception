@@ -14,8 +14,7 @@ namespace ManagerSystem
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        static managersystemEntities ms_ent = new managersystemEntities();
-
+        public static managersystemEntities ms_ent = Constants.context;
         public TokenResponse signUp(ExpDesguace ed)
         {
             if (ed != null)
@@ -79,18 +78,37 @@ namespace ManagerSystem
         }
 
         public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o) {
-            processAMQMessage(o);
+
+            o = new AMQOfertaMessage();
+
+            o.desguace_id = "d1fb28d93a179cf2efeb146cc09099b02bbcbabc625bf7f69b5be1722ecf443d";
+            o.oferta = new ExpOferta();
+            o.oferta.id_en_desguace = 123;
+            o.oferta.solicitud_id = 18;
+            o.oferta.lineas = new List<ExpOferta.Line>();
+            ExpOferta.Line linea = new ExpOferta.Line();
+            linea.id_en_desguace = 123;
+            linea.linea_solicitud_id = 9;
+            linea.price = 123;
+            linea.quantity = 100;
+            linea.notes = "";
+            o.oferta.lineas.Add(linea);
+
+            Oferta of = processAMQMessage(o);
+            GestionTaller gt = new GestionTaller();
+            gt.checkAutoBuy(of);
         }
 
-        public void processAMQMessage(AMQOfertaMessage message)
+        public Oferta processAMQMessage(AMQOfertaMessage message)
         {
             Desguace d = Desguace.Find(message.desguace_id);
             int id_en_desguace = message.oferta.id_en_desguace;
-            Oferta o;
+            Oferta o = null;
             switch (message.code)
             {
                 case AMQOfertaMessage.Code.New:
-                    Oferta.InsertOrUpdate(Oferta.FromExposed(message.oferta, d));
+                    o = Oferta.FromExposed(message.oferta, d);
+                    Oferta.InsertOrUpdate(o);
                     Oferta.Save();
                     break;
                 case AMQOfertaMessage.Code.Update:
@@ -99,12 +117,13 @@ namespace ManagerSystem
                     Oferta.InsertOrUpdate(o);
                     Oferta.Save();
                     break;
-                case AMQOfertaMessage.Code.Delete: 
+                case AMQOfertaMessage.Code.Delete:
                     o = ms_ent.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
                     Oferta.Delete(o.Id);
                     Oferta.Save();
                     break;
             }
+            return o;
         }
     }
 }
