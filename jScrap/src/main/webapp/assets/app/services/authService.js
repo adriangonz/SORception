@@ -5,10 +5,10 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	        $http({method: 'POST', url: '/jScrap/api/user/authenticate', data: user}).
 			  success(function(data, status, headers, config) {
 			      $cookies["SessionScrap"] = JSON.stringify(data);
-			      console.log(data+"|plus");
+			      console.log(data);
 			      $http.defaults.headers.common.Authorization = data;
 			    $rootScope.$broadcast('auth.login');
-	       		$location.path("/config");
+	       		$location.path("/orders");
 			  }).
 			  error(function(data, status, headers, config) {
 			  	console.log(status+" | "+data);

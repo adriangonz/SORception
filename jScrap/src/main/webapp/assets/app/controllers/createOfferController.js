@@ -9,6 +9,6 @@ module.controller( "CreateOfferCtrl", [ '$scope','$routeParams', 'Scrap','Auth',
 
 	Auth.isLoggedIn();
 	Scrap.getActualOrder($routeParams.id);
-  	$scope.tmp_offer= {"lines": []};
+  	$scope.tmp_offer = Scrap.tmp_offer = {"lines": [] };
 
 }]);
