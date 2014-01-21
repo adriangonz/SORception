@@ -155,6 +155,19 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
             });
         }
     }
+}]).directive("viewPedidoBtn", ['Taller', '$location', function (Taller, $location) {
+    return {
+        restrict: "A",
+        scope: {
+            pedido: '=viewPedidoBtn'
+        },
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                $location.path("/order-accepted/" + scope.pedido.id);
+                scope.$apply();
+            });
+        }
+    }
 }]);
 
 

@@ -1,0 +1,46 @@
+﻿<h2>Pedido {{actual_pedido.id}}</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Informacion</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Identificador:</td>
+            <td> {{actual_pedido.id}}</td>
+        </tr>
+        <tr>
+            <td>Ref SG:</td>
+            <td>{{actual_pedido.sg_id}}</td>
+        </tr>
+        <tr>
+            <td>Status:</td>
+            <td>{{actual_pedido.status}}</td>
+        </tr>
+        <tr>
+            <td>Modificado:</td>
+            <td>{{actual_pedido.timeStamp}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="linea in actual_pedido.lineas">
+        <tr>
+            <td>{{linea.id}}</td>
+            <td>{{linea.descripcion}}</td>
+            <td>{{linea.cantidad}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -250,6 +250,9 @@
     <Content Include="app\controllers\createOrderController.js" />
     <Content Include="app\controllers\editOrderController.js" />
     <Content Include="app\controllers\orderController.js" />
+    <Content Include="app\controllers\pedidoController.js" />
+    <Content Include="app\controllers\pedidosController.html" />
+    <Content Include="app\controllers\pedidosController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
     <Content Include="app\directives\authDirective.js" />
@@ -265,6 +268,8 @@
     <Content Include="app\templates\main.html" />
     <Content Include="app\templates\order.html" />
     <Content Include="app\templates\orders.html" />
+    <Content Include="app\templates\pedido.html" />
+    <Content Include="app\templates\pedidos.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="BDBerenjena.edmx.sql">
       <SubType>Designer</SubType>
