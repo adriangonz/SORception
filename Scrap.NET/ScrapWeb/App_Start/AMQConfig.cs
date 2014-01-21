@@ -14,10 +14,10 @@ namespace ScrapWeb
 {
     public class AMQConfig
     {
-        public static IConnection Connection { get; private set; }
-        public static ISession Session { get; private set; }
+        public static IConnection Connection { get; set; }
+        public static ISession Session { get; set; }
 
-        private static readonly String amqUrl = "tcp://sorceptionjava.cloudapp.net:61616";
+        public static readonly String AmqUrl = "tcp://sorceptionjava.cloudapp.net:61616";
 
         AMQConfig()
         {
@@ -29,12 +29,10 @@ namespace ScrapWeb
             amqService.createTopicSubscribers();
         }
 
-        internal static void RegisterActiveMQ()
+        public static void RegisterActiveMQ()
         {
-            var factory = new ConnectionFactory(amqUrl);
-            Connection = factory.CreateConnection();
-            Connection.Start();
-            Session = Connection.CreateSession();
+            Connection = null;
+            Session = null;
             // Check if we can create a consumer
             createConsumer();
         }

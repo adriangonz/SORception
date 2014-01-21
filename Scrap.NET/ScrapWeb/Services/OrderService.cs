@@ -30,7 +30,7 @@ namespace ScrapWeb.Services
         public IEnumerable<OrderEntity> getAll()
         {
             return orderRepository
-                .GetAll("rawLines")
+                .Get(t => !t.closed, null, "rawLines")
                 .Where(t => t.lines.Count() > 0);
         }
 
@@ -39,6 +39,21 @@ namespace ScrapWeb.Services
             orderRepository.Insert(orderEntity);
             scrapContext.SaveChanges();
             return orderEntity;
+        }
+
+        public OrderEntity update(OrderEntity orderEntity)
+        {
+            orderRepository.Update(orderEntity);
+            scrapContext.SaveChanges();
+            return orderEntity;
+        }
+
+        public OrderEntity getBySgId(string sgId)
+        {
+            var orderentity = orderRepository.Get(t => t.sgId == sgId, null, null).FirstOrDefault();
+            if(orderentity == null)
+                throw new ServiceException("Order with remote id " + sgId + " was not found", HttpStatusCode.NotFound);
+            return orderentity;
         }
 
         public OrderEntity getById(int id)
