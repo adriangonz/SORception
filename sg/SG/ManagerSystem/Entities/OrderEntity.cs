@@ -15,7 +15,7 @@ namespace ManagerSystem.Entities
         CLOSED
     }
 
-    public class OrderEntity : AbstractEntity
+    public class OrderEntity : BaseEntity
     {
         public OrderStatus status { get; set; }
 

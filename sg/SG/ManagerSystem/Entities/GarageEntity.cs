@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ManagerSystem.Entities
 {
-    public class GarageEntity : AbstractEntity
+    public class GarageEntity : BaseEntity
     {
         public string name { get; set; }
 

@@ -13,7 +13,7 @@ namespace ManagerSystem.Entities
         EXPIRED
     }
 
-    public class TokenEntity : AbstractEntity
+    public class TokenEntity : BaseEntity
     {
         public string token { get; set; }
 

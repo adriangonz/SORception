@@ -14,7 +14,7 @@ namespace ManagerSystem.Entities
         CLOSED
     }
 
-    public class OfferEntity : AbstractEntity
+    public class OfferEntity : BaseEntity
     {
         public OfferStatus status { get; set; }
 

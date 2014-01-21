@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ManagerSystem.Entities
 {
-    public abstract class AbstractEntity
+    public abstract class BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

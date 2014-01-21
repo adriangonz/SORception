@@ -14,7 +14,7 @@ namespace ManagerSystem.Entities
         COMPLETE
     }
 
-    public class OfferLineEntity : AbstractEntity
+    public class OfferLineEntity : BaseEntity
     {
         public OfferLineStatus status { get; set; }
 

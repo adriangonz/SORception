@@ -23,7 +23,7 @@ namespace ManagerSystem.Entities
         NEWEST
     }
 
-    public class OrderLineEntity : AbstractEntity
+    public class OrderLineEntity : BaseEntity
     {
         public int quantity { get; set; }
 

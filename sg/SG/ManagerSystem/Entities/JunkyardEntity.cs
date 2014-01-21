@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ManagerSystem.Entities
 {
-    public class JunkyardEntity : AbstractEntity
+    public class JunkyardEntity : BaseEntity
     {
         public string name { get; set; }
 
