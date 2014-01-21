@@ -442,6 +442,15 @@ namespace ManagerSystem
                 {
                     SendPedido(entry.Key, entry.Value);
                 }
+
+                // Avisar a todos de que se cierra la solicitud
+                AMQSolicitudMessage close_msg = new AMQSolicitudMessage();
+                close_msg.code = AMQSolicitudMessage.Code.Closed;
+                close_msg.solicitud = new ExpSolicitud
+                {
+                    id = s.Id
+                };
+                SendMessage(close_msg);
             }
         }
 

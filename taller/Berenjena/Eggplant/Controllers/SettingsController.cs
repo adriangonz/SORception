@@ -102,7 +102,7 @@ namespace Berenjena.Controllers
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Algo ha ido mal en el SG");
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Algo ha ido mal en el SG: "+tr.status);
                     }
                 }
                 else if (token.state == ACTIVE)
