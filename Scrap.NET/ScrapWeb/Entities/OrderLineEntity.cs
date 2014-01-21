@@ -1,4 +1,5 @@
-﻿using ScrapWeb.DataAccess;
+﻿using Newtonsoft.Json;
+using ScrapWeb.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +29,7 @@ namespace ScrapWeb.Entities
         [ForeignKey("orderId")]
         public virtual OrderEntity order { get; set; }
 
+        [JsonIgnore]
         [InverseProperty("orderLine")]
         public virtual ICollection<OfferLineEntity> offerLines { get; set; }
 

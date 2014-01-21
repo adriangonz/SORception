@@ -38,8 +38,9 @@ namespace ScrapWeb.Controllers
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public OfferEntity Put(int id, OfferPostDTO value)
         {
+            return offerService.update(id, value);
         }
 
         // DELETE api/<controller>/5

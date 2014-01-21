@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ namespace ScrapWeb.Entities
 
         public Double price { get; set; }
 
+        [JsonIgnore]
         [DefaultValue("false")]
         public bool deleted { get; set; }
 
@@ -29,6 +31,6 @@ namespace ScrapWeb.Entities
 
         [Required]
         [ForeignKey("orderLineId")]
-        public OrderLineEntity orderLine { get; set; }
+        public virtual OrderLineEntity orderLine { get; set; }
     }
 }

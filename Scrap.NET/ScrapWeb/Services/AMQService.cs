@@ -98,7 +98,7 @@ namespace ScrapWeb.Services
 
             // Get lines
             var lineas = new List<ExpOfertaLine>();
-            foreach (var line in offerEntity.lines) 
+            foreach (var line in offerEntity.rawLines) 
             {
                 lineas.Add(new ExpOfertaLine 
                 { 
