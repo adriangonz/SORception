@@ -306,7 +306,7 @@ namespace ManagerSystem
                 {
                     ExpPedido.Line linea_ped = new ExpPedido.Line();
                     linea_ped.quantity = linea.quantity;
-                    linea_ped.linea_oferta_id = linea.LineaOferta.Id;
+                    linea_ped.linea_oferta_id = linea.LineaOferta.id_en_desguace;
                     pedido.lineas.Add(linea_ped);
                 }
 
