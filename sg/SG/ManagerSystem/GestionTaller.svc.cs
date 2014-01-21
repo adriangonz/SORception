@@ -382,21 +382,24 @@ namespace ManagerSystem
             }
             db_context.SaveChanges();
 
-            ExpPedido pedido = new ExpPedido();
-            pedido.oferta_id = o.Id;
-            pedido.lineas = new List<ExpPedido.Line>();
-            foreach (var linea in pedidas_ahora)
+            if (pedidas_ahora.Count > 0)
             {
-                ExpPedido.Line linea_ped = new ExpPedido.Line();
-                linea_ped.quantity = linea.quantity;
-                linea_ped.linea_oferta_id = linea.LineaOferta.Id;
-                pedido.lineas.Add(linea_ped);
-            }
+                ExpPedido pedido = new ExpPedido();
+                pedido.oferta_id = o.Id;
+                pedido.lineas = new List<ExpPedido.Line>();
+                foreach (var linea in pedidas_ahora)
+                {
+                    ExpPedido.Line linea_ped = new ExpPedido.Line();
+                    linea_ped.quantity = linea.quantity;
+                    linea_ped.linea_oferta_id = linea.LineaOferta.Id;
+                    pedido.lineas.Add(linea_ped);
+                }
 
-            AMQPedidoMessage message = new AMQPedidoMessage();
-            message.pedido = pedido;
-            message.desguace_id = db_context.TokenSet.First(t => t.is_valid && t.DesguaceId == o.DesguaceId).token;
-            SendMessage(message);
+                AMQPedidoMessage message = new AMQPedidoMessage();
+                message.pedido = pedido;
+                message.desguace_id = db_context.TokenSet.First(t => t.is_valid && t.DesguaceId == o.DesguaceId).token;
+                SendMessage(message);
+            }
         }
 
         public void runJob(AMQScheduledJob job)
