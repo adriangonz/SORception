@@ -22,92 +22,36 @@ namespace ManagerSystem
         private RToken r_token;
         private ROferta r_oferta;
 
-
-
-        public GestionDesguace()
+        private JunkyardService junkyard_service = null;
+        private JunkyardService junkyardService
         {
-            init(null);
+            get
+            {
+                if (this.junkyard_service == null)
+                    this.junkyard_service = new JunkyardService();
+                return this.junkyard_service;
+            }
         }
 
-        public GestionDesguace(managersystemEntities context)
+        private TokenService token_service = null;
+        private TokenService tokenService
         {
-            init(context);
-        }
-
-        private void init(managersystemEntities context)
-        {
-            db_context = context;
-            r_desguace = new RDesguace(db_context);
-            r_token = new RToken(db_context);
-            r_oferta = new ROferta(db_context);
+            get
+            {
+                if (this.token_service == null)
+                    this.token_service = new TokenService();
+                return this.token_service;
+            }
         }
 
         public TokenResponse signUp(ExpDesguace ed)
         {
-            using (var unitOfWork = new UnitOfWork())
-            {
-                if (ed != null)
-                {
-                    JunkyardEntity junkyard = new JunkyardEntity();
-                    junkyard.name = ed.name;
-                    junkyard.tokens.Add(TokenService.createToken(TokenType.TEMPORAL));
-
-                    unitOfWork.JunkyardRepository.Insert(junkyard);
-
-                    unitOfWork.Save();
-
-                    return new TokenResponse(junkyard.current_token, TokenResponse.Code.ACCEPTED);
-                }
-                return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
-            }
+            return junkyardService.createJunkyard(ed);
         }
 
         public TokenResponse getState(string token_string)
         {
-            using (var unitOfWork = new UnitOfWork())
-            {
-                if (token_string == null || token_string == "")
-                    return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
-
-                TokenEntity token;
-                try
-                {
-                    token = unitOfWork.TokenRepository.Get(t => t.token == token_string).First();
-                }
-                catch (InvalidOperationException)
-                {
-                    return new TokenResponse("", TokenResponse.Code.NOT_FOUND);
-                }
-
-                if (token.junkyard == null)
-                    return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
-
-                if (token.status == TokenStatus.EXPIRED)
-                    return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
-
-                if (token.type == TokenType.FINAL)
-                    return new TokenResponse(token.token, TokenResponse.Code.CREATED);
-
-                TokenResponse.Code code;
-
-                token.status = TokenStatus.EXPIRED;
-                TokenEntity new_token;
-                if (token.junkyard.status == JunkyardStatus.ACTIVE)
-                {
-                    new_token = TokenService.createToken(TokenType.FINAL);
-                    code = TokenResponse.Code.CREATED;
-                }
-                else
-                {
-                    new_token = TokenService.createToken(TokenType.TEMPORAL);
-                    code = TokenResponse.Code.NON_AUTHORITATIVE;
-                }
-                new_token.junkyard = token.junkyard;
-
-                unitOfWork.Save();
-
-                return new TokenResponse(token.token, code);
-            }
+            return tokenService.validateToken(token_string);
         }
 
         public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) {
