@@ -26,9 +26,10 @@ namespace ScrapWeb.Services
         {
             get 
             {
-                if(_topicPublisher == null && AMQConfig.Session != null && AMQConfig.Connection != null) 
+                if(_topicPublisher == null) 
                 {
-                    _topicPublisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, destination);
+                    if (AMQConfig.Session != null && AMQConfig.Connection != null)
+                        _topicPublisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, destination);
                 }
                 return _topicPublisher;
             }
@@ -71,15 +72,7 @@ namespace ScrapWeb.Services
 
         private void initAMQConfig(TokenEntity validToken)
         {
-            if (AMQConfig.Connection != null)
-                AMQConfig.Connection.Dispose();
-            if (AMQConfig.Session != null)
-                AMQConfig.Session.Dispose();
-            if (topicPublisher != null) 
-            {
-                topicPublisher.Dispose();
-                topicPublisher = null;
-            }
+            closeConnections();
             var factory = new ConnectionFactory(AMQConfig.AmqUrl);
             var connection = factory.CreateConnection();
             connection.ClientId = validToken.token;
@@ -89,8 +82,28 @@ namespace ScrapWeb.Services
             AMQConfig.Session = session;
         }
 
+        private void closeConnections()
+        {
+            if (AMQConfig.Connection != null)
+            {
+                AMQConfig.Connection.Dispose();
+                AMQConfig.Connection = null;
+            }
+            if (AMQConfig.Session != null)
+            {
+                AMQConfig.Session.Dispose();
+                AMQConfig.Session = null;
+            }
+            if (topicPublisher != null)
+            {
+                topicPublisher.Dispose();
+                topicPublisher = null;
+            }
+        }
+
         public void destroyTopicSubscribers()
         {
+            closeConnections();
             destroyTopicSubscriber(topicSubscriberPedidos);
             destroyTopicSubscriber(topicSubscriberSolicitudes);
         }
