@@ -29,6 +29,6 @@ namespace ScrapWeb.Entities
 
         [Required]
         [ForeignKey("orderLineId")]
-        public virtual OrderLineEntity orderLine { get; set; }
+        public OrderLineEntity orderLine { get; set; }
     }
 }

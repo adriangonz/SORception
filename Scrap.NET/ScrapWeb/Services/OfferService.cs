@@ -13,6 +13,7 @@ namespace ScrapWeb.Services
     public class OfferService
     {
         private GenericRepository<OfferEntity> offerRepository;
+        private GenericRepository<OfferLineEntity> offerLineRepository;
         private ScrapContext scrapContext;
         private OrderService orderService;
         private AMQService amqService;
@@ -21,13 +22,14 @@ namespace ScrapWeb.Services
         {
             scrapContext = new ScrapContext();
             offerRepository = new GenericRepository<OfferEntity>(scrapContext);
+            offerLineRepository = new GenericRepository<OfferLineEntity>(scrapContext);
             orderService = new OrderService(scrapContext);
             amqService = new AMQService();
         }
 
         public IEnumerable<OfferEntity> getAll()
         {
-            return offerRepository.GetAll("lines");
+            return offerRepository.Get(t => !t.deleted, null, "lines");
         }
 
         public OfferEntity save(DTO.OfferPostDTO offer)
@@ -63,7 +65,7 @@ namespace ScrapWeb.Services
 
         public OfferEntity getById(int id)
         {
-            OfferEntity offer = offerRepository.GetByID(id);
+            OfferEntity offer = offerRepository.Get(t => t.id == id && !t.deleted, null, "lines").FirstOrDefault();
             if (offer == null)
                 throw new ServiceException("Offer with id " + id + " was not found", HttpStatusCode.NotFound);
             return offer;
@@ -71,7 +73,16 @@ namespace ScrapWeb.Services
 
         public void delete(int id)
         {
-            offerRepository.Delete(this.getById(id));
+            var offerEntity = this.getById(id);
+            offerEntity.deleted = true;
+            offerRepository.Update(offerEntity);
+            foreach (var line in offerEntity.lines) 
+            {
+                var modifiedline = offerLineRepository.Get(t => t.id == id && !t.deleted, null, "orderLine").FirstOrDefault();
+                modifiedline.deleted = true;
+                offerLineRepository.Update(modifiedline);
+            }
+            scrapContext.SaveChanges();
         }
     }
 }
