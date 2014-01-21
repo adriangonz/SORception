@@ -1,8 +1,10 @@
 module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScope, $http, $timeout) {
     var service = {
         orders: [],
+        pedidos: [],
         tmp_order: { "data": [] },
         actual_order: undefined,
+        actual_pedido: undefined,
         pedido: { "lineas": [], "solicitud": 0 },
 
         addLine: function (line) {
@@ -121,6 +123,31 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
              });
             service.pedido = { "lineas": [], "solicitud": 0 };
         },
+
+        getPedidos: function () {
+            $http({ method: 'GET', url: '/api/pedido' }).
+              success(function (data, status, headers, config) {
+                  service.pedidos = data;
+                  console.log(data);
+                  $rootScope.$broadcast('pedidos.update');
+              }).
+              error(function (data, status, headers, config) {
+                  alert(status + " | " + data);
+              });
+        },
+
+        getPedido: function (id) {
+            $http({ method: 'GET', url: '/api/pedido/' + id }).
+                success(function (data, status, headers, config) {
+                    service.actual_pedido = data;
+                    console.log(data);
+                    $rootScope.$broadcast('actual_pedido.update');
+                }).
+                error(function (data, status, headers, config) {
+                    alert(status + " | " + data);
+                });
+        },
+
     }
 
     return service;
