@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using ScrapWeb.Webservices;
+using Apache.NMS.ActiveMQ;
 
 namespace ScrapWeb.Services
 {
@@ -25,7 +26,7 @@ namespace ScrapWeb.Services
         {
             get 
             {
-                if(_topicPublisher == null) 
+                if(_topicPublisher == null && AMQConfig.Session != null && AMQConfig.Connection != null) 
                 {
                     _topicPublisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, destination);
                 }
@@ -56,6 +57,8 @@ namespace ScrapWeb.Services
         public void createTopicSubscribers(TokenEntity validToken)
         {
             Trace.WriteLine("Valid token found! Enabling topic subscribers...");
+            // Create Session and Connection
+            initAMQConfig(validToken);
             // Creating subscriber to solicitudes
             topicSubscriberSolicitudes = new TopicSubscriber(AMQConfig.Session, originSolicitudes);
             topicSubscriberSolicitudes.OnMessageReceived += topicSubscriberSolicitudes_OnMessageReceived;
@@ -64,6 +67,26 @@ namespace ScrapWeb.Services
             topicSubscriberPedidos.OnMessageReceived += topicSubscriberPedidos_OnMessageReceived;
             topicSubscriberSolicitudes.Start(validToken.token + "@Solicitudes");
             topicSubscriberPedidos.Start(validToken.token + "@Pedidos");
+        }
+
+        private void initAMQConfig(TokenEntity validToken)
+        {
+            if (AMQConfig.Connection != null)
+                AMQConfig.Connection.Dispose();
+            if (AMQConfig.Session != null)
+                AMQConfig.Session.Dispose();
+            if (topicPublisher != null) 
+            {
+                topicPublisher.Dispose();
+                topicPublisher = null;
+            }
+            var factory = new ConnectionFactory(AMQConfig.AmqUrl);
+            var connection = factory.CreateConnection();
+            connection.ClientId = validToken.token;
+            connection.Start();
+            var session = connection.CreateSession();
+            AMQConfig.Connection = connection;
+            AMQConfig.Session = session;
         }
 
         public void destroyTopicSubscribers()
@@ -85,10 +108,22 @@ namespace ScrapWeb.Services
         {
             AMQSolicitudMessage solicitudMessage = 
                 (AMQSolicitudMessage)topicSubscriberSolicitudes.FromXML(message, (new AMQSolicitudMessage()).GetType());
-            OrderEntity orderEntity = toOrder(solicitudMessage);
-            Trace.WriteLine("Received order with remote id " + orderEntity.sgId);
+            Trace.WriteLine("Received order with remote id " + solicitudMessage.solicitud.id + " and code " + solicitudMessage.code);
             OrderService orderService = new OrderService();
-            orderService.save(orderEntity);
+            OrderEntity orderEntity;
+            switch (solicitudMessage.code)
+            {
+                case AMQSolicitudMessageCode.New:
+                    orderEntity = toOrder(solicitudMessage);
+                    orderService.save(orderEntity);
+                    break;
+                case AMQSolicitudMessageCode.Closed:
+                    orderEntity = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
+                    orderEntity.closed = true;
+                    orderService.update(orderEntity);
+                    break;
+            }
+            
         }
 
         void topicSubscriberPedidos_OnMessageReceived(string message)

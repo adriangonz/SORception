@@ -46,6 +46,7 @@
       <xs:enumeration value="New" />
       <xs:enumeration value="Update" />
       <xs:enumeration value="Delete" />
+      <xs:enumeration value="Closed" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="AMQSolicitudMessage.Code" nillable="true" type="tns:AMQSolicitudMessage.Code" />
