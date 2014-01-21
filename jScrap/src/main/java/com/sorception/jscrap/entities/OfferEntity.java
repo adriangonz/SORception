@@ -64,6 +64,7 @@ public class OfferEntity extends AbstractEntity {
 		return this._deleted;
 	}
 	
+	@JsonIgnore
 	public List<OfferLineEntity> getAccepted() {
 		List<OfferLineEntity> accepted = new ArrayList<>();
 		for(OfferLineEntity line : getLines()) {
