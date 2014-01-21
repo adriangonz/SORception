@@ -99,8 +99,8 @@ namespace ManagerSystem
             return new TokenResponse(new_token, status);
         }
 
-        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o) {
-            
+        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) {
+            /*
             o = new AMQOfertaMessage();
 
             o.desguace_id = "d1fb28d93a179cf2efeb146cc09099b02bbcbabc625bf7f69b5be1722ecf443d";
@@ -118,7 +118,7 @@ namespace ManagerSystem
             
             Oferta of = processAMQMessage(o);
             GestionTaller gt = new GestionTaller(db_context);
-            gt.checkAutoBuy(of);
+            gt.checkAutoBuy(of);*/
         }
 
         public Oferta processAMQMessage(AMQOfertaMessage message)
