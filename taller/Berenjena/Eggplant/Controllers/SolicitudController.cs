@@ -135,7 +135,7 @@ namespace Eggplant.Controllers
             }
             ExpSolicitud sol = new ExpSolicitud();
             sol.id_en_taller = s.Id;
-            sol.deadline = DateTime.Now.AddDays(14);
+            sol.deadline = DateTime.Parse(values["deadline"].ToString());
             sol.lineas = lineas.ToArray();
 
 
