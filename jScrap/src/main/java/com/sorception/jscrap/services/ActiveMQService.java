@@ -19,7 +19,10 @@ public class ActiveMQService {
 	final static Logger logger = LoggerFactory.getLogger(ActiveMQService.class);
 	
     @Autowired
-    DefaultMessageListenerContainer jmsContainer;
+    DefaultMessageListenerContainer pedidosContainer;
+    
+    @Autowired
+    DefaultMessageListenerContainer solicitudesContainer;
     
     @Autowired
     OfertasSender ofertasSender;
@@ -27,12 +30,14 @@ public class ActiveMQService {
     @Autowired
     ActiveMQConfig amqConfig;
 	
-    public void enableJmsContainer(TokenEntity tokenEntity) {
-    	amqConfig.enableJmsContainer(jmsContainer, tokenEntity);
+    public void enableJmsContainers(TokenEntity tokenEntity) {
+    	amqConfig.enableJmsContainer(pedidosContainer, tokenEntity, "Pedidos");
+    	amqConfig.enableJmsContainer(solicitudesContainer, tokenEntity, "Solicitudes");
     }
     
-    public void disableJmsContainer() {
-    	amqConfig.disableJmsContainer(jmsContainer);
+    public void disableJmsContainers() {
+    	amqConfig.disableJmsContainer(pedidosContainer);
+    	amqConfig.disableJmsContainer(solicitudesContainer);
     }
     
     public void sendNewOffer(OfferEntity offer, TokenEntity token) {

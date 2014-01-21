@@ -11,7 +11,7 @@ import com.sorception.jscrap.entities.SettingsEntity;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.entities.TokenEntity.TokenStatus;
 import com.sorception.jscrap.error.ResourceNotFoundException;
-import com.sorception.jscrap.generated.ExposedDesguace;
+import com.sorception.jscrap.generated.ExpDesguace;
 import com.sorception.jscrap.generated.GetState;
 import com.sorception.jscrap.generated.GetStateResponse;
 import com.sorception.jscrap.generated.ObjectFactory;
@@ -53,10 +53,10 @@ public class SGClient extends WebServiceGatewaySupport {
     @Autowired
     WebServiceTemplate webServiceTemplate;
     
-    private ExposedDesguace desguace() {
+    private ExpDesguace desguace() {
         SettingsEntity settings = settingsService.getGlobalSettings();
-        ExposedDesguace desguace = objectFactory.createExposedDesguace();
-        desguace.setName(objectFactory.createExposedDesguaceName(settings.getName()));
+        ExpDesguace desguace = objectFactory.createExpDesguace();
+        desguace.setName(objectFactory.createExpDesguaceName(settings.getName()));
         return desguace;
     }
     
