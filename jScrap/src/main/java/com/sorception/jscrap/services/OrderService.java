@@ -27,7 +27,7 @@ public class OrderService {
 		List<OrderEntity> orders = orderDAO.list();
 		List<OrderEntity> validOrders = new ArrayList<>();
 		for(OrderEntity order : orders) {
-			if(!order.getLines().isEmpty())
+			if(!order.getLines().isEmpty() && !order.isClosed())
 				validOrders.add(order);
 		}
 		
@@ -59,5 +59,14 @@ public class OrderService {
 			throw new ResourceNotFoundException("OrderLine with id " + 
 					Long.toString(orderLineId) + " not found");
 		return orderLine;
+	}
+
+	public OrderEntity getOrderBySgId(String id) {
+		// TODO Auto-generated method stub
+		return orderDAO.getBySgId(id);
+	}
+
+	public OrderEntity updateOrder(OrderEntity order) {
+		return orderDAO.update(order);
 	}
 }

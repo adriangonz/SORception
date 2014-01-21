@@ -21,6 +21,9 @@ public class OrderEntity extends AbstractEntity {
 	@Column(name = "sgId")
 	private String _sgId;
 	
+	@Column(name = "closed")
+	private Boolean _closed = false;
+	
 	@OneToMany(mappedBy = "_order", 
 			fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL)
@@ -60,7 +63,15 @@ public class OrderEntity extends AbstractEntity {
 		return lines;
 	}
 	
+	public Boolean isClosed() {
+		return _closed;
+	}
+	
 	public void setDeadline(Date deadline) {
 		this._deadline = deadline;
+	}
+
+	public void setClosed(boolean closed) {
+		_closed = closed;
 	}
 }
