@@ -1,5 +1,6 @@
 package com.sorception.jscrap.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,7 +24,14 @@ public class OrderService {
 	private OrderDAO orderDAO;
 	
 	public List<OrderEntity> getAllOrders() {
-		return orderDAO.list();
+		List<OrderEntity> orders = orderDAO.list();
+		List<OrderEntity> validOrders = new ArrayList<>();
+		for(OrderEntity order : orders) {
+			if(!order.getLines().isEmpty())
+				validOrders.add(order);
+		}
+		
+		return validOrders;
 	}
 	
 	public OrderEntity addOrder(String sgId, 

@@ -20,16 +20,9 @@ public class OrderDAO {
     EntityManager entityManager;
 	
 	public List<OrderEntity> list() {
-		List<OrderEntity> orders = this.entityManager
+		return this.entityManager
 				.createQuery("FROM OrderEntity ORDER BY creationDate DESC")
 				.getResultList();
-		List<OrderEntity> validOrders = new ArrayList<>();
-		for(OrderEntity order : orders) {
-			if(!order.getLines().isEmpty())
-				validOrders.add(order);
-		}
-		
-		return validOrders;
 	}
 	
 	public OrderEntity save(OrderEntity orderEntity) {
