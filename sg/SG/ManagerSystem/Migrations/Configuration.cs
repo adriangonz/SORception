@@ -10,7 +10,6 @@ namespace ManagerSystem.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "ManagerSystem.DataAccess.MSContext";
         }
 
         protected override void Seed(ManagerSystem.DataAccess.MSContext context)
