@@ -64,7 +64,7 @@ public class OrderEntity extends AbstractEntity {
 	}
 	
 	public Boolean isClosed() {
-		return _closed;
+		return _closed != null ? _closed : false;
 	}
 	
 	public void setDeadline(Date deadline) {
