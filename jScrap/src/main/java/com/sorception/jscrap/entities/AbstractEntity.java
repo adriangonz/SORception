@@ -21,15 +21,18 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  *
  * @author kaseyo
  */
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class AbstractEntity extends IdentifiableEntity implements Serializable {
+public abstract class AbstractEntity implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue
@@ -65,5 +68,9 @@ public abstract class AbstractEntity extends IdentifiableEntity implements Seria
     
     public Long getId() {
         return _id;
+    }
+    
+    public void setId(Long id) {
+    	_id = id;
     }
 }
