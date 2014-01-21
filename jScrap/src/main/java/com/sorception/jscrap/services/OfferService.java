@@ -90,6 +90,15 @@ public class OfferService {
 	public OrderEntity getOrder(OfferEntity offer) {
 		return offerDAO.getOrder(offer);
 	}
+
+	public List<OfferEntity> getAccepted() {
+		List<OfferEntity> validOffers = new ArrayList<>();
+		for(OfferEntity offer : getAllOffers()) {
+			if(offer.getAccepted().size() > 0)
+				validOffers.add(offer);
+		}
+		return validOffers;
+	}
 	
 	/* END OF NYAPICA */
 }
