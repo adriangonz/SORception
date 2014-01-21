@@ -9,19 +9,27 @@ namespace ManagerSystem.Entities
     public enum TokenStatus
     {
         VALID,
-        TEMPORAL,
         EXPIRED
+    }
+
+    public enum TokenType
+    {
+        TEMPORAL,
+        FINAL
     }
 
     public class TokenEntity : BaseEntity
     {
+
         public string token { get; set; }
 
         public TokenStatus status { get; set; }
 
-        public int junkyard_id { get; set; }
+        public TokenType type { get; set; }
 
-        public int garage_id { get; set; }
+        public int? junkyard_id { get; set; }
+
+        public int? garage_id { get; set; }
 
         [ForeignKey("junkyard_id")]
         public virtual JunkyardEntity junkyard { get; set; }

@@ -10,6 +10,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using ManagerSystem.DataAccess;
 using ManagerSystem.Entities;
+using ManagerSystem.Services;
 
 namespace ManagerSystem
 {
@@ -47,75 +48,66 @@ namespace ManagerSystem
             {
                 if (ed != null)
                 {
-                    string junkyard_name = ed.name;
-
-                    JunkyardEntity junkyard = new JunkyardEntity
-                    {
-                        name = junkyard_name
-                    };
+                    JunkyardEntity junkyard = new JunkyardEntity();
+                    junkyard.name = ed.name;
+                    junkyard.tokens.Add(TokenService.createToken(TokenType.TEMPORAL));
 
                     unitOfWork.JunkyardRepository.Insert(junkyard);
 
                     unitOfWork.Save();
 
-                    /*
-                    Desguace d = r_desguace.FromExposed(ed);
-                    d.active = false;
-
-                    Token t = r_token.getToken();
-                    d.Tokens.Add(t);
-
-                    r_desguace.InsertOrUpdate(d);
-                    r_desguace.Save();
-                    return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);*/
+                    return new TokenResponse(junkyard.current_token, TokenResponse.Code.ACCEPTED);
                 }
                 return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
             }
         }
 
-        public TokenResponse getState(string token)
+        public TokenResponse getState(string token_string)
         {
-            string new_token = "";
-            TokenResponse.Code status;
-            if (token != null && token != "")
+            using (var unitOfWork = new UnitOfWork())
             {
-                Token t = r_token.Find(token);
-                if (t != null)
+                if (token_string == null || token_string == "")
+                    return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
+
+                TokenEntity token;
+                try
                 {
-                    if (t.is_valid)
-                    {
-                        Desguace d = r_desguace.Find(t.Desguace.Id);
-                        if (d.active)
-                        {
-                            // El desgauce ya esta activo
-                            status = TokenResponse.Code.CREATED;
-                        }
-                        else
-                        {
-                            // EL desguace no esta activo
-                            status = TokenResponse.Code.NON_AUTHORITATIVE;
-                        }
-                        new_token = r_token.RegenerateToken(t);
-                    }
-                    else
-                    {
-                        // EL token ha expirado
-                        status = TokenResponse.Code.BAD_REQUEST;
-                    }
+                    token = unitOfWork.TokenRepository.Get(t => t.token == token_string).First();
+                }
+                catch (InvalidOperationException)
+                {
+                    return new TokenResponse("", TokenResponse.Code.NOT_FOUND);
+                }
+
+                if (token.junkyard == null)
+                    return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
+
+                if (token.status == TokenStatus.EXPIRED)
+                    return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
+
+                if (token.type == TokenType.FINAL)
+                    return new TokenResponse(token.token, TokenResponse.Code.CREATED);
+
+                TokenResponse.Code code;
+
+                token.status = TokenStatus.EXPIRED;
+                TokenEntity new_token;
+                if (token.junkyard.status == JunkyardStatus.ACTIVE)
+                {
+                    new_token = TokenService.createToken(TokenType.FINAL);
+                    code = TokenResponse.Code.CREATED;
                 }
                 else
                 {
-                    // El token no existe
-                    status = TokenResponse.Code.NOT_FOUND;
+                    new_token = TokenService.createToken(TokenType.TEMPORAL);
+                    code = TokenResponse.Code.NON_AUTHORITATIVE;
                 }
-            }
-            else
-            {
-                // No se le ha pasado un token
-                status = TokenResponse.Code.BAD_REQUEST;
-            }
+                new_token.junkyard = token.junkyard;
 
-            return new TokenResponse(new_token, status);
+                unitOfWork.Save();
+
+                return new TokenResponse(token.token, code);
+            }
         }
 
         public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) {

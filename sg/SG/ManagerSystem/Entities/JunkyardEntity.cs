@@ -6,18 +6,32 @@ using System.Web;
 
 namespace ManagerSystem.Entities
 {
+    public enum JunkyardStatus
+    {
+        CREATED,
+        ACTIVE
+    }
+
     public class JunkyardEntity : BaseEntity
     {
+
+        public JunkyardEntity()
+        {
+            this.tokens = new List<TokenEntity>();
+        }
+
         public string name { get; set; }
+
+        public JunkyardStatus status { get; set; }
 
         [InverseProperty("junkyard")]
         public virtual ICollection<TokenEntity> tokens { get; set; }
 
-        public virtual TokenEntity token
+        public virtual string current_token
         {
             get
             {
-                return tokens.First(t => t.status == TokenStatus.TEMPORAL || t.status == TokenStatus.VALID);
+                return tokens.First(t => t.status == TokenStatus.VALID).token;
             }
         }
 

@@ -6,18 +6,32 @@ using System.Web;
 
 namespace ManagerSystem.Entities
 {
+    public enum GarageStatus
+    {
+        CREATED,
+        ACTIVE
+    }
+
     public class GarageEntity : BaseEntity
     {
+
+        public GarageEntity()
+        {
+            this.tokens = new List<TokenEntity>();
+        }
+
         public string name { get; set; }
+
+        public GarageStatus status { get; set; }
 
         [InverseProperty("garage")]
         public virtual ICollection<TokenEntity> tokens { get; set; }
 
-        public virtual TokenEntity token
+        public virtual string current_token
         {
             get
             {
-                return tokens.First(t => t.status == TokenStatus.TEMPORAL || t.status == TokenStatus.VALID);
+                return tokens.First(t => t.status == TokenStatus.VALID).token;
             }
         }
 

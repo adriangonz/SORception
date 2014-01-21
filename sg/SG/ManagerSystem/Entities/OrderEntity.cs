@@ -17,6 +17,11 @@ namespace ManagerSystem.Entities
 
     public class OrderEntity : BaseEntity
     {
+        public OrderEntity()
+        {
+            this.lines = new List<OrderLineEntity>();
+        }
+
         public OrderStatus status { get; set; }
 
         public int corresponding_id { get; set; }
@@ -31,8 +36,5 @@ namespace ManagerSystem.Entities
 
         [InverseProperty("order")]
         public ICollection<OrderLineEntity> lines { get; set; }
-        /*
-        [InverseProperty("order")]
-        public virtual ICollection<OfferEntity> offers { get; set; }*/
     }
 }

@@ -29,11 +29,11 @@ namespace ManagerSystem.Entities
         public OfferEntity offer { get; set; }
 
         public int order_line_id { get; set; }
-
+        
         [Required]
         [ForeignKey("order_line_id")]
         public OrderLineEntity order_line { get; set; }
-
+        
         public int selected_ammount { get; set; }
     }
 }

@@ -25,6 +25,10 @@ namespace ManagerSystem.Entities
 
     public class OrderLineEntity : BaseEntity
     {
+        public OrderLineEntity()
+        {
+            this.offers = new List<OfferLineEntity>();
+        }
         public int quantity { get; set; }
 
         public string description { get; set; }
@@ -38,10 +42,10 @@ namespace ManagerSystem.Entities
         [Required]
         [ForeignKey("order_id")]
         public OrderEntity order { get; set; }
-
+        
         [InverseProperty("order_line")]
         public virtual ICollection<OfferLineEntity> offers { get; set; }
-
+        /*
         public virtual ICollection<OfferLineEntity> selected_offers
         {
             get
@@ -56,6 +60,6 @@ namespace ManagerSystem.Entities
             {
                 return selected_offers.Sum(o => o.selected_ammount);
             }
-        }
+        }*/
     }
 }
