@@ -18,10 +18,9 @@ import com.sorception.jscrap.entities.OfferLineEntity;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.generated.AMQOfertaMessage;
 import com.sorception.jscrap.generated.AMQOfertaMessageCode;
-import com.sorception.jscrap.generated.ArrayOfExposedLineaOferta;
-import com.sorception.jscrap.generated.ArrayOfExposedLineaSolicitud;
-import com.sorception.jscrap.generated.ExposedLineaOferta;
-import com.sorception.jscrap.generated.ExposedOferta;
+import com.sorception.jscrap.generated.ArrayOfExpOfertaLine;
+import com.sorception.jscrap.generated.ExpOferta;
+import com.sorception.jscrap.generated.ExpOfertaLine;
 import com.sorception.jscrap.generated.ObjectFactory;
 import com.sorception.jscrap.services.OfferService;
 import com.sorception.jscrap.services.OrderService;
@@ -44,39 +43,36 @@ public class OfertasSender {
 	@Autowired
 	OfferService offerService;
 
-	private ExposedLineaOferta toExposedLineaOferta(OfferLineEntity offerLine) {
+	private ExpOfertaLine toExposedLineaOferta(OfferLineEntity offerLine) {
 		Integer idEnDesguace = offerLine.getId().intValue();
-		Integer id = Integer.parseInt(offerService.getOrderLine(offerLine).getSgId());
+		Integer lineaSolicitudId = Integer.parseInt(offerService.getOrderLine(offerLine).getSgId());
 		JAXBElement<String> notes = 
-				objectFactory.createExposedLineaOfertaNotes(offerLine.getNotes());
+				objectFactory.createExpOfertaLineNotes(offerLine.getNotes());
 		Double price = offerLine.getPrice();
 		Integer quantity = offerLine.getQuantity();
 		
-		ExposedLineaOferta exposedLineaOferta = 
-				objectFactory.createExposedLineaOferta();
+		ExpOfertaLine exposedLineaOferta = 
+				objectFactory.createExpOfertaLine();
+		exposedLineaOferta.setLineaSolicitudId(lineaSolicitudId);
 		exposedLineaOferta.setIdEnDesguace(idEnDesguace);
-		exposedLineaOferta.setId(id);
 		exposedLineaOferta.setNotes(notes);
 		exposedLineaOferta.setPrice(price);
 		exposedLineaOferta.setQuantity(quantity);
 		return exposedLineaOferta;
 	}
 	
-	private ExposedOferta toExposedOferta(OfferEntity offerEntity, TokenEntity token) {
-		JAXBElement<String> desguaceId = 
-				objectFactory.createExposedOfertaDesguaceId(token.getToken());
-		Integer id = offerEntity.getId().intValue();		
+	private ExpOferta toExposedOferta(OfferEntity offerEntity) {
+		Integer idEnDesguace = offerEntity.getId().intValue();		
 		Integer solicitudId = Integer.parseInt(offerEntity.getOrderSgId());
-		ArrayOfExposedLineaOferta lineas = objectFactory.createArrayOfExposedLineaOferta();
+		ArrayOfExpOfertaLine lineas = objectFactory.createArrayOfExpOfertaLine();
 		for(OfferLineEntity line : offerEntity.getLines()) {
-			lineas.getExposedLineaOferta().add(toExposedLineaOferta(line));
+			lineas.getExpOfertaLine().add(toExposedLineaOferta(line));
 		}
-		JAXBElement<ArrayOfExposedLineaOferta> arrayOfLineas = 
-				objectFactory.createExposedOfertaLineas(lineas);
+		JAXBElement<ArrayOfExpOfertaLine> arrayOfLineas = 
+				objectFactory.createExpOfertaLineas(lineas);
 		
-		ExposedOferta exposedOferta = objectFactory.createExposedOferta();
-		exposedOferta.setDesguaceId(desguaceId);
-		exposedOferta.setId(id);
+		ExpOferta exposedOferta = objectFactory.createExpOferta();
+		exposedOferta.setIdEnDesguace(idEnDesguace);
 		exposedOferta.setSolicitudId(solicitudId);
 		exposedOferta.setLineas(arrayOfLineas);
 		return exposedOferta;
@@ -85,12 +81,14 @@ public class OfertasSender {
 	private AMQOfertaMessage toAMQOfertaMessage(
 			OfferEntity offerEntity,TokenEntity token,
 			AMQOfertaMessageCode code) {
-		JAXBElement<ExposedOferta> oferta =
-				objectFactory.createAMQOfertaMessageOferta((toExposedOferta(offerEntity, token)));
-		
+		JAXBElement<ExpOferta> oferta =
+				objectFactory.createAMQOfertaMessageOferta((toExposedOferta(offerEntity)));
+		JAXBElement<String> desguace_id =
+				objectFactory.createAMQOfertaMessageDesguaceId(token.getToken());
 		AMQOfertaMessage amqOferta = objectFactory.createAMQOfertaMessage();
 		amqOferta.setCode(code);
 		amqOferta.setOferta(oferta);
+		amqOferta.setDesguaceId(desguace_id);
 		return amqOferta;
 	}
 	

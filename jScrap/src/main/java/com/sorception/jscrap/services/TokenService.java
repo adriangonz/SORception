@@ -45,7 +45,7 @@ public class TokenService {
         // Access to web service
         TokenEntity temporalToken = sgClient.signUp();
         // Disable jmsContainer
-        activeMQService.disableJmsContainer();
+        activeMQService.disableJmsContainers();
         // Save temporal token
         return tokenDAO.save(temporalToken);
     }
@@ -64,7 +64,7 @@ public class TokenService {
             if(!tokenEntity.isValid()) // If not, throw 404
                 throw new ResourceNotFoundException("Token request has not been accepted");
             else // Enable JmsContainer
-            	activeMQService.enableJmsContainer(tokenEntity);
+            	activeMQService.enableJmsContainers(tokenEntity);
         }
         return tokenEntity;
     }

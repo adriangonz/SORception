@@ -38,6 +38,10 @@ public class OfferLineEntity extends AbstractEntity {
 	@Column(name = "deleted")
 	private Boolean _deleted = false;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+			mappedBy = "_offerLine")
+	private AcceptedOfferLineEntity _acceptedOfferLine;
+	
 	public OfferLineEntity() {}
 	
 	public OfferLineEntity(Integer quantity,
@@ -76,7 +80,16 @@ public class OfferLineEntity extends AbstractEntity {
 		return this._deleted;
 	}
 	
+	public AcceptedOfferLineEntity getAcceptedOffer() {
+		return this._acceptedOfferLine;
+	}
+	
 	/* Nyapicas */
+	public void setAcceptedOffer(AcceptedOfferLineEntity acceptedOffer) {
+		this._acceptedOfferLine = acceptedOffer;
+		this._acceptedOfferLine.setOfferLine(this);
+	}
+	
 	public void setOrderLine(OrderLineEntity orderLine) {
 		this._orderLine = orderLine;
 	}

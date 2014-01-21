@@ -12,6 +12,7 @@ import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.services.SettingsService;
 import com.sorception.jscrap.services.TokenService;
+import com.sorception.jscrap.webservices.PedidosListener;
 import com.sorception.jscrap.webservices.SolicitudesListener;
 
 import java.util.logging.Level;
@@ -19,8 +20,10 @@ import java.util.logging.Logger;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.ActiveMQXAConnectionFactory;
@@ -57,16 +60,17 @@ public class ActiveMQConfig {
     @Autowired
     Jaxb2Marshaller unmarshaller;
     
+    @Autowired
+    MessageListener solicitudesListener;
+    
+    @Autowired
+    MessageListener pedidosListener;
+    
     @Value("${activemq.url}")
     private String _activemqUrl;
     
     @Autowired
     SettingsService settingsService;
-    
-    @Bean
-    public ActiveMQTopic solicitudes() {
-        return new ActiveMQTopic("Solicitudes");
-    }
     
     @Bean
     public ActiveMQTopic ofertas() {
@@ -90,17 +94,12 @@ public class ActiveMQConfig {
         //jmsTemplate.setMessageConverter(converter);
         return jmsTemplate;
     }
-
-    @Bean
-    public SolicitudesListener messageListener() {
-        return new SolicitudesListener();
-    }
     
-    public void enableJmsContainer(DefaultMessageListenerContainer jmsContainer, TokenEntity validToken) {
+    public void enableJmsContainer(DefaultMessageListenerContainer jmsContainer, TokenEntity validToken, String destination) {
     	logger.info("Valid token found! - Starting jmsContainer with token " + validToken.getToken() + 
-    			" and subscribing to topic " + jmsContainer.getDestinationName() + "...");
+    			" and subscribing to topic " + destination + "...");
         jmsContainer.setDurableSubscriptionName(settingsService.getGlobalSettings().getName());
-        jmsContainer.setClientId(validToken.getToken());
+        jmsContainer.setClientId(validToken.getToken() + "@" + destination);
         jmsContainer.setSubscriptionDurable(true);
         jmsContainer.setPubSubDomain(true);
         jmsContainer.start();
@@ -108,23 +107,33 @@ public class ActiveMQConfig {
     }
     
     public void disableJmsContainer(DefaultMessageListenerContainer jmsContainer) {
-    	logger.info("Not valid token found - Disabling jmsContainer...");
+    	logger.info("Not valid token found - Disabling jmsContainer listening on " + jmsContainer.getDestinationName() + "...");
     	jmsContainer.stop();
         jmsContainer.setAutoStartup(false);
     }
-
-    @Bean
-    public DefaultMessageListenerContainer jmsContainer() {
-        DefaultMessageListenerContainer jmsContainer = new DefaultMessageListenerContainer();
+    
+    private DefaultMessageListenerContainer createContainer(String destinationName, MessageListener listener) {
+    	Destination destination = new ActiveMQTopic(destinationName);
+    	DefaultMessageListenerContainer jmsContainer = new DefaultMessageListenerContainer();
         jmsContainer.setConnectionFactory(connectionFactory());
-        jmsContainer.setMessageListener(messageListener());
-        jmsContainer.setDestination(solicitudes());
+        jmsContainer.setMessageListener(listener);
+        jmsContainer.setDestination(destination);
         try {
             TokenEntity validToken = tokenService.getValid();
-            enableJmsContainer(jmsContainer, validToken);
+            enableJmsContainer(jmsContainer, validToken, destinationName);
         } catch(ResourceNotFoundException ex) {
             disableJmsContainer(jmsContainer);
         }
         return jmsContainer;
+    }
+
+    @Bean
+    public DefaultMessageListenerContainer solicitudesContainer() {
+    	return createContainer("Solicitudes", solicitudesListener);
+    }
+    
+    @Bean
+    public DefaultMessageListenerContainer pedidosContainer() {
+    	return createContainer("Pedidos", pedidosListener);
     }
 }
