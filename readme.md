@@ -5,7 +5,7 @@ formado por Alejandro Oñate Latorre, Rubén Pardo Milla, Martín Candela Calabu
 y Adrián González Martín.
 
 Los proyectos que hay son:
-* Sistema gestor + cliente eCommerce.NET (sg)
-* Taller .NET (taller)
-* Desguace Java (jScrap)
-* Desguace .NET (Scrap.NET)
+- Sistema gestor + cliente eCommerce.NET (sg)
+- Taller .NET (taller)
+- Desguace Java (jScrap)
+- Desguace .NET (Scrap.NET)
