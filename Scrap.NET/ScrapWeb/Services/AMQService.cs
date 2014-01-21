@@ -142,7 +142,7 @@ namespace ScrapWeb.Services
 
             return new OrderEntity
             {
-                lines = lines,
+                rawLines = lines,
                 sgId = solicitudMessage.solicitud.id.ToString(),
                 deadline = solicitudMessage.solicitud.deadline
             };

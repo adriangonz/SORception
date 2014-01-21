@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -10,14 +11,23 @@ namespace ScrapWeb.Entities
     {
         public OrderEntity()
         {
-            lines = new List<OrderLineEntity>();
+            rawLines = new List<OrderLineEntity>();
         }
 
         public String sgId { get; set; }
 
         public DateTime deadline { get; set; }
 
+        [JsonIgnore]
         [InverseProperty("order")]
-        public ICollection<OrderLineEntity> lines { get; set; }
+        public ICollection<OrderLineEntity> rawLines { get; set; }
+
+        public virtual ICollection<OrderLineEntity> lines 
+        {
+            get
+            {
+                return rawLines.Where(t => (t.offerLine != null && t.offerLine.acceptedOffer == null) || t.offerLine == null).ToList();
+            }
+        }
     }
 }
