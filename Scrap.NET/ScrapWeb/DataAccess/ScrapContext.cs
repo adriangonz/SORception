@@ -16,6 +16,7 @@ namespace ScrapWeb.DataAccess
         public DbSet<OrderLineEntity> OrderLine { get; set; }
         public DbSet<OfferEntity> Offer { get; set; }
         public DbSet<OfferLineEntity> OfferLine { get; set; }
+        public DbSet<AcceptedOfferLineEntity> AcceptedOfferLine { get; set; }
 
         // Override for created and modified dates
         public override int SaveChanges()

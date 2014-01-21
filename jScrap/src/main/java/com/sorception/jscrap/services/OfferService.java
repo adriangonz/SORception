@@ -62,18 +62,23 @@ public class OfferService {
 	
 	public OfferEntity updateOffer(Long offerId, List<OfferLineEntity> lines) {
 		// Check if we are going to erase all lines (i.e. erase offer)
+		OfferEntity offer = updateOfferWithoutAMQ(offerId, lines);
+		amqService.sendUpdateOffer(offer, tokenService.getValid());
+		return offer;
+	}
+	
+	public OfferEntity updateOfferWithoutAMQ(Long offerId, List<OfferLineEntity> lines) {
 		OfferEntity offer = this.getOfferById(offerId);
 		offer.setLines(lines);
 		offerDAO.update(offer);
 		offer = this.getOfferById(offer.getId());
-		amqService.sendUpdateOffer(offer, tokenService.getValid());
 		return offer;
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
 		OfferLineEntity offerLine = offerDAO.getOfferLine(id);
 		if(offerLine == null)
-			throw new ResourceNotFoundException("OfferLine with id " + id + " has not been found");
+			throw new ResourceNotFoundException("OfferLine with id " + id + " was not found");
 		return offerLine;
 	}
 	

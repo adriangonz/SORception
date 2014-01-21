@@ -29,7 +29,9 @@ namespace ScrapWeb.Services
 
         public IEnumerable<OrderEntity> getAll()
         {
-            return orderRepository.GetAll("lines");
+            return orderRepository
+                .GetAll("rawLines")
+                .Where(t => t.lines.Count() > 0);
         }
 
         public OrderEntity save(OrderEntity orderEntity)

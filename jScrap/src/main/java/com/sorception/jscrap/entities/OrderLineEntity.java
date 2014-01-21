@@ -9,9 +9,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.Hibernate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "OrderLine")
@@ -67,7 +67,6 @@ public class OrderLineEntity extends AbstractEntity {
 		return _offerLine;
 	}
 	
-	@JsonIgnore
 	public OrderEntity getOrder() {
 		return _order;
 	}

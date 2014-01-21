@@ -21,6 +21,7 @@ namespace Berenjena.Controllers
         // GET api/settings
         public object Get()
         {
+            GetToken();
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");

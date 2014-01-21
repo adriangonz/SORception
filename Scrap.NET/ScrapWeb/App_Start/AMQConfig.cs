@@ -26,7 +26,7 @@ namespace ScrapWeb
         private static void createConsumer()
         {
             var amqService = new AMQService();
-            amqService.createTopicSubscriber();
+            amqService.createTopicSubscribers();
         }
 
         internal static void RegisterActiveMQ()

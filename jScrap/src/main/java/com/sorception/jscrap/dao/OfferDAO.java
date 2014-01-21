@@ -42,7 +42,7 @@ public class OfferDAO {
 	
 	public OfferLineEntity getOfferLine(Long id) {
 		OfferLineEntity offerLine = this.entityManager.find(OfferLineEntity.class, id);
-		if(offerLine.isDeleted())
+		if(offerLine == null || offerLine.isDeleted())
 			return null;
 		return offerLine;
 	}

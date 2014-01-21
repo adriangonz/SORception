@@ -13,36 +13,66 @@ namespace ScrapWeb.Services
 {
     public class AMQService
     {
-        private readonly string origin = "Solicitudes";
-        private readonly string destination = "Ofertas";
-        private TopicSubscriber topicSubscriber;
+        private static readonly string originSolicitudes = "Solicitudes";
+        private static readonly string originPedidos = "Pedidos";
+        private static readonly string destination = "Ofertas";
 
-        public TopicSubscriber createTopicSubscriber() 
+        private TopicSubscriber topicSubscriberSolicitudes;
+        private TopicSubscriber topicSubscriberPedidos;
+
+        private static TopicPublisher _topicPublisher;
+        private static TopicPublisher topicPublisher 
+        {
+            get 
+            {
+                if(_topicPublisher == null) 
+                {
+                    _topicPublisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, destination);
+                }
+                return _topicPublisher;
+            }
+
+            set
+            {
+                _topicPublisher = value;
+            }
+        }
+
+        public void createTopicSubscribers() 
         {
             try
             {
                 TokenService tokenService = new TokenService();
                 TokenEntity token = tokenService.getValid();
-                return this.createTopicSubscriber(token);
+                this.createTopicSubscribers(token);
             }
             catch (ServiceException ex)
             {
                 // We dont have a valid token, we don't create a topic subscriber
                 Trace.WriteLine("Not valid token found. Disabling topic subscriber...");
             }
-            return null;
         }
 
-        public TopicSubscriber createTopicSubscriber(TokenEntity validToken)
+        public void createTopicSubscribers(TokenEntity validToken)
         {
-            Trace.WriteLine("Valid token found! Enabling topic subscriber...");
-            topicSubscriber = new TopicSubscriber(AMQConfig.Session, origin);
-            topicSubscriber.OnMessageReceived += topicSubscriber_OnMessageReceived;
-            topicSubscriber.Start(validToken.token);
-            return topicSubscriber;
+            Trace.WriteLine("Valid token found! Enabling topic subscribers...");
+            // Creating subscriber to solicitudes
+            topicSubscriberSolicitudes = new TopicSubscriber(AMQConfig.Session, originSolicitudes);
+            topicSubscriberSolicitudes.OnMessageReceived += topicSubscriberSolicitudes_OnMessageReceived;
+            // Creating subscriber to pedidos
+            topicSubscriberPedidos = new TopicSubscriber(AMQConfig.Session, originPedidos);
+            topicSubscriberPedidos.OnMessageReceived += topicSubscriberPedidos_OnMessageReceived;
+            topicSubscriberSolicitudes.Start(validToken.token + "@Solicitudes");
+            topicSubscriberPedidos.Start(validToken.token + "@Pedidos");
         }
 
-        public void destroyTopicSubscriber()
+        public void destroyTopicSubscribers()
+        {
+            destroyTopicSubscriber(topicSubscriberPedidos);
+            destroyTopicSubscriber(topicSubscriberSolicitudes);
+        }
+
+        private void destroyTopicSubscriber(TopicSubscriber topicSubscriber) 
         {
             if (topicSubscriber != null)
             {
@@ -51,13 +81,50 @@ namespace ScrapWeb.Services
             }
         }
 
-        void topicSubscriber_OnMessageReceived(string message)
+        void topicSubscriberSolicitudes_OnMessageReceived(string message)
         {
-            AMQSolicitudMessage solicitudMessage = (AMQSolicitudMessage)topicSubscriber.FromXML(message, (new AMQSolicitudMessage()).GetType());
+            AMQSolicitudMessage solicitudMessage = 
+                (AMQSolicitudMessage)topicSubscriberSolicitudes.FromXML(message, (new AMQSolicitudMessage()).GetType());
             OrderEntity orderEntity = toOrder(solicitudMessage);
             Trace.WriteLine("Received order with remote id " + orderEntity.sgId);
             OrderService orderService = new OrderService();
             orderService.save(orderEntity);
+        }
+
+        void topicSubscriberPedidos_OnMessageReceived(string message)
+        {
+            TokenService tokenService = new TokenService();
+            TokenEntity tokenEntity = tokenService.getValid();
+            AMQPedidoMessage pedidoMessage =
+                (AMQPedidoMessage)topicSubscriberPedidos.FromXML(message, (new AMQPedidoMessage()).GetType());
+            if(pedidoMessage.desguace_id == tokenEntity.token)
+            {
+                OfferService offerService = new OfferService();
+                Trace.WriteLine(
+                    "Saving accepted offer for me with remote id " + pedidoMessage.pedido.oferta_id.ToString() + "...");
+                offerService.update(toAcceptedOffers(pedidoMessage, offerService));
+            }
+            else 
+            {
+                Trace.WriteLine(
+                    "Ignoring accepted offer for another junkyard with remote id " + pedidoMessage.pedido.oferta_id.ToString()  + "...");
+            }
+        }
+
+        private List<OfferLineEntity> toAcceptedOffers(AMQPedidoMessage pedidoMessage, OfferService offerService) 
+        {
+            List<OfferLineEntity> offerlines = new List<OfferLineEntity>();
+            foreach (var line in pedidoMessage.pedido.lineas)
+            {
+                // Get existing offerline with this sgId
+                var offerline = offerService.getOfferLine(line.linea_oferta_id);
+                offerline.acceptedOffer = new AcceptedOfferLineEntity
+                {
+                    quantity = line.quantity
+                };
+                offerlines.Add(offerline);
+            }
+            return offerlines;
         }
 
         private OrderEntity toOrder(AMQSolicitudMessage solicitudMessage)
@@ -75,7 +142,7 @@ namespace ScrapWeb.Services
 
             return new OrderEntity
             {
-                lines = lines,
+                rawLines = lines,
                 sgId = solicitudMessage.solicitud.id.ToString(),
                 deadline = solicitudMessage.solicitud.deadline
             };
@@ -84,13 +151,22 @@ namespace ScrapWeb.Services
         public void sendOffer(OfferEntity offerEntity)
         {
             Trace.WriteLine("Sending new offer with remote id " + offerEntity.orderSgId + " ...");
-            TopicPublisher publisher = new TopicPublisher(
-                AMQConfig.Session, AMQConfig.Connection, destination);
-
-            publisher.SendMessage(toAMQOfertaMessage(offerEntity));
+            topicPublisher.SendMessage(toAMQOfertaMessage(offerEntity, AMQOfertaMessageCode.New));
         }
 
-        private AMQOfertaMessage toAMQOfertaMessage(OfferEntity offerEntity)
+        public void updateOffer(OfferEntity offerEntity)
+        {
+            Trace.WriteLine("Updating offer with remote id " + offerEntity.orderSgId + " ...");
+            topicPublisher.SendMessage(toAMQOfertaMessage(offerEntity, AMQOfertaMessageCode.Update));
+        }
+
+        public void deleteOffer(OfferEntity offerEntity)
+        {
+            Trace.WriteLine("Deleting offer with remote id " + offerEntity.orderSgId + " ...");
+            topicPublisher.SendMessage(toAMQOfertaMessage(offerEntity, AMQOfertaMessageCode.Delete));
+        }
+
+        private AMQOfertaMessage toAMQOfertaMessage(OfferEntity offerEntity, AMQOfertaMessageCode status)
         {
             // Get token (if not valid, we finish here)
             TokenService tokenService = new TokenService();
@@ -113,7 +189,7 @@ namespace ScrapWeb.Services
             // Get offer
             var oferta = new ExpOferta
             {
-                id = int.Parse(offerEntity.orderSgId),
+                solicitud_id = int.Parse(offerEntity.orderSgId),
                 id_en_desguace = offerEntity.id,
                 lineas = lineas.ToArray()
             };
@@ -122,7 +198,7 @@ namespace ScrapWeb.Services
             return new AMQOfertaMessage
             {
                 desguace_id = token.token,
-                code = AMQOfertaMessageCode.New,
+                code = status,
                 oferta = oferta
             };
         }

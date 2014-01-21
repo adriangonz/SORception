@@ -100,4 +100,17 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ExpOferta.Line.RelatedSolicitud" nillable="true" type="tns:ExpOferta.Line.RelatedSolicitud" />
+  <xs:complexType name="ArrayOfExpPedido.Line">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ExpPedido.Line" nillable="true" type="tns:ExpPedido.Line" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfExpPedido.Line" nillable="true" type="tns:ArrayOfExpPedido.Line" />
+  <xs:complexType name="ExpPedido.Line">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="linea_oferta_id" type="xs:int" />
+      <xs:element minOccurs="0" name="quantity" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExpPedido.Line" nillable="true" type="tns:ExpPedido.Line" />
 </xs:schema>

@@ -13,8 +13,8 @@ import java.util.List;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
 import com.sorception.jscrap.generated.AMQSolicitudMessage;
-import com.sorception.jscrap.generated.ExposedLineaSolicitud;
-import com.sorception.jscrap.generated.ExposedSolicitud;
+import com.sorception.jscrap.generated.ExpSolicitud;
+import com.sorception.jscrap.generated.ExpSolicitudLine;
 import com.sorception.jscrap.generated.ObjectFactory;
 import com.sorception.jscrap.services.OrderService;
 import com.sorception.jscrap.services.TokenService;
@@ -28,12 +28,15 @@ import javax.xml.bind.JAXBElement;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.stereotype.Service;
 import org.springframework.xml.transform.StringSource;
 
 /**
  *
  * @author kaseyo
  */
+
+@Service
 public class SolicitudesListener implements MessageListener {
 
     final static org.slf4j.Logger logger = LoggerFactory.getLogger(SolicitudesListener.class);
@@ -47,11 +50,11 @@ public class SolicitudesListener implements MessageListener {
     @Autowired
     OrderService orderService;
     
-    public OrderEntity toOrderEntity(ExposedSolicitud solicitud) {    	
+    public OrderEntity toOrderEntity(ExpSolicitud solicitud) {    	
     	List<OrderLineEntity> lines = new ArrayList<>(); 	
-    	List<ExposedLineaSolicitud> lineasSolicitud = 
-    			solicitud.getLineas().getValue().getExposedLineaSolicitud();
-    	for(ExposedLineaSolicitud lineaSolicitud : lineasSolicitud) {
+    	List<ExpSolicitudLine> lineasSolicitud = 
+    			solicitud.getLineas().getValue().getExpSolicitudLine();
+    	for(ExpSolicitudLine lineaSolicitud : lineasSolicitud) {
     		lines.add(new OrderLineEntity(lineaSolicitud.getId().toString(),
     				lineaSolicitud.getDescription().getValue(),
     				lineaSolicitud.getQuantity()));

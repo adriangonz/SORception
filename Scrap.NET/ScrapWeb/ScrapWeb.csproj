@@ -181,6 +181,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Config\ScrapSettingsConfiguration.cs" />
+    <Compile Include="Controllers\AcceptedController.cs" />
     <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAccess\ScrapContext.cs" />
     <Compile Include="DTO\OfferDTO.cs" />
+    <Compile Include="Entities\AcceptedOfferLineEntity.cs" />
     <Compile Include="Entities\OfferEntity.cs" />
     <Compile Include="Entities\OfferLineEntity.cs" />
     <Compile Include="Entities\OrderEntity.cs" />

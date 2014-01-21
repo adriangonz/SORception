@@ -32,5 +32,8 @@ namespace ScrapWeb.Entities
         [Required]
         [ForeignKey("orderLineId")]
         public virtual OrderLineEntity orderLine { get; set; }
+        
+        [InverseProperty("offerLine")]
+        public virtual AcceptedOfferLineEntity acceptedOffer { get; set; }
     }
 }

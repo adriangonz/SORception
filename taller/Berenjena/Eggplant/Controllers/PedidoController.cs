@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using Eggplant.ServiceTaller;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNet.Identity;
 
 namespace Eggplant.Controllers
 {
+    [Authorize]
     public class PedidoController : ApiController
     {
         //static BDBerenjenaContainer c_bd = EggplantContextFactory.getContext();
@@ -21,31 +23,30 @@ namespace Eggplant.Controllers
         // GET api/pedido
         public object Get()
         {
-            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
-            {
-                UpdatePedidosFromSG();
-                var pedidos = c_bd.PedidoSet.AsQueryable().ToList();
-                return pedidos;
-            }
+            BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
+            var userId = User.Identity.GetUserId();
+            var pedidos = c_bd.PedidoSet.AsQueryable().Where(p => p.Solicitud.user_id == userId).ToList();
+            return pedidos;
+
         }
 
         // GET api/pedido/5
         public object Get(int id)
         {
-            UpdatePedidosFromSG();
-            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
-            {
-                var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id);
-                return pedido;
-            }
+            BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
+            var userId = User.Identity.GetUserId();
+            var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id && x.Solicitud.user_id == userId);
+            if (pedido == null) return Request.CreateResponse(HttpStatusCode.NotFound, "El pedido " + id + " no existe o no es el usuario");
+            return pedido;
         }
 
         // POST api/pedido
         public object Post([FromBody]JObject values)
         {
-            Pedido p = new Pedido();
+            int idPedido = 0;
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
+                Pedido p = new Pedido();
                 p.timeStamp = DateTime.Now;
                 int idSolcitud = int.Parse(values["solicitud"].ToString());
                 p.Solicitud = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == idSolcitud);
@@ -71,10 +72,11 @@ namespace Eggplant.Controllers
                 }
                 c_bd.PedidoSet.Add(p);
                 c_bd.SaveChanges();
+                idPedido = p.Id;
 
             }
-            addPedidoToSG(p.Id);
-            return p;
+            addPedidoToSG(idPedido);
+            return idPedido;
         }
 
         /// Igual esta Funcion deberia esta en el SG
@@ -110,9 +112,11 @@ namespace Eggplant.Controllers
 
                         // Anyado la linea al pedido
                         lineasHelper.Add(sl);
+                        lineaPedido.state = "SENDED";
                     }
                     tr.lineas = lineasHelper.ToArray();
                     svcTaller.selectOferta(tr);
+                    c_bd.SaveChanges();
                 }
             }
         }

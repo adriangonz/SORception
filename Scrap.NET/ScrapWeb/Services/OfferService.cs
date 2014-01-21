@@ -32,6 +32,18 @@ namespace ScrapWeb.Services
             return offerRepository.Get(t => !t.deleted, null, "rawLines");
         }
 
+        public IEnumerable<OfferEntity> getAccepted()
+        {
+            return getAll().Where(t => t.accepted.Count() > 0);
+        }
+
+        public List<OfferLineEntity> update(List<OfferLineEntity> acceptedOffers) 
+        {
+            foreach (OfferLineEntity offerline in acceptedOffers)
+                updateOfferLine(offerline);
+            return acceptedOffers;
+        }
+
         public OfferEntity update(int id, DTO.OfferPostDTO offer)
         {
             OfferEntity offerEntity = this.getById(id);
@@ -52,10 +64,11 @@ namespace ScrapWeb.Services
                     updatedLine.notes = line.notes;
                     updatedLine.price = line.price;
                     updatedLine.quantity = line.quantity;
-                    offerLineRepository.Update(updatedLine);
+                    updateOfferLine(updatedLine);
                 }
             }
             scrapContext.SaveChanges();
+            amqService.updateOffer(offerEntity);
             return offerEntity;
         }
 
@@ -99,6 +112,7 @@ namespace ScrapWeb.Services
                 delete(line);
             }
             scrapContext.SaveChanges();
+            amqService.deleteOffer(offerEntity);
         }
 
         private void delete(OfferLineEntity offerLine) 
@@ -106,12 +120,19 @@ namespace ScrapWeb.Services
             delete(offerLine.id);
         }
 
-        private OfferLineEntity getOfferLine(int id)
+        public OfferLineEntity getOfferLine(int id)
         {
-            var line = offerLineRepository.Get(t => t.id == id && !t.deleted, null, "orderLine").FirstOrDefault();
+            var line = offerLineRepository.Get(t => t.id == id && !t.deleted, null, "orderLine,offer").FirstOrDefault();
             if (line == null)
                 throw new ServiceException("Offerline with id " + id + " was not found", HttpStatusCode.NotFound);
             return line;
+        }
+
+        public OfferLineEntity updateOfferLine(OfferLineEntity offerLine)
+        {
+            offerLineRepository.Update(offerLine);
+            scrapContext.SaveChanges();
+            return offerLine;
         }
 
         private void deleteOfferLine(int id) 

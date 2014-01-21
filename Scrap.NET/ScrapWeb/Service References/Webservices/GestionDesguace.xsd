@@ -47,6 +47,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="s" nillable="true" type="tns:AMQSolicitudMessage" />
         <xs:element minOccurs="0" name="o" nillable="true" type="tns:AMQOfertaMessage" />
+        <xs:element minOccurs="0" name="p" nillable="true" type="tns:AMQPedidoMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -84,6 +85,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ExpOferta" nillable="true" type="tns:ExpOferta" />
+  <xs:complexType name="AMQPedidoMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="desguace_id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="pedido" nillable="true" type="tns:ExpPedido" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AMQPedidoMessage" nillable="true" type="tns:AMQPedidoMessage" />
+  <xs:complexType name="ExpPedido">
+    <xs:sequence>
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="lineas" nillable="true" type="q6:ArrayOfExpPedido.Line" />
+      <xs:element minOccurs="0" name="oferta_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExpPedido" nillable="true" type="tns:ExpPedido" />
   <xs:element name="dummyResponse">
     <xs:complexType>
       <xs:sequence />

@@ -19,7 +19,7 @@ namespace ScrapWeb.Entities
         {
             get
             {
-                return rawLines.Count() > 0 ? rawLines.First().orderLine.order.sgId : "-1";
+                return lines.Count() > 0 ? lines.First().orderLine.order.sgId : "-1";
             }
         }
 
@@ -36,6 +36,14 @@ namespace ScrapWeb.Entities
             {
                 return rawLines.Where(t => !t.deleted);
             } 
+        }
+
+        public virtual IEnumerable<OfferLineEntity> accepted
+        {
+            get
+            {
+                return lines.Where(t => t.acceptedOffer != null);
+            }
         }
     }
 }

@@ -7,14 +7,15 @@ using System.Web;
 
 namespace ScrapWeb.Entities
 {
-    public abstract class AbstractEntity
+    public class AcceptedOfferLineEntity
     {
-        [Key, Column(Order=1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int id { get; set; }
 
-        public DateTime creationDate { get; set; }
+        public int quantity { get; set; }
 
-        public DateTime updatedDate { get; set; }
+        [Required]
+        [ForeignKey("id")]
+        public OfferLineEntity offerLine { get; set; }
     }
 }

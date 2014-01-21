@@ -10,9 +10,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "OfferLine")
@@ -37,6 +38,10 @@ public class OfferLineEntity extends AbstractEntity {
 	
 	@Column(name = "deleted")
 	private Boolean _deleted = false;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+			mappedBy = "_offerLine")
+	private AcceptedOfferLineEntity _acceptedOfferLine;
 	
 	public OfferLineEntity() {}
 	
@@ -76,12 +81,20 @@ public class OfferLineEntity extends AbstractEntity {
 		return this._deleted;
 	}
 	
+	public AcceptedOfferLineEntity getAcceptedOffer() {
+		return this._acceptedOfferLine;
+	}
+	
 	/* Nyapicas */
+	public void setAcceptedOffer(AcceptedOfferLineEntity acceptedOffer) {
+		this._acceptedOfferLine = acceptedOffer;
+		this._acceptedOfferLine.setOfferLine(this);
+	}
+	
 	public void setOrderLine(OrderLineEntity orderLine) {
 		this._orderLine = orderLine;
 	}
 	
-	@JsonIgnore
 	public OrderLineEntity getOrderLine() {
 		return _orderLine;
 	}
