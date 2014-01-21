@@ -13,7 +13,8 @@ namespace ScrapWeb.Services
 {
     public class AMQService
     {
-        private readonly string destination = "Solicitudes";
+        private readonly string origin = "Solicitudes";
+        private readonly string destination = "Ofertas";
         private TopicSubscriber topicSubscriber;
 
         public TopicSubscriber createTopicSubscriber() 
@@ -35,7 +36,7 @@ namespace ScrapWeb.Services
         public TopicSubscriber createTopicSubscriber(TokenEntity validToken)
         {
             Trace.WriteLine("Valid token found! Enabling topic subscriber...");
-            topicSubscriber = new TopicSubscriber(AMQConfig.Session, destination);
+            topicSubscriber = new TopicSubscriber(AMQConfig.Session, origin);
             topicSubscriber.OnMessageReceived += topicSubscriber_OnMessageReceived;
             topicSubscriber.Start(validToken.token);
             return topicSubscriber;
@@ -77,6 +78,52 @@ namespace ScrapWeb.Services
                 lines = lines,
                 sgId = solicitudMessage.solicitud.id.ToString(),
                 deadline = solicitudMessage.solicitud.deadline
+            };
+        }
+
+        public void sendOffer(OfferEntity offerEntity)
+        {
+            Trace.WriteLine("Sending new offer with remote id " + offerEntity.orderSgId + " ...");
+            TopicPublisher publisher = new TopicPublisher(
+                AMQConfig.Session, AMQConfig.Connection, destination);
+
+            publisher.SendMessage(toAMQOfertaMessage(offerEntity));
+        }
+
+        private AMQOfertaMessage toAMQOfertaMessage(OfferEntity offerEntity)
+        {
+            // Get token (if not valid, we finish here)
+            TokenService tokenService = new TokenService();
+            var token = tokenService.getValid();
+
+            // Get lines
+            var lineas = new List<ExpOfertaLine>();
+            foreach (var line in offerEntity.lines) 
+            {
+                lineas.Add(new ExpOfertaLine 
+                { 
+                     linea_solicitud_id = int.Parse(line.orderLine.sgId),
+                     id_en_desguace = line.id,
+                     notes = line.notes,
+                     price = line.price,
+                     quantity = line.quantity
+                });
+            }
+
+            // Get offer
+            var oferta = new ExpOferta
+            {
+                id = int.Parse(offerEntity.orderSgId),
+                id_en_desguace = offerEntity.id,
+                lineas = lineas.ToArray()
+            };
+
+            // Get message
+            return new AMQOfertaMessage
+            {
+                desguace_id = token.token,
+                code = AMQOfertaMessageCode.New,
+                oferta = oferta
             };
         }
     }

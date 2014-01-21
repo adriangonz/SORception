@@ -171,6 +171,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AMQ\TopicPublisher.cs" />
     <Compile Include="AMQ\TopicSubscriber.cs" />
     <Compile Include="App_Start\AMQConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -180,11 +181,15 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Config\ScrapSettingsConfiguration.cs" />
+    <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAccess\ScrapContext.cs" />
+    <Compile Include="DTO\OfferDTO.cs" />
+    <Compile Include="Entities\OfferEntity.cs" />
+    <Compile Include="Entities\OfferLineEntity.cs" />
     <Compile Include="Entities\OrderEntity.cs" />
     <Compile Include="Entities\OrderLineEntity.cs" />
     <Compile Include="Entities\SettingsEntity.cs" />
@@ -206,6 +211,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Services\AMQService.cs" />
+    <Compile Include="Services\OfferService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\SGService.cs" />

@@ -25,9 +25,9 @@ namespace ScrapWeb.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public OrderEntity Get(int id)
         {
-            return "value";
+            return orderService.getById(id);
         }
     }
 }
