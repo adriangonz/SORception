@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>eCommerce Molon del copon</title>
+    @Styles.Render("~/Content/css")
+    <link href="/Content/ECommerceStyle.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<body lang="es" ng-app="taller.module">
+    <div class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("eCommerce", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <!--<li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>-->
+                    <li><a href="#/orders">Solicitudes</a></li>
+                    <li><a href="#/create-order">Crear Solicitud</a></li>
+                    <li><a href="#/config">Configuracion</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><username></username><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#"><logout>Desconectar</logout></a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+           
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js",
+                "https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-cookies.js",
+                "~/app/app.js",
+                "~/app/services/authService.js",
+                "~/app/services/tallerService.js",
+                "~/app/services/settingsService.js",
+                "~/app/directives/authDirective.js",
+                "~/app/directives/tallerDirective.js",
+                "~/app/directives/settingsDirective.js",
+                "~/app/controllers/tallerController.js",
+                "~/app/controllers/orderController.js",
+                "~/app/controllers/createOrderController.js",
+                "~/app/controllers/editOrderController.js",
+                "~/app/controllers/settingsController.js")
+</body>
+</html>

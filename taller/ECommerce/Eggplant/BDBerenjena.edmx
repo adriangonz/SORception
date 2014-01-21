@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BDBerenjena.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BDBerenjenaStoreContainer">
+    <EntitySet Name="TokensSet" EntityType="BDBerenjena.Store.TokensSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SolicitudSet" EntityType="BDBerenjena.Store.SolicitudSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineaSolicitudSet" EntityType="BDBerenjena.Store.LineaSolicitudSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PedidoSet" EntityType="BDBerenjena.Store.PedidoSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineaPedidoSet" EntityType="BDBerenjena.Store.LineaPedidoSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="SolicitudLineaSolicitud" Association="BDBerenjena.Store.SolicitudLineaSolicitud">
+      <End Role="Solicitud" EntitySet="SolicitudSet" />
+      <End Role="LineaSolicitud" EntitySet="LineaSolicitudSet" />
+    </AssociationSet>
+    <AssociationSet Name="PedidoLineaPedido" Association="BDBerenjena.Store.PedidoLineaPedido">
+      <End Role="Pedido" EntitySet="PedidoSet" />
+      <End Role="LineaPedido" EntitySet="LineaPedidoSet" />
+    </AssociationSet>
+    <AssociationSet Name="PedidoSolicitud" Association="BDBerenjena.Store.PedidoSolicitud">
+      <End Role="Pedido" EntitySet="PedidoSet" />
+      <End Role="Solicitud" EntitySet="SolicitudSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TokensSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timeStamp" Type="datetime" Nullable="false" />
+    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="token" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SolicitudSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sg_id" Type="int" Nullable="false" />
+    <Property Name="timeStamp" Type="datetime" Nullable="false" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_id" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LineaSolicitudSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SolicitudId" Type="int" Nullable="false" />
+    <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="cantidad" Type="int" Nullable="false" />
+    <Property Name="sg_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PedidoSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timeStamp" Type="datetime" Nullable="false" />
+    <Property Name="Solicitud_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LineaPedidoSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="linea_oferta_id" Type="int" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="price" Type="decimal" Nullable="false" />
+    <Property Name="PedidoId" Type="int" Nullable="false" />
+    <Property Name="sg_id" Type="int" Nullable="false" />
+    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="SolicitudLineaSolicitud">
+    <End Role="Solicitud" Type="BDBerenjena.Store.SolicitudSet" Multiplicity="1" />
+    <End Role="LineaSolicitud" Type="BDBerenjena.Store.LineaSolicitudSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Solicitud">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LineaSolicitud">
+        <PropertyRef Name="SolicitudId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PedidoLineaPedido">
+    <End Role="Pedido" Type="BDBerenjena.Store.PedidoSet" Multiplicity="1" />
+    <End Role="LineaPedido" Type="BDBerenjena.Store.LineaPedidoSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pedido">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LineaPedido">
+        <PropertyRef Name="PedidoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PedidoSolicitud">
+    <End Role="Pedido" Type="BDBerenjena.Store.PedidoSet" Multiplicity="*" />
+    <End Role="Solicitud" Type="BDBerenjena.Store.SolicitudSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Solicitud">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pedido">
+        <PropertyRef Name="Solicitud_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BDBerenjena" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="BDBerenjenaContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TokensSet" EntityType="BDBerenjena.Tokens" />
+          <EntitySet Name="SolicitudSet" EntityType="BDBerenjena.Solicitud" />
+          <EntitySet Name="LineaSolicitudSet" EntityType="BDBerenjena.LineaSolicitud" />
+          <AssociationSet Name="SolicitudLineaSolicitud" Association="BDBerenjena.SolicitudLineaSolicitud">
+            <End Role="Solicitud" EntitySet="SolicitudSet" />
+            <End Role="LineaSolicitud" EntitySet="LineaSolicitudSet" />
+          </AssociationSet>
+          <EntitySet Name="PedidoSet" EntityType="BDBerenjena.Pedido" />
+          <EntitySet Name="LineaPedidoSet" EntityType="BDBerenjena.LineaPedido" />
+          <AssociationSet Name="PedidoLineaPedido" Association="BDBerenjena.PedidoLineaPedido">
+            <End Role="Pedido" EntitySet="PedidoSet" />
+            <End Role="LineaPedido" EntitySet="LineaPedidoSet" />
+          </AssociationSet>
+          <AssociationSet Name="PedidoSolicitud" Association="BDBerenjena.PedidoSolicitud">
+            <End Role="Pedido" EntitySet="PedidoSet" />
+            <End Role="Solicitud" EntitySet="SolicitudSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Tokens">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="timeStamp" Nullable="false" />
+          <Property Type="String" Name="state" Nullable="false" />
+          <Property Type="String" Name="token" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Solicitud">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sg_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LineaSolicitud" Relationship="BDBerenjena.SolicitudLineaSolicitud" FromRole="Solicitud" ToRole="LineaSolicitud" />
+          <Property Name="timeStamp" Type="DateTime" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" />
+          <NavigationProperty Name="Pedidos" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Solicitud" ToRole="Pedido" />
+          <Property Name="user_id" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LineaSolicitud">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Solicitud" Relationship="BDBerenjena.SolicitudLineaSolicitud" FromRole="LineaSolicitud" ToRole="Solicitud" />
+          <Property Name="SolicitudId" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <Property Name="sg_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="SolicitudLineaSolicitud">
+          <End Type="BDBerenjena.Solicitud" Role="Solicitud" Multiplicity="1" />
+          <End Type="BDBerenjena.LineaSolicitud" Role="LineaSolicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Solicitud">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineaSolicitud">
+              <PropertyRef Name="SolicitudId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Pedido">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timeStamp" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="LineaPedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="Pedido" ToRole="LineaPedido" />
+          <NavigationProperty Name="Solicitud" Relationship="BDBerenjena.PedidoSolicitud" FromRole="Pedido" ToRole="Solicitud" />
+        </EntityType>
+        <EntityType Name="LineaPedido">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="linea_oferta_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="Pedido" Relationship="BDBerenjena.PedidoLineaPedido" FromRole="LineaPedido" ToRole="Pedido" />
+          <Property Name="PedidoId" Type="Int32" Nullable="false" />
+          <Property Name="sg_id" Type="Int32" Nullable="false" />
+          <Property Name="state" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="PedidoLineaPedido">
+          <End Type="BDBerenjena.Pedido" Role="Pedido" Multiplicity="1" />
+          <End Type="BDBerenjena.LineaPedido" Role="LineaPedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pedido">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LineaPedido">
+              <PropertyRef Name="PedidoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PedidoSolicitud">
+          <End Type="BDBerenjena.Pedido" Role="Pedido" Multiplicity="*" />
+          <End Type="BDBerenjena.Solicitud" Role="Solicitud" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BDBerenjenaStoreContainer" CdmEntityContainer="BDBerenjenaContainer">
+    <EntitySetMapping Name="TokensSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Tokens)">
+        <MappingFragment StoreEntitySet="TokensSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="token" ColumnName="token" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SolicitudSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Solicitud)">
+        <MappingFragment StoreEntitySet="SolicitudSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+          <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LineaSolicitudSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.LineaSolicitud)">
+        <MappingFragment StoreEntitySet="LineaSolicitudSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SolicitudId" ColumnName="SolicitudId" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PedidoSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.Pedido)">
+        <MappingFragment StoreEntitySet="PedidoSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="timeStamp" ColumnName="timeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LineaPedidoSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BDBerenjena.LineaPedido)">
+        <MappingFragment StoreEntitySet="LineaPedidoSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="linea_oferta_id" ColumnName="linea_oferta_id" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="PedidoId" ColumnName="PedidoId" />
+          <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+          <ScalarProperty Name="state" ColumnName="state" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PedidoSolicitud" TypeName="BDBerenjena.PedidoSolicitud" StoreEntitySet="PedidoSet">
+      <EndProperty Name="Solicitud">
+        <ScalarProperty Name="Id" ColumnName="Solicitud_Id" />
+      </EndProperty>
+      <EndProperty Name="Pedido">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

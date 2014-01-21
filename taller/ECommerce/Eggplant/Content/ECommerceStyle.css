@@ -1,0 +1,22 @@
+﻿.btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary {
+color: #ffffff;
+background-color: #0C2708;
+border-color: #0C2708;
+}
+.btn-primary:hover {
+    background-color: #428610;
+}
+.form {
+    background-color: #ffffff;
+}
+.navbar-default {
+background-color: #0C2708;
+border-color: #0C2708;
+color:#ffffff;
+}
+.navbar-default .navbar-brand{
+color:#ffffff;
+}
+body{
+    background-color: #EEEEEE;
+}
