@@ -59,8 +59,9 @@ namespace Eggplant.Controllers
                 int sol_id_sg = item.sg_id;
                 foreach (var oferta in ofertas)
                 {
+                    
                     // las lineas de oferta que tienen un pedido asociado y no estan en la bd
-                    List<ExpOfertaLine> lineasQueNoEstanInternas = new List<ExpOfertaLine>();
+                    /*List<ExpOfertaLine> lineasQueNoEstanInternas = new List<ExpOfertaLine>();
 
                     lineasQueNoEstanInternas = oferta.lineas.AsQueryable().
                         Where(lineaOferta => c_bd.LineaPedidoSet.AsQueryable().
@@ -69,9 +70,10 @@ namespace Eggplant.Controllers
                     if (lineasQueNoEstanInternas.Count > 0)// se anyaden a la bd interna
                     {
                         addLineasNoAgregadas(lineasQueNoEstanInternas, id);
-                    }
-                    //item.offers.AddRange(oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList());
+                    }*/
+                    item.offers.AddRange(oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList());
                 }
+                
             }
             return solicitud;
 
@@ -266,6 +268,7 @@ namespace Eggplant.Controllers
 
         private void addLineasNoAgregadas(List<ExpOfertaLine> lineas, int idSolicitud)
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 Pedido p = new Pedido();
@@ -280,7 +283,7 @@ namespace Eggplant.Controllers
                 }
                 c_bd.PedidoSet.Add(p);
                 c_bd.SaveChanges();
-            }
+            }*/
         }
 
         /*

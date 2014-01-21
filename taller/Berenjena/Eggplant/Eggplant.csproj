@@ -223,6 +223,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ExpLineaOferta.cs" />
+    <Compile Include="Models\ExpOfertaLine.cs" />
     <Compile Include="Models\ExpSolicitudLine.cs" />
     <Compile Include="Models\LineaSolicitud.cs" />
     <Compile Include="Pedido.cs">
