@@ -108,10 +108,22 @@ namespace ScrapWeb.Services
         {
             AMQSolicitudMessage solicitudMessage = 
                 (AMQSolicitudMessage)topicSubscriberSolicitudes.FromXML(message, (new AMQSolicitudMessage()).GetType());
-            OrderEntity orderEntity = toOrder(solicitudMessage);
-            Trace.WriteLine("Received order with remote id " + orderEntity.sgId);
+            Trace.WriteLine("Received order with remote id " + solicitudMessage.solicitud.id + " and code " + solicitudMessage.code);
             OrderService orderService = new OrderService();
-            orderService.save(orderEntity);
+            OrderEntity orderEntity;
+            switch (solicitudMessage.code)
+            {
+                case AMQSolicitudMessageCode.New:
+                    orderEntity = toOrder(solicitudMessage);
+                    orderService.save(orderEntity);
+                    break;
+                case AMQSolicitudMessageCode.Closed:
+                    orderEntity = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
+                    orderEntity.closed = true;
+                    orderService.update(orderEntity);
+                    break;
+            }
+            
         }
 
         void topicSubscriberPedidos_OnMessageReceived(string message)
