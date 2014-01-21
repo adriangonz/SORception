@@ -9,16 +9,23 @@ namespace ManagerSystem.Services
 {
     public class TokenService : IDisposable
     {
-        private UnitOfWork unitOfWork;
 
-        public TokenService()
+        private UnitOfWork unit_of_work = null;
+        private UnitOfWork unitOfWork
         {
-            this.unitOfWork = new UnitOfWork();
+            get
+            {
+                if (this.unit_of_work == null)
+                    this.unit_of_work = new UnitOfWork();
+                return this.unit_of_work;
+            }
         }
+
+        public TokenService() { }
 
         public TokenService(UnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            this.unit_of_work = unitOfWork;
         }
 
         public TokenResponse validateToken(string token_string)
