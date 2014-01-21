@@ -27,10 +27,10 @@ namespace ManagerSystem.Entities
         public JunkyardEntity junkyard { get; set; }
 
         public int order_id { get; set; }
-
+        /*
         [Required]
         [ForeignKey("order_id")]
         public OrderEntity order { get; set; }
-
+        */
     }
 }

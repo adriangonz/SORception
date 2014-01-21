@@ -31,8 +31,8 @@ namespace ManagerSystem.Entities
 
         [InverseProperty("order")]
         public ICollection<OrderLineEntity> lines { get; set; }
-
+        /*
         [InverseProperty("order")]
-        public virtual ICollection<OfferEntity> offers { get; set; }
+        public virtual ICollection<OfferEntity> offers { get; set; }*/
     }
 }

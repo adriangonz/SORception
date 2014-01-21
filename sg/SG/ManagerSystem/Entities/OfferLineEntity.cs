@@ -26,7 +26,7 @@ namespace ManagerSystem.Entities
 
         [Required]
         [ForeignKey("offer_id")]
-        public OrderEntity order { get; set; }
+        public OfferEntity offer { get; set; }
 
         public int order_line_id { get; set; }
 
