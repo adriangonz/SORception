@@ -1,5 +1,6 @@
 package com.sorception.jscrap.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,9 +20,16 @@ public class OrderDAO {
     EntityManager entityManager;
 	
 	public List<OrderEntity> list() {
-		return this.entityManager
+		List<OrderEntity> orders = this.entityManager
 				.createQuery("FROM OrderEntity ORDER BY creationDate DESC")
 				.getResultList();
+		List<OrderEntity> validOrders = new ArrayList<>();
+		for(OrderEntity order : orders) {
+			if(!order.getLines().isEmpty())
+				validOrders.add(order);
+		}
+		
+		return validOrders;
 	}
 	
 	public OrderEntity save(OrderEntity orderEntity) {

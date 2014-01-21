@@ -1,5 +1,6 @@
 package com.sorception.jscrap.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -13,9 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 @Entity
 @Table(name = "Orders")
@@ -52,7 +50,14 @@ public class OrderEntity extends AbstractEntity {
 	}
 
 	public List<OrderLineEntity> getLines() {
-		return _lines;
+		List<OrderLineEntity> lines = new ArrayList<>();
+		for(OrderLineEntity line : _lines) {
+			if(line.getOfferLine() == null || 
+					(line.getOfferLine() != null && line.getOfferLine().getAcceptedOffer() == null)) {
+				lines.add(line);
+			}
+		}
+		return lines;
 	}
 	
 	public void setDeadline(Date deadline) {

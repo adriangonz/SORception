@@ -10,9 +10,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.Hibernate;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "OfferLine")
@@ -94,7 +95,6 @@ public class OfferLineEntity extends AbstractEntity {
 		this._orderLine = orderLine;
 	}
 	
-	@JsonIgnore
 	public OrderLineEntity getOrderLine() {
 		return _orderLine;
 	}
