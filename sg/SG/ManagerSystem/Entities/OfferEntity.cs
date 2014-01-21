@@ -30,7 +30,7 @@ namespace ManagerSystem.Entities
 
         [Required]
         [ForeignKey("order_id")]
-        public JunkyardEntity order { get; set; }
+        public OrderEntity order { get; set; }
 
     }
 }

@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using ManagerSystem.DataAccess;
+using ManagerSystem.Entities;
 
 namespace ManagerSystem
 {
@@ -19,9 +21,11 @@ namespace ManagerSystem
         private RToken r_token;
         private ROferta r_oferta;
 
+
+
         public GestionDesguace()
         {
-            init(new managersystemEntities());
+            init(null);
         }
 
         public GestionDesguace(managersystemEntities context)
@@ -39,19 +43,34 @@ namespace ManagerSystem
 
         public TokenResponse signUp(ExpDesguace ed)
         {
-            if (ed != null)
+            using (var unitOfWork = new UnitOfWork())
             {
-                Desguace d = r_desguace.FromExposed(ed);
-                d.active = false;
+                if (ed != null)
+                {
+                    string junkyard_name = ed.name;
 
-                Token t = r_token.getToken();
-                d.Tokens.Add(t);
+                    JunkyardEntity junkyard = new JunkyardEntity
+                    {
+                        name = junkyard_name
+                    };
 
-                r_desguace.InsertOrUpdate(d);
-                r_desguace.Save();
-                return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
+                    unitOfWork.JunkyardRepository.Insert(junkyard);
+
+                    unitOfWork.Save();
+
+                    /*
+                    Desguace d = r_desguace.FromExposed(ed);
+                    d.active = false;
+
+                    Token t = r_token.getToken();
+                    d.Tokens.Add(t);
+
+                    r_desguace.InsertOrUpdate(d);
+                    r_desguace.Save();
+                    return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);*/
+                }
+                return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
             }
-            return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
         }
 
         public TokenResponse getState(string token)

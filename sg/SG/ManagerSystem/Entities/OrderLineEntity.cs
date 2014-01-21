@@ -40,7 +40,7 @@ namespace ManagerSystem.Entities
         public OrderEntity order { get; set; }
 
         [InverseProperty("order_line")]
-        public virtual ICollection<OfferLineEntity> offers;
+        public virtual ICollection<OfferLineEntity> offers { get; set; }
 
         public virtual ICollection<OfferLineEntity> selected_offers
         {

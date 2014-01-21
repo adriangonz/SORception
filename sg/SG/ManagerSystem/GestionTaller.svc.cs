@@ -22,7 +22,7 @@ namespace ManagerSystem
 
         public GestionTaller()
         {
-            init(new managersystemEntities());            
+            init(null);            
         }
 
         public GestionTaller(managersystemEntities context)

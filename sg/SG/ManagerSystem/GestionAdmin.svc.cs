@@ -17,7 +17,7 @@ namespace ManagerSystem
 
         public GestionAdmin()
         {
-            init(new managersystemEntities());
+            init(null);
         }
 
         public GestionAdmin(managersystemEntities context)

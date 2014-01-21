@@ -8,7 +8,7 @@ using System.Web;
 
 namespace ManagerSystem.DataAccess
 {
-    class GenericRepository<TEntity> where TEntity : BaseEntity
+    public class GenericRepository<TEntity> where TEntity : BaseEntity
     {
         internal MSContext context;
         internal DbSet<TEntity> dbSet;
