@@ -6,10 +6,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
  		},
  
      getSettings: function () {
-         $http({ method: 'GET', url: '/api/settings/token' }).
-          success(function (data, status, headers, config) {
-              console.log(status + " " + data);
-
+        
               $http({ method: 'GET', url: '/api/settings' }).
                   success(function (data, status, headers, config) {
                       service.settings = data;
@@ -21,10 +18,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
                       $rootScope.$broadcast('settings.update');
                   });
 
-          }).
-          error(function (data, status, headers, config) {
-              console.log(status + " " + data);
-          });
+  
 
      },
 
