@@ -61,16 +61,19 @@ namespace Eggplant.Controllers
                 {
                     
                     // las lineas de oferta que tienen un pedido asociado y no estan en la bd
-                    /*List<ExpOfertaLine> lineasQueNoEstanInternas = new List<ExpOfertaLine>();
-
-                    lineasQueNoEstanInternas = oferta.lineas.AsQueryable().
-                        Where(lineaOferta => c_bd.LineaPedidoSet.AsQueryable().
-                            Where(lineaPedido => lineaPedido.linea_oferta_id == lineaOferta.id && lineaOferta.linea_solicitud.quantity > 0).ToList().Count == 0).ToList();
+                    List<ExpOfertaLine> lineasQueNoEstanInternas = new List<ExpOfertaLine>();
+                    foreach (var lineaOferta in oferta.lineas)
+                    {
+                        if (lineaOferta.isPedida() && c_bd.LineaPedidoSet.AsQueryable().Where(lp => lp.linea_oferta_id == lineaOferta.id).Count() == 0) { 
+                            lineasQueNoEstanInternas.Add(lineaOferta);
+                        }
+                    }
+                     
 
                     if (lineasQueNoEstanInternas.Count > 0)// se anyaden a la bd interna
                     {
-                        addLineasNoAgregadas(lineasQueNoEstanInternas, id);
-                    }*/
+                        //addLineasNoAgregadas(lineasQueNoEstanInternas, id);
+                    }
                     item.offers.AddRange(oferta.lineas.AsQueryable().Where(x => x.linea_solicitud_id == sol_id_sg).ToList());
                 }
                 

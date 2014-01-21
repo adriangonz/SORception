@@ -7,6 +7,9 @@ namespace Eggplant.ServiceTaller
 {
     public partial class ExpOfertaLine
     {
-        public int id_oferta;
+        public bool isPedida()
+        {
+            return (this.linea_solicitud != null && this.linea_solicitud.quantity > 0);
+        }
     }
 }
