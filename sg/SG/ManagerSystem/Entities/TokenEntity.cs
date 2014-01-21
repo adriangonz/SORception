@@ -19,12 +19,12 @@ namespace ManagerSystem.Entities
 
         public TokenStatus status { get; set; }
 
-        public int scrapyard_id { get; set; }
+        public int junkyard_id { get; set; }
 
         public int garage_id { get; set; }
 
-        [ForeignKey("scrapyard_id")]
-        public virtual ScrapyardEntity scrapyard { get; set; }
+        [ForeignKey("junkyard_id")]
+        public virtual JunkyardEntity junkyard { get; set; }
 
         [ForeignKey("garage_id")]
         public virtual GarageEntity garage { get; set; }

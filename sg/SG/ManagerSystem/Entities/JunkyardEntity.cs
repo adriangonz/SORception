@@ -6,11 +6,11 @@ using System.Web;
 
 namespace ManagerSystem.Entities
 {
-    public class GarageEntity : AbstractEntity
+    public class JunkyardEntity : AbstractEntity
     {
         public string name { get; set; }
 
-        [InverseProperty("garage")]
+        [InverseProperty("junkyard")]
         public virtual ICollection<TokenEntity> tokens { get; set; }
 
         public virtual TokenEntity token
@@ -21,7 +21,7 @@ namespace ManagerSystem.Entities
             }
         }
 
-        [InverseProperty("garage")]
-        public virtual ICollection<OrderEntity> orders { get; set; }
+        [InverseProperty("junkyard")]
+        public virtual ICollection<OfferEntity> offers { get; set; }
     }
 }
