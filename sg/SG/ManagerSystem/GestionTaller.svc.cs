@@ -300,7 +300,7 @@ namespace ManagerSystem
             {
                 // Send a message to the Offer AMQTopic
                 ExpPedido pedido = new ExpPedido();
-                pedido.oferta_id = oferta_id;
+                pedido.oferta_id = r_oferta.Find(oferta_id).id_en_desguace;
                 pedido.lineas = new List<ExpPedido.Line>();
                 foreach (var linea in lineas)
                 {
