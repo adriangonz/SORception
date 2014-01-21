@@ -6,7 +6,7 @@
 
     Auth.isLoggedIn();
     $scope.pedidos = [];
-    Taller.getpedidos();
+    Taller.getPedidos();
 
 
 

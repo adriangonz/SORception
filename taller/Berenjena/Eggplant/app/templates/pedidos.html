@@ -4,15 +4,15 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Status</th>
             <th>Modificado</th>
+            <th>Nº de lineas</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="pedido in pedidos">
             <td>{{pedido.id}}</td>
-            <td>{{pedido.status}}</td>
-            <td>{{pedido.timeStamp}}<a class="fright" view-pedido-btn="pedido"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td>{{pedido.timeStamp}}</td>
+            <td>{{pedido.lineaPedido.length}}<a class="fright" view-pedido-btn="pedido"><i class="glyphicon glyphicon-eye-open"></i></a></td>
         </tr>
     </tbody>
 </table>

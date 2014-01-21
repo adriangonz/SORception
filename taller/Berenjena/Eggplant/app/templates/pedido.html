@@ -13,12 +13,8 @@
             <td> {{actual_pedido.id}}</td>
         </tr>
         <tr>
-            <td>Ref SG:</td>
-            <td>{{actual_pedido.sg_id}}</td>
-        </tr>
-        <tr>
-            <td>Status:</td>
-            <td>{{actual_pedido.status}}</td>
+            <td>Id Solicitud:</td>
+            <td><a href="#/order/{{actual_pedido.solicitud.id}}">{{actual_pedido.solicitud.id}}</a></td>
         </tr>
         <tr>
             <td>Modificado:</td>
@@ -33,14 +29,16 @@
         <tr>
             <th>#</th>
             <th>Descripcion</th>
+            <th>Estado</th>
             <th>Cantidad</th>
         </tr>
     </thead>
-    <tbody ng-repeat="linea in actual_pedido.lineas">
+    <tbody ng-repeat="linea in actual_pedido.lineaPedido">
         <tr>
             <td>{{linea.id}}</td>
-            <td>{{linea.descripcion}}</td>
-            <td>{{linea.cantidad}}</td>
+            <td>{{linea.description}}</td>
+            <td>{{linea.state}}</td>
+            <td>{{linea.quantity}}</td>
         </tr>
     </tbody>
 </table>

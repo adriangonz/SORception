@@ -139,6 +139,7 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
 
                 linea_pedido.id_linea_oferta = scope.line.id;
                 linea_pedido.cantidad = element.val();
+                linea_pedido.id_linea_solcitud = scope.line.linea_solicitud_id;
 
                 Taller.addLineaPedido(linea_pedido);
             }
@@ -169,6 +170,3 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         }
     }
 }]);
-
-
-

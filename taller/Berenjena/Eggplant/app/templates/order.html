@@ -51,16 +51,17 @@
                                 <th>Observacion</th>
                                 <th>Disponibles</th>
                                 <th>Precio Unidad</th>
-                                <th>Pedir</th>
+                                <th>Cantidad</th>
                             </tr>
                         </thead>
                         <tbody ng-repeat="oferta in linea.offers">
-                            <tr>
+                            <tr ng-class="{'success': oferta.linea_solicitud != null}">
                                 <td>{{oferta.id}}</td>
                                 <td>{{oferta.notes}}</td>
                                 <td>{{oferta.quantity}}</td>
                                 <td>{{oferta.price}}€</td>
-                                <td><input class="form-control full" type="number" min="1" id="cant_pedida" ln-pedido="oferta" placeholder="5" /></td>
+                                <td ng-hide="oferta.linea_solicitud"><input class="form-control full" type="number" min="1" id="cant_pedida" ln-pedido="oferta" placeholder="5" /></td>
+                                <td ng-show="oferta.linea_solicitud">{{oferta.linea_solicitud.quantity}}</td>
                             </tr>
                         </tbody>
                     </table>
