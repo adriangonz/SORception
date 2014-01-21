@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
+import com.sorception.jscrap.entities.UserEntity;
 
 @Repository
 @Transactional
@@ -30,6 +31,10 @@ public class OrderDAO {
 		return orderEntity;
 	}
 	
+	public OrderEntity update(OrderEntity orderEntity) {
+		return entityManager.merge(orderEntity);
+	}
+	
 	public OrderEntity get(Long id) {
 		return (OrderEntity)this.entityManager.find(OrderEntity.class, id);
 	}
@@ -43,5 +48,16 @@ public class OrderDAO {
 		OrderEntity order = orderLine.getOrder();
 		Hibernate.initialize(order);
 		return order;
+	}
+
+	public OrderEntity getBySgId(String sgId) {
+		List<OrderEntity> orders = this.entityManager
+                .createQuery("from OrderEntity where sgId = :sgId")
+                .setParameter("sgId", sgId)
+                .getResultList();
+        if(orders.isEmpty())
+            return null;
+        else
+            return orders.get(0);
 	}
 }
