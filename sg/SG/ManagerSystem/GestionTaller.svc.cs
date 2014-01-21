@@ -263,20 +263,14 @@ namespace ManagerSystem
         {
             Taller t = getAuthorizedTaller();
 
-            Oferta o = r_oferta.Find(r.oferta_id);
-            if (o.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-
-            ExpPedido amq_pedido = new ExpPedido();
-            amq_pedido.oferta_id = o.id_en_desguace;
-            amq_pedido.lineas = new List<ExpPedido.Line>();
+            Dictionary<int, List<LineaOfertaSeleccionada>> pedidas_ahora = new Dictionary<int, List<LineaOfertaSeleccionada>>();
 
             foreach (var l in r.lineas)
             {
                 LineaOferta lo = db_context.LineaOfertaSet.Find(l.linea_oferta_id);
-                if (lo.LineaOfertaSeleccionada != null)
+                /*if (lo.LineaOfertaSeleccionada != null)
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-                /*if (!o.LineasOferta.Contains(lo))
+                if (!o.LineasOferta.Contains(lo))
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);*/
                     
                 LineaOfertaSeleccionada los = new LineaOfertaSeleccionada();
@@ -286,61 +280,42 @@ namespace ManagerSystem
                 db_context.LineaOfertaSeleccionadaSet.Add(los);
                 lo.LineaSolicitud.status = l.quantity >= lo.LineaSolicitud.quantity ? "COMPLETE" : "SELECTED";
 
-                ExpPedido.Line lp = new ExpPedido.Line();
-                lp.linea_oferta_id = lo.id_en_desguace;
-                lp.quantity = l.quantity;
-                amq_pedido.lineas.Add(lp);
+                if (!pedidas_ahora.ContainsKey(lo.OfertaId))
+                    pedidas_ahora[lo.OfertaId] = new List<LineaOfertaSeleccionada>();
+                pedidas_ahora[lo.OfertaId].Add(los);
             }
             db_context.SaveChanges();
 
-            AMQPedidoMessage message = new AMQPedidoMessage();
-            message.desguace_id = o.Desguace.Tokens.First(token => token.is_valid == true).token;
-            message.pedido = amq_pedido;
-            SendMessage(message);
+            foreach (var entry in pedidas_ahora)
+            {
+                SendPedido(entry.Key, entry.Value);
+            }
 
             return 0;
         }
 
-        private void SendMessage(AMQSolicitudMessage sm)
+        private void SendPedido(int oferta_id, List<LineaOfertaSeleccionada> lineas)
         {
-            Taller t = getAuthorizedTaller();
+            if (lineas.Count > 0)
+            {
+                // Send a message to the Offer AMQTopic
+                ExpPedido pedido = new ExpPedido();
+                pedido.oferta_id = oferta_id;
+                pedido.lineas = new List<ExpPedido.Line>();
+                foreach (var linea in lineas)
+                {
+                    ExpPedido.Line linea_ped = new ExpPedido.Line();
+                    linea_ped.quantity = linea.quantity;
+                    linea_ped.linea_oferta_id = linea.LineaOferta.Id;
+                    pedido.lineas.Add(linea_ped);
+                }
 
-            TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Client_ID,
-                    Constants.ActiveMQ.Solicitudes_Topic);
-            publisher.SendMessage(sm);
-            publisher.Dispose();
-        }
-
-        private void SendMessage(AMQPedidoMessage sm)
-        {
-            Taller t = getAuthorizedTaller();
-
-            TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Client_ID,
-                    Constants.ActiveMQ.Pedidos_Topic);
-            publisher.SendMessage(sm);
-            publisher.Dispose();
-        }
-
-        private void ScheduleJob(Solicitud s)
-        {
-            AMQScheduledJob job = new AMQScheduledJob();
-            job.deadline = s.deadline;
-            job.id_solicitud = s.Id;
-            job.csrf = GenerateCSRF(s);
-
-            TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Client_ID,
-                    Constants.ActiveMQ.Jobs_Topic);
-
-            TimeSpan delay = s.deadline - DateTime.Now;
-            publisher.SendMessage(job, (long) delay.TotalMilliseconds);
-            publisher.Dispose();
-        }
+                AMQPedidoMessage message = new AMQPedidoMessage();
+                message.pedido = pedido;
+                message.desguace_id = db_context.OfertaSet.Find(oferta_id).Desguace.Tokens.First(t => t.is_valid).token;
+                SendMessage(message);
+            }
+         }
 
         public void checkAutoBuy(Oferta o)
         {
@@ -380,25 +355,11 @@ namespace ManagerSystem
                     db_context.LineaOfertaSeleccionadaSet.Add(selec);
                 }
             }
-            db_context.SaveChanges();
 
             if (pedidas_ahora.Count > 0)
             {
-                ExpPedido pedido = new ExpPedido();
-                pedido.oferta_id = o.Id;
-                pedido.lineas = new List<ExpPedido.Line>();
-                foreach (var linea in pedidas_ahora)
-                {
-                    ExpPedido.Line linea_ped = new ExpPedido.Line();
-                    linea_ped.quantity = linea.quantity;
-                    linea_ped.linea_oferta_id = linea.LineaOferta.Id;
-                    pedido.lineas.Add(linea_ped);
-                }
-
-                AMQPedidoMessage message = new AMQPedidoMessage();
-                message.pedido = pedido;
-                message.desguace_id = db_context.TokenSet.First(t => t.is_valid && t.DesguaceId == o.DesguaceId).token;
-                SendMessage(message);
+                db_context.SaveChanges();
+                SendPedido(o.Id, pedidas_ahora);
             }
         }
 
@@ -477,25 +438,9 @@ namespace ManagerSystem
                 }
                 db_context.SaveChanges();
 
-                // For each offer with select lines
                 foreach (var entry in pedidas_ahora)
                 {
-                    // Send a message to the Offer AMQTopic
-                    ExpPedido pedido = new ExpPedido();
-                    pedido.oferta_id = entry.Key;
-                    pedido.lineas = new List<ExpPedido.Line>();
-                    foreach (var linea in entry.Value)
-                    {
-                        ExpPedido.Line linea_ped = new ExpPedido.Line();
-                        linea_ped.quantity = linea.quantity;
-                        linea_ped.linea_oferta_id = linea.LineaOferta.Id;
-                        pedido.lineas.Add(linea_ped);
-                    }
-
-                    AMQPedidoMessage message = new AMQPedidoMessage();
-                    message.pedido = pedido;
-                    message.desguace_id = db_context.OfertaSet.Find(entry.Key).Desguace.Tokens.First(t => t.is_valid).token;
-                    SendMessage(message);
+                    SendPedido(entry.Key, entry.Value);
                 }
             }
         }
@@ -533,6 +478,47 @@ namespace ManagerSystem
             }
 
             return true;
+        }
+
+        private void SendMessage(AMQSolicitudMessage sm)
+        {
+            Taller t = getAuthorizedTaller();
+
+            TopicPublisher publisher = TopicPublisher.MakePublisher(
+                    Constants.ActiveMQ.Broker,
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Solicitudes_Topic);
+            publisher.SendMessage(sm);
+            publisher.Dispose();
+        }
+
+        private void SendMessage(AMQPedidoMessage sm)
+        {
+            Taller t = getAuthorizedTaller();
+
+            TopicPublisher publisher = TopicPublisher.MakePublisher(
+                    Constants.ActiveMQ.Broker,
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Pedidos_Topic);
+            publisher.SendMessage(sm);
+            publisher.Dispose();
+        }
+
+        private void ScheduleJob(Solicitud s)
+        {
+            AMQScheduledJob job = new AMQScheduledJob();
+            job.deadline = s.deadline;
+            job.id_solicitud = s.Id;
+            job.csrf = GenerateCSRF(s);
+
+            TopicPublisher publisher = TopicPublisher.MakePublisher(
+                    Constants.ActiveMQ.Broker,
+                    Constants.ActiveMQ.Client_ID,
+                    Constants.ActiveMQ.Jobs_Topic);
+
+            TimeSpan delay = s.deadline - DateTime.Now;
+            publisher.SendMessage(job, (long)delay.TotalMilliseconds);
+            publisher.Dispose();
         }
     }
 }
