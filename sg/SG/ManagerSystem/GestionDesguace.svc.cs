@@ -116,9 +116,7 @@ namespace ManagerSystem
             linea.notes = "";
             o.oferta.lineas.Add(linea);
             
-            Oferta of = processAMQMessage(o);
-            GestionTaller gt = new GestionTaller(db_context);
-            gt.checkAutoBuy(of);*/
+            Oferta of = processAMQMessage(o);*/
         }
 
         public Oferta processAMQMessage(AMQOfertaMessage message)
