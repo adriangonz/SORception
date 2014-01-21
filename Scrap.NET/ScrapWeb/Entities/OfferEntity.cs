@@ -37,5 +37,13 @@ namespace ScrapWeb.Entities
                 return rawLines.Where(t => !t.deleted);
             } 
         }
+
+        public virtual IEnumerable<OfferLineEntity> accepted
+        {
+            get
+            {
+                return lines.Where(t => t.acceptedOffer != null);
+            }
+        }
     }
 }

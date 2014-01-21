@@ -33,7 +33,7 @@ namespace ScrapWeb.AMQ
         public void Start(string consumerId)
         {
             ConsumerId = consumerId;
-            Consumer = session.CreateDurableConsumer(topic, consumerId, null, false);
+            Consumer = session.CreateDurableConsumer(topic, consumerId, "2 > 1", false);
             Consumer.Listener += (message =>
             {
                 var textMessage = message as ITextMessage;

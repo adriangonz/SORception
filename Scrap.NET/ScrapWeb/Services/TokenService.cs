@@ -36,7 +36,7 @@ namespace ScrapWeb.Services
             nullValidTokens();
 
             // Disable topic subscriber
-            amqService.destroyTopicSubscriber();
+            amqService.destroyTopicSubscribers();
 
             // Request new token as temporal
             TokenEntity tokenEntity = sgService.signUp();
@@ -69,7 +69,7 @@ namespace ScrapWeb.Services
                 if (tokenEntity.status != TokenStatus.VALID)
                     throw new ServiceException("Token request has not been accepted", HttpStatusCode.NotFound);
                 // If we have a token, enable it here
-                amqService.createTopicSubscriber(tokenEntity);
+                amqService.createTopicSubscribers(tokenEntity);
             }
             return tokenEntity;
         }

@@ -849,6 +849,189 @@ namespace ScrapWeb.Webservices {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AMQPedidoMessage", Namespace="http://sorception.azurewebsites.net/")]
+    [System.SerializableAttribute()]
+    public partial class AMQPedidoMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string desguace_idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ScrapWeb.Webservices.ExpPedido pedidoField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string desguace_id {
+            get {
+                return this.desguace_idField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.desguace_idField, value) != true)) {
+                    this.desguace_idField = value;
+                    this.RaisePropertyChanged("desguace_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ScrapWeb.Webservices.ExpPedido pedido {
+            get {
+                return this.pedidoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.pedidoField, value) != true)) {
+                    this.pedidoField = value;
+                    this.RaisePropertyChanged("pedido");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpPedido", Namespace="http://sorception.azurewebsites.net/")]
+    [System.SerializableAttribute()]
+    public partial class ExpPedido : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ScrapWeb.Webservices.ExpPedidoLine[] lineasField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int oferta_idField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ScrapWeb.Webservices.ExpPedidoLine[] lineas {
+            get {
+                return this.lineasField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.lineasField, value) != true)) {
+                    this.lineasField = value;
+                    this.RaisePropertyChanged("lineas");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int oferta_id {
+            get {
+                return this.oferta_idField;
+            }
+            set {
+                if ((this.oferta_idField.Equals(value) != true)) {
+                    this.oferta_idField = value;
+                    this.RaisePropertyChanged("oferta_id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpPedido.Line", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
+    [System.SerializableAttribute()]
+    public partial class ExpPedidoLine : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int linea_oferta_idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int quantityField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int linea_oferta_id {
+            get {
+                return this.linea_oferta_idField;
+            }
+            set {
+                if ((this.linea_oferta_idField.Equals(value) != true)) {
+                    this.linea_oferta_idField = value;
+                    this.RaisePropertyChanged("linea_oferta_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int quantity {
+            get {
+                return this.quantityField;
+            }
+            set {
+                if ((this.quantityField.Equals(value) != true)) {
+                    this.quantityField = value;
+                    this.RaisePropertyChanged("quantity");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://sorception.azurewebsites.net/", ConfigurationName="Webservices.IGestionDesguace")]
     public interface IGestionDesguace {
@@ -866,10 +1049,10 @@ namespace ScrapWeb.Webservices {
         System.Threading.Tasks.Task<ScrapWeb.Webservices.TokenResponse> getStateAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sorception.azurewebsites.net/IGestionDesguace/dummy", ReplyAction="http://sorception.azurewebsites.net/IGestionDesguace/dummyResponse")]
-        void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o);
+        void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sorception.azurewebsites.net/IGestionDesguace/dummy", ReplyAction="http://sorception.azurewebsites.net/IGestionDesguace/dummyResponse")]
-        System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o);
+        System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -915,12 +1098,12 @@ namespace ScrapWeb.Webservices {
             return base.Channel.getStateAsync(id);
         }
         
-        public void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o) {
-            base.Channel.dummy(s, o);
+        public void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p) {
+            base.Channel.dummy(s, o, p);
         }
         
-        public System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o) {
-            return base.Channel.dummyAsync(s, o);
+        public System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p) {
+            return base.Channel.dummyAsync(s, o, p);
         }
     }
 }
