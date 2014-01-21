@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ScrapWeb.DataAccess;
+using ScrapWeb.Entities;
+using ScrapWeb.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,7 +11,7 @@ using System.Web;
 
 namespace ScrapWeb
 {
-    public class DataInitializer : DropCreateDatabaseAlways<ScrapContext>
+    public class DataInitializer : DropCreateDatabaseIfModelChanges<ScrapContext>
     {
         protected override void Seed(ScrapContext context)
         {
@@ -27,7 +29,7 @@ namespace ScrapWeb
             {
                 UserManager.AddToRole(user.Id, "ROLE_ADMIN");
             }
-
+            
             base.Seed(context);
         }
     }

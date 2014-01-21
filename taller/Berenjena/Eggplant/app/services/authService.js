@@ -40,6 +40,7 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	        SessionTaller = $cookies["SessionTaller"];
 	        if (SessionTaller) {
 	            SessionTaller = JSON.parse(SessionTaller);
+			      $http.defaults.headers.common.Authorization = 'Bearer ' + SessionTaller.access_token;
 	            return SessionTaller.userName;
 	        }
 	        return "Sin conexion";

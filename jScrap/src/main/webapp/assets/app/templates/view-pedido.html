@@ -1,0 +1,45 @@
+<h2>Solicitud {{actual_pedido.id}}</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Informacion</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Identificador:</td>
+            <td>{{actual_pedido.id}}</td>
+        </tr>
+        <tr>
+            <td>Ref SG:</td>
+            <td>{{actual_pedido.sgId}}</td>
+        </tr>
+        <tr>
+            <td>Modificado:</td>
+            <td>{{actual_pedido.updatedDate}}</td>
+        </tr>
+        <tr>
+            <td>Fecha fin:</td>
+            <td>{{actual_pedido.deadline}}</td>
+        </tr>
+    </tbody>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripcion</th>
+            <th>Cantidad Pedida</th>
+            <th>Precio Unidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="line in actual_pedido.lines">
+            <td>{{line.id}}</td>
+            <td>{{line.description}}</td>
+            <td>{{line.quantity}}</td>
+            <td>{{line.price}}</td>
+        </tr>
+    </tbody>
+</table>

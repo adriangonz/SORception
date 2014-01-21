@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Apache.NMS">
+      <HintPath>..\packages\Apache.NMS.1.6.0.3083\lib\net40\Apache.NMS.dll</HintPath>
+    </Reference>
+    <Reference Include="Apache.NMS.ActiveMQ">
+      <HintPath>..\packages\Apache.NMS.ActiveMQ.1.6.2\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -165,6 +171,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AMQ\TopicPublisher.cs" />
+    <Compile Include="AMQ\TopicSubscriber.cs" />
+    <Compile Include="App_Start\AMQConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DataInitializer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -172,10 +181,17 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Config\ScrapSettingsConfiguration.cs" />
+    <Compile Include="Controllers\OfferController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAccess\ScrapContext.cs" />
+    <Compile Include="DTO\OfferDTO.cs" />
+    <Compile Include="Entities\OfferEntity.cs" />
+    <Compile Include="Entities\OfferLineEntity.cs" />
+    <Compile Include="Entities\OrderEntity.cs" />
+    <Compile Include="Entities\OrderLineEntity.cs" />
     <Compile Include="Entities\SettingsEntity.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
     <Compile Include="Filters\ExceptionHandlingFilter.cs" />
@@ -194,6 +210,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Services\AMQService.cs" />
+    <Compile Include="Services\OfferService.cs" />
+    <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\SGService.cs" />
     <Compile Include="Services\TokenService.cs" />

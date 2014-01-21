@@ -20,9 +20,9 @@ namespace ScrapWeb.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll(string includeProperties = "")
         {
-            return this.Get();
+            return this.Get(null, null, includeProperties);
         }
 
         public virtual IEnumerable<TEntity> Get(

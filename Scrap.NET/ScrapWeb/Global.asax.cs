@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScrapWeb;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace ScrapWeb
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer(new DataInitializer());
+            AMQConfig.RegisterActiveMQ();
         }
     }
 }

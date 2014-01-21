@@ -11,7 +11,11 @@ namespace ScrapWeb.DataAccess
     public class ScrapContext : 
         IdentityDbContext<IdentityUser>
     {
-        public DbSet<TokenEntity> Token { get; set; } 
+        public DbSet<TokenEntity> Token { get; set; }
+        public DbSet<OrderEntity> Order { get; set; }
+        public DbSet<OrderLineEntity> OrderLine { get; set; }
+        public DbSet<OfferEntity> Offer { get; set; }
+        public DbSet<OfferLineEntity> OfferLine { get; set; }
 
         // Override for created and modified dates
         public override int SaveChanges()
