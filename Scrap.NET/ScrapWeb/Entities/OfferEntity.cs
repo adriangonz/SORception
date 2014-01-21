@@ -19,7 +19,7 @@ namespace ScrapWeb.Entities
         {
             get
             {
-                return rawLines.Count() > 0 ? rawLines.First().orderLine.order.sgId : "-1";
+                return lines.Count() > 0 ? lines.First().orderLine.order.sgId : "-1";
             }
         }
 

@@ -56,6 +56,7 @@ namespace ScrapWeb.Services
                 }
             }
             scrapContext.SaveChanges();
+            amqService.updateOffer(offerEntity);
             return offerEntity;
         }
 
@@ -99,6 +100,7 @@ namespace ScrapWeb.Services
                 delete(line);
             }
             scrapContext.SaveChanges();
+            amqService.deleteOffer(offerEntity);
         }
 
         private void delete(OfferLineEntity offerLine) 

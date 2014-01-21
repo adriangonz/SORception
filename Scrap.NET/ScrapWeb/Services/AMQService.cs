@@ -13,9 +13,27 @@ namespace ScrapWeb.Services
 {
     public class AMQService
     {
-        private readonly string origin = "Solicitudes";
-        private readonly string destination = "Ofertas";
+        private static readonly string origin = "Solicitudes";
+        private static readonly string destination = "Ofertas";
         private TopicSubscriber topicSubscriber;
+
+        private static TopicPublisher _topicPublisher;
+        private static TopicPublisher topicPublisher 
+        {
+            get 
+            {
+                if(_topicPublisher == null) 
+                {
+                    _topicPublisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, destination);
+                }
+                return _topicPublisher;
+            }
+
+            set
+            {
+                _topicPublisher = value;
+            }
+        }
 
         public TopicSubscriber createTopicSubscriber() 
         {
@@ -84,13 +102,22 @@ namespace ScrapWeb.Services
         public void sendOffer(OfferEntity offerEntity)
         {
             Trace.WriteLine("Sending new offer with remote id " + offerEntity.orderSgId + " ...");
-            TopicPublisher publisher = new TopicPublisher(
-                AMQConfig.Session, AMQConfig.Connection, destination);
-
-            publisher.SendMessage(toAMQOfertaMessage(offerEntity));
+            topicPublisher.SendMessage(toAMQOfertaMessage(offerEntity, AMQOfertaMessageCode.New));
         }
 
-        private AMQOfertaMessage toAMQOfertaMessage(OfferEntity offerEntity)
+        public void updateOffer(OfferEntity offerEntity)
+        {
+            Trace.WriteLine("Updating offer with remote id " + offerEntity.orderSgId + " ...");
+            topicPublisher.SendMessage(toAMQOfertaMessage(offerEntity, AMQOfertaMessageCode.Update));
+        }
+
+        public void deleteOffer(OfferEntity offerEntity)
+        {
+            Trace.WriteLine("Deleting offer with remote id " + offerEntity.orderSgId + " ...");
+            topicPublisher.SendMessage(toAMQOfertaMessage(offerEntity, AMQOfertaMessageCode.Delete));
+        }
+
+        private AMQOfertaMessage toAMQOfertaMessage(OfferEntity offerEntity, AMQOfertaMessageCode status)
         {
             // Get token (if not valid, we finish here)
             TokenService tokenService = new TokenService();
@@ -122,7 +149,7 @@ namespace ScrapWeb.Services
             return new AMQOfertaMessage
             {
                 desguace_id = token.token,
-                code = AMQOfertaMessageCode.New,
+                code = status,
                 oferta = oferta
             };
         }
