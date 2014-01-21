@@ -6,11 +6,28 @@ using System.Runtime.Serialization;
 
 namespace ManagerSystem
 {
-    public partial class Desguace
+    public class RDesguace
     {
-        static managersystemEntities ms_ent = new managersystemEntities();
+        private managersystemEntities db_context;
+        private RToken r_token; 
 
-        static private Desguace Copy(Desguace tmp) {
+        public RDesguace()
+        {
+            init(new managersystemEntities());
+        }
+
+        public RDesguace(managersystemEntities context)
+        {
+            init(context);
+        }
+
+        private void init(managersystemEntities context)
+        {
+            db_context = context;
+            r_token = new RToken(db_context);
+        }
+
+        private Desguace Copy(Desguace tmp) {
             Desguace d = new Desguace();
             d.Id = tmp.Id;
             d.name = tmp.name;
@@ -19,7 +36,7 @@ namespace ManagerSystem
             return d;
         }
 
-        static public Desguace FromExposed(ExpDesguace ed) 
+        public Desguace FromExposed(ExpDesguace ed) 
         {
             Desguace d = new Desguace();
 
@@ -28,7 +45,7 @@ namespace ManagerSystem
             return d;
         }
 
-        static public ExpDesguace ToExposed(Desguace d)
+        public ExpDesguace ToExposed(Desguace d)
         {
             ExpDesguace ed = new ExpDesguace();
 
@@ -37,30 +54,30 @@ namespace ManagerSystem
             return ed;
         }
 
-        static public Desguace Find(int id)
+        public Desguace Find(int id)
         {
-            return ms_ent.DesguaceSet.Find(id);
+            return db_context.DesguaceSet.Find(id);
         }
 
-        static public Desguace Find(string token)
+        public Desguace Find(string token)
         {
-            Token t = Token.Find(token);
+            Token t = r_token.Find(token);
             if (t != null)
                 return t.Desguace;
             return null;
         }
 
-        static public Desguace Sanitize(Desguace d)
+        public Desguace Sanitize(Desguace d)
         {
             return Copy(d);
         }
 
 
-        static public List<Desguace> FindAll()
+        public List<Desguace> FindAll()
         {
             List<Desguace> l = new List<Desguace>();
 
-            var lq_l = from d in ms_ent.DesguaceSet select d;
+            var lq_l = from d in db_context.DesguaceSet select d;
             foreach (var singleDesguace in lq_l)
             {
                 Desguace d = new Desguace();
@@ -73,12 +90,12 @@ namespace ManagerSystem
             return l;
         }
 
-        static public void InsertOrUpdate(Desguace desguace)
+        public void InsertOrUpdate(Desguace desguace)
         {
             if (desguace.Id == default(int))
             {
                 // New entity
-                ms_ent.DesguaceSet.Add(desguace);
+                db_context.DesguaceSet.Add(desguace);
             }
             else
             {
@@ -91,20 +108,20 @@ namespace ManagerSystem
             }
         }
 
-        static public void Delete(int id)
+        public void Delete(int id)
         {
-            Desguace d = ms_ent.DesguaceSet.Find(id);
+            Desguace d = db_context.DesguaceSet.Find(id);
             d.deleted = true;
         }
 
-        static public void Save()
+        public void Save()
         {
-            ms_ent.SaveChanges();
+            db_context.SaveChanges();
         }
 
-        static public void Dispose()
+        public void Dispose()
         {
-            ms_ent.Dispose();
+            db_context.Dispose();
         }
     }
 }

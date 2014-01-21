@@ -7,9 +7,21 @@ using System.Text;
 
 namespace ManagerSystem
 {
-    public partial class Token
+    public class RToken
     {
-        static public Token getToken()
+        public managersystemEntities db_context;
+
+        public RToken()
+        {
+            db_context = new managersystemEntities();
+        }
+
+        public RToken(managersystemEntities context)
+        {
+            db_context = context;
+        }
+
+        public Token getToken()
         {
             SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
 
@@ -32,9 +44,8 @@ namespace ManagerSystem
             return t;
         }
 
-        static managersystemEntities ms_ent = new managersystemEntities();
 
-        static private Token Copy(Token tmp)
+        private Token Copy(Token tmp)
         {
             Token d = new Token();
             d.Id = tmp.Id;
@@ -47,14 +58,14 @@ namespace ManagerSystem
             return d;
         }
 
-        static public Token Find(int id)
+        public Token Find(int id)
         {
-            return ms_ent.TokenSet.Find(id);
+            return db_context.TokenSet.Find(id);
         }
 
-        static public Token Find(string token)
+        public Token Find(string token)
         {
-            var obj = ms_ent.TokenSet.First(o => o.token == token);
+            var obj = db_context.TokenSet.First(o => o.token == token);
 
             if (obj == null)
                 return null;
@@ -62,16 +73,16 @@ namespace ManagerSystem
             return Copy(obj);
         }
 
-        static public Token Sanitize(Token d)
+        public Token Sanitize(Token d)
         {
             return Copy(d);
         }
 
-        static public List<Token> FindAll()
+        public List<Token> FindAll()
         {
             List<Token> l = new List<Token>();
 
-            var lq_l = from d in ms_ent.TokenSet select d;
+            var lq_l = from d in db_context.TokenSet select d;
             foreach (var singleToken in lq_l)
             {
                 Token t = Copy(singleToken);
@@ -81,7 +92,7 @@ namespace ManagerSystem
             return l;
         }
 
-        static public string RegenerateToken(Token t)
+        public string RegenerateToken(Token t)
         {
             if (t == null)
                 return "";
@@ -90,7 +101,7 @@ namespace ManagerSystem
             t.updated = DateTime.Now;
             InsertOrUpdate(t);
 
-            Token new_token = Token.getToken();
+            Token new_token = getToken();
             new_token.Desguace = t.Desguace;
             new_token.Taller = t.Taller;
             InsertOrUpdate(new_token);
@@ -100,12 +111,12 @@ namespace ManagerSystem
             return new_token.token;
         }
 
-        static public void InsertOrUpdate(Token token)
+        public void InsertOrUpdate(Token token)
         {
             if (token.Id == default(int))
             {
                 // New entity
-                ms_ent.TokenSet.Add(token);
+                db_context.TokenSet.Add(token);
             }
             else
             {
@@ -116,20 +127,20 @@ namespace ManagerSystem
             }
         }
 
-        static public void Delete(int id)
+        public void Delete(int id)
         {
-            var token = ms_ent.TokenSet.Find(id);
-            ms_ent.TokenSet.Remove(token);
+            var token = db_context.TokenSet.Find(id);
+            db_context.TokenSet.Remove(token);
         }
 
-        static public void Save()
+        public void Save()
         {
-            ms_ent.SaveChanges();
+            db_context.SaveChanges();
         }
 
-        static public void Dispose()
+        public void Dispose()
         {
-            ms_ent.Dispose();
+            db_context.Dispose();
         }
     }
 }
