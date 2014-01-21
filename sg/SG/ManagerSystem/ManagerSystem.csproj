@@ -108,7 +108,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\GenericRepository.cs" />
     <Compile Include="DataAccess\MSContext.cs" />
+    <Compile Include="DataAccess\UnitOfWork.cs" />
     <Compile Include="DataContracts.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Desguace.cs">
@@ -122,7 +124,6 @@
     <Compile Include="Entities\OrderLineEntity.cs" />
     <Compile Include="Entities\JunkyardEntity.cs" />
     <Compile Include="Entities\TokenEntity.cs" />
-    <Compile Include="GenericContext.cs" />
     <Compile Include="RDesguace.cs" />
     <Compile Include="GestionAdmin.svc.cs">
       <DependentUpon>GestionAdmin.svc</DependentUpon>
