@@ -1,0 +1,44 @@
+﻿<h2>Pedido {{actual_pedido.id}}</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Informacion</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Identificador:</td>
+            <td> {{actual_pedido.id}}</td>
+        </tr>
+        <tr>
+            <td>Id Solicitud:</td>
+            <td><a href="#/order/{{actual_pedido.solicitud.id}}">{{actual_pedido.solicitud.id}}</a></td>
+        </tr>
+        <tr>
+            <td>Modificado:</td>
+            <td>{{actual_pedido.timeStamp}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="linea in actual_pedido.lineaPedido">
+        <tr>
+            <td>{{linea.id}}</td>
+            <td>{{linea.description}}</td>
+            <td>{{linea.state}}</td>
+            <td>{{linea.quantity}}</td>
+        </tr>
+    </tbody>
+</table>

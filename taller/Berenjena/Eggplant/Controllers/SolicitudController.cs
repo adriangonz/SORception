@@ -116,6 +116,7 @@ namespace Eggplant.Controllers
                     LineaSolicitud linInt = new LineaSolicitud();
                     linInt.cantidad = int.Parse(item["cantidad"].ToString());
                     linInt.descripcion = item["descripcion"].ToString();
+                    linInt.criterio = item["criterio"]["code"].ToString();
                     s.LineaSolicitud.Add(linInt);
 
                     ExpSolicitudLine expoLinSol = new ExpSolicitudLine();
@@ -165,32 +166,39 @@ namespace Eggplant.Controllers
                     {
                         //Creo las lineas de la solicitud desde los datos pasado por json
                         List<ExpSolicitudLine> lineas = new List<ExpSolicitudLine>();
+                        List<LineaSolicitud> lineasNuevas = new List<LineaSolicitud>();
                         foreach (JObject item in values["data"])
                         {
                             string efecto = item["update"].ToString();
                             //Si me envia datos que no sean totalmente inutiles que solo sirven para sobrecargar
                             if (efecto == LINEA_NEW || efecto == LINEA_UPDATED || efecto == LINEA_DELETE)
                             {
+                                LineaSolicitud linIn = null;
                                 // Modificacion interna
                                 if (efecto == LINEA_NEW)
                                 {
-                                    LineaSolicitud linIn = new LineaSolicitud();
+                                    linIn = new LineaSolicitud();
                                     linIn.descripcion = item["descripcion"].ToString();
                                     linIn.cantidad = int.Parse(item["cantidad"].ToString());
+                                    linIn.criterio = item["criterio"]["code"].ToString();
+                                    linIn.status = DELETED;
                                     solInterna.LineaSolicitud.Add(linIn);
+                                    c_bd.SaveChanges();
+                                    lineasNuevas.Add(linIn);
                                 }
                                 else if (efecto == LINEA_UPDATED)
                                 {
                                     int idToModify = int.Parse(item["id"].ToString());
-                                    LineaSolicitud linIn =
+                                    linIn =
                                         c_bd.LineaSolicitudSet.FirstOrDefault(x => x.Id == idToModify);
                                     linIn.descripcion = item["descripcion"].ToString();
                                     linIn.cantidad = int.Parse(item["cantidad"].ToString());
+                                    linIn.criterio = item["criterio"]["code"].ToString();
                                 }
                                 else if (efecto == LINEA_DELETE)
                                 {
                                     int idToDelete = int.Parse(item["id"].ToString());
-                                    LineaSolicitud linIn =
+                                    linIn =
                                         c_bd.LineaSolicitudSet.FirstOrDefault(x => x.Id == idToDelete);
                                     c_bd.LineaSolicitudSet.Remove(linIn);//.LineaSolicitud.Remove(linIn);
                                 }
@@ -199,16 +207,33 @@ namespace Eggplant.Controllers
                                 lin.description = item["descripcion"].ToString();
                                 lin.quantity = int.Parse(item["cantidad"].ToString());
                                 lin.action = efecto;
+                                lin.flag = ExpSolicitudLine.castToFlag(item["criterio"]["code"].ToString());
+                                lin.status = efecto;
+                                if (efecto == LINEA_UPDATED || efecto == LINEA_DELETE) 
+                                {
+                                    lin.id = linIn.sg_id;
+                                }
+                                else
+                                {
+                                    lin.id_en_taller = linIn.Id;
+                                }
                                 lineas.Add(lin);
-
-
-
                             }
                         }
-                        c_bd.SaveChanges();
-
                         solExterna.lineas = lineas.ToArray();
-                        svcTaller.putSolicitud(solExterna);
+                        try 
+                        { 
+                            svcTaller.putSolicitud(solExterna);
+                        }
+                        catch (Exception ex)
+                        {
+                            c_bd.LineaSolicitudSet.RemoveRange(lineasNuevas);
+                            c_bd.SaveChanges();
+                            throw;
+                        }
+                        c_bd.SaveChanges();
+                        
+
                         return Request.CreateErrorResponse(HttpStatusCode.OK, "");
                     }
                     else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Solicitud no encontrada en el sistema gestor");
@@ -227,9 +252,7 @@ namespace Eggplant.Controllers
                 {
                     sol.status = DELETED;
                     c_bd.SaveChanges();
-                    ExpSolicitud sExt = svcTaller.getSolicitud(sol.sg_id);
-                    sExt.status = DELETED;
-                    svcTaller.putSolicitud(sExt);
+                    svcTaller.deleteSolicitud(sol.sg_id);
                 }
             }
         }

@@ -23,17 +23,55 @@ namespace ScrapWeb.Config
             }
         }
 
-        [ConfigurationProperty("name", IsRequired=true)]
-        public NameElement Name
+        public string Name
         {
-            get { return (NameElement)base["name"]; }
+            get
+            {
+                return _name.Text;
+            }
+        }
+
+        public string WebserviceURL
+        {
+            get
+            {
+                return _webserviceURL.Text;
+            }
+        }
+
+        public string ActiveMQURL
+        {
+            get
+            {
+                return _activeMQURL.Text;
+            }
+        }
+
+        [ConfigurationProperty("name", IsRequired=true)]
+        public TextElement _name
+        {
+            get { return (TextElement)base["name"]; }
             set { base["name"] = value; }
         }
 
-        public class NameElement : ConfigurationElement
+        [ConfigurationProperty("webservice", IsRequired = true)]
+        public TextElement _webserviceURL
+        {
+            get { return (TextElement)base["webservice"]; }
+            set { base["webservice"] = value; }
+        }
+
+        [ConfigurationProperty("activemq", IsRequired = true)]
+        public TextElement _activeMQURL
+        {
+            get { return (TextElement)base["activemq"]; }
+            set { base["activemq"] = value; }
+        }
+
+        public class TextElement : ConfigurationElement
         {
             [ConfigurationProperty("value", IsRequired=true)]
-            public string Name
+            public string Text
             {
                 get { return (string)base["value"]; }
                 set { base["value"] = value; }

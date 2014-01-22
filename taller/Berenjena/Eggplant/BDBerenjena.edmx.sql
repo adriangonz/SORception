@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/21/2014 12:50:15
--- Generated from EDMX file: C:\Alex\Desarrollo\SORception\taller\Berenjena\Eggplant\BDBerenjena.edmx
+-- Date Created: 01/22/2014 03:34:10
+-- Generated from EDMX file: C:\Users\Ruben\Documents\sorception\taller\Berenjena\Eggplant\BDBerenjena.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -76,7 +76,9 @@ CREATE TABLE [dbo].[LineaSolicitudSet] (
     [SolicitudId] int  NOT NULL,
     [descripcion] nvarchar(max)  NOT NULL,
     [cantidad] int  NOT NULL,
-    [sg_id] int  NOT NULL
+    [sg_id] int  NOT NULL,
+    [criterio] nvarchar(max)  NOT NULL,
+    [status] nvarchar(max)  NULL
 );
 GO
 

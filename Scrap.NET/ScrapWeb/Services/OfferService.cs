@@ -18,9 +18,9 @@ namespace ScrapWeb.Services
         private OrderService orderService;
         private AMQService amqService;
 
-        public OfferService()
+        public OfferService(ScrapContext scrapContext = null)
         {
-            scrapContext = new ScrapContext();
+            if(scrapContext == null) scrapContext = new ScrapContext();
             offerRepository = new GenericRepository<OfferEntity>(scrapContext);
             offerLineRepository = new GenericRepository<OfferLineEntity>(scrapContext);
             orderService = new OrderService(scrapContext);
@@ -105,9 +105,14 @@ namespace ScrapWeb.Services
         public void delete(int id)
         {
             var offerEntity = this.getById(id);
+            delete(offerEntity);
+        }
+
+        public void delete(OfferEntity offerEntity)
+        {
             offerEntity.deleted = true;
             offerRepository.Update(offerEntity);
-            foreach (var line in offerEntity.rawLines) 
+            foreach (var line in offerEntity.rawLines)
             {
                 delete(line);
             }

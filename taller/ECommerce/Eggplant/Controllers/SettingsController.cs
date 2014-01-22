@@ -21,6 +21,7 @@ namespace Berenjena.Controllers
         // GET api/settings
         public object Get()
         {
+            GetToken();
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
@@ -101,7 +102,7 @@ namespace Berenjena.Controllers
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Algo ha ido mal en el SG");
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Algo ha ido mal en el SG: "+tr.status);
                     }
                 }
                 else if (token.state == ACTIVE)

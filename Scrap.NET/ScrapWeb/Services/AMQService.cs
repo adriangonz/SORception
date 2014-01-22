@@ -26,9 +26,10 @@ namespace ScrapWeb.Services
         {
             get 
             {
-                if(_topicPublisher == null && AMQConfig.Session != null && AMQConfig.Connection != null) 
+                if(_topicPublisher == null) 
                 {
-                    _topicPublisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, destination);
+                    if (AMQConfig.Session != null && AMQConfig.Connection != null)
+                        _topicPublisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, destination);
                 }
                 return _topicPublisher;
             }
@@ -71,15 +72,7 @@ namespace ScrapWeb.Services
 
         private void initAMQConfig(TokenEntity validToken)
         {
-            if (AMQConfig.Connection != null)
-                AMQConfig.Connection.Dispose();
-            if (AMQConfig.Session != null)
-                AMQConfig.Session.Dispose();
-            if (topicPublisher != null) 
-            {
-                topicPublisher.Dispose();
-                topicPublisher = null;
-            }
+            closeConnections();
             var factory = new ConnectionFactory(AMQConfig.AmqUrl);
             var connection = factory.CreateConnection();
             connection.ClientId = validToken.token;
@@ -89,8 +82,28 @@ namespace ScrapWeb.Services
             AMQConfig.Session = session;
         }
 
+        private void closeConnections()
+        {
+            if (AMQConfig.Connection != null)
+            {
+                AMQConfig.Connection.Dispose();
+                AMQConfig.Connection = null;
+            }
+            if (AMQConfig.Session != null)
+            {
+                AMQConfig.Session.Dispose();
+                AMQConfig.Session = null;
+            }
+            if (topicPublisher != null)
+            {
+                topicPublisher.Dispose();
+                topicPublisher = null;
+            }
+        }
+
         public void destroyTopicSubscribers()
         {
+            closeConnections();
             destroyTopicSubscriber(topicSubscriberPedidos);
             destroyTopicSubscriber(topicSubscriberSolicitudes);
         }
@@ -119,11 +132,53 @@ namespace ScrapWeb.Services
                     break;
                 case AMQSolicitudMessageCode.Closed:
                     orderEntity = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
-                    orderEntity.closed = true;
+                    orderService.closeOrder(orderEntity);
+                    break;
+                case AMQSolicitudMessageCode.Delete:
+                    orderEntity = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
+                    orderService.deleteOrder(orderEntity);
+                    break;
+                case AMQSolicitudMessageCode.Update:
+                    orderEntity = updateOrder(solicitudMessage, orderService);
                     orderService.update(orderEntity);
                     break;
             }
             
+        }
+
+        private OrderEntity updateOrder(AMQSolicitudMessage solicitudMessage, OrderService orderService)
+        {
+            OrderEntity originalOrder = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
+            OrderEntity tmpOrderEntity = toOrder(solicitudMessage);
+            originalOrder.deadline = tmpOrderEntity.deadline;
+            // Update or create
+            foreach(OrderLineEntity line in tmpOrderEntity.lines)
+            {
+                // Get original orderline
+                var originalOrderLine = originalOrder.lines.Where(t => t.sgId == line.sgId).FirstOrDefault();
+                if (originalOrderLine == null)
+                {
+                    // Create new orderline
+                    originalOrder.lines.Add(line);
+                }
+                else
+                {
+                    // Modify existing
+                    originalOrderLine.quantity = line.quantity;
+                    originalOrderLine.description = line.description;
+                }
+            }
+            // Check for deleted entities
+            foreach(OrderLineEntity line in originalOrder.lines.ToList())
+            {
+                var existingLine = tmpOrderEntity.lines.Where(t => t.sgId == line.sgId).FirstOrDefault();
+                if (existingLine == null)
+                {
+                    // To delete
+                    orderService.deleteOrderLine(line);
+                }
+            }
+            return originalOrder;
         }
 
         void topicSubscriberPedidos_OnMessageReceived(string message)

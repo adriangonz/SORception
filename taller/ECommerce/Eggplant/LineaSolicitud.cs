@@ -19,6 +19,8 @@ namespace Eggplant
         public string descripcion { get; set; }
         public int cantidad { get; set; }
         public int sg_id { get; set; }
+        public string criterio { get; set; }
+        public string status { get; set; }
     
         public virtual Solicitud Solicitud { get; set; }
     }

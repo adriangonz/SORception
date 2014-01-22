@@ -135,12 +135,17 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
             });
 
             function readViewText() {
-                var linea_pedido = { "id_linea_oferta": 0, "cantidad": 0 };
+                var linea_pedido = { "id_linea_oferta": 0, "cantidad": 0, "id_linea_solcitud":0 };
 
                 linea_pedido.id_linea_oferta = scope.line.id;
-                linea_pedido.cantidad = element.val();
-
-                Taller.addLineaPedido(linea_pedido);
+                linea_pedido.cantidad = parseInt(element.val());
+                linea_pedido.id_linea_solcitud = scope.line.linea_solicitud_id;
+                if (linea_pedido.cantidad > 0) {
+                    Taller.addLineaPedido(linea_pedido);
+                }else
+                {
+                    Taller.removeLineaPedido(linea_pedido.id_linea_oferta);
+                }
             }
         }
     };
@@ -155,7 +160,17 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
             });
         }
     }
+}]).directive("viewPedidoBtn", ['Taller', '$location', function (Taller, $location) {
+    return {
+        restrict: "A",
+        scope: {
+            pedido: '=viewPedidoBtn'
+        },
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                $location.path("/order-accepted/" + scope.pedido.id);
+                scope.$apply();
+            });
+        }
+    }
 }]);
-
-
-
