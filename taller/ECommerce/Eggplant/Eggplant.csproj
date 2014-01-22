@@ -165,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DataInitializer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -223,7 +224,9 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ExpLineaOferta.cs" />
+    <Compile Include="Models\ExpOfertaLine.cs" />
     <Compile Include="Models\ExpSolicitudLine.cs" />
+    <Compile Include="Models\LineaPedido.cs" />
     <Compile Include="Models\LineaSolicitud.cs" />
     <Compile Include="Pedido.cs">
       <DependentUpon>BDBerenjena.tt</DependentUpon>
@@ -250,6 +253,8 @@
     <Content Include="app\controllers\createOrderController.js" />
     <Content Include="app\controllers\editOrderController.js" />
     <Content Include="app\controllers\orderController.js" />
+    <Content Include="app\controllers\pedidoController.js" />
+    <Content Include="app\controllers\pedidosController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
     <Content Include="app\directives\authDirective.js" />
@@ -265,13 +270,14 @@
     <Content Include="app\templates\main.html" />
     <Content Include="app\templates\order.html" />
     <Content Include="app\templates\orders.html" />
+    <Content Include="app\templates\pedido.html" />
+    <Content Include="app\templates\pedidos.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="BDBerenjena.edmx.sql">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\ECommerceStyle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

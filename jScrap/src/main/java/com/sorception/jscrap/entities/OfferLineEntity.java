@@ -72,6 +72,7 @@ public class OfferLineEntity extends AbstractEntity {
 		return _notes;
 	}
 	
+	@JsonIgnore
 	public Long getOfferId() {
 		return this._offer.getId();
 	}
@@ -93,6 +94,10 @@ public class OfferLineEntity extends AbstractEntity {
 	
 	public void setOrderLine(OrderLineEntity orderLine) {
 		this._orderLine = orderLine;
+	}
+	
+	public Long getOrderLineId() {
+		return this._orderLine != null ? this._orderLine.getId() : null;
 	}
 	
 	public OrderLineEntity getOrderLine() {

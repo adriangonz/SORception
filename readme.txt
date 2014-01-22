@@ -1,1 +1,0 @@
-Ola ke ase! mi polla

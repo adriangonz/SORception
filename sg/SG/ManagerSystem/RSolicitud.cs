@@ -48,15 +48,18 @@ namespace ManagerSystem
             es.lineas = new List<ExpSolicitud.Line>();
             foreach (var l in s.LineasSolicitud)
             {
-                ExpSolicitud.Line el = new ExpSolicitud.Line();
-                el.id = l.Id;
-                el.id_en_taller = l.id_en_taller;
-                el.description = l.description;
-                el.quantity = l.quantity;
-                el.status = l.status;
-                el.flag = l.flag;
-                
-                es.lineas.Add(el);
+                if (l.status != "DELETED")
+                {
+                    ExpSolicitud.Line el = new ExpSolicitud.Line();
+                    el.id = l.Id;
+                    el.id_en_taller = l.id_en_taller;
+                    el.description = l.description;
+                    el.quantity = l.quantity;
+                    el.status = l.status;
+                    el.flag = l.flag;
+
+                    es.lineas.Add(el);
+                }
             }
 
             return es;
@@ -110,7 +113,7 @@ namespace ManagerSystem
                         break;
                     case "DELETED":
                         ls = db_context.LineasSolicitudSet.Find(el.id);
-                        s.LineasSolicitud.Remove(ls);
+                        ls.status = "DELETED";
                         break;
                 }
             }

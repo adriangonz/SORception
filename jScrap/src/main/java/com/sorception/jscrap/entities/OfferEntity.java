@@ -64,6 +64,16 @@ public class OfferEntity extends AbstractEntity {
 		return this._deleted;
 	}
 	
+	@JsonIgnore
+	public List<OfferLineEntity> getAccepted() {
+		List<OfferLineEntity> accepted = new ArrayList<>();
+		for(OfferLineEntity line : getLines()) {
+			if(line.getAcceptedOffer() != null)
+				accepted.add(line);
+		}
+		return accepted;
+	}
+	
 	public void setLines(List<OfferLineEntity> lines) {
 		this._lines = lines;
 		for(OfferLineEntity line : lines) {
@@ -71,5 +81,17 @@ public class OfferEntity extends AbstractEntity {
 				this._orderSgId = line.getOrderLine().getOrder().getSgId();
 			line.setOffer(this);
 		}
+	}
+	
+	@JsonIgnore
+	public OrderEntity getOrder() {
+		if(!_lines.isEmpty() && _lines.get(0).getOrderLine() != null)
+			return _lines.get(0).getOrderLine().getOrder();
+		return null;
+	}
+	
+	public Long getOrderId() {
+		OrderEntity order = getOrder();
+		return order != null ? order.getId() : null;
 	}
 }

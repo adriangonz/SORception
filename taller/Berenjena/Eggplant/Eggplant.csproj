@@ -165,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DataInitializer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -253,7 +254,6 @@
     <Content Include="app\controllers\editOrderController.js" />
     <Content Include="app\controllers\orderController.js" />
     <Content Include="app\controllers\pedidoController.js" />
-    <Content Include="app\controllers\pedidosController.html" />
     <Content Include="app\controllers\pedidosController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />
