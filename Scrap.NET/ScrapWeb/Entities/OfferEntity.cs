@@ -38,11 +38,22 @@ namespace ScrapWeb.Entities
             } 
         }
 
+        [JsonIgnore]
         public virtual IEnumerable<OfferLineEntity> accepted
         {
             get
             {
                 return lines.Where(t => t.acceptedOffer != null);
+            }
+        }
+
+        public virtual int? orderId
+        {
+            get
+            {
+                if (lines.Count() > 0 && lines.First().orderLine != null)
+                    return lines.First().orderLine.order.id;
+                return null;
             }
         }
     }

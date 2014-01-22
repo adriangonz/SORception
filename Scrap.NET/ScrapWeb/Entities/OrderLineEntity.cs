@@ -25,6 +25,7 @@ namespace ScrapWeb.Entities
 
         public int orderId { get; set; }
 
+        [JsonIgnore]
         [Required]
         [ForeignKey("orderId")]
         public virtual OrderEntity order { get; set; }
