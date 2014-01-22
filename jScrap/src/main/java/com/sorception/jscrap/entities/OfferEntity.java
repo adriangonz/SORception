@@ -83,9 +83,15 @@ public class OfferEntity extends AbstractEntity {
 		}
 	}
 	
+	@JsonIgnore
 	public OrderEntity getOrder() {
 		if(!_lines.isEmpty() && _lines.get(0).getOrderLine() != null)
 			return _lines.get(0).getOrderLine().getOrder();
 		return null;
+	}
+	
+	public Long getOrderId() {
+		OrderEntity order = getOrder();
+		return order != null ? order.getId() : null;
 	}
 }
