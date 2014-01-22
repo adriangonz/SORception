@@ -28,7 +28,7 @@ namespace Berenjena.Controllers
                 var tokens = c_bd.TokensSet.AsQueryable().ToList();
                 //var tokens = c_bd.TokensSet.(from d in c_bd.TokensSet orderby d.timeStamp descending select d);
 
-                return (new { name = "TUCARA", tokens });
+                return (new { name = "Settings de Taller", tokens });
             }
         }
 

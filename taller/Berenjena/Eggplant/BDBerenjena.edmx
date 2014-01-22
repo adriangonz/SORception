@@ -52,6 +52,8 @@
     <Property Name="descripcion" Type="nvarchar(max)" Nullable="false" />
     <Property Name="cantidad" Type="int" Nullable="false" />
     <Property Name="sg_id" Type="int" Nullable="false" />
+    <Property Name="criterio" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="PedidoSet">
     <Key>
@@ -163,6 +165,8 @@
           <Property Name="descripcion" Type="String" Nullable="false" />
           <Property Name="cantidad" Type="Int32" Nullable="false" />
           <Property Name="sg_id" Type="Int32" Nullable="false" />
+          <Property Name="criterio" Type="String" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="SolicitudLineaSolicitud">
           <End Type="BDBerenjena.Solicitud" Role="Solicitud" Multiplicity="1" />
@@ -249,6 +253,8 @@
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="cantidad" ColumnName="cantidad" />
           <ScalarProperty Name="sg_id" ColumnName="sg_id" />
+          <ScalarProperty Name="criterio" ColumnName="criterio" />
+          <ScalarProperty Name="status" ColumnName="status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
