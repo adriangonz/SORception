@@ -37,7 +37,7 @@ namespace ScrapWeb.Services
             var scrapSettings = ScrapSettingsConfiguration.Instance;
             return new SettingsEntity
             {
-                name = scrapSettings.Name.Name
+                name = scrapSettings.Name
             };
         }
     }

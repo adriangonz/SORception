@@ -1,6 +1,7 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ;
 using ScrapWeb.AMQ;
+using ScrapWeb.Config;
 using ScrapWeb.Entities;
 using ScrapWeb.Exceptions;
 using ScrapWeb.Services;
@@ -17,7 +18,7 @@ namespace ScrapWeb
         public static IConnection Connection { get; set; }
         public static ISession Session { get; set; }
 
-        public static readonly String AmqUrl = "tcp://sorceptionjava.cloudapp.net:61616";
+        public static String AmqUrl;
 
         AMQConfig()
         {
@@ -33,6 +34,7 @@ namespace ScrapWeb
         {
             Connection = null;
             Session = null;
+            AmqUrl = ScrapSettingsConfiguration.Instance.ActiveMQURL;
             // Check if we can create a consumer
             createConsumer();
         }

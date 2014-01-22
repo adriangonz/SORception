@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/20/2014 22:53:15
+-- Date Created: 01/22/2014 13:20:31
 -- Generated from EDMX file: C:\Users\Ruben\Documents\sorception\taller\ECommerce\Eggplant\BDBerenjena.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [ECommerceDB];
+USE [aspnet-ECommerce-20131216073914];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -76,7 +76,9 @@ CREATE TABLE [dbo].[LineaSolicitudSet] (
     [SolicitudId] int  NOT NULL,
     [descripcion] nvarchar(max)  NOT NULL,
     [cantidad] int  NOT NULL,
-    [sg_id] int  NOT NULL
+    [sg_id] int  NOT NULL,
+    [criterio] nvarchar(max)  NOT NULL,
+    [status] nvarchar(max)  NULL
 );
 GO
 

@@ -23,6 +23,14 @@ module.config(['$routeProvider',
             templateUrl: 'app/templates/order.html',
             controller: 'OrderCtrl'
         }).
+        when('/orders-accepted', {
+            templateUrl: 'app/templates/pedidos.html',
+            controller: 'PedidosCtrl'
+        }).
+        when('/order-accepted/:id', {
+            templateUrl: 'app/templates/pedido.html',
+            controller: 'PedidoCtrl'
+        }).
         when('/config', {
             templateUrl: 'app/templates/config.html',
             controller: 'SettingsCtrl'

@@ -4,6 +4,13 @@
         $scope.tmp_order = Taller.tmp_order;
     });
 
+    $scope.criterios = [
+    { name: 'Seleccion Manual', code: '0' },
+    { name: 'El primero en llegar', code: '1' },
+    { name: 'El mas barato', code: '2' },
+    { name: 'El mas nuevo', code: '3' }
+    ];
+
     Auth.isLoggedIn();
     $scope.tmp_order = { "data": [] };
     if (Taller.actual_order) {

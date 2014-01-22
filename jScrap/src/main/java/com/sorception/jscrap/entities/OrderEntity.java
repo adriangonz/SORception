@@ -85,4 +85,11 @@ public class OrderEntity extends AbstractEntity {
 	public void setClosed(boolean closed) {
 		_closed = closed;
 	}
+	
+	@JsonIgnore
+	public OfferEntity getOffer() {
+		if(!_lines.isEmpty() && _lines.get(0).getOfferLine() != null)
+			return _lines.get(0).getOfferLine().getOffer();
+		return null;
+	}
 }

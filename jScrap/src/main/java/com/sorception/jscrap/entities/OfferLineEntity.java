@@ -100,7 +100,6 @@ public class OfferLineEntity extends AbstractEntity {
 		return this._orderLine != null ? this._orderLine.getId() : null;
 	}
 	
-	@JsonIgnore
 	public OrderLineEntity getOrderLine() {
 		return _orderLine;
 	}
@@ -120,5 +119,10 @@ public class OfferLineEntity extends AbstractEntity {
 	public void delete() {
 		this._deleted = true;
 		this._orderLine = null;
+	}
+
+	@JsonIgnore
+	public OfferEntity getOffer() {
+		return _offer;
 	}
 }

@@ -16,6 +16,8 @@ namespace ScrapWeb.Services
 
         private GenericRepository<OrderLineEntity> orderLineRepository;
 
+        private OfferService offerService;
+
         private ScrapContext scrapContext;
 
         public OrderService(ScrapContext context = null)
@@ -30,7 +32,7 @@ namespace ScrapWeb.Services
         public IEnumerable<OrderEntity> getAll()
         {
             return orderRepository
-                .Get(t => !t.closed, null, "rawLines")
+                .Get(t => !t.closed && !t.deleted, null, "rawLines")
                 .Where(t => t.lines.Count() > 0);
         }
 
@@ -70,6 +72,35 @@ namespace ScrapWeb.Services
             if (orderLine == null)
                 throw new ServiceException("Orderline with id " + id.ToString() + " was not found", HttpStatusCode.NotFound);
             return orderLine;
+        }
+
+        public void closeOrder(OrderEntity orderEntity)
+        {
+            orderEntity.closed = true;
+            this.update(orderEntity);
+            var offerEntity = orderEntity.offer;
+            if (offerEntity != null)
+                offerService.delete(offerEntity);
+        }
+
+        public void deleteOrder(OrderEntity orderEntity)
+        {
+            var offerService = new OfferService(scrapContext);
+            orderEntity.deleted = true;
+            foreach(OrderLineEntity line in orderEntity.rawLines) {
+                line.deleted = true;
+            }
+            this.update(orderEntity);
+            var offerEntity = orderEntity.offer;
+            if(offerEntity != null)
+                offerService.delete(offerEntity);
+        }
+
+        public void deleteOrderLine(OrderLineEntity orderLine)
+        {
+            orderLine.deleted = true;
+            orderLineRepository.Update(orderLine);
+            scrapContext.SaveChanges();
         }
     }
 }
