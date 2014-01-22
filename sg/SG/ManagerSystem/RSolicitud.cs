@@ -77,7 +77,6 @@ namespace ManagerSystem
                 LineaSolicitud ls = new LineaSolicitud();
                 UpdateLineaFromExposed(ls, el);
                 ls.status = "NEW";
-                ls.flag = el.flag;
                 s.LineasSolicitud.Add(ls);
             }
 
@@ -88,6 +87,7 @@ namespace ManagerSystem
         {
             ls.quantity = el.quantity;
             ls.description = el.description;
+            ls.flag = el.flag;
         }
 
         public void UpdateFromExposed(Solicitud s, ExpSolicitud es)
