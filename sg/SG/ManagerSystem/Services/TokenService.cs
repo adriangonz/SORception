@@ -50,6 +50,7 @@ namespace ManagerSystem.Services
                 code = TokenResponse.Code.NON_AUTHORITATIVE;
             }
             new_token.junkyard = token.junkyard;
+            new_token.garage = token.garage;
 
             unitOfWork.Save();
 
@@ -69,6 +70,31 @@ namespace ManagerSystem.Services
             new_token.status = TokenStatus.VALID;
 
             return new_token;
+        }
+
+        public bool isValid(string token)
+        {
+            return unitOfWork.TokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any();
+        }
+
+        public GarageEntity getGarage(string token_string)
+        {
+            if (token_string == null)
+                throw new ArgumentNullException();
+
+            TokenEntity token;
+            try
+            {
+                token = unitOfWork.TokenRepository.Get(t => t.token == token_string).First();
+                if (token.garage == null)
+                    throw new ArgumentNullException();
+            }
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentException();
+            }
+
+            return token.garage;
         }
     }
 }

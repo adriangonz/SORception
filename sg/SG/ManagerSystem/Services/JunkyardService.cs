@@ -9,15 +9,6 @@ namespace ManagerSystem.Services
 {
     public class JunkyardService : BaseService
     {
-        private TokenService token_service = null;
-        protected TokenService tokenService {
-            get {
-                if (this.token_service == null)
-                    this.token_service = new TokenService(unitOfWork);
-                return this.token_service;
-            }
-        }
-
         public TokenResponse createJunkyard(ExpDesguace e_junkyard)
         {
             if (e_junkyard != null)
@@ -34,7 +25,5 @@ namespace ManagerSystem.Services
             }
             return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
         }
-
-        //public TokenResponse 
     }
 }

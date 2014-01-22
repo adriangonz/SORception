@@ -19,7 +19,5 @@ namespace ManagerSystem
 
         [OperationContract]
         void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p);
-
-        Oferta processAMQMessage(AMQOfertaMessage message);
     }
 }

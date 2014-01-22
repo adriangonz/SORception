@@ -17,11 +17,6 @@ namespace ManagerSystem
     [ServiceBehavior(Namespace = Constants.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
-        private managersystemEntities db_context;
-        private RDesguace r_desguace;
-        private RToken r_token;
-        private ROferta r_oferta;
-
         private JunkyardService junkyard_service = null;
         private JunkyardService junkyardService
         {
@@ -44,17 +39,6 @@ namespace ManagerSystem
             }
         }
 
-        private AMQService amq_service = null;
-        private AMQService amqService
-        {
-            get
-            {
-                if (this.amq_service == null)
-                    this.amq_service = new AMQService();
-                return this.amq_service;
-            }
-        }
-
         public TokenResponse signUp(ExpDesguace ed)
         {
             return junkyardService.createJunkyard(ed);
@@ -65,31 +49,6 @@ namespace ManagerSystem
             return tokenService.validateToken(token_string);
         }
 
-        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) {
-            /*
-            o = new AMQOfertaMessage();
-
-            o.desguace_id = "d1fb28d93a179cf2efeb146cc09099b02bbcbabc625bf7f69b5be1722ecf443d";
-            o.oferta = new ExpOferta();
-            o.oferta.id_en_desguace = 123;
-            o.oferta.solicitud_id = 19;
-            o.oferta.lineas = new List<ExpOferta.Line>();
-            ExpOferta.Line linea = new ExpOferta.Line();
-            linea.id_en_desguace = 123;
-            linea.linea_solicitud_id = 10;
-            linea.price = 123;
-            linea.quantity = 100;
-            linea.notes = "";
-            o.oferta.lineas.Add(linea);
-            
-            Oferta of = processAMQMessage(o);
-            GestionTaller gt = new GestionTaller(db_context);
-            gt.checkAutoBuy(of);*/
-        }
-
-        public Oferta processAMQMessage(AMQOfertaMessage message)
-        {
-            amqService.processIncommingOffer(message);
-        }
+        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) { }
     }
 }

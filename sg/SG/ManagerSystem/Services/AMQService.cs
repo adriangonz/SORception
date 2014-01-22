@@ -9,18 +9,6 @@ namespace ManagerSystem.Services
 {
     public class AMQService : BaseService
     {
-        private OfferService offer_service = null;
-        protected OfferService offerService
-        {
-            get
-            {
-                if (this.offer_service == null)
-                    this.offer_service = new OfferService(unitOfWork);
-                return this.offer_service;
-            }
-        }
-
-
         public void processIncommingOffer(AMQOfertaMessage message)
         {/*
             Desguace d = r_desguace.Find(message.desguace_id);

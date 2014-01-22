@@ -181,7 +181,9 @@
     <Compile Include="ROferta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AMQService.cs" />
+    <Compile Include="Services\AuthorizationService.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\GarageService.cs" />
     <Compile Include="Services\JunkyardService.cs" />
     <Compile Include="Services\OfferService.cs" />
     <Compile Include="Services\TokenService.cs" />
@@ -239,7 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

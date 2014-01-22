@@ -1,4 +1,5 @@
 ﻿using ActiveMQHelper;
+using ManagerSystem.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -20,134 +21,72 @@ namespace ManagerSystem
         private ROferta r_oferta;
         private RToken r_token;
 
-        public GestionTaller()
+        private TokenService token_service = null;
+        private TokenService tokenService
         {
-            init(null);            
+            get
+            {
+                if (this.token_service == null)
+                    this.token_service = new TokenService();
+                return this.token_service;
+            }
         }
 
-        public GestionTaller(managersystemEntities context)
+        private GarageService garage_service = null;
+        private GarageService garageService
         {
-            init(context);
+            get
+            {
+                if (this.garage_service == null)
+                    this.garage_service = new GarageService();
+                return this.garage_service;
+            }
         }
 
-        private void init(managersystemEntities context)
+        private AuthorizationService authorization_service = null;
+        private AuthorizationService authorizationService
         {
-            db_context = context;
-            r_taller = new RTaller(db_context);
-            r_solicitud = new RSolicitud(db_context);
-            r_oferta = new ROferta(db_context);
-            r_token = new RToken(db_context);
+            get
+            {
+                if (this.authorization_service == null)
+                    this.authorization_service = new AuthorizationService();
+                return this.authorization_service;
+            }
         }
+
 
         private Taller getAuthorizedTaller()
         {
-            string token_string;
-            try
-            {
-                token_string = OperationContext.Current.IncomingMessageHeaders
-                    .GetHeader<string>("Authorization", Constants.Namespace);
-            }
-            catch (Exception e)
-            {
-                token_string = "813f14e463abe904fa848fcd5bc4f2b3dfa6e61fea3192d7aaa6887677089dde";
-                //throw;
-            }
-
-            Token token = r_token.Find(token_string);
-            if (token != null && token.is_valid && token.Taller != null)
-            {
-                return token.Taller;
-            }
-            else
-            {
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-            }
+            return null;
         }
 
         public TokenResponse signUp(ExpTaller et)
         {
-            if (et != null)
-            {
-                Taller tall = r_taller.FromExposed(et);
-                tall.active = false;
-
-                Token t = r_token.getToken();
-                tall.Tokens.Add(t);
-
-                r_taller.InsertOrUpdate(tall);
-                r_taller.Save();
-                return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
-            }
-            return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
+            return garageService.createGarage(et);
         }
 
-        public TokenResponse getState(string token)
+        public TokenResponse getState(string token_string)
         {
-            string new_token = "";
-            TokenResponse.Code status;
-            if (token != null && token != "")
-            {
-                Token t = r_token.Find(token);
-                if (t != null)
-                {
-                    if (t.is_valid)
-                    {
-                        Taller tall = r_taller.Find(t.Taller.Id);
-                        if (tall.active)
-                        {
-                            // El taller ya esta activo
-                            status = TokenResponse.Code.CREATED;
-                        }
-                        else
-                        {
-                            // El taller no esta activo
-                            status = TokenResponse.Code.NON_AUTHORITATIVE;
-                        }
-                        new_token = r_token.RegenerateToken(t);
-                    }
-                    else
-                    {
-                        // El token ha expirado
-                        status = TokenResponse.Code.BAD_REQUEST;
-                    }
-                }
-                else
-                {
-                    // El token no existe
-                    status = TokenResponse.Code.NOT_FOUND;
-                }
-            }
-            else
-            {
-                // No se le ha pasado un token
-                status = TokenResponse.Code.BAD_REQUEST;
-            }
-
-            return new TokenResponse(new_token, status);
+            return tokenService.validateToken(token_string);
         }
 
         public int putTaller(ExpTaller et)
         {
-            if (et == null)
-                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Taller t = getAuthorizedTaller();
-
-            if (et != null)
-            {
-                t = r_taller.FromExposed(et);
-                r_taller.InsertOrUpdate(t);
-                r_taller.Save();
-            }
+            garageService.putGarage(et);
 
             return 0;
         }
 
         public int deleteTaller()
         {
-            Taller t = getAuthorizedTaller();
-            r_taller.Delete(t.Id);
-            r_taller.Save();
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+
+            garageService.deleteCurrentGarage();
+
             return 0;
         }
 
