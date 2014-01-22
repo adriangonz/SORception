@@ -50,7 +50,7 @@ namespace ManagerSystem
             catch (Exception e)
             {
                 token_string = "813f14e463abe904fa848fcd5bc4f2b3dfa6e61fea3192d7aaa6887677089dde";
-                //throw;
+                //throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
             }
 
             Token token = r_token.Find(token_string);
@@ -204,7 +204,7 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             Solicitud s = r_solicitud.Find(es.id);
-            if (s.deleted)
+            if (s == null || s.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
 
             r_solicitud.UpdateFromExposed(s, es);
@@ -376,7 +376,7 @@ namespace ManagerSystem
                 // Iterate over the lines
                 foreach (LineaSolicitud l_sol in s.LineasSolicitud)
                 {
-                    if (l_sol.status == "COMPLETE")
+                    if (l_sol.status == "COMPLETE" || l_sol.status == "DELETED")
                         continue;
 
                     // Sort the offers

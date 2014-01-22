@@ -19,30 +19,6 @@ import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
 import com.sorception.jscrap.services.OrderService;
 
-class OrderLineDTO {
-	public String sgId;
-	public String description;
-	public Integer quantity;
-	
-	public OrderLineEntity toOrderLineEntity() {
-		return new OrderLineEntity(this.sgId, 
-				this.description, this.quantity);
-	}
-}
-
-class OrderParamsDTO {
-	public String sgId;
-	public List<OrderLineDTO> lines;
-	
-	public List<OrderLineEntity> getOrderLinesList() {
-		List<OrderLineEntity> list = new ArrayList<>();
-		for(OrderLineDTO line : lines) {
-			list.add(line.toOrderLineEntity());
-		}
-		return list;
-	}
-}
-
 @Controller
 @RequestMapping("/api/order")
 public class OrderController {
@@ -63,13 +39,4 @@ public class OrderController {
 	public OrderEntity getOrder(@PathVariable Long orderId) {
 		return orderService.getOrderById(orderId);
 	}
-	/*
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.CREATED)
-	public OrderEntity addOrder(@RequestBody OrderParamsDTO order) {
-		return orderService.addOrder(order.sgId, 
-				order.getOrderLinesList());
-	}
-	*/
 }
