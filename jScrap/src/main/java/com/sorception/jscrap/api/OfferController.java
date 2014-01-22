@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
 import com.sorception.jscrap.services.OfferService;
 import com.sorception.jscrap.services.OrderService;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class OfferLineDTO {
 	public Integer quantity;
 	public String notes;
@@ -56,6 +58,7 @@ class OfferLineDTO {
 	}
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class OfferDTO {
 	final static Logger logger = LoggerFactory.getLogger(OfferController.class);
 	
