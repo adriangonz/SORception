@@ -1,4 +1,4 @@
-module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope, $http ) {
+module.service('SettingsService', ['$rootScope', '$http', '$timeout', function ($rootScope, $http, $timeout) {
    var service = {
      settings: {
      	"name": "",
@@ -6,7 +6,6 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
  		},
  
      getSettings: function () {
-        
               $http({ method: 'GET', url: '/api/settings' }).
                   success(function (data, status, headers, config) {
                       service.settings = data;
@@ -17,15 +16,12 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
                       service.settings.name = "TallerGET";
                       $rootScope.$broadcast('settings.update');
                   });
-
-  
-
      },
 
      postSettings: function(){
          $http({ method: 'POST', url: '/api/settings', data: '{"nombre": "Taller.Net"}' }).
-          success(function(data, status, headers, config) {
-              service.getSettings();
+          success(function (data, status, headers, config) {
+              $timeout(service.getSettings, 1000);
           }).
           error(function(data, status, headers, config) {
               alert(status+" "+data);

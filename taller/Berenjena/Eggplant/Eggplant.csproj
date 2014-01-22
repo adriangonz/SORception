@@ -254,7 +254,6 @@
     <Content Include="app\controllers\editOrderController.js" />
     <Content Include="app\controllers\orderController.js" />
     <Content Include="app\controllers\pedidoController.js" />
-    <Content Include="app\controllers\pedidosController.html" />
     <Content Include="app\controllers\pedidosController.js" />
     <Content Include="app\controllers\settingsController.js" />
     <Content Include="app\controllers\tallerController.js" />

@@ -104,12 +104,22 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
 
 
         addLineaPedido: function (line) {
-            //mapeo el array de Lineas por el campo ID y busco la que coincide con el ID de la nueva.
-            var index = service.pedido.lineas.map(function (e) { return e['id_linea_oferta']; }).indexOf(line.id_linea_oferta);
-            //borro la linea de pedido antigua
-            service.pedido.lineas.splice(index, 1);
+            //Comprobamos si ya existe y la borramos
+            service.removeLineaPedido(line.id_linea_oferta);
             //añado la nueva linea de pedido
             service.pedido.lineas.push(line);
+            $rootScope.$broadcast('pedido.update');
+        },
+
+        removeLineaPedido: function (id) {
+            //mapeo el array de Lineas por el campo ID y busco la que coincide con el ID de la nueva.
+            //var index = service.pedido.lineas.map(function (e) { return e['id_linea_oferta']; }).indexOf(line.id_linea_oferta);
+            var lines = $.grep(service.pedido.lineas, function (e) { return e.id_linea_oferta == id? e : null });
+            //borro la linea de pedido antigua
+            //service.pedido.lineas.splice(index, 1);
+            if (lines.length > 0) {
+                service.pedido.lineas.splice(service.pedido.lineas.indexOf(lines[0]), 1);
+            }
             $rootScope.$broadcast('pedido.update');
         },
 

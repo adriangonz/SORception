@@ -7,7 +7,7 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 			      $cookies["SessionTaller"] = JSON.stringify(data);
 			      $http.defaults.headers.common.Authorization = 'Bearer ' + data.access_token;
 			    $rootScope.$broadcast('auth.login');
-	       		$location.path("/config");
+	       		$location.path("/orders");
 			  }).
 			  error(function(data, status) {
 			    console.log(status + " | " + data);
@@ -31,6 +31,8 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	        $rootScope.$broadcast('auth.login');
 	        SessionTaller = $cookies["SessionTaller"];
 	        if (SessionTaller) {
+	            SessionTaller = JSON.parse(SessionTaller);
+	            $http.defaults.headers.common.Authorization = 'Bearer ' + SessionTaller.access_token;
                 return true;
             }
 	       	$location.path("/login");
@@ -40,10 +42,20 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	        SessionTaller = $cookies["SessionTaller"];
 	        if (SessionTaller) {
 	            SessionTaller = JSON.parse(SessionTaller);
-			      $http.defaults.headers.common.Authorization = 'Bearer ' + SessionTaller.access_token;
 	            return SessionTaller.userName;
 	        }
 	        return "Sin conexion";
+	    },
+
+	    isPrivate: function () {
+	        SessionTaller = $cookies["SessionTaller"];
+	        if (SessionTaller) {
+	            SessionTaller = JSON.parse(SessionTaller);
+	            if (SessionTaller.userName != "admin")
+	            {
+	                $location.path("/orders");
+	            }
+	        }
 	    },
 
 	    getToken: function () {
