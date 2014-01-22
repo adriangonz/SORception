@@ -1,4 +1,4 @@
-<h2>Solicitud {{actual_pedido.id}}</h2>
+<h2>Pedido {{actual_pedido.id}}</h2>
 
 <table class="table table-striped table-bordered">
     <thead>
@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <td>Ref SG:</td>
-            <td>{{actual_pedido.sgId}}</td>
+            <td>{{actual_pedido.orderSgId}}</td>
         </tr>
         <tr>
             <td>Modificado:</td>
@@ -30,15 +30,34 @@
         <tr>
             <th>#</th>
             <th>Descripcion</th>
+            <th>Cantidad Solicitada</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="line in actual_pedido.order.lines">
+            <td>{{line.id}}</td>
+            <td>{{line.description}}</td>
+            <td>{{line.quantity}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Lineas aceptadas</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Ref Solicitud</th>
+            <th>Observaciones</th>
             <th>Cantidad Pedida</th>
             <th>Precio Unidad</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="line in actual_pedido.lines">
-            <td>{{line.id}}</td>
-            <td>{{line.description}}</td>
-            <td>{{line.quantity}}</td>
+            <td>{{line.orderLineId}}</td>
+            <td>{{line.notes}}</td>
+            <td>{{line.acceptedOffer.quantity}}</td>
             <td>{{line.price}}</td>
         </tr>
     </tbody>

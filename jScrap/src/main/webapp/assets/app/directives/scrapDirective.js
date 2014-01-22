@@ -119,4 +119,17 @@ module.directive("addLineBtn", ['Scrap', function (Scrap) {
             }
         }
     };
-});
+}).directive("viewPedidoBtn", ['Scrap', '$location', function (Scrap, $location) {
+    return {
+        restrict: "A",
+        scope: {
+            pedido: '=viewPedidoBtn'
+        },
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                $location.path("/orders-received/" + scope.pedido.id);
+                scope.$apply();
+            });
+        }
+    }
+}]);
