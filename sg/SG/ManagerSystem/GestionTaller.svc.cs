@@ -15,6 +15,7 @@ namespace ManagerSystem
 {
     public class GestionTaller : IGestionTaller
     {
+        // Esto va fuera
         public static managersystemEntities db_context;
         private RTaller r_taller;
         private RSolicitud r_solicitud;
@@ -54,7 +55,18 @@ namespace ManagerSystem
             }
         }
 
+        private OrderService order_service = null;
+        private OrderService orderService
+        {
+            get
+            {
+                if (this.order_service == null)
+                    this.order_service = new OrderService();
+                return this.order_service;
+            }
+        }
 
+        // Esto va fuera
         private Taller getAuthorizedTaller()
         {
             return null;
@@ -92,34 +104,27 @@ namespace ManagerSystem
 
         public ExpSolicitud getSolicitud(int id)
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Solicitud tmp = db_context.SolicitudSet.Find(id);
-            if (tmp == null || tmp.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-            ExpSolicitud s = r_solicitud.PrepareOutgoing(tmp);
-            return s;
+            return orderService.getOrder(id);
         }
 
         public List<ExpSolicitud> getSolicitudes()
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            List<ExpSolicitud> solicitudes = new List<ExpSolicitud>();
-
-            foreach (var solicitud in t.Solicitudes)
-            {
-                if (!solicitud.deleted)
-                {
-                    solicitudes.Add(r_solicitud.PrepareOutgoing(solicitud));
-                }
-            }
-
-            return solicitudes;
+            return orderService.getOrders();
         }
 
         public int addSolicitud(ExpSolicitud es)
         {
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+
+            return orderService.addOrder(es);
+            /*
             if (es == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
 
@@ -132,11 +137,19 @@ namespace ManagerSystem
             ScheduleJob(s);
 
             SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
-            return s.Id;
+            return s.Id;*/
         }
 
         public int putSolicitud(ExpSolicitud es)
         {
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+
+            orderService.putOrder(es);
+
+            return 0;
+
+            /*
             if (es == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
 
@@ -150,11 +163,19 @@ namespace ManagerSystem
             r_solicitud.Save();
             SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
 
-            return 0;
+            return 0;*/
         }
 
-        public int deleteSolicitud(int id)
+        public int deleteSolicitud(int order_id)
         {
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+
+            orderService.deleteOrder(order_id);
+
+            return 0;
+
+            /*
             Taller t = getAuthorizedTaller();
 
             r_solicitud.Delete(id);
@@ -162,7 +183,7 @@ namespace ManagerSystem
             ExpSolicitud es = new ExpSolicitud();
             es.id = id;
             SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Delete));
-            return 0;
+            return 0;*/
         }
 
         public ExpOferta getOferta(int oferta_id)
