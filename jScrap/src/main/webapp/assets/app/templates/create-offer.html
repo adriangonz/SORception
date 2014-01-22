@@ -52,6 +52,7 @@
             <th>Observaciones</th>
             <th>Cantidad disponible</th>
             <th>Precio Unidad</th>
+            <th>Fecha de fabricacion</th>
         </tr>
     </thead>
     <tbody>
@@ -59,15 +60,18 @@
             <td>{{line.orderLineId}}</td>
             <td>{{line.notes}}</td>
             <td>{{line.quantity}}</td>
-            <td>{{line.price}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
+            <td>{{line.price}}</td>
+            <td>{{line.date}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
             <td><input class="form-control full" type="number" id="idorder" ng-model="tmp_line.orderLineId" placeholder="1" /></td>
             <td><input class="form-control full" type="text" id="descripcion" ng-model="tmp_line.notes" placeholder="Es de color rojo" /></td>
             <td><input class="form-control full" type="number" min='0' id="cantidad" ng-model="tmp_line.quantity" placeholder="5" /></td>
             <td><input class="form-control full" type="number" step="0.1" min='0' id="precio" ng-model="tmp_line.price" placeholder="13.4" /></td>
+            <td><input class="form-control full" type="date" id="date" ng-model="tmp_line.date" placeholder="23/03/2012" /></td>
         </tr>
     </tbody>
 </table>
 <button class="btn btn-default" add-line-btn="tmp_line">Añadir Linea</button>
 <button class="btn btn-success" send-offer-btn="tmp_offer">Enviar Oferta</button>
+<span id="error-line" class="text-danger"></span>
