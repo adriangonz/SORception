@@ -114,7 +114,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\GenericRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="DataAccess\MSContext.cs" />
     <Compile Include="DataAccess\UnitOfWork.cs" />
     <Compile Include="DataContracts.cs" />
@@ -178,6 +178,7 @@
     <Compile Include="Oferta.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\GarageRepository.cs" />
     <Compile Include="ROferta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AMQService.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Services\GarageService.cs" />
     <Compile Include="Services\JunkyardService.cs" />
     <Compile Include="Services\OfferService.cs" />
+    <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\TokenService.cs" />
     <Compile Include="Solicitud.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>

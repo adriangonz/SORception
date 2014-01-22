@@ -35,6 +35,7 @@ namespace ManagerSystem.DataAccess
                     item.Entity.updated_at = System.DateTime.Now;
                 }
 
+                // As per GenericRepository.cs:77 this will never get called
                 foreach (var item in trackables.Where(t => t.State == EntityState.Deleted))
                 {
                     item.Entity.updated_at = System.DateTime.Now;

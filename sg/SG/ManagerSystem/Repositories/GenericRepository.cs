@@ -1,4 +1,5 @@
-﻿using ManagerSystem.Entities;
+﻿using ManagerSystem.DataAccess;
+using ManagerSystem.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace ManagerSystem.DataAccess
+namespace ManagerSystem.Repositories
 {
     public class GenericRepository<TEntity> where TEntity : BaseEntity
     {
@@ -74,7 +75,10 @@ namespace ManagerSystem.DataAccess
             {
                 dbSet.Attach(entityToDelete);
             }
-            dbSet.Remove(entityToDelete);
+            // If we set the state to Deleted it somehow automatically removes all relationships
+            // context.Entry(entityToDelete).State = EntityState.Deleted;
+            context.Entry(entityToDelete).State = EntityState.Modified;
+            entityToDelete.deleted = true;
         }
 
         public virtual void Update(TEntity entityToUpdate)

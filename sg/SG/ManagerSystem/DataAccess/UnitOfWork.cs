@@ -1,4 +1,5 @@
 ﻿using ManagerSystem.Entities;
+using ManagerSystem.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ManagerSystem.DataAccess
         private MSContext context = new MSContext();
 
         private GenericRepository<TokenEntity> token_repository;
-        private GenericRepository<GarageEntity> garage_repository;
+        private GarageRepository garage_repository;
         private GenericRepository<OrderEntity> order_repository;
         private GenericRepository<OrderLineEntity> order_line_repository;
         private GenericRepository<JunkyardEntity> junkyard_repository;
@@ -30,13 +31,13 @@ namespace ManagerSystem.DataAccess
             }
         }
 
-        public GenericRepository<GarageEntity> GarageRepository
+        public GarageRepository GarageRepository
         {
             get
             {
                 if (this.garage_repository == null)
                 {
-                    this.garage_repository = new GenericRepository<GarageEntity>(context);
+                    this.garage_repository = new GarageRepository(context);
                 }
                 return garage_repository;
             }
