@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Orders")
 public class OrderEntity extends AbstractEntity {
@@ -52,7 +54,8 @@ public class OrderEntity extends AbstractEntity {
 		return _sgId;
 	}
 
-	public List<OrderLineEntity> getLines() {
+	@JsonIgnore
+	public List<OrderLineEntity> getNotAccepted() {
 		List<OrderLineEntity> lines = new ArrayList<>();
 		for(OrderLineEntity line : _lines) {
 			if(line.getOfferLine() == null || 
@@ -61,6 +64,14 @@ public class OrderEntity extends AbstractEntity {
 			}
 		}
 		return lines;
+	}
+	
+	public List<OrderLineEntity> getLines() {
+		return _lines;
+	}
+	
+	public void setLines(List<OrderLineEntity> lines) {
+		_lines = lines;
 	}
 	
 	public Boolean isClosed() {
