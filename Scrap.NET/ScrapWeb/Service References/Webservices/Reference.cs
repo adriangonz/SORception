@@ -321,6 +321,9 @@ namespace ScrapWeb.Webservices {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         Delete = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Closed = 3,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]

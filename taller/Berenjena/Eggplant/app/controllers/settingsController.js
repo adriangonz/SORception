@@ -4,6 +4,7 @@ module.controller("SettingsCtrl", ['$scope', 'SettingsService', 'Auth', function
 	});
 
 	Auth.isLoggedIn();
+	Auth.isPrivate();
 
 	SettingsService.getSettings();
 	SettingsService.getUsers();

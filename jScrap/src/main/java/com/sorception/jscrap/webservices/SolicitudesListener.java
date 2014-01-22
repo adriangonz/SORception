@@ -13,6 +13,7 @@ import java.util.List;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
 import com.sorception.jscrap.generated.AMQSolicitudMessage;
+import com.sorception.jscrap.generated.ExpPedido;
 import com.sorception.jscrap.generated.ExpSolicitud;
 import com.sorception.jscrap.generated.ExpSolicitudLine;
 import com.sorception.jscrap.generated.ObjectFactory;
@@ -71,9 +72,22 @@ public class SolicitudesListener implements MessageListener {
 			// Deserializing response
 			JAXBElement<AMQSolicitudMessage> root = 
 					(JAXBElement<AMQSolicitudMessage>) unmarshaller.unmarshal(new StringSource(xml));
-			OrderEntity order = toOrderEntity(root.getValue().getSolicitud().getValue());
-			logger.info("Saving new order with remote id " + order.getSgId());
-			orderService.addOrder(order);
+			AMQSolicitudMessage solicitudMessage = root.getValue();
+			ExpSolicitud solicitud = solicitudMessage.getSolicitud().getValue();
+			logger.info("Receiving order with remote id " 
+					+ solicitud.getId() + " and code " + solicitudMessage.getCode());
+			OrderEntity order;
+			switch(solicitudMessage.getCode()) {
+				case NEW:
+					order = toOrderEntity(solicitud);
+					orderService.addOrder(order);
+					break;
+				case CLOSED:
+					order = orderService.getOrderBySgId(solicitud.getId().toString());
+					order.setClosed(true);
+					orderService.updateOrder(order);
+					break;
+			}
 		} catch (JMSException e) {
 			logger.error("'text' field not found at message");
 		}
