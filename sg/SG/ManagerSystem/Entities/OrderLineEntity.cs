@@ -45,7 +45,7 @@ namespace ManagerSystem.Entities
         
         [InverseProperty("order_line")]
         public virtual ICollection<OfferLineEntity> offers { get; set; }
-        /*
+        
         public virtual ICollection<OfferLineEntity> selected_offers
         {
             get
@@ -60,6 +60,6 @@ namespace ManagerSystem.Entities
             {
                 return selected_offers.Sum(o => o.selected_ammount);
             }
-        }*/
+        }
     }
 }
