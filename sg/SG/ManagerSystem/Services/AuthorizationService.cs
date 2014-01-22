@@ -13,6 +13,10 @@ namespace ManagerSystem.Services
 
         public string getCurrentToken()
         {
+            #if DEBUG
+            return "VmaIaXgfhka1kBpdDTJzYA";
+            #endif
+
             try
             {
                 return OperationContext.Current.IncomingMessageHeaders

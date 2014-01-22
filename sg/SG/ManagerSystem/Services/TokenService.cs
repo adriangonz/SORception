@@ -26,7 +26,7 @@ namespace ManagerSystem.Services
                 return new TokenResponse("", TokenResponse.Code.NOT_FOUND);
             }
 
-            if (token.junkyard == null)
+            if (token.junkyard == null && token.garage == null)
                 return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
 
             if (token.status == TokenStatus.EXPIRED)
@@ -39,7 +39,8 @@ namespace ManagerSystem.Services
 
             token.status = TokenStatus.EXPIRED;
             TokenEntity new_token;
-            if (token.junkyard.status == JunkyardStatus.ACTIVE)
+            if (token.junkyard != null && token.junkyard.status == JunkyardStatus.ACTIVE 
+                || token.garage != null && token.garage.status == GarageStatus.ACTIVE)
             {
                 new_token = this.createToken(TokenType.FINAL);
                 code = TokenResponse.Code.CREATED;
@@ -51,6 +52,7 @@ namespace ManagerSystem.Services
             }
             new_token.junkyard = token.junkyard;
             new_token.garage = token.garage;
+            unitOfWork.TokenRepository.Insert(new_token);
 
             unitOfWork.Save();
 
