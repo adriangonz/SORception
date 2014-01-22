@@ -7,7 +7,7 @@
         console.log("Pedido");
         console.log($scope.pedido);
     });
-    
+
     Auth.isLoggedIn();
     Taller.getOrder($routeParams.id);
     Taller.setSolicitudPedido($routeParams.id);
