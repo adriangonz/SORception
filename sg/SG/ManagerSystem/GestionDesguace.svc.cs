@@ -44,6 +44,17 @@ namespace ManagerSystem
             }
         }
 
+        private AMQService amq_service = null;
+        private AMQService amqService
+        {
+            get
+            {
+                if (this.amq_service == null)
+                    this.amq_service = new AMQService();
+                return this.amq_service;
+            }
+        }
+
         public TokenResponse signUp(ExpDesguace ed)
         {
             return junkyardService.createJunkyard(ed);
@@ -78,29 +89,7 @@ namespace ManagerSystem
 
         public Oferta processAMQMessage(AMQOfertaMessage message)
         {
-            Desguace d = r_desguace.Find(message.desguace_id);
-            int id_en_desguace = message.oferta.id_en_desguace;
-            Oferta o = null;
-            switch (message.code)
-            {
-                case AMQOfertaMessage.Code.New:
-                    o = r_oferta.FromExposed(message.oferta, d);
-                    r_oferta.InsertOrUpdate(o);
-                    r_oferta.Save();
-                    break;
-                case AMQOfertaMessage.Code.Update:
-                    o = db_context.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
-                    r_oferta.UpdateFromExposed(o, message.oferta);
-                    r_oferta.InsertOrUpdate(o);
-                    r_oferta.Save();
-                    break;
-                case AMQOfertaMessage.Code.Delete:
-                    o = db_context.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
-                    r_oferta.Delete(o.Id);
-                    r_oferta.Save();
-                    break;
-            }
-            return o;
+            amqService.processIncommingOffer(message);
         }
     }
 }

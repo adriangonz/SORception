@@ -7,26 +7,9 @@ using ManagerSystem.DataAccess;
 
 namespace ManagerSystem.Services
 {
-    public class TokenService : IDisposable
+    public class TokenService : BaseService
     {
-
-        private UnitOfWork unit_of_work = null;
-        private UnitOfWork unitOfWork
-        {
-            get
-            {
-                if (this.unit_of_work == null)
-                    this.unit_of_work = new UnitOfWork();
-                return this.unit_of_work;
-            }
-        }
-
-        public TokenService() { }
-
-        public TokenService(UnitOfWork unitOfWork)
-        {
-            this.unit_of_work = unitOfWork;
-        }
+        public TokenService(UnitOfWork uow = null) : base(uow) { }
 
         public TokenResponse validateToken(string token_string)
         {
@@ -86,11 +69,6 @@ namespace ManagerSystem.Services
             new_token.status = TokenStatus.VALID;
 
             return new_token;
-        }
-
-        public void Dispose()
-        {
-            this.unitOfWork.Dispose();
         }
     }
 }

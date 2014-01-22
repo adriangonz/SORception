@@ -7,31 +7,15 @@ using System.Web;
 
 namespace ManagerSystem.Services
 {
-    public class JunkyardService : IDisposable
+    public class JunkyardService : BaseService
     {
-        private UnitOfWork unit_of_work = null;
-        private UnitOfWork unitOfWork {
-            get {
-                if (this.unit_of_work == null)
-                    this.unit_of_work = new UnitOfWork();
-                return this.unit_of_work;
-            }
-        }
-
         private TokenService token_service = null;
-        private TokenService tokenService {
+        protected TokenService tokenService {
             get {
                 if (this.token_service == null)
-                    this.token_service = new TokenService(unit_of_work);
+                    this.token_service = new TokenService(unitOfWork);
                 return this.token_service;
             }
-        }
-
-        public JunkyardService() { }
-
-        public JunkyardService(UnitOfWork uOW)
-        {
-            this.unit_of_work = uOW;
         }
 
         public TokenResponse createJunkyard(ExpDesguace e_junkyard)
@@ -52,10 +36,5 @@ namespace ManagerSystem.Services
         }
 
         //public TokenResponse 
-
-        public void Dispose()
-        {
-            this.unitOfWork.Dispose();
-        }
     }
 }
