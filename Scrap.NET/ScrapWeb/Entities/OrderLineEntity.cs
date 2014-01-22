@@ -2,6 +2,7 @@
 using ScrapWeb.DataAccess;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -24,6 +25,10 @@ namespace ScrapWeb.Entities
         public int quantity { get; set; }
 
         public int orderId { get; set; }
+
+        [JsonIgnore]
+        [DefaultValue("false")]
+        public bool deleted { get; set; }
 
         [JsonIgnore]
         [Required]

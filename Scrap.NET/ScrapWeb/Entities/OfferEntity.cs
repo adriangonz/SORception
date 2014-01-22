@@ -23,6 +23,7 @@ namespace ScrapWeb.Entities
             }
         }
 
+        [JsonIgnore]
         [DefaultValue("false")]
         public bool deleted { get; set; }
 

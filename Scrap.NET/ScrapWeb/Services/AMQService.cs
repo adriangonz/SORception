@@ -132,11 +132,53 @@ namespace ScrapWeb.Services
                     break;
                 case AMQSolicitudMessageCode.Closed:
                     orderEntity = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
-                    orderEntity.closed = true;
+                    orderService.closeOrder(orderEntity);
+                    break;
+                case AMQSolicitudMessageCode.Delete:
+                    orderEntity = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
+                    orderService.deleteOrder(orderEntity);
+                    break;
+                case AMQSolicitudMessageCode.Update:
+                    orderEntity = updateOrder(solicitudMessage, orderService);
                     orderService.update(orderEntity);
                     break;
             }
             
+        }
+
+        private OrderEntity updateOrder(AMQSolicitudMessage solicitudMessage, OrderService orderService)
+        {
+            OrderEntity originalOrder = orderService.getBySgId(solicitudMessage.solicitud.id.ToString());
+            OrderEntity tmpOrderEntity = toOrder(solicitudMessage);
+            originalOrder.deadline = tmpOrderEntity.deadline;
+            // Update or create
+            foreach(OrderLineEntity line in tmpOrderEntity.lines)
+            {
+                // Get original orderline
+                var originalOrderLine = originalOrder.lines.Where(t => t.sgId == line.sgId).FirstOrDefault();
+                if (originalOrderLine == null)
+                {
+                    // Create new orderline
+                    originalOrder.lines.Add(line);
+                }
+                else
+                {
+                    // Modify existing
+                    originalOrderLine.quantity = line.quantity;
+                    originalOrderLine.description = line.description;
+                }
+            }
+            // Check for deleted entities
+            foreach(OrderLineEntity line in originalOrder.lines.ToList())
+            {
+                var existingLine = tmpOrderEntity.lines.Where(t => t.sgId == line.sgId).FirstOrDefault();
+                if (existingLine == null)
+                {
+                    // To delete
+                    orderService.deleteOrderLine(line);
+                }
+            }
+            return originalOrder;
         }
 
         void topicSubscriberPedidos_OnMessageReceived(string message)
