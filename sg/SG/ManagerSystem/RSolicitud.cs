@@ -85,6 +85,7 @@ namespace ManagerSystem
 
         private void UpdateLineaFromExposed(LineaSolicitud ls, ExpSolicitud.Line el)
         {
+            ls.id_en_taller = el.id_en_taller;
             ls.quantity = el.quantity;
             ls.description = el.description;
             ls.flag = el.flag;
