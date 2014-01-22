@@ -32,7 +32,12 @@ namespace ManagerSystem.Services
 
         public void putGarage(ExpTaller e_garage)
         {
+            GarageEntity garage = this.getCurrentGarage();
 
+            garage.name = e_garage.name;
+            unitOfWork.GarageRepository.Update(garage);
+
+            unitOfWork.Save();
         }
 
         public void deleteCurrentGarage()
