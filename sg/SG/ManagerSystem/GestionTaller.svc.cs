@@ -49,8 +49,8 @@ namespace ManagerSystem
             }
             catch (Exception e)
             {
-                token_string = "813f14e463abe904fa848fcd5bc4f2b3dfa6e61fea3192d7aaa6887677089dde";
-                //throw;
+                //token_string = "813f14e463abe904fa848fcd5bc4f2b3dfa6e61fea3192d7aaa6887677089dde";
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
             }
 
             Token token = r_token.Find(token_string);
