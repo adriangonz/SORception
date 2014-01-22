@@ -27,7 +27,7 @@ public class OrderService {
 		List<OrderEntity> orders = orderDAO.list();
 		List<OrderEntity> validOrders = new ArrayList<>();
 		for(OrderEntity order : orders) {
-			if(!order.getLines().isEmpty() && !order.isClosed())
+			if(!order.getNotAccepted().isEmpty() && !order.isClosed())
 				validOrders.add(order);
 		}
 		

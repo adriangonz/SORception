@@ -82,4 +82,10 @@ public class OfferEntity extends AbstractEntity {
 			line.setOffer(this);
 		}
 	}
+	
+	public OrderEntity getOrder() {
+		if(!_lines.isEmpty() && _lines.get(0).getOrderLine() != null)
+			return _lines.get(0).getOrderLine().getOrder();
+		return null;
+	}
 }
