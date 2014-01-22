@@ -204,19 +204,26 @@ namespace Eggplant.Controllers
                                 }
                                 // Modificacion externa
                                 ExpSolicitudLine lin = new ExpSolicitudLine();
-                                lin.description = item["descripcion"].ToString();
-                                lin.quantity = int.Parse(item["cantidad"].ToString());
+                                
                                 lin.action = efecto;
-                                lin.flag = ExpSolicitudLine.castToFlag(item["criterio"]["code"].ToString());
                                 lin.status = efecto;
+                                if (efecto != LINEA_DELETE) { 
+                                    lin.flag = ExpSolicitudLine.castToFlag(item["criterio"]["code"].ToString());
+                                    lin.description = item["descripcion"].ToString();
+                                    lin.quantity = int.Parse(item["cantidad"].ToString());
+                                }
+                                else
+                                {
+                                    lin.flag = "NONE";
+                                    lin.description = "NONE";
+                                    lin.quantity = 0;
+                                }
+                                lin.id_en_taller = linIn.Id;
                                 if (efecto == LINEA_UPDATED || efecto == LINEA_DELETE) 
                                 {
                                     lin.id = linIn.sg_id;
                                 }
-                                else
-                                {
-                                    lin.id_en_taller = linIn.Id;
-                                }
+                                
                                 lineas.Add(lin);
                             }
                         }
@@ -224,6 +231,16 @@ namespace Eggplant.Controllers
                         try 
                         { 
                             svcTaller.putSolicitud(solExterna);
+                            var lineasActualizadas = svcTaller.getSolicitud(solInterna.sg_id).lineas.ToList();
+                            foreach (var linea in lineasNuevas)
+                            {
+                                foreach(var lineaActualizada in lineasActualizadas){
+                                    if (lineaActualizada.id_en_taller == linea.Id) { 
+                                        linea.sg_id = lineaActualizada.id;
+                                    }
+                                }
+                            
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -231,6 +248,7 @@ namespace Eggplant.Controllers
                             c_bd.SaveChanges();
                             throw;
                         }
+                        
                         c_bd.SaveChanges();
                         
 
