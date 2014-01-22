@@ -69,4 +69,16 @@ public class OrderService {
 	public OrderEntity updateOrder(OrderEntity order) {
 		return orderDAO.update(order);
 	}
+	
+	public void closeOrder(OrderEntity order) {
+		OfferService offerService = new OfferService();
+		order.setClosed(true);
+		updateOrder(order);
+		// Delete related offer
+		offerService.deleteOffer(order.getOffer());
+	}
+
+	public void deleteOrder(OrderEntity order) {
+		closeOrder(order);
+	}
 }

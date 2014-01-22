@@ -56,6 +56,10 @@ public class OfferService {
 	
 	public void deleteOffer(Long id) {
 		OfferEntity offer = offerDAO.get(id);
+		deleteOffer(offer);
+	}
+	
+	public void deleteOffer(OfferEntity offer) {
 		amqService.sendDeleteOffer(offer,  tokenService.getValid());
 		offerDAO.delete(offer);
 	}

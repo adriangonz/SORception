@@ -120,4 +120,9 @@ public class OfferLineEntity extends AbstractEntity {
 		this._deleted = true;
 		this._orderLine = null;
 	}
+
+	@JsonIgnore
+	public OfferEntity getOffer() {
+		return _offer;
+	}
 }

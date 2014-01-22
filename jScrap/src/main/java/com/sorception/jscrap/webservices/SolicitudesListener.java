@@ -84,9 +84,11 @@ public class SolicitudesListener implements MessageListener {
 					break;
 				case CLOSED:
 					order = orderService.getOrderBySgId(solicitud.getId().toString());
-					order.setClosed(true);
-					orderService.updateOrder(order);
+					orderService.closeOrder(order);
 					break;
+				case DELETE:
+					order = orderService.getOrderBySgId(solicitud.getId().toString());
+					orderService.deleteOrder(order);
 			}
 		} catch (JMSException e) {
 			logger.error("'text' field not found at message");
