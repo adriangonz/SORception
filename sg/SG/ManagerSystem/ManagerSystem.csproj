@@ -114,7 +114,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="DataAccess\GenericRepository.cs" />
     <Compile Include="DataAccess\MSContext.cs" />
     <Compile Include="DataAccess\UnitOfWork.cs" />
     <Compile Include="DataContracts.cs" />
@@ -178,7 +178,6 @@
     <Compile Include="Oferta.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\GarageRepository.cs" />
     <Compile Include="ROferta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AMQService.cs" />
@@ -243,6 +242,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

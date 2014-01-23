@@ -1,5 +1,4 @@
 ﻿using ManagerSystem.Entities;
-using ManagerSystem.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
