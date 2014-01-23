@@ -1,0 +1,69 @@
+<h2>Pedido {{actual_pedido.id}}</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Informacion</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Identificador:</td>
+            <td>{{actual_pedido.id}}</td>
+        </tr>
+        <tr>
+            <td>Ref SG:</td>
+            <td>{{actual_pedido.orderSgId}}</td>
+        </tr>
+        <tr>
+            <td>Solicitud:</td>
+            <td><a href="#/order/{{actual_pedido.orderId}}">{{actual_pedido.orderId}}</a></td>
+        </tr>
+        <tr>
+            <td>Creado:</td>
+            <td>{{actual_pedido.updatedDate}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Lineas solicitadas</h3>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripcion</th>
+            <th>Cantidad Solicitada</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="line in actual_order.lines">
+            <td>{{line.id}}</td>
+            <td>{{line.description}}</td>
+            <td>{{line.quantity}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Lineas aceptadas</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Ref Solicitud</th>
+            <th>Observaciones</th>
+            <th>Cantidad Pedida</th>
+            <th>Precio Unidad</th>
+            <th>Fecha de fabricacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="line in actual_pedido.lines">
+            <td>{{line.orderLineId}}</td>
+            <td>{{line.notes}}</td>
+            <td>{{line.acceptedOffer.quantity}}</td>
+            <td>{{line.price}}</td>
+            <td>{{line.date}}</td>
+        </tr>
+    </tbody>
+</table>

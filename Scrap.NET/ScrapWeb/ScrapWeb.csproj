@@ -223,8 +223,38 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.js" />
+    <Content Include="app\controllers\createOfferController.js" />
+    <Content Include="app\controllers\offersController.js" />
+    <Content Include="app\controllers\ordersController.js" />
+    <Content Include="app\controllers\pedidosController.js" />
+    <Content Include="app\controllers\settingsController.js" />
+    <Content Include="app\controllers\viewOfferController.js" />
+    <Content Include="app\controllers\viewPedidoController.js" />
+    <Content Include="app\directives\authDirective.js" />
+    <Content Include="app\directives\scrapDirective.js" />
+    <Content Include="app\directives\settingsDirective.js" />
+    <Content Include="app\services\authService.js" />
+    <Content Include="app\services\scrapService.js" />
+    <Content Include="app\services\settingsService.js" />
+    <Content Include="app\templates\config.html" />
+    <Content Include="app\templates\create-offer.html" />
+    <Content Include="app\templates\login.html" />
+    <Content Include="app\templates\main.html" />
+    <Content Include="app\templates\offers.html" />
+    <Content Include="app\templates\orders.html" />
+    <Content Include="app\templates\pedidos.html" />
+    <Content Include="app\templates\view-offer.html" />
+    <Content Include="app\templates\view-pedido.html" />
+    <Content Include="App_Data\aspnet-ScrapWeb-20140116075322.mdf" />
+    <Content Include="App_Data\aspnet-ScrapWeb-20140116075322_log.ldf">
+      <DependentUpon>aspnet-ScrapWeb-20140116075322.mdf</DependentUpon>
+    </Content>
     <Content Include="Assets\Content\bootstrap.css" />
     <Content Include="Assets\Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -241,6 +271,7 @@
     <Content Include="Assets\Scripts\modernizr-2.6.2.js" />
     <Content Include="Assets\Scripts\respond.js" />
     <Content Include="Assets\Scripts\respond.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Service References\Webservices\GestionDesguace.disco" />
     <None Include="Service References\Webservices\configuration91.svcinfo" />
     <None Include="Service References\Webservices\configuration.svcinfo" />
@@ -248,6 +279,20 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -278,7 +323,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
