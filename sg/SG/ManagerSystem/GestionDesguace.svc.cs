@@ -14,7 +14,7 @@ using ManagerSystem.Services;
 
 namespace ManagerSystem
 {
-    [ServiceBehavior(Namespace = Constants.Namespace)]
+    [ServiceBehavior(Namespace = Config.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
         private JunkyardService junkyard_service = null;

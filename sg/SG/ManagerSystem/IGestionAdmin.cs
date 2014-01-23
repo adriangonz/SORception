@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManagerSystem.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,10 +13,10 @@ namespace ManagerSystem
     public interface IGestionAdmin
     {
         [OperationContract]
-        List<Desguace> getDesguaces();
+        List<JunkyardEntity> getDesguaces();
 
         [OperationContract]
-        List<Taller> getTalleres();
+        List<GarageEntity> getTalleres();
 
         [OperationContract]
         int activeDesguace(int id, bool active);

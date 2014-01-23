@@ -8,7 +8,7 @@ namespace ManagerSystem
 {
     // ActiveMQ
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQScheduledJob
     {
         [DataMember(Name = "id_solicitud")]
@@ -21,7 +21,7 @@ namespace ManagerSystem
         public string csrf;
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQSolicitudMessage
     {
         public enum Code { New, Update, Delete };
@@ -41,7 +41,7 @@ namespace ManagerSystem
         public AMQSolicitudMessage() { }
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQOfertaMessage
     {
         public enum Code { New, Update, Delete };
@@ -63,7 +63,7 @@ namespace ManagerSystem
         public AMQOfertaMessage() { }
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQPedidoMessage
     {
         [DataMember(Name = "desguace_id")]
@@ -75,7 +75,7 @@ namespace ManagerSystem
 
     // Solicitud
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpSolicitud
     {
         public class Line
@@ -118,7 +118,7 @@ namespace ManagerSystem
         public DateTime deadline;
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpPedido
     {
         public class Line
@@ -139,7 +139,7 @@ namespace ManagerSystem
 
     // Oferta
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpOferta
     {
         public class Line
@@ -190,14 +190,14 @@ namespace ManagerSystem
 
     // Others
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpTaller
     {
         [DataMember(Name = "name")]
         public string name;
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpDesguace
     {
         [DataMember(Name = "name")]
@@ -205,7 +205,7 @@ namespace ManagerSystem
 
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class TokenResponse
     {
         public enum Code : int { CREATED = 201, ACCEPTED = 202, NON_AUTHORITATIVE = 203, BAD_REQUEST = 400, NOT_FOUND = 404 };

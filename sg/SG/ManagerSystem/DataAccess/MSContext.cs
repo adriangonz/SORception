@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using ManagerSystem.Entities;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ManagerSystem.DataAccess
 {
@@ -48,11 +49,7 @@ namespace ManagerSystem.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<GarageEntity>()
-            //    .HasMany(g => g.tokens)
-            //    .WithRequired(t => t.garage)
-            //    .HasForeignKey(t => t.garage_id)
-            //    .WillCascadeOnDelete(true);
+            
         }
     }
 }

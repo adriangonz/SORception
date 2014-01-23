@@ -277,9 +277,9 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Client_ID,
-                    Constants.ActiveMQ.Solicitudes_Topic);
+                    Config.ActiveMQ.Broker,
+                    Config.ActiveMQ.Client_ID,
+                    Config.ActiveMQ.Solicitudes_Topic);
             publisher.SendMessage(sm);
             publisher.Dispose();
         }
@@ -289,9 +289,9 @@ namespace ManagerSystem
             Taller t = getAuthorizedTaller();
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Client_ID,
-                    Constants.ActiveMQ.Pedidos_Topic);
+                    Config.ActiveMQ.Broker,
+                    Config.ActiveMQ.Client_ID,
+                    Config.ActiveMQ.Pedidos_Topic);
             publisher.SendMessage(sm);
             publisher.Dispose();
         }
@@ -304,9 +304,9 @@ namespace ManagerSystem
             job.csrf = GenerateCSRF(s);
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Constants.ActiveMQ.Broker,
-                    Constants.ActiveMQ.Client_ID,
-                    Constants.ActiveMQ.Jobs_Topic);
+                    Config.ActiveMQ.Broker,
+                    Config.ActiveMQ.Client_ID,
+                    Config.ActiveMQ.Jobs_Topic);
 
             TimeSpan delay = s.deadline - DateTime.Now;
             publisher.SendMessage(job, (long) delay.TotalMilliseconds);

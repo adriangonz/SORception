@@ -25,5 +25,43 @@ namespace ManagerSystem.Services
             }
             return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
         }
+
+        public JunkyardEntity getJunkyard(int junkyard_id)
+        {
+            JunkyardEntity junkyard = unitOfWork.JunkyardRepository.GetByID(junkyard_id);
+            if (junkyard == null)
+                throw new ArgumentException();
+
+            return junkyard;
+        }
+
+        public List<JunkyardEntity> getJunkyards()
+        {
+            List<JunkyardEntity> junkyards = unitOfWork.JunkyardRepository.GetAll().ToList();
+            return junkyards;
+        }
+
+        public void activateJunkyard(int junkyard_id, bool is_active)
+        {
+            JunkyardEntity junkyard = unitOfWork.JunkyardRepository.GetByID(junkyard_id);
+            if (junkyard == null)
+                throw new ArgumentException();
+
+            junkyard.status = is_active ? JunkyardStatus.ACTIVE : JunkyardStatus.CREATED;
+
+            unitOfWork.JunkyardRepository.Update(junkyard);
+            unitOfWork.Save();
+        }
+
+        public void removeJunkyard(int junkyard_id)
+        {
+            JunkyardEntity junkyard = unitOfWork.JunkyardRepository.GetByID(junkyard_id);
+
+            if (junkyard == null)
+                throw new ArgumentNullException();
+
+            unitOfWork.JunkyardRepository.Delete(junkyard);
+            unitOfWork.Save();
+        }
     }
 }

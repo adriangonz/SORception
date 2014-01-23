@@ -30,7 +30,7 @@ namespace ManagerSystem.DataAccess
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "")
         {
-            IQueryable<TEntity> query = dbSet;
+            IQueryable<TEntity> query = dbSet.Where(e => !e.deleted);
 
             if (filter != null)
             {
@@ -55,7 +55,16 @@ namespace ManagerSystem.DataAccess
 
         public virtual TEntity GetByID(object id)
         {
-            return dbSet.Find(id);
+            //return dbSet.Find(id);
+
+            try
+            {
+                return this.Get(e => e.id == (int)id).First();
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         public virtual void Insert(TEntity entity)

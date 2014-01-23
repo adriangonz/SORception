@@ -14,13 +14,13 @@ namespace ManagerSystem.Services
         public string getCurrentToken()
         {
             #if DEBUG
-            return "VmaIaXgfhka1kBpdDTJzYA";
+            return "Nv8nAmhXoEmmEQMWbCDD/w";
             #endif
 
             try
             {
                 return OperationContext.Current.IncomingMessageHeaders
-                        .GetHeader<string>("Authorization", Constants.Namespace);
+                        .GetHeader<string>("Authorization", Config.Namespace);
             }
             catch (MessageHeaderException)
             {

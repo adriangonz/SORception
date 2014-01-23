@@ -44,7 +44,7 @@ namespace ManagerSystem.Services
         {
             GarageEntity garage = this.getCurrentGarage();
 
-            unitOfWork.GarageRepository.Get(g => g.id == garage.id, null, "tokens");
+            unitOfWork.GarageRepository.Get(g => g.id == garage.id, null, "tokens,orders");
             unitOfWork.GarageRepository.Delete(garage);
 
             unitOfWork.Save();
@@ -62,6 +62,33 @@ namespace ManagerSystem.Services
             return tokenService.getGarage(token_string);
         }
 
+        public GarageEntity getGarage(int garage_id)
+        {
+            GarageEntity garage = unitOfWork.GarageRepository.GetByID(garage_id);
+            if (garage == null)
+                throw new ArgumentException();
+
+            return garage;
+        }
+
+        public List<GarageEntity> getGarages()
+        {
+            List<GarageEntity> garages = (from garage in unitOfWork.GarageRepository.GetAll() select garage).ToList();
+            return garages;
+        }
+
+        public void activateGarage(int garage_id, bool is_active)
+        {
+            GarageEntity garage = unitOfWork.GarageRepository.GetByID(garage_id);
+            if (garage == null)
+                throw new ArgumentException();
+
+            garage.status = is_active ? GarageStatus.ACTIVE : GarageStatus.CREATED;
+
+            unitOfWork.GarageRepository.Update(garage);
+            unitOfWork.Save();
+        }
+
         public bool existsGarageWithToken(string token_string)
         {
             try
@@ -73,6 +100,17 @@ namespace ManagerSystem.Services
                 return false;
             }
             return true;
+        }
+
+        public void removeGarage(int garage_id)
+        {
+            GarageEntity garage = unitOfWork.GarageRepository.GetByID(garage_id);
+
+            if (garage == null)
+                throw new ArgumentNullException();
+
+            unitOfWork.GarageRepository.Delete(garage);
+            unitOfWork.Save();
         }
     }
 }

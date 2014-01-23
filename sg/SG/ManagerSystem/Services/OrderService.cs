@@ -15,9 +15,7 @@ namespace ManagerSystem.Services
         {
             OrderEntity order = new OrderEntity();
 
-            order.garage = garageService.getCurrentGarage();
-            order.deadline = e_order.deadline;
-            order.corresponding_id = e_order.id_en_taller;
+            this.copyFromExposed(order, e_order);
 
             unitOfWork.OrderRepository.Insert(order);
             unitOfWork.Save();
@@ -42,19 +40,47 @@ namespace ManagerSystem.Services
         {
             GarageEntity current_garage = garageService.getCurrentGarage();
 
-            List<ExpSolicitud> orders = (from order in current_garage.orders select this.toExposed(order)).ToList();
+            List<ExpSolicitud> orders = (from order in current_garage.orders where !order.deleted select this.toExposed(order)).ToList();
 
             return orders;
         }
 
         public void putOrder(ExpSolicitud e_order)
         {
+            OrderEntity order = unitOfWork.OrderRepository.GetByID(e_order.id);
 
+            if (order == null)
+                throw new ArgumentNullException();
+
+            if (order.garage != garageService.getCurrentGarage())
+                throw new ArgumentException();
+
+            this.copyFromExposed(order, e_order);
+
+            unitOfWork.OrderRepository.Update(order);
+            unitOfWork.Save();
         }
 
         public void deleteOrder(int order_id)
         {
+            OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id);
 
+            if (order == null)
+                throw new ArgumentNullException();
+
+            if (order.garage != garageService.getCurrentGarage())
+                throw new ArgumentException();
+
+            unitOfWork.OrderRepository.Delete(order);
+            unitOfWork.Save();
+        }
+
+        private void copyFromExposed(OrderEntity order, ExpSolicitud e_order)
+        {
+            order.garage = garageService.getCurrentGarage();
+            order.deadline = e_order.deadline;
+            order.corresponding_id = e_order.id_en_taller;
+            // copiar las lineas
         }
 
         private ExpSolicitud toExposed(OrderEntity order)
