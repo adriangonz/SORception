@@ -6,7 +6,6 @@
 
 package com.sorception.jscrap.services;
 
-import com.sorception.jscrap.dao.SettingsDAO;
 import com.sorception.jscrap.entities.SettingsEntity;
 import com.sorception.jscrap.entities.TokenEntity;
 
@@ -19,15 +18,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SettingsService {
-    @Autowired
-    private SettingsDAO settingsDAO;
+	@Autowired
+    private SettingsEntity globalSettings;
     
     @Autowired
     private TokenService tokenService;
     
     public SettingsEntity getGlobalSettings() {
-        SettingsEntity settingsEntity = settingsDAO.getGlobalSettings();
-        return settingsEntity;
+        return globalSettings;
     }
     
     public SettingsEntity getExtendedSettings() {
