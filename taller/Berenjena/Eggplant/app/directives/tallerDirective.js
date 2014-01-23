@@ -7,10 +7,12 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         link: function (scope, element, attrs) {
             element.bind("click", function () {
                 if (scope.line.descripcion != "" && scope.line.cantidad && scope.line.criterio) {
+                    $("#err-line").html('');
                     Taller.addLine(scope.line);
                     console.log(Taller);
-                    scope.line = null;
                     scope.$apply();
+                } else {
+                    $("#err-line").html('Todos los campos de la linea son obligatorios');
                 }
             });
         }
@@ -23,15 +25,24 @@ module.directive("addLineBtn", ['Taller', function (Taller) {
         },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                if (scope.order.id)
-                {
-                    Taller.putOrder(scope.order);
-                } else {
-                    Taller.postOrder(scope.order);
-                }
-                scope.order = [];
-                $location.path("/orders");
-                scope.$apply();
+                
+                    if (scope.order.id) {
+                        Taller.putOrder(scope.order);
+                        scope.order = [];
+                        $location.path("/orders");
+                        scope.$apply();
+                    } else {
+                        if (scope.order.deadline) {
+                            $("#err-date").html('');
+                            Taller.postOrder(scope.order);
+                            scope.order = [];
+                            $location.path("/orders");
+                            scope.$apply();
+                        } else {
+                            $("#err-date").html('La fecha de fin es obligatoria');
+                        }
+                    }
+
             });
         }
     }

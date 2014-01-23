@@ -67,6 +67,7 @@
   <xs:element name="ArrayOfExpOferta.Line" nillable="true" type="tns:ArrayOfExpOferta.Line" />
   <xs:complexType name="ExpOferta.Line">
     <xs:sequence>
+      <xs:element minOccurs="0" name="date" type="xs:dateTime" />
       <xs:element minOccurs="0" name="id" type="xs:int" />
       <xs:element minOccurs="0" name="id_en_desguace" type="xs:int" />
       <xs:element minOccurs="0" name="linea_solicitud" nillable="true" type="tns:ExpOferta.Line.RelatedSolicitud" />

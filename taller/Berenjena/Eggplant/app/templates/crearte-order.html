@@ -1,7 +1,7 @@
 ﻿<h2>Crear Solicitud</h2>
 
 <strong>Fin de plazo</strong>
-<input class="form-control" type="date" id="dedline" ng-model="tmp_order.deadline" placeholder="12/04/2014" />
+<input class="form-control" type="date" id="dedline" ng-model="tmp_order.deadline" placeholder="12/04/2014" /> <span id="err-date" class="text-danger"></span>
  
 <br />
 <table class="table table-striped table-bordered">
@@ -26,4 +26,4 @@
     </tbody>
 </table>
 <button class="btn btn-default" add-line-btn="tmp_line">Añadir Linea</button>
-<button class="btn btn-success" send-order-btn="tmp_order">Enviar Solicitud</button>
+<button class="btn btn-success" send-order-btn="tmp_order">Enviar Solicitud</button> <span id="err-line" class="text-danger"></span>
