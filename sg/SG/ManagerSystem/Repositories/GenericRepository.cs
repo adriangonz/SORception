@@ -75,10 +75,7 @@ namespace ManagerSystem.Repositories
             {
                 dbSet.Attach(entityToDelete);
             }
-            // If we set the state to Deleted it somehow automatically removes all relationships
-            // context.Entry(entityToDelete).State = EntityState.Deleted;
-            context.Entry(entityToDelete).State = EntityState.Modified;
-            entityToDelete.deleted = true;
+            dbSet.Remove(entityToDelete);
         }
 
         public virtual void Update(TEntity entityToUpdate)

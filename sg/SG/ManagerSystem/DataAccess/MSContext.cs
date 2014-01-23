@@ -35,7 +35,6 @@ namespace ManagerSystem.DataAccess
                     item.Entity.updated_at = System.DateTime.Now;
                 }
 
-                // As per GenericRepository.cs:77 this will never get called
                 foreach (var item in trackables.Where(t => t.State == EntityState.Deleted))
                 {
                     item.Entity.updated_at = System.DateTime.Now;
@@ -45,6 +44,15 @@ namespace ManagerSystem.DataAccess
             }
 
             return base.SaveChanges();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<GarageEntity>()
+            //    .HasMany(g => g.tokens)
+            //    .WithRequired(t => t.garage)
+            //    .HasForeignKey(t => t.garage_id)
+            //    .WillCascadeOnDelete(true);
         }
     }
 }

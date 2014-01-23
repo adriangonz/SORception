@@ -44,6 +44,7 @@ namespace ManagerSystem.Services
         {
             GarageEntity garage = this.getCurrentGarage();
 
+            unitOfWork.GarageRepository.Get(g => g.id == garage.id, null, "tokens");
             unitOfWork.GarageRepository.Delete(garage);
 
             unitOfWork.Save();
