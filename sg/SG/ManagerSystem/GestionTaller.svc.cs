@@ -135,20 +135,6 @@ namespace ManagerSystem
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             return orderService.addOrder(es);
-            /*
-            if (es == null)
-                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-
-            Taller t = getAuthorizedTaller();
-
-            Solicitud s = r_solicitud.GetIncoming(es);
-            s.TallerId = t.Id;
-            r_solicitud.InsertOrUpdate(s);
-            r_solicitud.Save();
-            ScheduleJob(s);
-
-            SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
-            return s.Id;*/
         }
 
         public int putSolicitud(ExpSolicitud es)
@@ -159,22 +145,6 @@ namespace ManagerSystem
             orderService.putOrder(es);
 
             return 0;
-
-            /*
-            if (es == null)
-                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-
-            Taller t = getAuthorizedTaller();
-
-            Solicitud s = r_solicitud.Find(es.id);
-            if (s.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-
-            r_solicitud.UpdateFromExposed(s, es);
-            r_solicitud.Save();
-            SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
-
-            return 0;*/
         }
 
         public int deleteSolicitud(int order_id)
@@ -185,16 +155,6 @@ namespace ManagerSystem
             orderService.deleteOrder(order_id);
 
             return 0;
-
-            /*
-            Taller t = getAuthorizedTaller();
-
-            r_solicitud.Delete(id);
-            r_solicitud.Save();
-            ExpSolicitud es = new ExpSolicitud();
-            es.id = id;
-            SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Delete));
-            return 0;*/
         }
 
         public ExpOferta getOferta(int oferta_id)
@@ -270,19 +230,6 @@ namespace ManagerSystem
             SendMessage(message);
 
             return 0;
-        }
-
-        private void SendMessage(AMQSolicitudMessage sm)
-        {
-            /*
-            Taller t = getAuthorizedTaller();
-
-            TopicPublisher publisher = TopicPublisher.MakePublisher(
-                    Config.ActiveMQ.Broker,
-                    Config.ActiveMQ.Client_ID,
-                    Config.ActiveMQ.Topics.Orders);
-            publisher.SendMessage(sm);
-            publisher.Dispose();*/
         }
 
         private void SendMessage(AMQPedidoMessage sm)

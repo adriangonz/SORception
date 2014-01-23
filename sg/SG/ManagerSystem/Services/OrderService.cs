@@ -66,6 +66,13 @@ namespace ManagerSystem.Services
 
             unitOfWork.OrderRepository.Update(order);
             unitOfWork.Save();
+
+            AMQSolicitudMessage msg = new AMQSolicitudMessage
+            {
+                code = AMQSolicitudMessage.Code.Update,
+                solicitud = this.toExposed(order)
+            };
+            amqService.publishOrder(msg);
         }
 
         public void deleteOrder(int order_id)
@@ -80,6 +87,16 @@ namespace ManagerSystem.Services
 
             unitOfWork.OrderRepository.Delete(order);
             unitOfWork.Save();
+
+            AMQSolicitudMessage msg = new AMQSolicitudMessage
+            {
+                code = AMQSolicitudMessage.Code.Delete,
+                solicitud = new ExpSolicitud
+                {
+                    id = order.id
+                }
+            };
+            amqService.publishOrder(msg);
         }
 
         private void copyFromExposed(OrderEntity order, ExpSolicitud e_order)
