@@ -20,10 +20,10 @@
  	<!--  
     	<logger name="org.apache.activemq" level="ALL" />
 	 -->
- 	<!-- 
+ 	 <!-- 
     	<logger name="org.hibernate" level="ALL" />
 	 -->
- 	 <!-- 
-    	<logger name="org.springframework.web.servlet.mvc" level="ALL" />
-	 -->
+ 	  
+    	<logger name="org.springframework.data" level="ALL" />
+	 
 </configuration>
