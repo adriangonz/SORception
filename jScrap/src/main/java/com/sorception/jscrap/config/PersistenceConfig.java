@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories
+@EnableJpaRepositories("com.sorception.jscrap.dao")
 public class PersistenceConfig implements TransactionManagementConfigurer {
 	
 	@Value("${dataSource.driverClassName}")
@@ -62,8 +62,9 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 		return entityManagerFactoryBean;
 	}
         
-        @Override
-        public PlatformTransactionManager annotationDrivenTransactionManager() {
-            return new JpaTransactionManager(entityManagerFactory().getObject());
-        }
+    @Override
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager annotationDrivenTransactionManager() {
+        return new JpaTransactionManager(entityManagerFactory().getObject());
+    }
 }

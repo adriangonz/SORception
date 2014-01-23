@@ -18,30 +18,30 @@ import javax.persistence.Table;
 @Table(name="User")
 public class UserEntity extends AbstractEntity {
     @Column(name = "name")
-    private String _name;
+    private String name;
     
     @Column(name = "isAdmin")
-    private Boolean _admin = false;
+    private Boolean admin = false;
 
     @Column(name = "username", unique = true)
-    private String _username;
+    private String username;
     
     public UserEntity() {}
 
     public UserEntity(String username, String name) {
-        _username = username;
-        _name = name;
+        this.username = username;
+        this.name = name;
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
     
     public String getUsername() {
-        return _username;
+        return username;
     }
     
     public Boolean getIsAdmin() {
-        return _admin;
+        return admin;
     }
 }
