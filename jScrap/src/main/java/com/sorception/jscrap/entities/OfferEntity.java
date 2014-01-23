@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import com.sorception.jscrap.services.ActiveMQService;
 
 @Entity
 @Table(name = "Offer")
+@Where(clause = "deleted <> TRUE")
 public class OfferEntity extends AbstractEntity {
 	
 	final static Logger logger = LoggerFactory.getLogger(OfferEntity.class);

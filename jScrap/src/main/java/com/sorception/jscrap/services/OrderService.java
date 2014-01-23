@@ -62,7 +62,6 @@ public class OrderService {
 	}
 
 	public OrderEntity getOrderBySgId(String id) {
-		// TODO Auto-generated method stub
 		return orderDAO.getBySgId(id);
 	}
 
@@ -79,6 +78,13 @@ public class OrderService {
 	}
 
 	public void deleteOrder(OrderEntity order) {
-		closeOrder(order);
+		OfferService offerService = new OfferService();
+		order.setDeleted(true);
+		for(OrderLineEntity line : order.getLines()) {
+			line.setDeleted(true);
+		}
+		updateOrder(order);
+		// Delete related offer
+		offerService.deleteOffer(order.getOffer());
 	}
 }
