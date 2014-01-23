@@ -78,6 +78,17 @@ namespace ManagerSystem.Services
             }
         }
 
+        private AMQService amq_service = null;
+        protected AMQService amqService
+        {
+            get
+            {
+                if (this.amq_service == null)
+                    this.amq_service = new AMQService(unitOfWork);
+                return this.amq_service;
+            }
+        }
+
         public BaseService(UnitOfWork uOW = null)
         {
             this.unit_of_work = uOW;
