@@ -8,7 +8,7 @@ module.controller("TallerCtrl", ['$scope', 'Taller', 'Auth', '$timeout', functio
     Auth.isLoggedIn();
     $scope.orders = [];
     Taller.getOrders();
-
+    $timeout(Taller.getOrders, 3500);
    
   
 }]);

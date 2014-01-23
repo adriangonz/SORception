@@ -24,7 +24,8 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
               $timeout(service.getSettings, 1000);
           }).
           error(function(data, status, headers, config) {
-              alert(status+" "+data);
+              alert(status + " " + data);
+              console.log(data);
           });
      },
 
@@ -37,6 +38,8 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
            }).
            error(function (data, status, headers, config) {
                alert(status + " | " + data);
+               console.log(data);
+
                service.settings.userList = [
                   {
                       "id": 1,
