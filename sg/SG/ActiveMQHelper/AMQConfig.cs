@@ -13,9 +13,9 @@ namespace ActiveMQHelper
         public static IConnection Connection { get; private set; }
         public static ISession Session { get; private set; }
 
-        public static void StartUp(string endpoint)
+        public static void StartUp(string endpoint, string client_id)
         {
-            var factory = new ConnectionFactory(endpoint);
+            var factory = new ConnectionFactory(endpoint, client_id);
             Connection = factory.CreateConnection();
             Connection.Start();
             Session = Connection.CreateSession();

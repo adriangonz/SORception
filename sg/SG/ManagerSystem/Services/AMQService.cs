@@ -14,47 +14,48 @@ namespace ManagerSystem.Services
 
         public AMQService(UnitOfWork uow = null) : base(uow) 
         {
-            subscribers = new List<TopicPublisher>();        
+            this.subscribers = new List<TopicPublisher>();
         }
 
         public void publishOrder(AMQSolicitudMessage msg)
         {
-            TopicPublisher publisher = new TopicPublisher(
-                AMQConfig.Session, AMQConfig.Connection, Config.ActiveMQ.Topics.Orders);
+            TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.Orders);
 
             publisher.SendMessage(TopicPublisher.ToXML((object) msg));
         }
 
         public void publishOrderConfirmation(AMQPedidoMessage msg)
         {
-            TopicPublisher publisher = new TopicPublisher(
-                AMQConfig.Session, AMQConfig.Connection, Config.ActiveMQ.Topics.OfferConfirmations);
+            TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.OfferConfirmations);
 
             publisher.SendMessage(TopicPublisher.ToXML((object)msg));
         }
 
         public void scheduleJob(AMQScheduledJob msg, long delay)
         {
-            TopicPublisher publisher = new TopicPublisher(
-                AMQConfig.Session, AMQConfig.Connection, Config.ActiveMQ.Topics.ScheduledJobs);
+            TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.ScheduledJobs);
 
             publisher.SendMessage(TopicPublisher.ToXML((object)msg), delay);
         }
 
         public void createOfferSubscriber()
         {
-            TopicSubscriber topicSubscriber = new TopicSubscriber(
-                AMQConfig.Session, Config.ActiveMQ.Topics.Offers);
+            string subscription_name = this.generateSubscriptionName(System.Environment.MachineName);
+
+            TopicSubscriber topicSubscriber = TopicSubscriber.MakeDefaultSubscriber(Config.ActiveMQ.Topics.Offers);
             topicSubscriber.OnMessageReceived += offerSubscriber_OnMessageReceived;
-            topicSubscriber.Start(System.Environment.MachineName);
+
+            topicSubscriber.Start(subscription_name);
         }
 
         public void createScheduledJobSubscriber()
         {
-            TopicSubscriber topicSubscriber = new TopicSubscriber(
-                AMQConfig.Session, Config.ActiveMQ.Topics.Offers);
+            string subscription_name = this.generateSubscriptionName(System.Environment.MachineName);
+
+            TopicSubscriber topicSubscriber = TopicSubscriber.MakeDefaultSubscriber(Config.ActiveMQ.Topics.ScheduledJobs);
             topicSubscriber.OnMessageReceived += scheduledJobSubscriber_OnMessageReceived;
-            topicSubscriber.Start(System.Environment.MachineName);
+
+            topicSubscriber.Start(subscription_name);
         }
 
         private void offerSubscriber_OnMessageReceived(string message)
@@ -67,6 +68,15 @@ namespace ManagerSystem.Services
         {
             AMQScheduledJob msg = (AMQScheduledJob)TopicSubscriber.FromXML(message, (new AMQScheduledJob()).GetType());
             // TODO
+        }
+
+        private string generateSubscriptionName(string machine_name)
+        {
+            string token_string = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            token_string = token_string.Replace("=", "");
+            token_string = token_string.Replace("+", "");
+
+            return machine_name + "(" + token_string + ")";
         }
     }
 }

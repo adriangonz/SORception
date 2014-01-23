@@ -22,25 +22,9 @@ namespace ActiveMQHelper
         public IMessageProducer Producer { get; private set; }
         public string DestinationName { get; private set; }
 
-        private static string GenerateNumber()
+        public static TopicPublisher MakeDefaultPublisher(string topic)
         {
-            Random random = new Random();
-            string r = "";
-            int i;
-            for (i = 1; i < 11; i++)
-            {
-                r += random.Next(0, 9).ToString();
-            }
-            return r;
-        }
-
-        public static TopicPublisher MakePublisher(string broker, string client_id, string topic)
-        {
-            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id + "(" + GenerateNumber() + ")@" + System.Environment.MachineName);
-            IConnection connection = connectionFactory.CreateConnection();
-            connection.Start();
-            ISession session = connection.CreateSession();
-            TopicPublisher publisher = new TopicPublisher(session, connection, topic);
+            TopicPublisher publisher = new TopicPublisher(AMQConfig.Session, AMQConfig.Connection, topic);
 
             return publisher;
         }

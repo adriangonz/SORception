@@ -274,26 +274,27 @@ namespace ManagerSystem
 
         private void SendMessage(AMQSolicitudMessage sm)
         {
+            /*
             Taller t = getAuthorizedTaller();
 
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Config.ActiveMQ.Broker,
                     Config.ActiveMQ.Client_ID,
-                    Config.ActiveMQ.Solicitudes_Topic);
+                    Config.ActiveMQ.Topics.Orders);
             publisher.SendMessage(sm);
-            publisher.Dispose();
+            publisher.Dispose();*/
         }
 
         private void SendMessage(AMQPedidoMessage sm)
         {
             Taller t = getAuthorizedTaller();
-
+            /*
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Config.ActiveMQ.Broker,
                     Config.ActiveMQ.Client_ID,
                     Config.ActiveMQ.Topics.OfferConfirmations);
             publisher.SendMessage(sm);
-            publisher.Dispose();
+            publisher.Dispose();*/
         }
 
         private void ScheduleJob(Solicitud s)
@@ -302,7 +303,7 @@ namespace ManagerSystem
             job.deadline = s.deadline;
             job.id_solicitud = s.Id;
             job.csrf = GenerateCSRF(s);
-
+            /*
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Config.ActiveMQ.Broker,
                     Config.ActiveMQ.Client_ID,
@@ -310,7 +311,7 @@ namespace ManagerSystem
 
             TimeSpan delay = s.deadline - DateTime.Now;
             publisher.SendMessage(job, (long) delay.TotalMilliseconds);
-            publisher.Dispose();
+            publisher.Dispose();*/
         }
 
         public void checkAutoBuy(Oferta o)

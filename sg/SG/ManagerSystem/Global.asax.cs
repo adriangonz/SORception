@@ -15,7 +15,7 @@ namespace ManagerSystem
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            AMQConfig.StartUp(Config.ActiveMQ.Broker);
+            AMQConfig.StartUp(Config.ActiveMQ.Broker, Config.ActiveMQ.Client_ID);
 
             AMQService amqService = new AMQService();
             amqService.createOfferSubscriber();

@@ -20,6 +20,13 @@ namespace ManagerSystem.Services
             unitOfWork.OrderRepository.Insert(order);
             unitOfWork.Save();
 
+            AMQSolicitudMessage msg = new AMQSolicitudMessage
+            {
+                code = AMQSolicitudMessage.Code.New,
+                solicitud = this.toExposed(order)
+            };
+            amqService.publishOrder(msg);
+
             return order.id;
         }
 

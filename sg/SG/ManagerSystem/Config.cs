@@ -13,7 +13,7 @@ namespace ManagerSystem
         public class ActiveMQ
         {
             public const string Broker = "failover:tcp://sorceptionjava.cloudapp.net:61616?maximumConnections=1000";
-            public const string Client_ID = "SistemaGestor";
+            public const string Client_ID = "ManagerSystem";
 
             public class Topics
             {
