@@ -23,6 +23,7 @@ namespace ManagerSystem
         public string notes { get; set; }
         public int LineaSolicitudId { get; set; }
         public string status { get; set; }
+        public System.DateTime date { get; set; }
     
         public virtual Oferta Oferta { get; set; }
         public virtual LineaSolicitud LineaSolicitud { get; set; }

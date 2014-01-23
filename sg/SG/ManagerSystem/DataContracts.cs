@@ -171,6 +171,9 @@ namespace ManagerSystem
             [DataMember(Name = "price")]
             public double price;
 
+            [DataMember(Name = "date")]
+            public DateTime date;
+
             [DataMember(Name = "linea_solicitud")]
             public RelatedSolicitud linea_solicitud;
         }

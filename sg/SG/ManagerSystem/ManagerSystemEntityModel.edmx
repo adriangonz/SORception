@@ -85,6 +85,7 @@
     <Property Name="notes" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LineaSolicitudId" Type="int" Nullable="false" />
     <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="TallerSet">
     <Key>
@@ -348,6 +349,7 @@
           <Property Type="Int32" Name="LineaSolicitudId" Nullable="false" />
           <NavigationProperty Name="LineaOfertaSeleccionada" Relationship="managersystemModel.LineaOfertaLineaOfertaSeleccionada" FromRole="LineaOferta" ToRole="LineaOfertaSeleccionada" />
           <Property Type="String" Name="status" Nullable="false" />
+          <Property Type="DateTime" Name="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Taller">
           <Key>
@@ -560,6 +562,7 @@
           <ScalarProperty Name="notes" ColumnName="notes" />
           <ScalarProperty Name="LineaSolicitudId" ColumnName="LineaSolicitudId" />
           <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="date" ColumnName="date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

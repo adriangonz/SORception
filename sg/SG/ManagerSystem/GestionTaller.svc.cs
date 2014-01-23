@@ -268,10 +268,8 @@ namespace ManagerSystem
             foreach (var l in r.lineas)
             {
                 LineaOferta lo = db_context.LineaOfertaSet.Find(l.linea_oferta_id);
-                /*if (lo.LineaOfertaSeleccionada != null)
+                if (lo.LineaOfertaSeleccionada != null)
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-                if (!o.LineasOferta.Contains(lo))
-                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);*/
                     
                 LineaOfertaSeleccionada los = new LineaOfertaSeleccionada();
                 los.LineaOferta = lo;
@@ -387,7 +385,7 @@ namespace ManagerSystem
                             ofertas_ordenadas = l_sol.LineasOferta.OrderBy(lo => lo.price).ToList();
                             break;
                         case "NEWEST":
-                            //ofertas_ordenadas = l_sol.LineasOferta.OrderBy(lo => lo.date).ToList();
+                            ofertas_ordenadas = l_sol.LineasOferta.OrderByDescending(lo => lo.date).ToList();
                             break;
                         case "NONE":
                             continue;

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 01/19/2014 20:11:55
+-- Date Created: 01/23/2014 18:19:47
 -- Generated from EDMX file: C:\Users\marti_000\Documents\Proyectos\SORception\sg\SG\ManagerSystem\ManagerSystemEntityModel.edmx
 -- --------------------------------------------------
 
@@ -111,7 +111,8 @@ CREATE TABLE [dbo].[LineaOfertaSet] (
     [OfertaId] int  NOT NULL,
     [notes] nvarchar(max)  NOT NULL,
     [LineaSolicitudId] int  NOT NULL,
-    [status] nvarchar(max)  NOT NULL
+    [status] nvarchar(max)  NOT NULL,
+    [date] datetime  NOT NULL
 );
 GO
 

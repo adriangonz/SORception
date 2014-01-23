@@ -51,6 +51,7 @@ namespace ManagerSystem
                 out_l_oferta.notes = l_oferta.notes;
                 out_l_oferta.price = l_oferta.price;
                 out_l_oferta.quantity = l_oferta.quantity;
+                out_l_oferta.date = l_oferta.date;
                 if (l_oferta.LineaOfertaSeleccionada != null)
                 {
                     out_l_oferta.linea_solicitud = new ExpOferta.Line.RelatedSolicitud();
@@ -79,6 +80,7 @@ namespace ManagerSystem
                 l_oferta.quantity = exp_l_oferta.quantity;
                 l_oferta.price = exp_l_oferta.price;
                 l_oferta.notes = exp_l_oferta.notes;
+                l_oferta.date = exp_l_oferta.date;
                 l_oferta.status = "UPDATED";
                 oferta.LineasOferta.Add(l_oferta);
             }
@@ -100,6 +102,7 @@ namespace ManagerSystem
                 l_oferta.quantity = exp_l_oferta.quantity;
                 l_oferta.price = exp_l_oferta.price;
                 l_oferta.notes = exp_l_oferta.notes;
+                l_oferta.date = exp_l_oferta.date;
                 l_oferta.status = "NEW";
                 oferta.LineasOferta.Add(l_oferta);
             }
