@@ -311,6 +311,8 @@
       <DependentUpon>BDBerenjena.edmx</DependentUpon>
       <LastGenOutput>BDBerenjena.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\tallernet - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
