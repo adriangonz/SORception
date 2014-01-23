@@ -107,7 +107,18 @@ namespace ManagerSystem
             if (!authorizationService.isConnectionAuthorized())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            return orderService.getOrder(id);
+            try
+            {
+                return orderService.getOrder(id);
+            }
+            catch (ArgumentNullException)
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound); ;
+            }
+            catch (ArgumentException)
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden); ;
+            }
         }
 
         public List<ExpSolicitud> getSolicitudes()

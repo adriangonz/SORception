@@ -27,12 +27,24 @@ namespace ManagerSystem.Services
 
         public ExpSolicitud getOrder(int order_id)
         {
-            return new ExpSolicitud();
+            OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id);
+
+            if (order == null)
+                throw new ArgumentNullException();
+
+            if (order.garage != garageService.getCurrentGarage())
+                throw new ArgumentException();
+
+            return this.toExposed(order);
         }
 
         public List<ExpSolicitud> getOrders()
         {
-            return new List<ExpSolicitud>();
+            GarageEntity current_garage = garageService.getCurrentGarage();
+
+            List<ExpSolicitud> orders = (from order in current_garage.orders select this.toExposed(order)).ToList();
+
+            return orders;
         }
 
         public void putOrder(ExpSolicitud e_order)
@@ -43,6 +55,19 @@ namespace ManagerSystem.Services
         public void deleteOrder(int order_id)
         {
 
+        }
+
+        private ExpSolicitud toExposed(OrderEntity order)
+        {
+            ExpSolicitud e_order = new ExpSolicitud();
+
+            e_order.deadline = order.deadline;
+            e_order.id = order.id;
+            e_order.id_en_taller = order.corresponding_id;
+            e_order.status = order.status.ToString();
+            // copiar las lineas
+
+            return e_order;
         }
     }
 }
