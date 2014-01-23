@@ -34,6 +34,7 @@
                 <th>#</th>
                 <th>Descripcion</th>
                 <th>Cantidad</th>
+                <th>Criterio</th>
             </tr>
         </thead>
         <tbody ng-repeat="linea in actual_order.lineaSolicitud">
@@ -41,9 +42,15 @@
                 <td>{{linea.id}}</td>
                 <td>{{linea.descripcion}}</td>
                 <td>{{linea.cantidad}}</td>
+                <td ng-switch on="linea.criterio">
+                    <span ng-switch-when="0">Seleccion Manual</span>
+                    <span ng-switch-when="1">El primero en llegar</span>
+                    <span ng-switch-when="2">El mas barato</span>
+                    <span ng-switch-when="3">El mas nuevo</span>
+                </td>
             </tr>
             <tr ng-show="linea.offers">
-                <td colspan="3" class="active">
+                <td colspan="4" class="active">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -51,6 +58,7 @@
                                 <th>Observacion</th>
                                 <th>Disponibles</th>
                                 <th>Precio Unidad</th>
+                                <th>Fecha de fabricacion</th>
                                 <th>Cantidad</th>
                             </tr>
                         </thead>
@@ -60,6 +68,7 @@
                                 <td>{{oferta.notes}}</td>
                                 <td>{{oferta.quantity}}</td>
                                 <td>{{oferta.price}}€</td>
+                                <td>{{oferta.date}}</td>
                                 <td ng-hide="oferta.linea_solicitud"><input class="form-control full" type="number" min="1" id="cant_pedida" ln-pedido="oferta" placeholder="5" /></td>
                                 <td ng-show="oferta.linea_solicitud">{{oferta.linea_solicitud.quantity}}</td>
                             </tr>

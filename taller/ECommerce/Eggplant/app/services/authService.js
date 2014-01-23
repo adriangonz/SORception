@@ -1,7 +1,8 @@
 module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function ($rootScope, $http, $location, $cookies) {
    var service = { 
 
-	    login: function (user) {
+       login: function (user) {
+           $("#btn-login").attr("disabled", "disabled");
 	        $http({ method: 'POST', url: '/token', data: "grant_type=password&username="+user.username+"&password="+user.password}).
 			  success(function (data, status) {
 			      $cookies["SessionTaller"] = JSON.stringify(data);
@@ -10,8 +11,9 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	       		$location.path("/orders");
 			  }).
 			  error(function(data, status) {
-			    console.log(status + " | " + data);
-	       		$location.path("/login");
+			    console.log(data);
+			    $("#err-login").html(data.error_description);
+			    $("#btn-login").removeAttr("disabled");
 			  }); 	
 	    },
 

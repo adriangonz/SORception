@@ -6,6 +6,12 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
         actual_order: undefined,
         actual_pedido: undefined,
         pedido: { "lineas": [], "solicitud": 0 },
+        criterios: [
+        { name: 'Seleccion Manual', code: '0' },
+        { name: 'El primero en llegar', code: '1' },
+        { name: 'El mas barato', code: '2' },
+        { name: 'El mas nuevo', code: '3' }
+            ],
 
         addLine: function (line) {
             line.update = 'NEW';
@@ -81,6 +87,7 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
             service.tmp_order.data = service.actual_order.lineaSolicitud;
             for (var i = 0; i < service.tmp_order.data.length; i++) {
                 service.tmp_order.data[i].update = "UPDATED";
+                service.tmp_order.data[i].criterio = service.criterios[parseInt(service.tmp_order.data[i].criterio)];
             }
             $rootScope.$broadcast('tmp_order.update');
         },

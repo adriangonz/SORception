@@ -3,7 +3,8 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
      settings: {
      	"name": "",
      	"tokens": {}
- 		},
+     },
+     userList: [],
  
      getSettings: function () {
               $http({ method: 'GET', url: '/api/settings' }).
@@ -24,19 +25,23 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
               $timeout(service.getSettings, 1000);
           }).
           error(function(data, status, headers, config) {
-              alert(status+" "+data);
+              alert(status + " " + data);
+              console.log(data);
           });
      },
 
      getUsers: function () {
          $http({ method: 'GET', url: '/api/account/users' }).
            success(function (data, status, headers, config) {
-               service.settings.userList = data;
+               service.userList = data;
+               console.log("Users:");
                console.log(data);
-               $rootScope.$broadcast('settings.update');
+               $rootScope.$broadcast('userList.update');
            }).
            error(function (data, status, headers, config) {
                alert(status + " | " + data);
+               console.log(data);
+
                service.settings.userList = [
                   {
                       "id": 1,
@@ -65,13 +70,20 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
      },
 
      postUser: function (user_data) {
+         //He probado el registro externo y nada... :(
+         //$http({ method: 'POST', url: '/api/account/RegisterExternal', data: user_data }).
+         
          $http({ method: 'POST', url: '/api/account/register', data: user_data }).
          success(function (data, status, headers, config) {
-             //service.getUsers();
+             service.getUsers();
              console.log("OK: " + status + " | " + data);
+             $("#err-reg").html("");
+             $("#suc-reg").html("Registrado! Ya puede loguearse.");
          }).
          error(function (data, status, headers, config) {
              console.log("Error: " + status + " | " + data);
+             $("#suc-reg").html("");
+             $("#err-reg").html("Error! Algun campo es incorrecto");
          });
      },
 

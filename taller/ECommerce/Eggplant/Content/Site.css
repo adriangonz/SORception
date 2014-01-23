@@ -50,8 +50,7 @@ input[type="checkbox"].input-validation-error {
 
 .form
 {
-    margin-top: 15%;
-    padding-top: 20px;
+    margin-top: 10px;
     padding-bottom: 20px;
     background-color: rgba(100,100,100,0.2);
     border-radius: 5px;
@@ -67,4 +66,9 @@ input[type="checkbox"].input-validation-error {
     margin-left: 15px;
     position:relative;
     float:right;
+}
+
+.up-me
+{
+    margin-top: -50px;
 }
