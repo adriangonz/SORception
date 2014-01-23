@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author kaseyo
  */
 
+@Transactional
+@Repository
 public interface IUserDAO extends IGenericDAO<UserEntity>{
 	UserEntity findByUsername(String username);
 }

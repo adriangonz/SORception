@@ -37,14 +37,14 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "id")
     @GeneratedValue
     protected Long id;
+   
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", nullable = false)
+    protected Date created;
     
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creationDate", nullable = false)
-    private Date created;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updateDate", nullable = false)
-    private Date updated;
+    @Column(name = "updated", nullable = false)
+    protected Date updated;
     
     protected AbstractEntity() {}
     
@@ -58,11 +58,11 @@ public abstract class AbstractEntity implements Serializable {
         updated = new Date();
     }
     
-    public Date getCreationDate() {
+    public Date getCreated() {
         return created;
     }
     
-    public Date getUpdatedDate() {
+    public Date getUpdated() {
         return updated;
     }
     

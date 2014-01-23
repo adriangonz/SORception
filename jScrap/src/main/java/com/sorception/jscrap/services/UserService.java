@@ -68,17 +68,13 @@ public class UserService extends AbstractService<UserEntity> {
     }
 
     public UserEntity getUser(Long userId) {
-        UserEntity user = findOne(userId);
-        if(null == user)
-            throw new ResourceNotFoundException("User does not exist");
-        return user;
+        return findOne(userId);
     }
     
     public UserEntity getUserByUsername(String username) {
         UserEntity user = ((IUserDAO)getDao()).findByUsername(username);
-        if(null == user) {
-            throw new ResourceNotFoundException("User does not exist");
-        }
+        if(null == user)
+            throw new ResourceNotFoundException("User " + username + " was not found");
         return user;
     }
 

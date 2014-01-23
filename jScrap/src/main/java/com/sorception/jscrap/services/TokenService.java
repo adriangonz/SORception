@@ -8,6 +8,8 @@ package com.sorception.jscrap.services;
 
 import com.google.common.base.Throwables;
 import com.sorception.jscrap.config.ActiveMQConfig;
+import com.sorception.jscrap.dao.IGenericDAO;
+import com.sorception.jscrap.dao.ITokenDAO;
 import com.sorception.jscrap.dao.TokenDAO;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
@@ -28,39 +30,47 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(noRollbackFor={ResourceNotFoundException.class})
-public class TokenService {
-    @Autowired
-    TokenDAO tokenDAO;
+public class TokenService extends AbstractService<TokenEntity> {
+	@Autowired
+    private SGClient sgClient;
     
     @Autowired
-    SGClient sgClient;
+    private ActiveMQService activeMQService;
     
     @Autowired
-    ActiveMQService activeMQService;
+    private ITokenDAO dao;
     
-    final static Logger logger = LoggerFactory.getLogger(TokenService.class);
+    public TokenService() {
+		super(TokenEntity.class);
+	}
     
+	@Override
+	protected IGenericDAO<TokenEntity> getDao() {
+		return dao;
+	}
+        
     public TokenEntity requestToken() {
-        logger.info("Request new token");
+        logger.info("New token requested. Disabling old ones...");
+        getTokenDao().invalidateTokens();
         // Access to web service
         TokenEntity temporalToken = sgClient.signUp();
         // Disable jmsContainer
         activeMQService.disableJmsContainers();
         // Save temporal token
-        return tokenDAO.save(temporalToken);
+        return create(temporalToken);
     }
     
     public TokenEntity getValid() {
-        TokenEntity tokenEntity = tokenDAO.getValid();
+        TokenEntity tokenEntity = getTokenDao().findByStatus(TokenEntity.TokenStatus.VALID);
         if(null == tokenEntity) {
             // Check if we have requested one
-            tokenEntity = tokenDAO.getRequestOrTemporal();
+            tokenEntity = getRequestOrTemporal();
             if(null == tokenEntity) // If not, throw 404
                 throw new ResourceNotFoundException("Not valid token or request found");
             // Check if new token is available
             // Method getState will throw NotFound if not valid
             TokenEntity newToken = sgClient.getState(tokenEntity.getToken());
-            tokenEntity = tokenDAO.save(newToken);
+            tokenEntity = create(newToken);
             if(!tokenEntity.isValid()) // If not, throw 404
                 throw new ResourceNotFoundException("Token request has not been accepted");
             else // Enable JmsContainer
@@ -70,6 +80,19 @@ public class TokenService {
     }
     
     public List<TokenEntity> list() {
-        return tokenDAO.list();
+        return findAll();
+    }
+    
+    protected ITokenDAO getTokenDao() {
+    	return ((ITokenDAO)getDao());
+    }
+    
+    protected TokenEntity getRequestOrTemporal() {
+    	List<TokenEntity> tokens = getTokenDao()
+    			.findByStatus(TokenEntity.TokenStatus.REQUESTED, TokenEntity.TokenStatus.TEMPORAL);
+    	if(tokens.size() > 0)
+    		return tokens.get(0);
+    	else
+    		return null;
     }
 }

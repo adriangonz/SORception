@@ -23,37 +23,37 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "Token")
 public class TokenEntity extends AbstractEntity {
-    @Column(name = "token")
-    private String _token;
+    public enum TokenStatus {
+	    VALID,
+	    REQUESTED,
+	    EXPIRED,
+	    TEMPORAL;
+	}
+
+	@Column(name = "token")
+    private String token;
     
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private TokenStatus _status;
-    
-    public enum TokenStatus {
-        VALID,
-        REQUESTED,
-        EXPIRED,
-        TEMPORAL;
-    }
+    private TokenStatus status;
     
     public TokenEntity() {}
     
     public TokenEntity(String token, TokenStatus status){
-        this._token = token;
-        this._status = status;
+        this.token = token;
+        this.status = status;
     }
     
     public String getToken() {
-        return this._token;
+        return this.token;
     }
     
     public TokenStatus getStatus() {
-        return _status;
+        return status;
     }
     
     @JsonIgnore
     public Boolean isValid() {
-    	return this._status == TokenStatus.VALID;
+    	return this.status == TokenStatus.VALID;
     }
 }
