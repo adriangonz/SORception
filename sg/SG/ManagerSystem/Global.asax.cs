@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ActiveMQHelper;
+using ManagerSystem.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +15,11 @@ namespace ManagerSystem
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            AMQConfig.StartUp(Config.ActiveMQ.Broker);
 
+            AMQService amqService = new AMQService();
+            amqService.createOfferSubscriber();
+            amqService.createScheduledJobSubscriber();
         }
 
         protected void Session_Start(object sender, EventArgs e)

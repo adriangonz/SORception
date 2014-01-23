@@ -291,7 +291,7 @@ namespace ManagerSystem
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Config.ActiveMQ.Broker,
                     Config.ActiveMQ.Client_ID,
-                    Config.ActiveMQ.Pedidos_Topic);
+                    Config.ActiveMQ.Topics.OfferConfirmations);
             publisher.SendMessage(sm);
             publisher.Dispose();
         }
@@ -306,7 +306,7 @@ namespace ManagerSystem
             TopicPublisher publisher = TopicPublisher.MakePublisher(
                     Config.ActiveMQ.Broker,
                     Config.ActiveMQ.Client_ID,
-                    Config.ActiveMQ.Jobs_Topic);
+                    Config.ActiveMQ.Topics.ScheduledJobs);
 
             TimeSpan delay = s.deadline - DateTime.Now;
             publisher.SendMessage(job, (long) delay.TotalMilliseconds);

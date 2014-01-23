@@ -10,57 +10,63 @@ namespace ManagerSystem.Services
 {
     public class AMQService : BaseService
     {
+        private List<TopicPublisher> subscribers;
 
-        public AMQService(UnitOfWork uow = null)
-            : base(uow)
+        public AMQService(UnitOfWork uow = null) : base(uow) 
         {
-            subscriber = new List<TopicSubscriber>();
-            publisher = new List<TopicPublisher>();
+            subscribers = new List<TopicPublisher>();        
         }
 
-
-
-        public void createSubscriber(string broker, string client_id, string consumer_id, string topic)
+        public void publishOrder(AMQSolicitudMessage msg)
         {
-            TopicSubscriber subscriber = null;// new TopicSubscriber();
+            TopicPublisher publisher = new TopicPublisher(
+                AMQConfig.Session, AMQConfig.Connection, Config.ActiveMQ.Topics.Orders);
 
-
-
-
-            subscribers.Add(subscriber);
+            publisher.SendMessage(TopicPublisher.ToXML((object) msg));
         }
 
-        public void publishMessage(/* */)
+        public void publishOrderConfirmation(AMQPedidoMessage msg)
         {
+            TopicPublisher publisher = new TopicPublisher(
+                AMQConfig.Session, AMQConfig.Connection, Config.ActiveMQ.Topics.OfferConfirmations);
 
+            publisher.SendMessage(TopicPublisher.ToXML((object)msg));
         }
 
-        public void processIncommingOffer(AMQOfertaMessage message)
+        public void scheduleJob(AMQScheduledJob msg, long delay)
         {
-            /*
-            Desguace d = r_desguace.Find(message.desguace_id);
-            int id_en_desguace = message.oferta.id_en_desguace;
-            Oferta o = null;
-            switch (message.code)
-            {
-                case AMQOfertaMessage.Code.New:
-                    o = r_oferta.FromExposed(message.oferta, d);
-                    r_oferta.InsertOrUpdate(o);
-                    r_oferta.Save();
-                    break;
-                case AMQOfertaMessage.Code.Update:
-                    o = db_context.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
-                    r_oferta.UpdateFromExposed(o, message.oferta);
-                    r_oferta.InsertOrUpdate(o);
-                    r_oferta.Save();
-                    break;
-                case AMQOfertaMessage.Code.Delete:
-                    o = db_context.OfertaSet.First(of => of.id_en_desguace == id_en_desguace);
-                    r_oferta.Delete(o.Id);
-                    r_oferta.Save();
-                    break;
-            }
-            return o;*/
+            TopicPublisher publisher = new TopicPublisher(
+                AMQConfig.Session, AMQConfig.Connection, Config.ActiveMQ.Topics.ScheduledJobs);
+
+            publisher.SendMessage(TopicPublisher.ToXML((object)msg), delay);
+        }
+
+        public void createOfferSubscriber()
+        {
+            TopicSubscriber topicSubscriber = new TopicSubscriber(
+                AMQConfig.Session, Config.ActiveMQ.Topics.Offers);
+            topicSubscriber.OnMessageReceived += offerSubscriber_OnMessageReceived;
+            topicSubscriber.Start(System.Environment.MachineName);
+        }
+
+        public void createScheduledJobSubscriber()
+        {
+            TopicSubscriber topicSubscriber = new TopicSubscriber(
+                AMQConfig.Session, Config.ActiveMQ.Topics.Offers);
+            topicSubscriber.OnMessageReceived += scheduledJobSubscriber_OnMessageReceived;
+            topicSubscriber.Start(System.Environment.MachineName);
+        }
+
+        private void offerSubscriber_OnMessageReceived(string message)
+        {
+            AMQOfertaMessage msg = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
+            // TODO
+        }
+
+        private void scheduledJobSubscriber_OnMessageReceived(string message)
+        {
+            AMQScheduledJob msg = (AMQScheduledJob)TopicSubscriber.FromXML(message, (new AMQScheduledJob()).GetType());
+            // TODO
         }
     }
 }
