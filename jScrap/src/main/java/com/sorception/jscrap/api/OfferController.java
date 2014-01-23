@@ -1,6 +1,7 @@
 package com.sorception.jscrap.api;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ class OfferLineDTO {
 	public String notes;
 	public Long orderLineId;
 	public Double price;
+	public Date date;
 	public Long id;
 	public String status;
 	
@@ -41,6 +43,7 @@ class OfferLineDTO {
 					quantity,
 					notes,
 					price,
+					date,
 					orderService.getOrderLine(orderLineId)
 			);
 		} else {
@@ -51,6 +54,8 @@ class OfferLineDTO {
 				offerLine.setNotes(notes);
 			if(price != null)
 				offerLine.setPrice(price);
+			if(date != null)
+				offerLine.setDate(date);
 			if(status != null && "DELETE".equals(status))
 				offerLine.delete();
 		}

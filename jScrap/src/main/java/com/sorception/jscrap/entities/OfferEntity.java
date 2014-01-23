@@ -22,7 +22,6 @@ import com.sorception.jscrap.services.ActiveMQService;
 
 @Entity
 @Table(name = "Offer")
-@Where(clause = "deleted <> TRUE")
 public class OfferEntity extends AbstractEntity {
 	
 	final static Logger logger = LoggerFactory.getLogger(OfferEntity.class);

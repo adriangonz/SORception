@@ -1,5 +1,7 @@
 package com.sorception.jscrap.entities;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +30,9 @@ public class OfferLineEntity extends AbstractEntity {
 	@Column(name = "price")
 	private Double _price;
 	
+	@Column(name = "date")
+	private Date _date;
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "offerId", nullable = false)
 	private OfferEntity _offer;
@@ -48,10 +53,12 @@ public class OfferLineEntity extends AbstractEntity {
 	public OfferLineEntity(Integer quantity,
 			String notes,
 			Double price,
+			Date date,
 			OrderLineEntity orderLine) {
 		this._quantity = quantity;
 		this._notes = notes;
 		this._price = price;
+		this._date = date;
 		this._orderLine = orderLine;
 		this._orderLine.setOfferLine(this);
 	}
@@ -70,6 +77,10 @@ public class OfferLineEntity extends AbstractEntity {
 
 	public String getNotes() {
 		return _notes;
+	}
+	
+	public Date getDate() {
+		return _date;
 	}
 	
 	@JsonIgnore
@@ -114,6 +125,10 @@ public class OfferLineEntity extends AbstractEntity {
 
 	public void setPrice(Double price) {
 		this._price = price;
+	}
+	
+	public void setDate(Date date) {
+		this._date = date;
 	}
 	
 	public void delete() {

@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Orders")
-@Where(clause = "deleted <> TRUE")
 public class OrderEntity extends AbstractEntity {
 	@Column(name = "sgId")
 	private String _sgId;
