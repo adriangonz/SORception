@@ -79,7 +79,7 @@ namespace ManagerSystem
 
         public TokenResponse getState(string token_string)
         {
-            return tokenService.validateToken(token_string);
+            return tokenService.validateGarageToken(token_string);
         }
 
         public int putTaller(ExpTaller et)

@@ -17,7 +17,7 @@ namespace ManagerSystem.Entities
 
         public JunkyardEntity()
         {
-            this.tokens = new List<TokenEntity>();
+            this.tokens = new List<JunkyardTokenEntity>();
         }
 
         public string name { get; set; }
@@ -25,7 +25,7 @@ namespace ManagerSystem.Entities
         public JunkyardStatus status { get; set; }
 
         [InverseProperty("junkyard")]
-        public virtual ICollection<TokenEntity> tokens { get; set; }
+        public virtual ICollection<JunkyardTokenEntity> tokens { get; set; }
 
         public virtual string current_token
         {

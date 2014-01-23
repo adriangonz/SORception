@@ -15,7 +15,7 @@ namespace ManagerSystem.Services
             {
                 JunkyardEntity junkyard = new JunkyardEntity();
                 junkyard.name = e_junkyard.name;
-                junkyard.tokens.Add(tokenService.createToken(TokenType.TEMPORAL));
+                junkyard.tokens.Add(tokenService.createJunkyardToken(TokenType.TEMPORAL));
 
                 unitOfWork.JunkyardRepository.Insert(junkyard);
 

@@ -46,7 +46,7 @@ namespace ManagerSystem
 
         public TokenResponse getState(string token_string)
         {
-            return tokenService.validateToken(token_string);
+            return tokenService.validateJunkyardToken(token_string);
         }
 
         public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) { }

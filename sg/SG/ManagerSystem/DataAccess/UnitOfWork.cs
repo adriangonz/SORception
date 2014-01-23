@@ -11,33 +11,46 @@ namespace ManagerSystem.DataAccess
     {
         private MSContext context = new MSContext();
 
-        private GenericRepository<TokenEntity> token_repository;
-        private GarageRepository garage_repository;
+        private GenericRepository<JunkyardTokenEntity> junkyard_token_repository;
+        private GenericRepository<GarageTokenEntity> garage_token_repository;
+        private GenericRepository<GarageEntity> garage_repository;
         private GenericRepository<OrderEntity> order_repository;
         private GenericRepository<OrderLineEntity> order_line_repository;
         private GenericRepository<JunkyardEntity> junkyard_repository;
         private GenericRepository<OfferEntity> offer_repository;
         private GenericRepository<OfferLineEntity> offer_line_repository;
 
-        public GenericRepository<TokenEntity> TokenRepository
+        public GenericRepository<JunkyardTokenEntity> JunkyardTokenRepository
         {
             get
             {
-                if (this.token_repository == null)
+                if (this.junkyard_token_repository == null)
                 {
-                    this.token_repository = new GenericRepository<TokenEntity>(context);
+                    this.junkyard_token_repository = new GenericRepository<JunkyardTokenEntity>(context);
                 }
-                return token_repository;
+                return junkyard_token_repository;
             }
         }
 
-        public GarageRepository GarageRepository
+        public GenericRepository<GarageTokenEntity> GarageTokenRepository
+        {
+            get
+            {
+                if (this.garage_token_repository == null)
+                {
+                    this.garage_token_repository = new GenericRepository<GarageTokenEntity>(context);
+                }
+                return garage_token_repository;
+            }
+        }
+
+        public GenericRepository<GarageEntity> GarageRepository
         {
             get
             {
                 if (this.garage_repository == null)
                 {
-                    this.garage_repository = new GarageRepository(context);
+                    this.garage_repository = new GenericRepository<GarageEntity>(context);
                 }
                 return garage_repository;
             }
