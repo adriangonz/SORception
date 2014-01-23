@@ -75,7 +75,7 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
          
          $http({ method: 'POST', url: '/api/account/register', data: user_data }).
          success(function (data, status, headers, config) {
-             service.getUsers();
+             //service.getUsers();
              console.log("OK: " + status + " | " + data);
              $("#err-reg").html("");
              $("#suc-reg").html("Registrado! Ya puede loguearse.");
