@@ -114,11 +114,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="DataAccess\GenericRepository.cs" />
     <Compile Include="DataAccess\MSContext.cs" />
     <Compile Include="DataAccess\UnitOfWork.cs" />
     <Compile Include="DataContracts.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="Desguace.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
