@@ -2,6 +2,9 @@ module.controller("SettingsCtrl", ['$scope', 'SettingsService', 'Auth', function
 	$scope.$on( 'settings.update', function( event ) {
 		$scope.settings = SettingsService.settings;
 	});
+	$scope.$on('userList.update', function (event) {
+	    $scope.userList = SettingsService.userList;
+	});
 
 	Auth.isLoggedIn();
 	Auth.isPrivate();

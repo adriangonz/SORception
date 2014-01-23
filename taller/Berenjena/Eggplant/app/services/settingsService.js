@@ -3,7 +3,8 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
      settings: {
      	"name": "",
      	"tokens": {}
- 		},
+     },
+     userList: [],
  
      getSettings: function () {
               $http({ method: 'GET', url: '/api/settings' }).
@@ -32,9 +33,10 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
      getUsers: function () {
          $http({ method: 'GET', url: '/api/account/users' }).
            success(function (data, status, headers, config) {
-               service.settings.userList = data;
+               service.userList = data;
+               console.log("Users:");
                console.log(data);
-               $rootScope.$broadcast('settings.update');
+               $rootScope.$broadcast('userList.update');
            }).
            error(function (data, status, headers, config) {
                alert(status + " | " + data);
@@ -70,7 +72,7 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
      postUser: function (user_data) {
          $http({ method: 'POST', url: '/api/account/register', data: user_data }).
          success(function (data, status, headers, config) {
-             //service.getUsers();
+             service.getUsers();
              console.log("OK: " + status + " | " + data);
          }).
          error(function (data, status, headers, config) {
