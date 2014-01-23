@@ -67,6 +67,17 @@ namespace ManagerSystem.Services
             }
         }
 
+        private JobService job_service = null;
+        protected JobService jobService
+        {
+            get
+            {
+                if (this.job_service == null)
+                    this.job_service = new JobService(unitOfWork);
+                return this.job_service;
+            }
+        }
+
         public BaseService(UnitOfWork uOW = null)
         {
             this.unit_of_work = uOW;

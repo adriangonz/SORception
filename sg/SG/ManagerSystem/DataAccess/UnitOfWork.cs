@@ -18,6 +18,7 @@ namespace ManagerSystem.DataAccess
         private GenericRepository<JunkyardEntity> junkyard_repository;
         private GenericRepository<OfferEntity> offer_repository;
         private GenericRepository<OfferLineEntity> offer_line_repository;
+        private GenericRepository<JobEntity> job_repository;
 
         public GenericRepository<JunkyardTokenEntity> JunkyardTokenRepository
         {
@@ -112,6 +113,18 @@ namespace ManagerSystem.DataAccess
                     this.offer_line_repository = new GenericRepository<OfferLineEntity>(context);
                 }
                 return offer_line_repository;
+            }
+        }
+
+        public GenericRepository<JobEntity> JobRepository
+        {
+            get
+            {
+                if (this.job_repository == null)
+                {
+                    this.job_repository = new GenericRepository<JobEntity>(context);
+                }
+                return job_repository;
             }
         }
 
