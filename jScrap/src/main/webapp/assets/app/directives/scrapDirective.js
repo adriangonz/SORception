@@ -6,11 +6,15 @@ module.directive("addLineBtn", ['Scrap', function (Scrap) {
         },
         link: function (scope, element, attrs) {
             element.bind("click", function () {
-                if(scope.line.orderLineId && scope.line.notes!="" && scope.line.quantity && scope.line.price){
+                if(scope.line.orderLineId && scope.line.notes!="" && scope.line.quantity && scope.line.price && scope.line.date){
                     Scrap.addLine(scope.line);
                     console.log(Scrap);
                     scope.line = null;
+                	$('#error-line').html("");
                     scope.$apply();
+                }else
+                {
+                	$('#error-line').html("Todos los campos son obligatorios");
                 }
             });
         }
@@ -119,4 +123,17 @@ module.directive("addLineBtn", ['Scrap', function (Scrap) {
             }
         }
     };
-});
+}).directive("viewPedidoBtn", ['Scrap', '$location', function (Scrap, $location) {
+    return {
+        restrict: "A",
+        scope: {
+            pedido: '=viewPedidoBtn'
+        },
+        link: function (scope, element, attrs) {
+            element.bind("click", function () {
+                $location.path("/orders-received/" + scope.pedido.id);
+                scope.$apply();
+            });
+        }
+    }
+}]);

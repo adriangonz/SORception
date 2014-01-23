@@ -4,6 +4,10 @@ module.controller( "ViewOfferCtrl", [ '$scope','$routeParams', 'Scrap','Auth', f
 	});
 	$scope.$on( 'actual_offer.update', function( event ) {
 		$scope.actual_offer = Scrap.actual_offer;
+		Scrap.getActualOrder($scope.actual_offer.orderId);
+	});
+	$scope.$on( 'actual_order.update', function( event ) {
+		$scope.actual_order = Scrap.actual_order;
 	});
 
 

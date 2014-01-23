@@ -118,7 +118,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
         },
 
        	getPedidos: function () {
-	        $http({ method: 'GET', url: '/jScrap/api/order' }).
+	        $http({ method: 'GET', url: '/jScrap/api/accepted' }).
 	          success(function (data, status, headers, config) {
 	              service.pedidos = data;
 	              console.log(data);
@@ -130,7 +130,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
 	    },
 
 	    getActualPedido: function (id) {
-	        $http({ method: 'GET', url: '/jScrap/api/order/'+id }).
+	        $http({ method: 'GET', url: '/jScrap/api/offer/'+id }).
 	          success(function (data, status, headers, config) {
 	              service.actual_pedido = data;
 	              console.log(data);

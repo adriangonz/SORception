@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -34,6 +36,9 @@ public class OrderEntity extends AbstractEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "deadline")
     private Date _deadline;
+	
+	@Column(name = "deleted")
+	private Boolean _deleted;
 	
 	public OrderEntity() {}
 
@@ -74,8 +79,14 @@ public class OrderEntity extends AbstractEntity {
 		_lines = lines;
 	}
 	
+	@JsonIgnore
 	public Boolean isClosed() {
 		return _closed != null ? _closed : false;
+	}
+	
+	@JsonIgnore
+	public Boolean isDeleted() {
+		return _deleted != null ? _deleted : false;
 	}
 	
 	public void setDeadline(Date deadline) {
@@ -91,5 +102,9 @@ public class OrderEntity extends AbstractEntity {
 		if(!_lines.isEmpty() && _lines.get(0).getOfferLine() != null)
 			return _lines.get(0).getOfferLine().getOffer();
 		return null;
+	}
+
+	public void setDeleted(boolean deleted) {
+		_deleted = deleted;
 	}
 }

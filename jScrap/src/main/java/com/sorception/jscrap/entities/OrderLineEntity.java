@@ -33,6 +33,9 @@ public class OrderLineEntity extends AbstractEntity {
 			mappedBy = "_orderLine")
 	private OfferLineEntity _offerLine;
 	
+	@Column(name = "deleted")
+	private Boolean _deleted;
+	
 	public OrderLineEntity() {}
 	
 	public OrderLineEntity(String sgId,
@@ -70,5 +73,14 @@ public class OrderLineEntity extends AbstractEntity {
 	@JsonIgnore
 	public OrderEntity getOrder() {
 		return _order;
+	}
+	
+	@JsonIgnore
+	public Boolean isDeleted() {
+		return _deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		_deleted = deleted;
 	}
 }

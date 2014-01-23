@@ -23,7 +23,6 @@ public class OfferDAO {
 	public List<OfferEntity> list() {
 		return this.entityManager
 				.createQuery("FROM OfferEntity "
-						+ "WHERE deleted = FALSE "
 						+ "ORDER BY creationDate DESC")
 				.getResultList();
 	}
