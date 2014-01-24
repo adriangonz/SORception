@@ -10,13 +10,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "OrderLine")
 public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
-	@Column(name = "sgId", unique = true)
+	@Column(name = "sgId", unique = true, nullable = false)
 	private String sgId;
 	
 	@Column(name = "description")
@@ -33,7 +38,7 @@ public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
 			mappedBy = "orderLine")
 	private OfferLineEntity offerLine;
 	
-	@Column(name = "deleted")
+	@Column(name = "deleted", nullable = false)
 	private Boolean deleted;
 	
 	public OrderLineEntity() {}
@@ -44,6 +49,7 @@ public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
 		this.sgId = sgId;
 		this.description = description;
 		this.quantity = quantity;
+		this.deleted = false;
 	}
 	
 	public String getSgId() {

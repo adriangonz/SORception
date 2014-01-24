@@ -30,10 +30,10 @@ public class TokenEntity extends AbstractEntity {
 	    TEMPORAL;
 	}
 
-	@Column(name = "token")
+	@Column(name = "token", nullable = false)
     private String token;
     
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private TokenStatus status;
     

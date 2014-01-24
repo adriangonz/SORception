@@ -17,13 +17,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="User")
 public class UserEntity extends AbstractEntity {
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "isAdmin")
+    @Column(name = "isAdmin", nullable = false)
     private Boolean admin = false;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
     
     public UserEntity() {}
@@ -31,6 +31,7 @@ public class UserEntity extends AbstractEntity {
     public UserEntity(String username, String name) {
         this.username = username;
         this.name = name;
+        this.admin = false;
     }
 
     public String getName() {

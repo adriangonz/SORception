@@ -37,7 +37,7 @@ public class OrderEntity extends AbstractEntity implements ISoftDeletable {
 	@Column(name = "deadline")
     private Date deadline;
 	
-	@Column(name = "deleted")
+	@Column(name = "deleted", nullable = false)
 	private Boolean deleted;
 	
 	public OrderEntity() {}

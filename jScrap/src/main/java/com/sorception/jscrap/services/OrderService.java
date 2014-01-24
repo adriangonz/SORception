@@ -46,16 +46,6 @@ public class OrderService extends AbstractService<OrderEntity> {
 	
 	public List<OrderEntity> getAllOrders() {
 		List<OrderEntity> orders = getOrderDao().getOpenedOrders();
-		for(OrderEntity order : new ArrayList<OrderEntity>(orders)) {
-			logger.info("Recorro un pedido");
-			List<OrderLineEntity> lines = getLineDao().findNotOffered(order.getId());
-			logger.info("Lineas: " + Integer.toString(lines.size()));
-			if(lines.size() > 0)
-				order.setLines(lines);
-			else
-				orders.remove(order);
-				
-		}
 		return orders;
 	}
 	
@@ -66,7 +56,6 @@ public class OrderService extends AbstractService<OrderEntity> {
 	}
 	
 	public OrderEntity addOrder(OrderEntity orderEntity) {
-		logger.info(Integer.toString(orderEntity.getLines().size()));
 		return create(orderEntity);
 	}
 	
