@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sorception.jscrap.dao.IGenericDAO;
+import com.sorception.jscrap.dao.IOrderDAO;
+import com.sorception.jscrap.dao.IOrderLineDAO;
 import com.sorception.jscrap.dao.OrderDAO;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
@@ -16,57 +19,72 @@ import com.sorception.jscrap.error.ResourceNotFoundException;
 
 @Service
 @Transactional
-public class OrderService {
-	
-	final static Logger logger = LoggerFactory.getLogger(OrderService.class);
+public class OrderService extends AbstractService<OrderEntity> {
+		
+	public OrderService() {
+		super(OrderEntity.class);
+	}
+
+	@Autowired
+	private IOrderDAO dao;
 	
 	@Autowired
-	private OrderDAO orderDAO;
+	private IOrderLineDAO lineDao;
+	
+	@Override
+	protected IGenericDAO<OrderEntity> getDao() {
+		return dao;
+	}
+	
+	protected IOrderDAO getOrderDao() {
+		return dao;
+	}
+	
+	protected IOrderLineDAO getLineDao() {
+		return lineDao;
+	}
 	
 	public List<OrderEntity> getAllOrders() {
-		List<OrderEntity> orders = orderDAO.list();
-		List<OrderEntity> validOrders = new ArrayList<>();
-		for(OrderEntity order : orders) {
-			if(!order.getNotAccepted().isEmpty() && !order.isClosed())
-				validOrders.add(order);
+		List<OrderEntity> orders = getOrderDao().getOpenedOrders();
+		for(OrderEntity order : new ArrayList<OrderEntity>(orders)) {
+			logger.info("Recorro un pedido");
+			List<OrderLineEntity> lines = getLineDao().findNotOffered(order.getId());
+			logger.info("Lineas: " + Integer.toString(lines.size()));
+			if(lines.size() > 0)
+				order.setLines(lines);
+			else
+				orders.remove(order);
+				
 		}
-		
-		return validOrders;
+		return orders;
 	}
 	
 	public OrderEntity addOrder(String sgId, 
 			List<OrderLineEntity> orderLines) {
 		OrderEntity orderEntity = new OrderEntity(sgId, orderLines);
-		return this.addOrder(orderEntity);
+		return create(orderEntity);
 	}
 	
 	public OrderEntity addOrder(OrderEntity orderEntity) {
-		return orderDAO.save(orderEntity);
+		logger.info(Integer.toString(orderEntity.getLines().size()));
+		return create(orderEntity);
 	}
 	
 	public OrderEntity getOrderById(Long id) {
-		OrderEntity order = orderDAO.get(id);
-		if(order == null)
-			throw new ResourceNotFoundException("Order with id " + 
-					Long.toString(id) + " not found");
-		
-		return order;
+		return findOne(id);
 	}
 
 	public OrderLineEntity getOrderLine(Long orderLineId) {
-		OrderLineEntity orderLine = orderDAO.getOrderLine(orderLineId);
-		if(orderLine == null)
-			throw new ResourceNotFoundException("OrderLine with id " + 
-					Long.toString(orderLineId) + " not found");
-		return orderLine;
+		return getLineDao().findOne(orderLineId);
 	}
 
 	public OrderEntity getOrderBySgId(String id) {
-		return orderDAO.getBySgId(id);
+		return getOrderDao().findBySgId(id);
 	}
 
 	public OrderEntity updateOrder(OrderEntity order) {
-		return orderDAO.update(order);
+		update(order);
+		return order;
 	}
 	
 	public void closeOrder(OrderEntity order) {
@@ -78,13 +96,6 @@ public class OrderService {
 	}
 
 	public void deleteOrder(OrderEntity order) {
-		OfferService offerService = new OfferService();
-		order.setDeleted(true);
-		for(OrderLineEntity line : order.getLines()) {
-			line.setDeleted(true);
-		}
-		updateOrder(order);
-		// Delete related offer
-		offerService.deleteOffer(order.getOffer());
+		delete(order);
 	}
 }

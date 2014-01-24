@@ -39,14 +39,14 @@ public class OfferLineEntity extends AbstractEntity {
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="orderLineId", unique = true)
-	private OrderLineEntity _orderLine;
+	private OrderLineEntity orderLine;
 	
 	@Column(name = "deleted")
 	private Boolean _deleted = false;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
 			mappedBy = "_offerLine")
-	private AcceptedOfferLineEntity _acceptedOfferLine;
+	private AcceptedOfferLineEntity acceptedOfferLine;
 	
 	public OfferLineEntity() {}
 	
@@ -59,8 +59,8 @@ public class OfferLineEntity extends AbstractEntity {
 		this._notes = notes;
 		this._price = price;
 		this._date = date;
-		this._orderLine = orderLine;
-		this._orderLine.setOfferLine(this);
+		this.orderLine = orderLine;
+		this.orderLine.setOfferLine(this);
 	}
 	
 	public void setOffer(OfferEntity offer) {
@@ -94,25 +94,25 @@ public class OfferLineEntity extends AbstractEntity {
 	}
 	
 	public AcceptedOfferLineEntity getAcceptedOffer() {
-		return this._acceptedOfferLine;
+		return this.acceptedOfferLine;
 	}
 	
 	/* Nyapicas */
 	public void setAcceptedOffer(AcceptedOfferLineEntity acceptedOffer) {
-		this._acceptedOfferLine = acceptedOffer;
-		this._acceptedOfferLine.setOfferLine(this);
+		this.acceptedOfferLine = acceptedOffer;
+		this.acceptedOfferLine.setOfferLine(this);
 	}
 	
 	public void setOrderLine(OrderLineEntity orderLine) {
-		this._orderLine = orderLine;
+		this.orderLine = orderLine;
 	}
 	
 	public Long getOrderLineId() {
-		return this._orderLine != null ? this._orderLine.getId() : null;
+		return this.orderLine != null ? this.orderLine.getId() : null;
 	}
 	
 	public OrderLineEntity getOrderLine() {
-		return _orderLine;
+		return orderLine;
 	}
 
 	public void setQuantity(Integer quantity) {
@@ -133,7 +133,7 @@ public class OfferLineEntity extends AbstractEntity {
 	
 	public void delete() {
 		this._deleted = true;
-		this._orderLine = null;
+		this.orderLine = null;
 	}
 
 	@JsonIgnore

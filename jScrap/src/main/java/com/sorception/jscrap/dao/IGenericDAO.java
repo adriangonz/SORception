@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sorception.jscrap.entities.AbstractEntity;
 
+@Repository
 public interface IGenericDAO<T extends AbstractEntity> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
 
 }

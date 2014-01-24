@@ -53,7 +53,7 @@ public abstract class AbstractEntity implements Serializable {
     protected Date updated;
     
     protected AbstractEntity() {}
-
+    
     public Date getCreated() {
         return created;
     }

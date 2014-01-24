@@ -58,7 +58,12 @@ public abstract class AbstractService<T extends AbstractEntity> {
     @Transactional
     public void delete(final long id) {
         final T entity = findOne(id);
-        getDao().delete(entity);
+        delete(entity);
+    }
+    
+    @Transactional
+    public void delete(final T entity) {
+    	getDao().delete(entity);
     }
     
     // Protected helpers
