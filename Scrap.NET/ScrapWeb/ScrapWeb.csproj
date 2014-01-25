@@ -272,6 +272,8 @@
     <Content Include="Assets\Scripts\respond.js" />
     <Content Include="Assets\Scripts\respond.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="Properties\PublishProfiles\sorscrapnet %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sorscrapnet.pubxml" />
     <None Include="Service References\Webservices\GestionDesguace.disco" />
     <None Include="Service References\Webservices\configuration91.svcinfo" />
     <None Include="Service References\Webservices\configuration.svcinfo" />
