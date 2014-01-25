@@ -1,9 +1,13 @@
 package com.sorception.jscrap.webservices;
 
 import java.io.StringWriter;
+import java.util.GregorianCalendar;
 
 import javax.jms.Message;
 import javax.xml.bind.JAXBElement;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +54,14 @@ public class OfertasSender {
 				objectFactory.createExpOfertaLineNotes(offerLine.getNotes());
 		Double price = offerLine.getPrice();
 		Integer quantity = offerLine.getQuantity();
+		GregorianCalendar date = new GregorianCalendar();
+		date.setTime(offerLine.getDate());
+		XMLGregorianCalendar xmlDate = null;
+		try {
+			xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(date);
+		} catch (DatatypeConfigurationException e) {
+			
+		}
 		
 		ExpOfertaLine exposedLineaOferta = 
 				objectFactory.createExpOfertaLine();
@@ -58,6 +70,7 @@ public class OfertasSender {
 		exposedLineaOferta.setNotes(notes);
 		exposedLineaOferta.setPrice(price);
 		exposedLineaOferta.setQuantity(quantity);
+		exposedLineaOferta.setDate(xmlDate);
 		return exposedLineaOferta;
 	}
 	
