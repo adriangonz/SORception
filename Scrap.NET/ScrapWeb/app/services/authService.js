@@ -10,7 +10,8 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 			    $rootScope.$broadcast('auth.login');
 	       		$location.path("/orders");
 			  }).
-			  error(function(data, status, headers, config) {
+			  error(function (data, status, headers, config) {
+			      $('#err-login').html("El usuario o la contraseño son incorrectos");
 			  	console.log(status+" | "+data);
 	       		$location.path("/login");
 			  });    	
