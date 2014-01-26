@@ -18,9 +18,12 @@ namespace ScrapWeb.Services
         private OrderService orderService;
         private AMQService amqService;
 
-        public OfferService(ScrapContext scrapContext = null)
+        public OfferService(ScrapContext context = null)
         {
-            if(scrapContext == null) scrapContext = new ScrapContext();
+            if (context == null)
+                scrapContext = new ScrapContext();
+            else
+                scrapContext = context;
             offerRepository = new GenericRepository<OfferEntity>(scrapContext);
             offerLineRepository = new GenericRepository<OfferLineEntity>(scrapContext);
             orderService = new OrderService(scrapContext);
