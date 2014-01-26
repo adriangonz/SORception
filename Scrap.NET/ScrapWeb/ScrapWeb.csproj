@@ -250,28 +250,18 @@
     <Content Include="App_Data\aspnet-ScrapWeb-20140116075322_log.ldf">
       <DependentUpon>aspnet-ScrapWeb-20140116075322.mdf</DependentUpon>
     </Content>
-    <Content Include="Assets\Content\bootstrap.css" />
-    <Content Include="Assets\Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Assets\Scripts\bootstrap.js" />
-    <Content Include="Assets\Scripts\bootstrap.min.js" />
-    <None Include="Assets\Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Assets\Scripts\jquery-1.10.2.js" />
-    <Content Include="Assets\Scripts\jquery-1.10.2.min.js" />
-    <None Include="Assets\Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Assets\Scripts\jquery.validate.js" />
-    <Content Include="Assets\Scripts\jquery.validate.min.js" />
-    <Content Include="Assets\Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Assets\Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Assets\Scripts\modernizr-2.6.2.js" />
-    <Content Include="Assets\Scripts\respond.js" />
-    <Content Include="Assets\Scripts\respond.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\sorscrapnet %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sorscrapnet.pubxml" />
     <None Include="Service References\Webservices\GestionDesguace.disco" />
     <None Include="Service References\Webservices\configuration91.svcinfo" />
     <None Include="Service References\Webservices\configuration.svcinfo" />
@@ -293,21 +283,20 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Assets\Content\Site.css" />
-    <Content Include="Assets\Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Assets\Scripts\jquery-1.10.2.min.map" />
     <None Include="Service References\Webservices\GestionDesguace.wsdl" />
     <None Include="Service References\Webservices\GestionDesguace.xsd">
       <SubType>Designer</SubType>
@@ -326,9 +315,6 @@
     <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>

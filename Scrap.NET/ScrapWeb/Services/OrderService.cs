@@ -60,7 +60,7 @@ namespace ScrapWeb.Services
 
         public OrderEntity getById(int id)
         {
-            var orderEntity = orderRepository.GetByID(id);
+            var orderEntity = orderRepository.Get(t => t.id == id, null, "rawLines").FirstOrDefault();
             if (orderEntity == null)
                 throw new ServiceException("Order with id " + id.ToString() + " was not found", HttpStatusCode.NotFound);
             return orderEntity;
