@@ -12,7 +12,7 @@ public class RootConfig {
 	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
 		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
                 ppc.setLocations(new ClassPathResource[] {
-                    new ClassPathResource("/persistence.properties"),
+                    new ClassPathResource("/persistence_deploy.properties"),
                     new ClassPathResource("/jscrap.properties"),
                     new ClassPathResource("/webservice.properties"),
                     new ClassPathResource("/activemq.properties")
