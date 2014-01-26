@@ -320,6 +320,11 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
+                <configuration>
+					<url>http://sorceptionjava.cloudapp.net/manager/text</url>
+					<server>SORceptionJava</server>
+					<path>/jScrap</path>
+				</configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
