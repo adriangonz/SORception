@@ -272,7 +272,8 @@ namespace ScrapWeb.Services
                      id_en_desguace = line.id,
                      notes = line.notes,
                      price = line.price,
-                     quantity = line.quantity
+                     quantity = line.quantity,
+                     date = line.date
                 });
             }
 

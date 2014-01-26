@@ -17,6 +17,9 @@ namespace ScrapWeb.Entities
 
         public Double price { get; set; }
 
+
+        public DateTime date;
+
         [JsonIgnore]
         [DefaultValue("false")]
         public bool deleted { get; set; }
