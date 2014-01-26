@@ -12,6 +12,7 @@ namespace ScrapWeb.DTO
 
     public class OfferLineDTO
     {
+        public DateTime date { get; set; }
         public string status { get; set; }
         public string notes { get; set; }
         public Double price { get; set; }

@@ -27,7 +27,7 @@ namespace ScrapWeb.Filters
 
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {
-                Content = new StringContent("An error occurred, please try again or contact the administrator."),
+                Content = new StringContent(context.Exception.StackTrace),
                 ReasonPhrase = "Critical Exception"
             });
         }

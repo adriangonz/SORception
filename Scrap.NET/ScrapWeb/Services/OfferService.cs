@@ -157,7 +157,8 @@ namespace ScrapWeb.Services
                 price = line.price,
                 orderLine = orderline,
                 quantity = line.quantity,
-                notes = line.notes
+                notes = line.notes,
+                date = line.date
             };
         }
     }
