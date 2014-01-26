@@ -1,1 +1,1 @@
-INSERT INTO User (creationDate, updateDate, isAdmin, name, username) VALUES (NOW(), NOW(), true, 'Administrador', 'admin');
+INSERT INTO ApplicationUser (creationDate, updateDate, isAdmin, name, username) VALUES (GetDate(), GetDate(), 1, 'Administrador', 'admin');

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * @author kaseyo
  */
 @Entity
-@Table(name="User")
+@Table(name="ApplicationUser")
 public class UserEntity extends AbstractEntity {
     @Column(name = "name")
     private String _name;
