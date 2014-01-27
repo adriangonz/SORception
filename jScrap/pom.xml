@@ -9,6 +9,31 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Spring MVC Application</name>
+    <profiles>
+	    <profile>
+	        <id>production</id>
+	        <build>
+	            <resources>
+	                <resource>
+	                    <directory>src/main/resources/production</directory>
+	                </resource>
+	            </resources>
+	        </build>
+	    </profile>
+	    <profile>
+	        <id>development</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
+	        <build>
+	            <resources>
+	                <resource>
+	                    <directory>src/main/resources/development</directory>
+	                </resource>
+	            </resources>
+	        </build>
+	    </profile>
+	</profiles>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.7</java-version>
