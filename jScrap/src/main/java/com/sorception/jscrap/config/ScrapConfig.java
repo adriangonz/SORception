@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 /**
  *
  * @author kaseyo
  */
 @Configuration
-public class GlobalConfig {
+@PropertySource("classpath:jscrap.properties")
+public class ScrapConfig {
     @Value("${jscrap.name}")
     private String _name;
     
