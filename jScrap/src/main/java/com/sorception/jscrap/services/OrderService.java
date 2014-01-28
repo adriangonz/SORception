@@ -26,6 +26,9 @@ public class OrderService extends AbstractService<OrderEntity> {
 	@Autowired
 	private IOrderLineDAO lineDao;
 	
+	@Autowired
+	private OfferService offerService;
+	
 	@Override
 	protected IGenericDAO<OrderEntity> getDao() {
 		return dao;

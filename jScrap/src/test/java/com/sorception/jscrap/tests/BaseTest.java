@@ -24,15 +24,13 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.sorception.jscrap.config.PersistenceConfig;
 import com.sorception.jscrap.config.RootConfig;
 import com.sorception.jscrap.config.SecurityConfig;
-import com.sorception.jscrap.services.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {
 		RootConfig.class,
 		PersistenceConfig.class,
-		SecurityConfig.class,
-		UserService.class
+		SecurityConfig.class
 })
 @TestExecutionListeners({ 
 	DependencyInjectionTestExecutionListener.class,

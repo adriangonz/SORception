@@ -8,16 +8,24 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
+import com.sorception.jscrap.services.OfferService;
 import com.sorception.jscrap.services.OrderService;
 
 @DatabaseSetup("classpath:orderDataset.xml")
 public class OrderServiceTest extends BaseTest {
 	
+	@InjectMocks
 	OrderService orderService;
+	
+	@Mock
+	OfferService offerService;
 	
 	@Before
 	public void setup() {
@@ -48,5 +56,23 @@ public class OrderServiceTest extends BaseTest {
 	public void OrderService_getAll_ShouldReturnOne() {
 		List<OrderEntity> orders = orderService.getAllOrders();
 		assertThat(orders.size(), is(1));
+	}
+	
+	@Test(expected = ResourceNotFoundException.class)
+	public void OrderService_delete_ShouldReturnEmpty() {
+		OrderEntity order = orderService.getOrderById(1L);
+		orderService.deleteOrder(order);
+		List<OrderEntity> orders = orderService.getAllOrders();
+		assertThat(orders.size(), is(0));
+		orderService.getOrderById(1L);
+	}
+	
+	@Test
+	public void OrderService_close_ShouldReturnEmpty() {
+		OrderEntity order = orderService.getOrderById(1L);
+		orderService.closeOrder(order);
+		List<OrderEntity> orders = orderService.getAllOrders();
+		assertThat(orders.size(), is(0));
+		orderService.getOrderById(1L);
 	}
 }
