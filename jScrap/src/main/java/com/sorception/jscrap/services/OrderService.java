@@ -75,7 +75,6 @@ public class OrderService extends AbstractService<OrderEntity> {
 	}
 	
 	public void closeOrder(OrderEntity order) {
-		OfferService offerService = new OfferService();
 		order.setClosed(true);
 		updateOrder(order);
 		// Delete related offer

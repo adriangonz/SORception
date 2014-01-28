@@ -67,7 +67,7 @@ public class OrderServiceTest extends BaseTest {
 		orderService.getOrderById(1L);
 	}
 	
-	@Test
+	@Test(expected = ResourceNotFoundException.class)
 	public void OrderService_close_ShouldReturnEmpty() {
 		OrderEntity order = orderService.getOrderById(1L);
 		orderService.closeOrder(order);
