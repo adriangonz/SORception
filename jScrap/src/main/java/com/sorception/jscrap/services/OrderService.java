@@ -1,10 +1,7 @@
 package com.sorception.jscrap.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sorception.jscrap.dao.IGenericDAO;
 import com.sorception.jscrap.dao.IOrderDAO;
 import com.sorception.jscrap.dao.IOrderLineDAO;
-import com.sorception.jscrap.dao.OrderDAO;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
-import com.sorception.jscrap.error.ResourceNotFoundException;
 
 @Service
 @Transactional

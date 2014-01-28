@@ -1,0 +1,102 @@
+<dataset>
+	<!-- Order with two lines. Not deleted nor closed -->
+    <Orders 
+    	id="1" 
+    	sgId="1"
+    	closed="false" 
+    	deleted="false" 
+    	deadline="2015-12-23 12:30:00" 
+    	created="2013-12-23 12:30:00" 
+    	updated="2013-12-23 12:30:00"/>
+    
+	    <OrderLine
+	    	id="1" 
+	    	sgId="1"
+	    	quantity="2"
+	    	description="Orderline test"
+	    	orderId="1"
+	    	deleted="false" 
+	    	created="2013-12-23 12:30:00" 
+	    	updated="2013-12-23 12:30:00"/>
+	    
+	    <OrderLine
+	    	id="2" 
+	    	sgId="2"
+	    	quantity="23"
+	    	description="Orderline test 2"
+	    	orderId="1"
+	    	deleted="false" 
+	    	created="2013-12-23 12:30:00" 
+	    	updated="2013-12-23 12:30:00"/>
+	    	
+    <!-- Order with one line but deleted. -->
+    <Orders 
+    	id="2" 
+    	sgId="2"
+    	closed="false" 
+    	deleted="true" 
+    	deadline="2015-12-23 12:30:00" 
+    	created="2013-12-23 12:30:00" 
+    	updated="2013-12-23 12:30:00"/>
+    	
+    	<OrderLine
+	    	id="3" 
+	    	sgId="3"
+	    	quantity="2"
+	    	description="Orderline test 3"
+	    	orderId="2"
+	    	deleted="true" 
+	    	created="2013-12-23 12:30:00" 
+	    	updated="2013-12-23 12:30:00"/>
+    	
+    <!-- Order with one line but closed -->
+    <Orders 
+    	id="3" 
+    	sgId="3"
+    	closed="true" 
+    	deleted="false" 
+    	deadline="2015-12-23 12:30:00" 
+    	created="2013-12-23 12:30:00" 
+    	updated="2013-12-23 12:30:00"/>
+    	
+    	<OrderLine
+	    	id="4" 
+	    	sgId="4"
+	    	quantity="2"
+	    	description="Orderline test 4"
+	    	orderId="3"
+	    	deleted="false" 
+	    	created="2013-12-23 12:30:00" 
+	    	updated="2013-12-23 12:30:00"/>
+    
+    <!-- Order with one deleted line -->
+    <Orders 
+    	id="4" 
+    	sgId="4"
+    	closed="false" 
+    	deleted="false" 
+    	deadline="2015-12-23 12:30:00" 
+    	created="2013-12-23 12:30:00" 
+    	updated="2013-12-23 12:30:00"/>
+    	
+    	<OrderLine
+	    	id="5" 
+	    	sgId="5"
+	    	quantity="2"
+	    	description="Orderline test 5"
+	    	orderId="4"
+	    	deleted="true" 
+	    	created="2013-12-23 12:30:00" 
+	    	updated="2013-12-23 12:30:00"/>
+
+    <!-- Order with no lines. -->
+    <Orders 
+    	id="5" 
+    	sgId="5"
+    	closed="false" 
+    	deleted="false" 
+    	deadline="2015-12-23 12:30:00" 
+    	created="2013-12-23 12:30:00" 
+    	updated="2013-12-23 12:30:00"/>
+    
+</dataset>

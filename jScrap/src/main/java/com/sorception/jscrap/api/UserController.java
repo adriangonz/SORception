@@ -6,39 +6,29 @@
 
 package com.sorception.jscrap.api;
 
-import org.springframework.stereotype.Controller;
-
-import com.sorception.jscrap.entities.UserEntity;
-import com.sorception.jscrap.services.UserService;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.sorception.jscrap.dto.UserCredentialsDTO;
+import com.sorception.jscrap.dto.UserInfoDTO;
+import com.sorception.jscrap.entities.UserEntity;
+import com.sorception.jscrap.services.UserService;
 
 /**
  *
  * @author kaseyo
  */
-class UserParamsDTO {
-    public String name;
-    public String username;
-}
-
-class UserCredentialsDTO {
-    public String username;
-    public String password;
-}
 
 @Controller
 @RequestMapping("/api/user")
@@ -72,7 +62,7 @@ public class UserController {
     @RequestMapping(value="", method=RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public UserEntity addUser(@RequestBody UserParamsDTO user) {
+    public UserEntity addUser(@RequestBody UserInfoDTO user) {
         return userService.addUser(user.username, user.name);
     }
     
