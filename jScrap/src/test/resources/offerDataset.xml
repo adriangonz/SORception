@@ -1,0 +1,113 @@
+<dataset>
+	<!-- Order with two lines. Not deleted nor closed -->
+    <Orders 
+    	id="1" 
+    	sgId="1"
+    	closed="false" 
+    	deleted="false" 
+    	deadline="2015-12-23 12:30:00" 
+    	created="2013-12-23 12:30:00" 
+    	updated="2013-12-23 12:30:00"/>
+    
+	    <OrderLine
+	    	id="1" 
+	    	sgId="1"
+	    	quantity="2"
+	    	description="Orderline test"
+	    	orderId="1"
+	    	deleted="false" 
+	    	created="2013-12-23 12:30:00" 
+	    	updated="2013-12-23 12:30:00"/>
+	    
+	    <OrderLine
+	    	id="2" 
+	    	sgId="2"
+	    	quantity="23"
+	    	description="Orderline test 2"
+	    	orderId="1"
+	    	deleted="false" 
+	    	created="2013-12-23 12:30:00" 
+	    	updated="2013-12-23 12:30:00"/>
+
+	<!-- Offer with two lines, one of them related to orderline 2 -->
+    <Offer
+    	id="1" 
+    	deleted="false" 
+    	created="2013-12-23 12:30:00" 
+    	updated="2013-12-23 12:30:00" />
+    	
+    	<OfferLine
+    		id="1"
+    		quantity="2"
+    		notes="Offerline test"
+    		price="2.3"
+    		offerId="1"
+    		date="2015-12-23 12:30:00"
+    		deleted="false" 
+    		created="2013-12-23 12:30:00" 
+    		updated="2013-12-23 12:30:00"/>
+
+    	<OfferLine
+    		id="2"
+    		quantity="2"
+    		notes="Offerline test 2"
+    		price="2.3"
+    		offerId="1"
+    		orderLineId="2"
+    		date="2015-12-23 12:30:00"
+    		deleted="false" 
+    		created="2013-12-23 12:30:00" 
+    		updated="2013-12-23 12:30:00"/>
+    
+    <!-- Deleted offer with one deleted offerline -->
+	<Offer
+	   	id="2" 
+	   	deleted="true" 
+	   	created="2013-12-23 12:30:00" 
+	   	updated="2013-12-23 12:30:00" />
+	   	
+	   	<OfferLine
+	   		id="3"
+	   		quantity="2"
+	   		notes="Offerline test deleted"
+	   		price="2.3"
+	   		offerId="2"
+	   		date="2015-12-23 12:30:00"
+	   		deleted="true" 
+	   		created="2013-12-23 12:30:00" 
+	   		updated="2013-12-23 12:30:00"/>
+	 
+    <!-- Offer with one accepted offerline -->
+	<Offer
+	   	id="3" 
+	   	deleted="false" 
+	   	created="2013-12-23 12:30:00" 
+	   	updated="2013-12-23 12:30:00" />
+	   	
+	   	<OfferLine
+	   		id="4"
+	   		quantity="2"
+	   		notes="Offerline test accepted"
+	   		price="2.3"
+	   		offerId="3"
+	   		orderLineId="1"
+	   		date="2015-12-23 12:30:00"
+	   		deleted="false" 
+	   		created="2013-12-23 12:30:00" 
+	   		updated="2013-12-23 12:30:00"/>	
+	   		
+	   		<AcceptedOfferLine
+	   			id="1"
+	   			quantity="2"
+	   			offerLineId="4"
+	   			created="2013-12-23 12:30:00" 
+	   			updated="2013-12-23 12:30:00"/>
+	  
+	<!-- Empty offer -->
+	<Offer
+	   	id="4" 
+	   	deleted="false" 
+	   	created="2013-12-23 12:30:00" 
+	   	updated="2013-12-23 12:30:00" />
+
+</dataset>

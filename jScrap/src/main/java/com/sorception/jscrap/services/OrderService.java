@@ -78,7 +78,8 @@ public class OrderService extends AbstractService<OrderEntity> {
 		order.setClosed(true);
 		updateOrder(order);
 		// Delete related offer
-		offerService.deleteOffer(order.getOffer());
+		if(order.getOffer() != null)
+			offerService.deleteOfferWithoutAMQ(order.getOffer());
 	}
 
 	public void deleteOrder(OrderEntity order) {

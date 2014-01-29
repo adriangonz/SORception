@@ -1,29 +1,43 @@
 package com.sorception.jscrap.services;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.Hibernate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sorception.jscrap.dao.OfferDAO;
+import com.sorception.jscrap.dao.IGenericDAO;
+import com.sorception.jscrap.dao.IOfferDAO;
+import com.sorception.jscrap.dao.IOfferLineDAO;
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
-import com.sorception.jscrap.entities.OrderEntity;
-import com.sorception.jscrap.entities.OrderLineEntity;
-import com.sorception.jscrap.error.ResourceNotFoundException;
-import com.sorception.jscrap.webservices.OfertasSender;
 
 @Service
 @Transactional
-public class OfferService {
+public class OfferService extends AbstractService<OfferEntity> {
+	
+	public OfferService() {
+		super(OfferEntity.class);
+	}
+
+	@Override
+	protected IGenericDAO<OfferEntity> getDao() {
+		return dao;
+	}
+	
+	private IOfferDAO getOfferDao() {
+		return dao;
+	}
+	
+	private IOfferLineDAO getOfferLineDao() {
+		return offerLineDao;
+	}
+	
+	@Autowired 
+	private IOfferDAO dao;
+	
 	@Autowired
-	private OfferDAO offerDAO;
+	private IOfferLineDAO offerLineDao;
 	
 	@Autowired
 	private OrderService orderService;
@@ -33,35 +47,38 @@ public class OfferService {
 	
 	@Autowired
 	private TokenService tokenService;
-	
-	final static Logger logger = LoggerFactory.getLogger(OfferService.class);
-	
+		
 	public List<OfferEntity> getAllOffers() {
-		return offerDAO.list();
+		return getOfferDao().getOpenedOffers();
+	}
+	
+	public List<OfferEntity> getAcceptedOffers() {
+		return getOfferDao().getAcceptedOffers();
 	}
 	
 	public OfferEntity addOffer(List<OfferLineEntity> offerLines) {
 		OfferEntity offerEntity = new OfferEntity(offerLines);
-		offerDAO.save(offerEntity);
+		offerEntity = create(offerEntity);
 		amqService.sendNewOffer(offerEntity, tokenService.getValid());
 		return offerEntity;
 	}
 	
 	public OfferEntity getOfferById(Long id) {
-		OfferEntity offer = offerDAO.get(id);
-		if(offer == null)
-			throw new ResourceNotFoundException("Offer with id " + id + " was not found");
-		return offer;
+		return this.findOne(id);
 	}
 	
 	public void deleteOffer(Long id) {
-		OfferEntity offer = offerDAO.get(id);
+		OfferEntity offer = this.findOne(id);
 		deleteOffer(offer);
 	}
 	
 	public void deleteOffer(OfferEntity offer) {
 		amqService.sendDeleteOffer(offer,  tokenService.getValid());
-		offerDAO.delete(offer);
+		deleteOfferWithoutAMQ(offer);
+	}
+	
+	public void deleteOfferWithoutAMQ(OfferEntity offer) {
+		this.delete(offer);
 	}
 	
 	public OfferEntity updateOffer(Long offerId, List<OfferLineEntity> lines) {
@@ -74,35 +91,12 @@ public class OfferService {
 	public OfferEntity updateOfferWithoutAMQ(Long offerId, List<OfferLineEntity> lines) {
 		OfferEntity offer = this.getOfferById(offerId);
 		offer.setLines(lines);
-		offerDAO.update(offer);
+		this.update(offer);
 		offer = this.getOfferById(offer.getId());
 		return offer;
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
-		OfferLineEntity offerLine = offerDAO.getOfferLine(id);
-		if(offerLine == null)
-			throw new ResourceNotFoundException("OfferLine with id " + id + " was not found");
-		return offerLine;
+		return getOfferLineDao().findOne(id);
 	}
-	
-	/* START OF NYAPICA */
-	public OrderLineEntity getOrderLine(OfferLineEntity offerLine) {
-		return offerDAO.getOrderLine(offerLine);
-	}
-	
-	public OrderEntity getOrder(OfferEntity offer) {
-		return offerDAO.getOrder(offer);
-	}
-
-	public List<OfferEntity> getAccepted() {
-		List<OfferEntity> validOffers = new ArrayList<>();
-		for(OfferEntity offer : getAllOffers()) {
-			if(offer.getAccepted().size() > 0)
-				validOffers.add(offer);
-		}
-		return validOffers;
-	}
-	
-	/* END OF NYAPICA */
 }

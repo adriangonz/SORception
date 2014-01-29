@@ -6,36 +6,28 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Where;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sorception.jscrap.services.ActiveMQService;
 
 @Entity
 @Table(name = "Offer")
-public class OfferEntity extends AbstractEntity {
+public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 	
 	final static Logger logger = LoggerFactory.getLogger(OfferEntity.class);
 	
-	@OneToMany(mappedBy = "_offer",
+	@OneToMany(mappedBy = "offer",
 			cascade = CascadeType.ALL,
 			fetch = FetchType.EAGER)
-	private List<OfferLineEntity> _lines;
+	private List<OfferLineEntity> lines;
 	
 	@Column(name = "deleted")
-	private Boolean _deleted = false;
-	
-	@Column(name = "orderSgId", nullable = false)
-	private String _orderSgId;
+	private Boolean deleted = false;
 	
 	public OfferEntity() {}
 	
@@ -43,26 +35,31 @@ public class OfferEntity extends AbstractEntity {
 		this.setLines(lines);
 	}
 	
-	public void setDeleted(Boolean deleted) {
-		this._deleted = deleted;
+	public String getOrderSgId() {
+		if(lines.size() > 0 && lines.get(0).getOrderLine() != null)
+			return lines.get(0).getOrderLine().getSgId();
+		return null;
 	}
 	
-	public String getOrderSgId() {
-		return this._orderSgId;
+	@JsonIgnore
+	public OrderEntity getOrder() {
+		if(!lines.isEmpty() && lines.get(0).getOrderLine() != null)
+			return lines.get(0).getOrderLine().getOrder();
+		return null;
+	}
+	
+	public Long getOrderId() {
+		OrderEntity order = getOrder();
+		return order != null ? order.getId() : null;
 	}
 	
 	public List<OfferLineEntity> getLines() {
-		List<OfferLineEntity> activeLines = new ArrayList<>();
-		for(OfferLineEntity line : this._lines) {
-			if(!line.isDeleted())
-				activeLines.add(line);
-		}
-		return activeLines;
+		return lines;
 	}
 	
 	@JsonIgnore
 	public Boolean isDeleted() {
-		return this._deleted;
+		return this.deleted;
 	}
 	
 	@JsonIgnore
@@ -76,23 +73,13 @@ public class OfferEntity extends AbstractEntity {
 	}
 	
 	public void setLines(List<OfferLineEntity> lines) {
-		this._lines = lines;
+		this.lines = lines;
 		for(OfferLineEntity line : lines) {
-			if(line.getOrderLine() != null)
-				this._orderSgId = line.getOrderLine().getOrder().getSgId();
 			line.setOffer(this);
 		}
 	}
 	
-	@JsonIgnore
-	public OrderEntity getOrder() {
-		if(!_lines.isEmpty() && _lines.get(0).getOrderLine() != null)
-			return _lines.get(0).getOrderLine().getOrder();
-		return null;
-	}
-	
-	public Long getOrderId() {
-		OrderEntity order = getOrder();
-		return order != null ? order.getId() : null;
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 }

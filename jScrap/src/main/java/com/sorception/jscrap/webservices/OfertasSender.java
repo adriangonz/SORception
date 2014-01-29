@@ -1,8 +1,5 @@
 package com.sorception.jscrap.webservices;
 
-import java.io.StringWriter;
-
-import javax.jms.Message;
 import javax.xml.bind.JAXBElement;
 
 import org.slf4j.Logger;
@@ -23,8 +20,6 @@ import com.sorception.jscrap.generated.ExpOferta;
 import com.sorception.jscrap.generated.ExpOfertaLine;
 import com.sorception.jscrap.generated.ObjectFactory;
 import com.sorception.jscrap.services.OfferService;
-import com.sorception.jscrap.services.OrderService;
-import com.sorception.jscrap.services.TokenService;
 
 @Service
 public class OfertasSender {
@@ -45,7 +40,7 @@ public class OfertasSender {
 
 	private ExpOfertaLine toExposedLineaOferta(OfferLineEntity offerLine) {
 		Integer idEnDesguace = offerLine.getId().intValue();
-		Integer lineaSolicitudId = Integer.parseInt(offerService.getOrderLine(offerLine).getSgId());
+		Integer lineaSolicitudId = Integer.parseInt(offerLine.getOrderLine().getSgId());
 		JAXBElement<String> notes = 
 				objectFactory.createExpOfertaLineNotes(offerLine.getNotes());
 		Double price = offerLine.getPrice();
