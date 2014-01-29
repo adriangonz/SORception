@@ -21,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.sorception.jscrap.config.PersistenceConfig;
 import com.sorception.jscrap.config.RootConfig;
 import com.sorception.jscrap.config.SecurityConfig;
@@ -30,16 +31,19 @@ import com.sorception.jscrap.config.SecurityConfig;
 @ContextConfiguration(classes = {
 		RootConfig.class,
 		PersistenceConfig.class,
-		SecurityConfig.class
+		SecurityConfig.class,
+		TestConfig.class
 })
 @TestExecutionListeners({ 
 	DependencyInjectionTestExecutionListener.class,
     DirtiesContextTestExecutionListener.class,
     TransactionalTestExecutionListener.class,
     DbUnitTestExecutionListener.class })
+@DbUnitConfiguration(databaseConnection = "customDbUnitDatabaseConnection")
 @TransactionConfiguration(defaultRollback=true)
 @Transactional
 public class BaseTest {
+	
 	@PersistenceContext
     private EntityManager entityManager;
 	

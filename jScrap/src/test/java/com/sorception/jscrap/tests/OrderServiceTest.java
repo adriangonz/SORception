@@ -8,24 +8,17 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
-import com.sorception.jscrap.services.OfferService;
 import com.sorception.jscrap.services.OrderService;
 
 @DatabaseSetup("classpath:orderDataset.xml")
 public class OrderServiceTest extends BaseTest {
 	
-	@InjectMocks
 	OrderService orderService;
-	
-	@Mock
-	OfferService offerService;
 	
 	@Before
 	public void setup() {
