@@ -11,6 +11,7 @@ using System.ServiceModel.Channels;
 using Eggplant.Models;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using Eggplant.DataAcces;
 
 namespace Eggplant.Controllers
 {
@@ -32,6 +33,7 @@ namespace Eggplant.Controllers
         // GET api/solicitud
         public object Get()
         {
+            EggplantContext epCtxt = new EggplantContext();
             /*
             var userId = User.Identity.GetUserId();
             List<Solicitud> solicitudes = new List<Solicitud>();

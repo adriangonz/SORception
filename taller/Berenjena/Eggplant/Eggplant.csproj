@@ -193,6 +193,7 @@
       </SubType>
     </Compile>
     <Compile Include="Controllers\SolicitudController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAcces\EggplantContext.cs" />
     <Compile Include="Entity\AbstractEntity.cs" />
     <Compile Include="Entity\LineaPedido.cs" />
@@ -211,8 +212,6 @@
     <Compile Include="Models\ExpLineaOferta.cs" />
     <Compile Include="Models\ExpOfertaLine.cs" />
     <Compile Include="Models\ExpSolicitudLine.cs" />
-    <Compile Include="Models\LineaPedido.cs" />
-    <Compile Include="Models\LineaSolicitud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
@@ -222,6 +221,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
