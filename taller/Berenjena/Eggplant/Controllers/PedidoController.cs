@@ -23,16 +23,19 @@ namespace Eggplant.Controllers
         // GET api/pedido
         public object Get()
         {
+            /*
             BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
             var userId = User.Identity.GetUserId();
             var pedidos = c_bd.PedidoSet.AsQueryable().Where(p => p.Solicitud.user_id == userId).ToList();
             return pedidos;
+             * */
+            return null;
 
         }
 
         // GET api/pedido/5
         public object Get(int id)
-        {
+        {/*
             BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
             var userId = User.Identity.GetUserId();
             var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id && x.Solicitud.user_id == userId);
@@ -48,12 +51,14 @@ namespace Eggplant.Controllers
                     linea.description = lineaSolicitud.descripcion;
                 }
             }
-            return pedido;
+            return pedido; */
+            return null;
         }
 
         // POST api/pedido
         public object Post([FromBody]JObject values)
         {
+            /*
             int idPedido = 0;
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
@@ -65,10 +70,6 @@ namespace Eggplant.Controllers
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, "La solicitud " + idSolcitud + " no existe en la DB interna");
                 foreach (JObject item in values["lineas"])
                 {
-                    /*int idOferta = int.Parse(item["oferta"].ToString());
-                    ExposedOferta ofer = svcTaller.getOferta(idOferta);
-                    if (ofer == null)
-                        return Request.CreateResponse(HttpStatusCode.NotFound, "La oferta " + idOferta + " no existe en el SG");*/
                     LineaPedido lp = new LineaPedido();
                     lp.linea_oferta_id = int.Parse(item["id_linea_oferta"].ToString());
                     lp.state = FAILED;
@@ -88,7 +89,8 @@ namespace Eggplant.Controllers
 
             }
             addPedidoToSG(idPedido);
-            return idPedido;
+            return idPedido; */
+            return null;
         }
 
         /// Igual esta Funcion deberia esta en el SG
@@ -109,6 +111,7 @@ namespace Eggplant.Controllers
         /// Recorremos el pedido y lo anyadimos el SG
         private void addPedidoToSG(int idPedido)
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 var pedido = c_bd.PedidoSet.FirstOrDefault(x => x.Id == idPedido);
@@ -130,12 +133,13 @@ namespace Eggplant.Controllers
                     svcTaller.selectOferta(tr);
                     c_bd.SaveChanges();
                 }
-            }
+            } */
         }
 
         //Recorremos todos los pedidos internos y los actualizamos con los datos del SG
         private void UpdatePedidosFromSG()
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 var pedidos = c_bd.PedidoSet.AsQueryable().ToList();
@@ -149,7 +153,7 @@ namespace Eggplant.Controllers
                         //lineaPedido.status = ofertaSelec.status; o algo asi
                     }
                 }
-            }
+            }*/
         }
     }
 }

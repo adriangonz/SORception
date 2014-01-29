@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Eggplant.DataAcces;
+using Eggplant.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -17,10 +19,10 @@ namespace Eggplant.Filters
         public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, System.ServiceModel.IClientChannel channel)
         {
 
-            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
+            using (EggplantContext c_bd = new EggplantContext())
             {
                 Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
-                Tokens t = c_bd.TokensSet.AsQueryable().FirstOrDefault(x => x.state == "ACTIVE");
+                Token t = c_bd.TokensSet.AsQueryable().FirstOrDefault(x => x.status == Token.ACTIVE);
                 if (t != null)
                 {
                     MessageHeader header = MessageHeader.

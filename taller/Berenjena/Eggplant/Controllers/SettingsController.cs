@@ -22,6 +22,7 @@ namespace Berenjena.Controllers
         public object Get()
         {
             GetToken();
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
@@ -30,12 +31,14 @@ namespace Berenjena.Controllers
                 //var tokens = c_bd.TokensSet.(from d in c_bd.TokensSet orderby d.timeStamp descending select d);
 
                 return (new { name = "TUCARA", tokens });
-            }
+            }*/
+            return null;
         }
 
         // POST api/settings
         public object Post([FromBody]JObject value)
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 setLastTokenAsExpired();
@@ -49,19 +52,21 @@ namespace Berenjena.Controllers
                 c_bd.SaveChanges();
 
                 return to;
-            }
+            }*/
+            return null;
         }
 
         // PUT api/settings
         public void Put([FromBody]JObject value)
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 var token = (from d in c_bd.TokensSet orderby d.timeStamp select d).First();
                 ExpTaller t = new ExpTaller();
                 t.name = value["nombre"].ToString();
                 svcTaller.putTaller(t);
-            }
+            }*/
         }
 
         // DELETE api/settings
@@ -74,6 +79,7 @@ namespace Berenjena.Controllers
         [Route("api/settings/token")]
         public object GetToken()
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 if (c_bd.TokensSet.Count() <= 0) return Request.CreateResponse(HttpStatusCode.InternalServerError, "No se ha solicitado token");
@@ -110,15 +116,16 @@ namespace Berenjena.Controllers
                     return (new { Token = token.token, Status = token.state, Created = token.timeStamp });
                 }
                 return Request.CreateResponse(HttpStatusCode.Forbidden, "El token ha expirado");
-            }
+            }*/
+            return null;
         }
 
         private void setLastTokenAsExpired()
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
-                /*if (c_bd.TokensSet.Any())
-                {*/
+            
                 try
                 {
                     var tokens = (from d in c_bd.TokensSet select d);
@@ -132,7 +139,8 @@ namespace Berenjena.Controllers
                 {
 
                 }
-            }
+                
+            }*/
         }
     }
 }

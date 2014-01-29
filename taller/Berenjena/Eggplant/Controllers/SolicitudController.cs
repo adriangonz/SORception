@@ -32,19 +32,21 @@ namespace Eggplant.Controllers
         // GET api/solicitud
         public object Get()
         {
-
+            /*
             var userId = User.Identity.GetUserId();
             List<Solicitud> solicitudes = new List<Solicitud>();
             BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
             solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED && x.user_id == userId).ToList();
             return solicitudes;
+              */
+            return null;
 
         }
 
         // GET api/solicitud/5
         public object Get(int id)
         {
-
+            /*
             var userId = User.Identity.GetUserId();
             Solicitud solicitud = null;
             BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
@@ -94,13 +96,15 @@ namespace Eggplant.Controllers
             }
 
             c_bd.SaveChanges();
-            return solicitud;
+            return solicitud; */
+            return null;
 
         }
 
         // POST api/solicitud
         public object Post([FromBody]JObject values)
         {
+            /*
             var s = new Solicitud();
             List<ExpSolicitudLine> lineas = new List<ExpSolicitudLine>();
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
@@ -150,13 +154,15 @@ namespace Eggplant.Controllers
                 addSolicitudToLocalDB(resId, s.Id); //Guardo la solicitud en la base de datos local
 
             //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
-            return new { id = resId };
+            return new { id = resId }; */
+            return null;
 
         }
 
         // PUT api/solicitud/5
         public object Put(int id, [FromBody]JObject values)
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 Solicitud solInterna = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
@@ -258,12 +264,14 @@ namespace Eggplant.Controllers
                     else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Solicitud no encontrada en el sistema gestor");
                 }
                 else return Request.CreateErrorResponse(HttpStatusCode.NotFound, "La solicitud no existe en la db local");
-            }
+            } */
+            return null;
         }
 
         // DELETE api/solicitud/5
         public void Delete(int id)
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 Solicitud sol = c_bd.SolicitudSet.FirstOrDefault(x => x.Id == id);
@@ -273,7 +281,7 @@ namespace Eggplant.Controllers
                     c_bd.SaveChanges();
                     svcTaller.deleteSolicitud(sol.sg_id);
                 }
-            }
+            }*/
         }
 
         [Route("update")]
@@ -286,6 +294,7 @@ namespace Eggplant.Controllers
 
         private void updateSolicitudes()
         {
+            /*
             using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
             {
                 //Si no hay taller activo devuelve -1 y no encontrara nada digo yo
@@ -296,11 +305,12 @@ namespace Eggplant.Controllers
                     if (s != null)
                         s.status = solicitud.status;
                 }
-            }
+            }*/
 
         }
         private void addSolicitudToLocalDB(int idSol, int idInterno)
         {
+            /*
             ExpSolicitud solExtern = svcTaller.getSolicitud(idSol);
             if (solExtern != null)
             {
@@ -323,7 +333,7 @@ namespace Eggplant.Controllers
                         c_bd_interna.SaveChanges();
                     }
                 }
-            }
+            }*/
         }
 
         private void addLineasNoAgregadas(List<ExpOfertaLine> lineas, int idSolicitud)
