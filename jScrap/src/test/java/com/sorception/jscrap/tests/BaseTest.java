@@ -3,9 +3,6 @@ package com.sorception.jscrap.tests;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +40,6 @@ import com.sorception.jscrap.config.SecurityConfig;
 @TransactionConfiguration(defaultRollback=true)
 @Transactional
 public class BaseTest {
-	
-	@PersistenceContext
-    private EntityManager entityManager;
 	
 	@Autowired
 	protected ApplicationContext applicationContext;

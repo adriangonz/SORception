@@ -50,7 +50,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
-		entityManagerFactoryBean.setPackagesToScan("com.sorception.jscrap");
+		entityManagerFactoryBean.setPackagesToScan("com.sorception.jscrap.entities");
 		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		
 		Properties jpaProperties = new Properties();

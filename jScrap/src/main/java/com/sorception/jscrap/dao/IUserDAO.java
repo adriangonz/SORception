@@ -6,27 +6,15 @@
 
 package com.sorception.jscrap.dao;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.sorception.jscrap.entities.UserEntity;
-
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author kaseyo
  */
 
-@Transactional
 @Repository
 public interface IUserDAO extends IGenericDAO<UserEntity>{
 	UserEntity findByUsername(String username);
