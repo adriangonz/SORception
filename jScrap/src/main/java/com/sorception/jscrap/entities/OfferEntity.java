@@ -43,8 +43,10 @@ public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 	
 	@JsonIgnore
 	public OrderEntity getOrder() {
-		if(!lines.isEmpty() && lines.get(0).getOrderLine() != null)
-			return lines.get(0).getOrderLine().getOrder();
+		for(OfferLineEntity offerline : lines) {
+			if(!offerline.isDeleted()) //It is not deleted
+				return offerline.getOrderLine().getOrder();
+		}
 		return null;
 	}
 	

@@ -37,17 +37,6 @@
     	updated="2013-12-23 12:30:00" />
     	
     	<OfferLine
-    		id="1"
-    		quantity="2"
-    		notes="Offerline test"
-    		price="2.3"
-    		offerId="1"
-    		date="2015-12-23 12:30:00"
-    		deleted="false" 
-    		created="2013-12-23 12:30:00" 
-    		updated="2013-12-23 12:30:00"/>
-
-    	<OfferLine
     		id="2"
     		quantity="2"
     		notes="Offerline test 2"
@@ -56,6 +45,17 @@
     		orderLineId="2"
     		date="2015-12-23 12:30:00"
     		deleted="false" 
+    		created="2013-12-23 12:30:00" 
+    		updated="2013-12-23 12:30:00"/>
+    	
+    	<OfferLine
+    		id="1"
+    		quantity="2"
+    		notes="Offerline test"
+    		price="2.3"
+    		offerId="1"
+    		date="2015-12-23 12:30:00"
+    		deleted="true" 
     		created="2013-12-23 12:30:00" 
     		updated="2013-12-23 12:30:00"/>
     

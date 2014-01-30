@@ -32,4 +32,12 @@ public class OfferServiceTest extends BaseTest {
 		List<OfferEntity> offers = offerService.getAllOffers();
 		assertThat(offers.size(), is(1));
 	}
+	
+	@Test
+	public void OfferService_Get_ShouldReturnOne() {
+		OfferEntity offer = offerService.getOfferById(1L);
+		assertThat(offer.getLines().size(), is(2));
+		assertThat(offer.getId(), is(1L));
+		assertThat(offer.getOrder().getId(), is(1L));
+	}
 }
