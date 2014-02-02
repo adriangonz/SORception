@@ -80,7 +80,7 @@
 	<!-- Offer with two lines, one of them related to orderline 2 -->
     <Offer
     	id="1" 
-    	deleted="false" 
+    	deleted="false"
     	created="2013-12-23 12:30:00" 
     	updated="2013-12-23 12:30:00" />
     	

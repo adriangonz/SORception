@@ -2,9 +2,7 @@ package com.sorception.jscrap.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,8 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -62,7 +58,12 @@ public class OrderEntity extends AbstractEntity implements ISoftDeletable {
 	}
 
 	public List<OrderLineEntity> getLines() {
-		return lines;
+		List<OrderLineEntity> validLines = new ArrayList<>();
+		for(OrderLineEntity line : lines) {
+			if(!line.isDeleted())
+				validLines.add(line);
+		}
+		return validLines;
 	}
 	
 	@JsonIgnore

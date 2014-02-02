@@ -82,13 +82,17 @@ public class OfferService extends AbstractService<OfferEntity> {
 	
 	public OfferEntity updateOffer(Long offerId, OfferDTO offerToUpdate) {
 		OfferEntity offer = toOfferEntity(offerId, offerToUpdate);
-		amqService.sendUpdateOffer(offer, tokenService.getValid());
+		update(offer);
+		if(offer.getLines().size() > 0)
+			amqService.sendUpdateOffer(offer, tokenService.getValid());
+		else
+			deleteOffer(offer);
 		return offer;
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
 		OfferLineEntity line = getOfferDao().getOfferlineById(id);
-		if(line == null)
+		if(line == null || line.isDeleted())
 			throw new ResourceNotFoundException("Offerline with id " + Long.toString(id) + " was not found");
 		return line;
 	}

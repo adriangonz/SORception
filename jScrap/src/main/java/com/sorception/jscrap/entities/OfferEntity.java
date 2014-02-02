@@ -28,7 +28,7 @@ public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 	
 	@Column(name = "deleted", nullable = false)
 	private Boolean deleted = false;
-	
+		
 	public OfferEntity() {}
 	
 	public OfferEntity(List<OfferLineEntity> lines) {
@@ -36,8 +36,9 @@ public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 	}
 	
 	public String getOrderSgId() {
-		if(lines.size() > 0 && lines.get(0).getOrderLine() != null)
-			return lines.get(0).getOrderLine().getSgId();
+		List<OfferLineEntity> validLines = getLines();
+		if(validLines.size() > 0 && validLines.get(0).getOrderLine() != null)
+			return validLines.get(0).getOrderLine().getOrder().getSgId();
 		return null;
 	}
 	
@@ -56,7 +57,12 @@ public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 	}
 	
 	public List<OfferLineEntity> getLines() {
-		return lines;
+		List<OfferLineEntity> validLines = new ArrayList<>();
+		for(OfferLineEntity line : lines) {
+			if(!line.isDeleted())
+				validLines.add(line);
+		}
+		return validLines;
 	}
 	
 	@JsonIgnore

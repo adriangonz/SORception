@@ -56,7 +56,7 @@ public class OrderService extends AbstractService<OrderEntity> {
 
 	public OrderLineEntity getOrderLine(Long orderLineId) {
 		OrderLineEntity line = getOrderDao().getOrderlineById(orderLineId);
-		if(line == null)
+		if(line == null || line.isDeleted())
 			throw new ResourceNotFoundException("Orderline with id " + Long.toString(orderLineId) + " was not found");
 		return line;
 	}
