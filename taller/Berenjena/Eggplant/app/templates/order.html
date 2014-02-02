@@ -39,6 +39,7 @@
                 <th>Descripcion</th>
                 <th>Cantidad</th>
                 <th>Criterio</th>
+                <th>Actualizado</th>
             </tr>
         </thead>
         <tbody ng-repeat="linea in actual_order.lines">
@@ -46,12 +47,8 @@
                 <td>{{linea.id}}</td>
                 <td>{{linea.descripcion}}</td>
                 <td>{{linea.cantidad}}</td>
-                <td ng-switch on="linea.criterio">
-                    <span ng-switch-when="0">Seleccion Manual</span>
-                    <span ng-switch-when="1">El primero en llegar</span>
-                    <span ng-switch-when="2">El mas barato</span>
-                    <span ng-switch-when="3">El mas nuevo</span>
-                </td>
+                <td>{{linea.updatedDate}}</td>
+                <td>{{linea.criterio}}</td>
             </tr>
             <tr ng-show="linea.offers">
                 <td colspan="4" class="active">

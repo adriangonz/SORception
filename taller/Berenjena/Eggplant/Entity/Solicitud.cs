@@ -30,7 +30,7 @@ namespace Eggplant.Entity
         {
             get
             {
-                return rawLines.Where(t => t.status != DELETED);
+                return rawLines.Where(t => t.status != LineaSolicitud.DELETED);
             }
         }
     }

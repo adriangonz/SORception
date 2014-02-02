@@ -10,6 +10,7 @@ namespace Eggplant.Entity
     public class LineaSolicitud : AbstractEntity
     {
         public static string FAILED = "FAILED";
+        public static string DELETED = "DELETED";
 
         public static string EFFECT_NEW = "NEW";
         public static string EFFECT_UPDATED = "UPDATED";
@@ -21,7 +22,6 @@ namespace Eggplant.Entity
         public int sg_id { get; set; }
         public string criterio { get; set; }
         public string status { get; set; }
-
         public int solicitudId { get; set; }
 
         
