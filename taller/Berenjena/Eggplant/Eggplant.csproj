@@ -164,6 +164,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\SettingsApplication.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DataInitializer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -193,7 +194,6 @@
       </SubType>
     </Compile>
     <Compile Include="Controllers\SolicitudController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAcces\EggplantContext.cs" />
     <Compile Include="Entity\AbstractEntity.cs" />
     <Compile Include="Entity\LineaPedido.cs" />
@@ -201,6 +201,7 @@
     <Compile Include="Entity\Pedido.cs" />
     <Compile Include="Entity\Solicitud.cs" />
     <Compile Include="Entity\Token.cs" />
+    <Compile Include="Exceptions\ApplicationException.cs" />
     <Compile Include="Filters\HttpWCFBehaviorExtensionElement .cs" />
     <Compile Include="Filters\HttpWCFEndpointBehavior .cs" />
     <Compile Include="Filters\WCFAuthorizationHeader.cs" />
@@ -215,13 +216,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\TokenRepository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Service References\ServiceTaller\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\DebugSGService.cs" />
+    <Compile Include="Services\IDataService.cs" />
+    <Compile Include="Services\ISGService.cs" />
+    <Compile Include="Services\ServicesFactory.cs" />
+    <Compile Include="Services\SGService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
