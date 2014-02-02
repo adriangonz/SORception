@@ -11,6 +11,9 @@ namespace Eggplant.Services
     public interface IDataService : IDisposable
     {
         TokenRepository Tokens { get; }
+        GenericRepository<Solicitud> Solicitudes { get; }
+        GenericRepository<LineaSolicitud> LineasSolicitud { get; }
+
         int SaveChanges();
     }
 }

@@ -10,17 +10,8 @@ using System.Web.Http;
 
 namespace Eggplant.Application
 {
-    public class SettingsApplication
+    public class SettingsApplication : AbstractApplication
     {
-        private IDataService dataService;
-        private ISGService sgService;
-
-        public SettingsApplication()
-        {
-            dataService = ServicesFactory.getDataService();
-            sgService = ServicesFactory.getSGService();
-        }
-
         public IEnumerable<Entity.Token> getAll()
         {
             updateTokensStatus();

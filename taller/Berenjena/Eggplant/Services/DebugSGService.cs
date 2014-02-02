@@ -23,5 +23,15 @@ namespace Eggplant.Services
             return t;
             //throw new ApplicationLayerException(HttpStatusCode.BadRequest, "getStateDebug no implementada");
         }
+
+        public int addSolicitud(ExpSolicitud exSol)
+        {
+            return 0;
+        }
+
+        public ExpSolicitud getSolicitud(int id)
+        {
+            return new ExpSolicitud();
+        }
     }
 }

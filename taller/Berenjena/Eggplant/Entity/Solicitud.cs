@@ -9,6 +9,7 @@ namespace Eggplant.Entity
     public class Solicitud : AbstractEntity
     {
         public static string DELETED = "DELETED";
+        public static string FAILED = "FAILED";
 
         public Solicitud()
         {

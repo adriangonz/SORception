@@ -25,6 +25,15 @@ namespace Eggplant.Services
         {
             return svcTaller.getState(token);
         }
+        public int addSolicitud(ExpSolicitud exSol)
+        {
+            return svcTaller.addSolicitud(exSol);
+        }
+
+        public ExpSolicitud getSolicitud(int id)
+        {
+            return svcTaller.getSolicitud(id);
+        }
 
     }
 }

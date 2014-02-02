@@ -164,7 +164,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\AbstractApplication.cs" />
     <Compile Include="Application\SettingsApplication.cs" />
+    <Compile Include="Application\SolicitudApplication.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DataInitializer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -195,6 +197,7 @@
     </Compile>
     <Compile Include="Controllers\SolicitudController.cs" />
     <Compile Include="DataAcces\EggplantContext.cs" />
+    <Compile Include="DTO\SolicitudDTO.cs" />
     <Compile Include="Entity\AbstractEntity.cs" />
     <Compile Include="Entity\LineaPedido.cs" />
     <Compile Include="Entity\LineaSolicitud.cs" />

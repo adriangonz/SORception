@@ -11,5 +11,9 @@ namespace Eggplant.Services
         TokenResponse signUp(string name);
 
         TokenResponse getState(string token);
+
+        int addSolicitud(ExpSolicitud exSol);
+
+        ExpSolicitud getSolicitud(int id);
     }
 }

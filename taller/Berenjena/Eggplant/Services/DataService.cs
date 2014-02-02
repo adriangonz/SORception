@@ -12,11 +12,14 @@ namespace Eggplant.Services
     {
         private EggplantContext context;
         private TokenRepository tokens;
-
+        private GenericRepository<Solicitud> solicitudes;
+        private GenericRepository<LineaSolicitud> lineasSolicitud;
+        
         public DataService()
         {
             context = new EggplantContext();
         }
+
         public TokenRepository Tokens
         {
             get
@@ -24,6 +27,26 @@ namespace Eggplant.Services
                 if (tokens == null)
                     tokens = new TokenRepository(context);
                 return tokens;
+            }
+        }
+
+        public GenericRepository<Solicitud> Solicitudes
+        {
+            get
+            {
+                if (solicitudes == null)
+                    solicitudes = new GenericRepository<Solicitud>(context);
+                return solicitudes;
+            }
+        }
+
+        public GenericRepository<LineaSolicitud> LineasSolicitud
+        {
+            get
+            {
+                if (lineasSolicitud == null)
+                    lineasSolicitud = new GenericRepository<LineaSolicitud>(context);
+                return lineasSolicitud;
             }
         }
 

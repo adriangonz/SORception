@@ -11,7 +11,8 @@ using System.ServiceModel.Channels;
 using Eggplant.Models;
 using System.Web;
 using Microsoft.AspNet.Identity;
-using Eggplant.DataAcces;
+using Eggplant.Application;
+using Eggplant.DTO;
 
 namespace Eggplant.Controllers
 {
@@ -19,30 +20,17 @@ namespace Eggplant.Controllers
     [RoutePrefix("api/solicitud")]
     public class SolicitudController : ApiController
     {
-        //private BDBerenjenaContainer c_bd = EggplantContextFactory.getContext();
-        static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
-        public static string DELETED = "DELETED";
+        private SolicitudApplication sa;
+        public SolicitudController()
+        {
+            sa = new SolicitudApplication();
+        }
 
-        public static string LINEA_NEW = "NEW";
-        public static string LINEA_UPDATED = "UPDATED";
-        public static string LINEA_DELETE = "DELETED";
-        public static string LINEA_NOEFECT = "NOEFECT";
-
-        public Microsoft.AspNet.Identity.UserManager<Microsoft.AspNet.Identity.EntityFramework.IdentityUser> UserManager { get; private set; }
 
         // GET api/solicitud
         public object Get()
         {
-            EggplantContext epCtxt = new EggplantContext();
-            /*
-            var userId = User.Identity.GetUserId();
-            List<Solicitud> solicitudes = new List<Solicitud>();
-            BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
-            solicitudes = c_bd.SolicitudSet.AsQueryable().Where(x => x.status != DELETED && x.user_id == userId).ToList();
-            return solicitudes;
-              */
-            return null;
-
+            return sa.getByUser(User.Identity.GetUserId());
         }
 
         // GET api/solicitud/5
@@ -104,61 +92,9 @@ namespace Eggplant.Controllers
         }
 
         // POST api/solicitud
-        public object Post([FromBody]JObject values)
+        public object Post(SolicitudPostDTO data)
         {
-            /*
-            var s = new Solicitud();
-            List<ExpSolicitudLine> lineas = new List<ExpSolicitudLine>();
-            using (BDBerenjenaContainer c_bd = new BDBerenjenaContainer())
-            {
-                s.timeStamp = DateTime.Now;
-                s.status = "FAILED";
-                s.user_id = User.Identity.GetUserId();
-
-                s = c_bd.SolicitudSet.Add(s);
-
-                //Creo las lineas de la solicitud desde los datos pasado por json¡
-                foreach (JObject item in values["data"])
-                {
-                    LineaSolicitud linInt = new LineaSolicitud();
-                    linInt.cantidad = int.Parse(item["cantidad"].ToString());
-                    linInt.descripcion = item["descripcion"].ToString();
-                    linInt.criterio = item["criterio"]["code"].ToString();
-                    s.LineaSolicitud.Add(linInt);
-
-                    ExpSolicitudLine expoLinSol = new ExpSolicitudLine();
-                    expoLinSol.description = linInt.descripcion;
-                    expoLinSol.quantity = linInt.cantidad;
-                    expoLinSol.flag = ExpSolicitudLine.castToFlag(item["criterio"]["code"].ToString());
-                    lineas.Add(expoLinSol);
-                }
-                c_bd.SaveChanges();
-            }
-            //Pasamos los ids locales al sistema gestor
-            for (int i = 0; i < s.LineaSolicitud.Count; i++)
-            {
-                var linSol = s.LineaSolicitud.ToList()[i];
-                var expoLinSol = lineas[i];
-                expoLinSol.id_en_taller = linSol.Id;
-            }
-            ExpSolicitud sol = new ExpSolicitud();
-            sol.id_en_taller = s.Id;
-            sol.deadline = DateTime.Parse(values["deadline"].ToString());
-            sol.lineas = lineas.ToArray();
-
-
-            //Lanzo la peticion de alta al sistema gestor
-            int resId = svcTaller.addSolicitud(sol);
-            //Si algo ha ido mal
-            if (resId == -1)
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "El sistema gestor no ha creado la solicitud");
-            else//Si ha ido bien
-                addSolicitudToLocalDB(resId, s.Id); //Guardo la solicitud en la base de datos local
-
-            //Si todo ha ido bien devuelvo el id de la solicitud del sistema gestor
-            return new { id = resId }; */
-            return null;
-
+            return sa.Request(data, User.Identity.GetUserId());
         }
 
         // PUT api/solicitud/5

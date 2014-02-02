@@ -9,6 +9,8 @@ namespace Eggplant.Entity
 {
     public class LineaSolicitud : AbstractEntity
     {
+        public static string FAILED = "FAILED";
+
         public static string EFFECT_NEW = "NEW";
         public static string EFFECT_UPDATED = "UPDATED";
         public static string EFFECT_DELETE = "DELETED";
