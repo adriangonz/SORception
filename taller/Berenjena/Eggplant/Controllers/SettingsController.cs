@@ -10,6 +10,7 @@ using Eggplant.Application;
 
 namespace Eggplant.Controllers
 {
+    [Authorize]
     public class SettingsController : ApiController
     {
         internal SettingsApplication sa;

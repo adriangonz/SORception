@@ -21,7 +21,8 @@ namespace Eggplant.Application
             sgService = ServicesFactory.getSGService();
         }
 
-        public IEnumerable<Entity.Token> getAll(){
+        public IEnumerable<Entity.Token> getAll()
+        {
             updateTokensStatus();
             return dataService.Tokens.Get();
         }
@@ -34,31 +35,34 @@ namespace Eggplant.Application
             t.token = sgService.signUp(tallerName).token;
 
             setLastTokenAsExpired();
-            
+
             dataService.Tokens.Insert(t);
             return dataService.SaveChanges();
         }
 
         private void updateTokensStatus()
         {
-            var token = dataService.Tokens.Get().OrderByDescending(x => x.creationDate).First();
-            if (token.status == Entity.Token.REQUESTED)
+            var token = dataService.Tokens.Get().OrderByDescending(x => x.creationDate).FirstOrDefault();
+            if (token != null)
             {
-                TokenResponse tr = sgService.getState(token.token);
-                if (tr.status == TokenResponseCode.NON_AUTHORITATIVE)
+                if (token.status == Entity.Token.REQUESTED)
                 {
-                    token.token = tr.token;
-                    dataService.SaveChanges();
-                }
-                else if (tr.status == TokenResponseCode.CREATED)
-                {
-                    token.status = Entity.Token.ACTIVE;
-                    token.token = tr.token;
-                    dataService.SaveChanges();
-                }
-                else
-                {
-                    throw new ApplicationLayerException(HttpStatusCode.BadRequest, "Algo ha ido mal en el SG al comprobar el estado del token: " + tr.status);
+                    TokenResponse tr = sgService.getState(token.token);
+                    if (tr.status == TokenResponseCode.NON_AUTHORITATIVE)
+                    {
+                        token.token = tr.token;
+                        dataService.SaveChanges();
+                    }
+                    else if (tr.status == TokenResponseCode.CREATED)
+                    {
+                        token.status = Entity.Token.ACTIVE;
+                        token.token = tr.token;
+                        dataService.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new ApplicationLayerException(HttpStatusCode.BadRequest, "Algo ha ido mal en el SG al comprobar el estado del token: " + tr.status);
+                    }
                 }
             }
         }
