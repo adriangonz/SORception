@@ -6,33 +6,18 @@
 
 package com.sorception.jscrap.config;
 
-import ch.qos.logback.classic.pattern.MessageConverter;
 
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.services.SettingsService;
 import com.sorception.jscrap.services.TokenService;
-import com.sorception.jscrap.webservices.PedidosListener;
-import com.sorception.jscrap.webservices.SolicitudesListener;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.ActiveMQXAConnectionFactory;
-import org.apache.activemq.broker.BrokerService;
-import org.apache.activemq.broker.TransportConnector;
 import org.apache.activemq.command.ActiveMQTopic;
-import org.apache.activemq.pool.PooledConnectionFactoryBean;
-import org.apache.activemq.xbean.BrokerFactoryBean;
-import org.hibernate.engine.transaction.internal.jta.JtaTransactionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +25,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
-import org.springframework.jms.support.converter.MarshallingMessageConverter;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 /**

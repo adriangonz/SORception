@@ -8,10 +8,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -23,7 +22,8 @@ import com.mysql.jdbc.ConnectionPropertiesImpl;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories
+@EnableJpaAuditing(auditorAwareRef="auditorService")
+@EnableJpaRepositories("com.sorception.jscrap.dao")
 public class PersistenceConfig implements TransactionManagementConfigurer {
 	
 	@Value("${dataSource.driverClassName}")
@@ -53,7 +53,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
-		entityManagerFactoryBean.setPackagesToScan("com.sorception.jscrap");
+		entityManagerFactoryBean.setPackagesToScan("com.sorception.jscrap.entities");
 		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		
 		Properties jpaProperties = new Properties();
@@ -64,8 +64,9 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 		return entityManagerFactoryBean;
 	}
         
-        @Override
-        public PlatformTransactionManager annotationDrivenTransactionManager() {
-            return new JpaTransactionManager(entityManagerFactory().getObject());
-        }
+    @Override
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager annotationDrivenTransactionManager() {
+        return new JpaTransactionManager(entityManagerFactory().getObject());
+    }
 }

@@ -12,21 +12,21 @@ import javax.persistence.Table;
 public class AcceptedOfferLineEntity extends AbstractEntity {
 	
 	@Column(name = "quantity")
-	private int _quantity;
+	private int quantity;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerLineId", unique = true)
-	private OfferLineEntity _offerLine;
+	private OfferLineEntity offerLine;
 	
 	public int getQuantity() {
-		return _quantity;
+		return quantity;
 	}
 	
 	public void setQuantity(int quantity) {
-		_quantity = quantity;
+		this.quantity = quantity;
 	}
 	
 	public void setOfferLine(OfferLineEntity offerLine) {
-		_offerLine = offerLine;
+		this.offerLine = offerLine;
 	}
 }

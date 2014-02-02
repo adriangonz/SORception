@@ -1,14 +1,13 @@
 package com.sorception.jscrap.error;
 
-import org.jboss.logging.Logger;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.google.common.base.Throwables;
@@ -25,7 +24,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         @ExceptionHandler(value = {
             ResourceNotFoundException.class, 
             ServiceUnavailableException.class, 
-            AuthenticationException.class})
+            AuthenticationException.class,
+            BusinessException.class})
         @ResponseBody
         public ResponseEntity<Object> notFoundException(RuntimeException ex, WebRequest request) {
             HttpHeaders httpHeaders = new HttpHeaders();

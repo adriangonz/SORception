@@ -6,16 +6,23 @@
 
 package com.sorception.jscrap.services;
 
-import com.sorception.jscrap.dao.UserDAO;
+import com.sorception.jscrap.dao.IGenericDAO;
+import com.sorception.jscrap.dao.IUserDAO;
 import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.error.AuthenticationException;
 import com.sorception.jscrap.error.ResourceNotFoundException;
 
 import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,44 +37,49 @@ import org.springframework.stereotype.Service;
  *
  * @author kaseyo
  */
+
 @Service
 @Transactional
-public class UserService {
-    @Autowired
-    private UserDAO userDAO;
-    
+public class UserService extends AbstractService<UserEntity> {
+	
     @Autowired
     private AuthenticationManager authenticationManager;
     
-    final static Logger logger = LoggerFactory.getLogger(UserService.class);
+    @Autowired
+    private IUserDAO dao;
+	
+    public UserService() {
+		super(UserEntity.class);
+	}
     
+	@Override
+	protected IGenericDAO<UserEntity> getDao() {
+		return dao;
+	}
+        
     public List<UserEntity> getAllUsers() {
-        return userDAO.getAllUsers();
+        return findAll();
     }
     
     public UserEntity addUser(String username, String name) {
         UserEntity user = new UserEntity(username, name);
-        return userDAO.addUser(user);
+        create(user);
+        return user;
     }
 
     public UserEntity getUser(Long userId) {
-        UserEntity user = userDAO.getUser(userId);
-        if(null == user)
-            throw new ResourceNotFoundException("User does not exist");
-        return user;
+        return findOne(userId);
     }
     
     public UserEntity getUserByUsername(String username) {
-        UserEntity user = userDAO.getUserByUsername(username);
-        if(null == user) {
-            throw new ResourceNotFoundException("User does not exist");
-        }
+        UserEntity user = ((IUserDAO)getDao()).findByUsername(username);
+        if(null == user)
+            throw new ResourceNotFoundException("User " + username + " was not found");
         return user;
     }
 
     public void removeUser(Long userId) {
-        if(!userDAO.deleteUser(userId))
-            throw new ResourceNotFoundException("User does not exist");
+    	delete(userId);
     }
     
     private String getAuthentication(String username, String password) {

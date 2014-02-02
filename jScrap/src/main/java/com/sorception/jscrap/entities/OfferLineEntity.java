@@ -10,43 +10,39 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.Hibernate;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "OfferLine")
-public class OfferLineEntity extends AbstractEntity {
+public class OfferLineEntity extends AbstractEntity implements ISoftDeletable {
 	
 	@Column(name = "quantity")
-	private Integer _quantity;
+	private Integer quantity;
 	
 	@Column(name = "notes")
-	private String _notes;
+	private String notes;
 	
 	@Column(name = "price")
-	private Double _price;
+	private Double price;
 	
 	@Column(name = "date")
-	private Date _date;
+	private Date date;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "offerId", nullable = false)
-	private OfferEntity _offer;
+	@JoinColumn(name = "offerId")
+	private OfferEntity offer;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="orderLineId", unique = true)
-	private OrderLineEntity _orderLine;
+	private OrderLineEntity orderLine;
 	
-	@Column(name = "deleted")
-	private Boolean _deleted = false;
+	@Column(name = "deleted", nullable = false)
+	private Boolean deleted = false;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-			mappedBy = "_offerLine")
-	private AcceptedOfferLineEntity _acceptedOfferLine;
+			mappedBy = "offerLine")
+	private AcceptedOfferLineEntity acceptedOfferLine;
 	
 	public OfferLineEntity() {}
 	
@@ -55,89 +51,88 @@ public class OfferLineEntity extends AbstractEntity {
 			Double price,
 			Date date,
 			OrderLineEntity orderLine) {
-		this._quantity = quantity;
-		this._notes = notes;
-		this._price = price;
-		this._date = date;
-		this._orderLine = orderLine;
-		this._orderLine.setOfferLine(this);
-	}
-	
-	public void setOffer(OfferEntity offer) {
-		this._offer = offer;
+		this.quantity = quantity;
+		this.notes = notes;
+		this.price = price;
+		this.date = date;
+		this.orderLine = orderLine;
+		this.orderLine.setOfferLine(this);
 	}
 	
 	public Double getPrice() {
-		return _price;
+		return price;
 	}
 
 	public Integer getQuantity() {
-		return _quantity;
+		return quantity;
 	}
 
 	public String getNotes() {
-		return _notes;
+		return notes;
 	}
 	
 	public Date getDate() {
-		return _date;
+		return date;
 	}
 	
 	@JsonIgnore
 	public Long getOfferId() {
-		return this._offer.getId();
+		return this.offer.getId();
 	}
 	
 	@JsonIgnore
 	public Boolean isDeleted() {
-		return this._deleted;
+		return this.deleted;
 	}
 	
 	public AcceptedOfferLineEntity getAcceptedOffer() {
-		return this._acceptedOfferLine;
-	}
-	
-	/* Nyapicas */
-	public void setAcceptedOffer(AcceptedOfferLineEntity acceptedOffer) {
-		this._acceptedOfferLine = acceptedOffer;
-		this._acceptedOfferLine.setOfferLine(this);
-	}
-	
-	public void setOrderLine(OrderLineEntity orderLine) {
-		this._orderLine = orderLine;
+		return this.acceptedOfferLine;
 	}
 	
 	public Long getOrderLineId() {
-		return this._orderLine != null ? this._orderLine.getId() : null;
+		return this.orderLine != null ? this.orderLine.getId() : null;
 	}
 	
 	public OrderLineEntity getOrderLine() {
-		return _orderLine;
+		return orderLine;
+	}
+	
+	@JsonIgnore
+	public OfferEntity getOffer() {
+		return offer;
+	}
+	
+	public void setAcceptedOffer(AcceptedOfferLineEntity acceptedOffer) {
+		this.acceptedOfferLine = acceptedOffer;
+		this.acceptedOfferLine.setOfferLine(this);
+	}
+	
+	public void setOrderLine(OrderLineEntity orderLine) {
+		this.orderLine = orderLine;
 	}
 
 	public void setQuantity(Integer quantity) {
-		this._quantity = quantity;
+		this.quantity = quantity;
 	}
 
 	public void setNotes(String notes) {
-		this._notes = notes;
+		this.notes = notes;
 	}
 
 	public void setPrice(Double price) {
-		this._price = price;
+		this.price = price;
 	}
 	
 	public void setDate(Date date) {
-		this._date = date;
+		this.date = date;
 	}
 	
-	public void delete() {
-		this._deleted = true;
-		this._orderLine = null;
+	public void setOffer(OfferEntity offer) {
+		this.offer = offer;
 	}
 
-	@JsonIgnore
-	public OfferEntity getOffer() {
-		return _offer;
+	@Override
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 }

@@ -9,78 +9,79 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.Hibernate;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "OrderLine")
-public class OrderLineEntity extends AbstractEntity {
-	@Column(name = "sgId")
-	private String _sgId;
+public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
+	@Column(name = "sgId", unique = true, nullable = false)
+	private String sgId;
 	
 	@Column(name = "description")
-	private String _description;
+	private String description;
 	
 	@Column(name = "quantity")
-	private Integer _quantity;
+	private Integer quantity;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "orderId", nullable = false)
-	private OrderEntity _order;
+	private OrderEntity order;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-			mappedBy = "_orderLine")
-	private OfferLineEntity _offerLine;
+			mappedBy = "orderLine")
+	private OfferLineEntity offerLine;
 	
-	@Column(name = "deleted")
-	private Boolean _deleted;
+	@Column(name = "deleted", nullable = false)
+	private Boolean deleted;
 	
 	public OrderLineEntity() {}
 	
 	public OrderLineEntity(String sgId,
 			String description,
 			Integer quantity) {
-		this._sgId = sgId;
-		this._description = description;
-		this._quantity = quantity;
+		this.sgId = sgId;
+		this.description = description;
+		this.quantity = quantity;
+		this.deleted = false;
 	}
 	
-	public void setOrder(OrderEntity order) {
-		this._order = order;
-	}
-	
-	public void setOfferLine(OfferLineEntity offerLine) {
-		this._offerLine = offerLine;
-	}
-
 	public String getSgId() {
-		return _sgId;
+		return sgId;
 	}
 
 	public String getDescription() {
-		return _description;
+		return description;
 	}
 
 	public Integer getQuantity() {
-		return _quantity;
+		return quantity;
 	}
 	
 	public OfferLineEntity getOfferLine() {
-		return _offerLine;
+		return offerLine;
 	}
 	
 	@JsonIgnore
 	public OrderEntity getOrder() {
-		return _order;
+		return order;
 	}
 	
 	@JsonIgnore
+	@Override
 	public Boolean isDeleted() {
-		return _deleted;
+		return deleted;
+	}
+	
+	public void setOrder(OrderEntity order) {
+		this.order = order;
+	}
+	
+	public void setOfferLine(OfferLineEntity offerLine) {
+		this.offerLine = offerLine;
 	}
 
-	public void setDeleted(boolean deleted) {
-		_deleted = deleted;
+	@Override
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 }
