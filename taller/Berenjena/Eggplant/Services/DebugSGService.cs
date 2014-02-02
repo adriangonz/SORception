@@ -12,12 +12,16 @@ namespace Eggplant.Services
     {
         public TokenResponse signUp(string et)
         {
-            throw new ApplicationLayerException(HttpStatusCode.BadRequest ,"signUpDebug no implementada");
+            return new TokenResponse();
+            //throw new ApplicationLayerException(HttpStatusCode.BadRequest ,"signUpDebug no implementada");
         }
 
         public TokenResponse getState(string token)
         {
-            throw new ApplicationLayerException(HttpStatusCode.BadRequest, "getStateDebug no implementada");
+            var t = new TokenResponse();
+            t.status = TokenResponseCode.CREATED;
+            return t;
+            //throw new ApplicationLayerException(HttpStatusCode.BadRequest, "getStateDebug no implementada");
         }
     }
 }
