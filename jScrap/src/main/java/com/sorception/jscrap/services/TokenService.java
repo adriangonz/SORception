@@ -6,17 +6,17 @@
 
 package com.sorception.jscrap.services;
 
-import com.sorception.jscrap.dao.IGenericDAO;
-import com.sorception.jscrap.dao.ITokenDAO;
-import com.sorception.jscrap.entities.TokenEntity;
-import com.sorception.jscrap.error.ResourceNotFoundException;
-import com.sorception.jscrap.webservices.SGClient;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.sorception.jscrap.dao.IGenericDAO;
+import com.sorception.jscrap.dao.ITokenDAO;
+import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
+import com.sorception.jscrap.webservices.SGClient;
 
 /**
  *
@@ -74,7 +74,7 @@ public class TokenService extends AbstractService<TokenEntity> {
     }
     
     public List<TokenEntity> list() {
-        return findAll();
+        return getTokenDao().findAllOrderByCreated();
     }
     
     protected ITokenDAO getTokenDao() {

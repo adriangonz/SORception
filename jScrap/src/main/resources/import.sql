@@ -1,1 +1,0 @@
-INSERT INTO User (created, updated, isAdmin, name, username) VALUES (NOW(), NOW(), true, 'Administrador', 'admin');

@@ -1,4 +1,4 @@
 <dataset>
-    <User id="1" username="admin" name="Administrador" isAdmin="true" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00"/>
-    <User id="2" username="kaseyo" name="Adrián" isAdmin="false" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00" />
+    <ApplicationUser id="1" username="admin" name="Administrador" isAdmin="true" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00"/>
+    <ApplicationUser id="2" username="kaseyo" name="Adrián" isAdmin="false" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00" />
 </dataset>
