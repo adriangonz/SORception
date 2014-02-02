@@ -18,7 +18,6 @@ import com.sorception.jscrap.services.OfferService;
 
 @DatabaseSetup("classpath:offerDataset.xml")
 public class OfferServiceTest extends BaseTest {
-	
 	OfferService offerService;
 	
 	@Before

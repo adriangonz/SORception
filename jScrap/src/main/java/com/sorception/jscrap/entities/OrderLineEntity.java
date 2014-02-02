@@ -9,13 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.Filters;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.Where;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity

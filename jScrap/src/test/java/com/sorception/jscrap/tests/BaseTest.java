@@ -27,9 +27,9 @@ import com.sorception.jscrap.config.SecurityConfig;
 @WebAppConfiguration
 @ContextConfiguration(classes = {
 		RootConfig.class,
+		TestConfig.class,
 		PersistenceConfig.class,
-		SecurityConfig.class,
-		TestConfig.class
+		SecurityConfig.class
 })
 @TestExecutionListeners({ 
 	DependencyInjectionTestExecutionListener.class,

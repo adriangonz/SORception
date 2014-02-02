@@ -87,7 +87,7 @@ public class OfferService extends AbstractService<OfferEntity> {
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
-		OfferLineEntity line = getOfferDao().findOfferlineById(id);
+		OfferLineEntity line = getOfferDao().getOfferlineById(id);
 		if(line == null)
 			throw new ResourceNotFoundException("Offerline with id " + Long.toString(id) + " was not found");
 		return line;

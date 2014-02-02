@@ -30,5 +30,5 @@ public interface IOfferDAO extends IGenericDAO<OfferEntity>{
 	@Query("SELECT DISTINCT l "
 			+ "FROM OfferLineEntity AS l "
 			+ "WHERE l.id = :id")
-	public OfferLineEntity findOfferlineById(@Param("id") Long id);
+	public OfferLineEntity getOfferlineById(@Param("id") Long id);
 }

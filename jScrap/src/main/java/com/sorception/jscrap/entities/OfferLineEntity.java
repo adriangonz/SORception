@@ -30,14 +30,14 @@ public class OfferLineEntity extends AbstractEntity implements ISoftDeletable {
 	private Date date;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "offerId", nullable = false)
+	@JoinColumn(name = "offerId")
 	private OfferEntity offer;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="orderLineId", unique = true)
 	private OrderLineEntity orderLine;
 	
-	@Column(name = "deleted")
+	@Column(name = "deleted", nullable = false)
 	private Boolean deleted = false;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,

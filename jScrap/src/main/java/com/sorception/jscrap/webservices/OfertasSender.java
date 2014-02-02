@@ -19,7 +19,6 @@ import com.sorception.jscrap.generated.ArrayOfExpOfertaLine;
 import com.sorception.jscrap.generated.ExpOferta;
 import com.sorception.jscrap.generated.ExpOfertaLine;
 import com.sorception.jscrap.generated.ObjectFactory;
-import com.sorception.jscrap.services.OfferService;
 
 @Service
 public class OfertasSender {
@@ -34,9 +33,6 @@ public class OfertasSender {
 	
 	@Autowired
 	Jaxb2Marshaller marshaller;
-	
-	@Autowired
-	OfferService offerService;
 
 	private ExpOfertaLine toExposedLineaOferta(OfferLineEntity offerLine) {
 		Integer idEnDesguace = offerLine.getId().intValue();

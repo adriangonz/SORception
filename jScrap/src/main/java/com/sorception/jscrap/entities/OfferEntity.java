@@ -26,7 +26,7 @@ public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 			fetch = FetchType.EAGER)
 	private List<OfferLineEntity> lines;
 	
-	@Column(name = "deleted")
+	@Column(name = "deleted", nullable = false)
 	private Boolean deleted = false;
 	
 	public OfferEntity() {}

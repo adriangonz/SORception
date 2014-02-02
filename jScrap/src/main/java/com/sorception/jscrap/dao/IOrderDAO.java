@@ -25,7 +25,7 @@ public interface IOrderDAO extends IGenericDAO<OrderEntity> {
 	@Query("SELECT DISTINCT l "
 			+ "FROM OrderLineEntity AS l "
 			+ "WHERE l.id = :id")
-	public OrderLineEntity findOrderlineById(@Param("id") Long id);
+	public OrderLineEntity getOrderlineById(@Param("id") Long id);
 	
 	public OrderEntity findBySgId(String sgId);
 }
