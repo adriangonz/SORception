@@ -3,9 +3,11 @@ package com.sorception.jscrap.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.sorception.jscrap.entities.OfferEntity;
+import com.sorception.jscrap.entities.OfferLineEntity;
 
 @Repository
 public interface IOfferDAO extends IGenericDAO<OfferEntity>{
@@ -24,4 +26,9 @@ public interface IOfferDAO extends IGenericDAO<OfferEntity>{
 				+ "AND l.deleted = FALSE "
 				+ "AND l.acceptedOfferLine IS EMPTY ")
 	public List<OfferEntity> getOpenedOffers();
+	
+	@Query("SELECT DISTINCT l "
+			+ "FROM OfferLineEntity AS l "
+			+ "WHERE l.id = :id")
+	public OfferLineEntity findOfferlineById(@Param("id") Long id);
 }

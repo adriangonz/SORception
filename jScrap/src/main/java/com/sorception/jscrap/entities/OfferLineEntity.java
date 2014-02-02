@@ -130,11 +130,6 @@ public class OfferLineEntity extends AbstractEntity implements ISoftDeletable {
 	public void setOffer(OfferEntity offer) {
 		this.offer = offer;
 	}
-	
-	public void delete() {
-		setDeleted(true);
-		this.orderLine = null;
-	}
 
 	@Override
 	public void setDeleted(Boolean deleted) {

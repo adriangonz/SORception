@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sorception.jscrap.dao.IGenericDAO;
 import com.sorception.jscrap.dao.IOrderDAO;
-import com.sorception.jscrap.dao.IOrderLineDAO;
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
 
 @Service
 @Transactional
@@ -24,9 +24,6 @@ public class OrderService extends AbstractService<OrderEntity> {
 	private IOrderDAO dao;
 	
 	@Autowired
-	private IOrderLineDAO lineDao;
-	
-	@Autowired
 	private OfferService offerService;
 	
 	@Override
@@ -36,10 +33,6 @@ public class OrderService extends AbstractService<OrderEntity> {
 	
 	protected IOrderDAO getOrderDao() {
 		return dao;
-	}
-	
-	protected IOrderLineDAO getLineDao() {
-		return lineDao;
 	}
 	
 	public List<OrderEntity> getAllOrders() {
@@ -62,7 +55,10 @@ public class OrderService extends AbstractService<OrderEntity> {
 	}
 
 	public OrderLineEntity getOrderLine(Long orderLineId) {
-		return getLineDao().findOne(orderLineId);
+		OrderLineEntity line = getOrderDao().findOrderlineById(orderLineId);
+		if(line == null)
+			throw new ResourceNotFoundException("Orderline with id " + Long.toString(orderLineId) + " was not found");
+		return line;
 	}
 
 	public OrderEntity getOrderBySgId(String id) {
