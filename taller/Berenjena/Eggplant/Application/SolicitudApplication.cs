@@ -71,6 +71,7 @@ namespace Eggplant.Application
                         if (lineaInterna != null)
                         {
                             lineaInterna.sg_id = linSolicitudExtern.id;
+                            lineaInterna.status = linSolicitudExtern.status;
                         }
                     }
                     dataService.SaveChanges();

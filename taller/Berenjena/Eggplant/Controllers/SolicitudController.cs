@@ -246,33 +246,6 @@ namespace Eggplant.Controllers
             }*/
 
         }
-        private void addSolicitudToLocalDB(int idSol, int idInterno)
-        {
-            /*
-            ExpSolicitud solExtern = svcTaller.getSolicitud(idSol);
-            if (solExtern != null)
-            {
-                using (BDBerenjenaContainer c_bd_interna = new BDBerenjenaContainer())
-                {
-                    Solicitud s = c_bd_interna.SolicitudSet.FirstOrDefault(x => x.Id == idInterno);//TODO deberia ser taller_solicitud_id
-                    if (s != null)
-                    {
-                        s.sg_id = solExtern.id;
-                        s.timeStamp = DateTime.Now;
-                        s.status = solExtern.status;
-                        foreach (var linSolicitudExtern in solExtern.lineas)
-                        {
-                            var lineaInterna = c_bd_interna.LineaSolicitudSet.FirstOrDefault(x => x.Id == linSolicitudExtern.id_en_taller);
-                            if (lineaInterna != null)
-                            {
-                                lineaInterna.sg_id = linSolicitudExtern.id;
-                            }
-                        }
-                        c_bd_interna.SaveChanges();
-                    }
-                }
-            }*/
-        }
 
         private void addLineasNoAgregadas(List<ExpOfertaLine> lineas, int idSolicitud)
         {
