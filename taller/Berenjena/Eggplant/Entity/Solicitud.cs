@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -22,6 +23,7 @@ namespace Eggplant.Entity
 
         
         [JsonIgnore]
+        [InverseProperty("solicitud")]
         public ICollection<LineaSolicitud> rawLines { get; set; }
 
         public virtual IEnumerable<LineaSolicitud> lines

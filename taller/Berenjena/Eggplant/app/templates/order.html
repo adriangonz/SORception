@@ -22,7 +22,11 @@
         </tr>
         <tr>
             <td>Modificado:</td>
-            <td>{{actual_order.timeStamp}}</td>
+            <td>{{actual_order.updatedDate}}</td>
+        </tr>
+        <tr>
+            <td>Creado:</td>
+            <td>{{actual_order.creationDate}}</td>
         </tr>
     </tbody>
 </table>
@@ -37,7 +41,7 @@
                 <th>Criterio</th>
             </tr>
         </thead>
-        <tbody ng-repeat="linea in actual_order.lineaSolicitud">
+        <tbody ng-repeat="linea in actual_order.lines">
             <tr>
                 <td>{{linea.id}}</td>
                 <td>{{linea.descripcion}}</td>
