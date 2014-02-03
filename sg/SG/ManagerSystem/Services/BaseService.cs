@@ -89,6 +89,17 @@ namespace ManagerSystem.Services
             }
         }
 
+        private OrderService order_service = null;
+        protected OrderService orderService
+        {
+            get
+            {
+                if (this.order_service == null)
+                    this.order_service = new OrderService(unitOfWork);
+                return this.order_service;
+            }
+        }
+
         public BaseService(UnitOfWork uOW = null)
         {
             this.unit_of_work = uOW;

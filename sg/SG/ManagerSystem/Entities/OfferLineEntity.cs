@@ -18,6 +18,8 @@ namespace ManagerSystem.Entities
     {
         public OfferLineStatus status { get; set; }
 
+        public int corresponding_id { get; set; }
+
         public double price { get; set; }
 
         public int quantity { get; set; }

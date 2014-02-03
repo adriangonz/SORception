@@ -30,7 +30,7 @@ namespace ManagerSystem.Services
             return order.id;
         }
 
-        public ExpSolicitud getOrder(int order_id)
+        public OrderEntity getOrder(int order_id)
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id);
 
@@ -40,14 +40,14 @@ namespace ManagerSystem.Services
             if (order.garage != garageService.getCurrentGarage())
                 throw new ArgumentException();
 
-            return this.toExposed(order);
+            return order;
         }
 
-        public List<ExpSolicitud> getOrders()
+        public List<OrderEntity> getOrders()
         {
             GarageEntity current_garage = garageService.getCurrentGarage();
 
-            List<ExpSolicitud> orders = (from order in current_garage.orders where !order.deleted select this.toExposed(order)).ToList();
+            List<OrderEntity> orders = (from order in current_garage.orders where !order.deleted select order).ToList();
 
             return orders;
         }
@@ -99,6 +99,15 @@ namespace ManagerSystem.Services
             amqService.publishOrder(msg);
         }
 
+        private void copyLineFromExposed(OrderLineEntity order_line, ExpSolicitud.Line e_order_line)
+        {
+            order_line.corresponding_id = e_order_line.id_en_taller;
+            order_line.description = e_order_line.description;
+            order_line.quantity = e_order_line.quantity;
+            order_line.setFlag(e_order_line.flag);
+            order_line.status = OrderLineStatus.NEW;
+        }
+
         private void copyFromExposed(OrderEntity order, ExpSolicitud e_order)
         {
             order.garage = garageService.getCurrentGarage();
@@ -107,7 +116,7 @@ namespace ManagerSystem.Services
             // copiar las lineas
         }
 
-        private ExpSolicitud toExposed(OrderEntity order)
+        public ExpSolicitud toExposed(OrderEntity order)
         {
             ExpSolicitud e_order = new ExpSolicitud();
 

@@ -29,6 +29,9 @@ namespace ManagerSystem.Entities
         {
             this.offers = new List<OfferLineEntity>();
         }
+
+        public int corresponding_id { get; set; }
+
         public int quantity { get; set; }
 
         public string description { get; set; }
@@ -59,6 +62,27 @@ namespace ManagerSystem.Entities
             get
             {
                 return selected_offers.Sum(o => o.selected_ammount);
+            }
+        }
+
+        public void setFlag(string flag_string)
+        {
+            switch (flag_string)
+            {
+                case "NONE":
+                    this.flag = OrderLineFlag.NONE;
+                    break;
+                case "FIRST":
+                    this.flag = OrderLineFlag.FIRST;
+                    break;
+                case "CHEAPEST":
+                    this.flag = OrderLineFlag.CHEAPEST;
+                    break;
+                case "NEWEST":
+                    this.flag = OrderLineFlag.NEWEST;
+                    break;
+                default:
+                    throw new ArgumentException();
             }
         }
     }

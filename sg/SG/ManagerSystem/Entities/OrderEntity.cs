@@ -36,5 +36,21 @@ namespace ManagerSystem.Entities
 
         [InverseProperty("order")]
         public ICollection<OrderLineEntity> lines { get; set; }
+
+        public virtual List<OfferEntity> offers
+        {
+            get
+            {
+                HashSet<OfferEntity> offers = new HashSet<OfferEntity>();
+                foreach (var line in this.lines)
+                {
+                    foreach (var line_offer in line.offers)
+                    {
+                        offers.Add(line_offer.offer);
+                    }
+                }
+                return offers.ToList();
+            }
+        }
     }
 }

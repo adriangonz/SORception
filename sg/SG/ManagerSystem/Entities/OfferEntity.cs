@@ -16,6 +16,11 @@ namespace ManagerSystem.Entities
 
     public class OfferEntity : BaseEntity
     {
+        OfferEntity()
+        {
+            lines = new List<OfferLineEntity>();
+        }
+
         public OfferStatus status { get; set; }
 
         public int corresponding_id { get; set; }
@@ -25,5 +30,20 @@ namespace ManagerSystem.Entities
         [Required]
         [ForeignKey("junkyard_id")]
         public JunkyardEntity junkyard { get; set; }
+
+        [InverseProperty("offer")]
+        public List<OfferLineEntity> lines { get; set; }
+
+        public virtual OrderEntity order
+        {
+            get
+            {
+                if (lines.Count > 0)
+                {
+                    return lines[0].order_line.order;
+                }
+                return null;
+            }
+        }
     }
 }

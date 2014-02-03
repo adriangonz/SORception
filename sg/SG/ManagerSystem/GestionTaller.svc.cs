@@ -66,6 +66,17 @@ namespace ManagerSystem
             }
         }
 
+        private OfferService offer_service = null;
+        protected OfferService offerService
+        {
+            get
+            {
+                if (this.offer_service == null)
+                    this.offer_service = new OfferService();
+                return this.offer_service;
+            }
+        }
+
         // Esto va fuera
         private Taller getAuthorizedTaller()
         {
@@ -109,7 +120,7 @@ namespace ManagerSystem
 
             try
             {
-                return orderService.getOrder(id);
+                return orderService.toExposed(orderService.getOrder(id));
             }
             catch (ArgumentNullException)
             {
@@ -126,7 +137,7 @@ namespace ManagerSystem
             if (!authorizationService.isConnectionAuthorized())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            return orderService.getOrders();
+            return (from order in orderService.getOrders() select orderService.toExposed(order)).ToList(); ;
         }
 
         public int addSolicitud(ExpSolicitud es)
@@ -159,35 +170,18 @@ namespace ManagerSystem
 
         public ExpOferta getOferta(int oferta_id)
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Oferta o = r_oferta.Find(oferta_id);
-            if (o == null || o.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-
-            ExpOferta eo = r_oferta.ToExposed(o);
-            return eo;
+            return offerService.toExposed(offerService.getOffer(oferta_id));
         }
 
         public List<ExpOferta> getOfertas(int solicitud_id)
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isConnectionAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Solicitud s = db_context.SolicitudSet.Find(solicitud_id);
-            if (s == null || s.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-
-            List<Oferta> ofertas_mias = s.Ofertas.ToList();
-            List<ExpOferta> ofertas = new List<ExpOferta>();
-            foreach (var oferta in ofertas_mias)
-            {
-                if (!oferta.deleted)
-                {
-                    ofertas.Add(r_oferta.ToExposed(oferta));
-                }
-            }
-
-            return ofertas;
+            return (from offer in offerService.getOffers(solicitud_id) select offerService.toExposed(offer)).ToList(); ;
         }
 
         public int selectOferta(ExpPedido r)
