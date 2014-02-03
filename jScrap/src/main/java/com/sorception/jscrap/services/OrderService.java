@@ -81,4 +81,8 @@ public class OrderService extends AbstractService<OrderEntity> {
 	public void deleteOrder(OrderEntity order) {
 		delete(order);
 	}
+
+	public OrderLineEntity getOrderLineBySgId(String sgId) {
+		return getOrderDao().findOrderLineBySgId(sgId);
+	}
 }

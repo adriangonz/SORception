@@ -93,4 +93,12 @@ public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
+	
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

@@ -25,4 +25,10 @@ public interface IOrderDAO extends IGenericDAO<OrderEntity> {
 	public OrderLineEntity getOrderlineById(@Param("id") Long id);
 	
 	public OrderEntity findBySgId(String sgId);
+	
+	@Query("SELECT DISTINCT l "
+			+ "FROM OrderLineEntity AS l "
+			+ "WHERE l.sgId = :sgId "
+				+ "AND l.deleted = FALSE ")
+	public OrderLineEntity findOrderLineBySgId(@Param("sgId") String sgId);
 }

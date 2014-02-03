@@ -6,19 +6,8 @@
 
 package com.sorception.jscrap.webservices;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sorception.jscrap.entities.OrderEntity;
-import com.sorception.jscrap.entities.OrderLineEntity;
-import com.sorception.jscrap.generated.AMQSolicitudMessage;
-import com.sorception.jscrap.generated.ExpPedido;
-import com.sorception.jscrap.generated.ExpSolicitud;
-import com.sorception.jscrap.generated.ExpSolicitudLine;
-import com.sorception.jscrap.generated.ObjectFactory;
-import com.sorception.jscrap.services.OrderService;
-import com.sorception.jscrap.services.TokenService;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -31,6 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.xml.transform.StringSource;
+
+import com.sorception.jscrap.entities.OrderEntity;
+import com.sorception.jscrap.entities.OrderLineEntity;
+import com.sorception.jscrap.generated.AMQSolicitudMessage;
+import com.sorception.jscrap.generated.ExpSolicitud;
+import com.sorception.jscrap.generated.ExpSolicitudLine;
+import com.sorception.jscrap.generated.ObjectFactory;
+import com.sorception.jscrap.services.OrderService;
 
 /**
  *
@@ -51,7 +48,7 @@ public class SolicitudesListener implements MessageListener {
     @Autowired
     OrderService orderService;
     
-    public OrderEntity toOrderEntity(ExpSolicitud solicitud) {    	
+    private OrderEntity toOrderEntity(ExpSolicitud solicitud) {    	
     	List<OrderLineEntity> lines = new ArrayList<>(); 	
     	List<ExpSolicitudLine> lineasSolicitud = 
     			solicitud.getLineas().getValue().getExpSolicitudLine();
@@ -62,6 +59,34 @@ public class SolicitudesListener implements MessageListener {
     	}
     	OrderEntity order = new OrderEntity(solicitud.getId().toString(), lines);
     	order.setDeadline(solicitud.getDeadline().toGregorianCalendar().getTime());
+    	return order;
+    }
+    
+    private OrderEntity getOrderToUpdate(OrderEntity order) {
+    	OrderEntity orderToUpdate = orderService.getOrderBySgId(order.getSgId());
+    	orderToUpdate.setDeadline(order.getDeadline());
+    	List<OrderLineEntity> newLines = new ArrayList<>();
+    	List<OrderLineEntity> oldLines = orderToUpdate.getLines();
+    	for(OrderLineEntity line : order.getLines()) {
+    		// Try to get line
+    		OrderLineEntity existingLine = orderService.getOrderLineBySgId(line.getSgId());
+    		if(existingLine == null) {
+    			// Create new line
+    			newLines.add(line);
+    		} else {
+    			existingLine.setQuantity(line.getQuantity());
+    			existingLine.setDescription(line.getDescription());
+    			newLines.add(existingLine);
+    			oldLines.remove(existingLine);
+    		}
+    	}
+    	
+    	// Remove existing oldLines
+    	for(OrderLineEntity line : oldLines) {
+    		line.setDeleted(true);
+    		newLines.add(line);
+    	}
+    	order.setLines(newLines);
     	return order;
     }
     
@@ -89,6 +114,12 @@ public class SolicitudesListener implements MessageListener {
 				case DELETE:
 					order = orderService.getOrderBySgId(solicitud.getId().toString());
 					orderService.deleteOrder(order);
+					break;
+				case UPDATE:
+					order = toOrderEntity(solicitud);
+					order = getOrderToUpdate(order);
+					orderService.updateOrder(order);
+					break;
 			}
 		} catch (JMSException e) {
 			logger.error("'text' field not found at message");

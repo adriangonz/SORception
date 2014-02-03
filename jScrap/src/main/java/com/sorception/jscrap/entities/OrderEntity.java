@@ -41,10 +41,7 @@ public class OrderEntity extends AbstractEntity implements ISoftDeletable {
 	public OrderEntity(String sgId,
 			List<OrderLineEntity> lines) {
 		this.sgId = sgId;
-		this.lines = lines;
-		for(OrderLineEntity line : lines) {
-			line.setOrder(this);
-		}
+		setLines(lines);
 		this.closed = false;
 		this.deleted = false;
 	}
@@ -86,6 +83,9 @@ public class OrderEntity extends AbstractEntity implements ISoftDeletable {
 	
 	public void setLines(List<OrderLineEntity> lines) {
 		this.lines = lines;
+		for(OrderLineEntity line : lines) {
+			line.setOrder(this);
+		}
 	}
 	
 	public void setDeadline(Date deadline) {

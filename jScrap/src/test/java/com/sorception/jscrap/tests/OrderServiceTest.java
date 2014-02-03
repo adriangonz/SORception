@@ -68,4 +68,19 @@ public class OrderServiceTest extends BaseTest {
 		assertThat(orders.size(), is(2));
 		orderService.getOrderById(1L);
 	}
+	
+	@Test(expected = ResourceNotFoundException.class)
+	public void OrderService_update_ShouldReturnModifiedOrder() {
+		OrderEntity order = orderService.getOrderById(1L);
+		List<OrderLineEntity> lines = order.getLines();
+		lines.get(0).setDeleted(true);
+		lines.get(1).setDescription("Modified");
+		lines.add(new OrderLineEntity("23", "New", 2));
+		order.setLines(lines);
+		OrderEntity modifiedOrder = orderService.updateOrder(order);
+
+		assertThat(modifiedOrder.getLines().size(), is(2));
+		assertThat(modifiedOrder.getLines().get(0).getDescription(), is("Modified"));
+		orderService.getOrderLine(1L);
+	}
 }
