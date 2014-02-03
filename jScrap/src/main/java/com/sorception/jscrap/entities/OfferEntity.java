@@ -36,9 +36,8 @@ public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 	}
 	
 	public String getOrderSgId() {
-		List<OfferLineEntity> validLines = getLines();
-		if(validLines.size() > 0 && validLines.get(0).getOrderLine() != null)
-			return validLines.get(0).getOrderLine().getOrder().getSgId();
+		if(lines.size() > 0 && lines.get(0).getOrderLine() != null)
+			return lines.get(0).getOrderLine().getOrder().getSgId();
 		return null;
 	}
 	

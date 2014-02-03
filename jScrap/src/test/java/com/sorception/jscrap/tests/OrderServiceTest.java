@@ -48,7 +48,7 @@ public class OrderServiceTest extends BaseTest {
 	@Test
 	public void OrderService_getAll_ShouldReturnOne() {
 		List<OrderEntity> orders = orderService.getAllOrders();
-		assertThat(orders.size(), is(1));
+		assertThat(orders.size(), is(3));
 	}
 	
 	@Test(expected = ResourceNotFoundException.class)
@@ -56,7 +56,7 @@ public class OrderServiceTest extends BaseTest {
 		OrderEntity order = orderService.getOrderById(1L);
 		orderService.deleteOrder(order);
 		List<OrderEntity> orders = orderService.getAllOrders();
-		assertThat(orders.size(), is(0));
+		assertThat(orders.size(), is(2));
 		orderService.getOrderById(1L);
 	}
 	
@@ -65,7 +65,7 @@ public class OrderServiceTest extends BaseTest {
 		OrderEntity order = orderService.getOrderById(1L);
 		orderService.closeOrder(order);
 		List<OrderEntity> orders = orderService.getAllOrders();
-		assertThat(orders.size(), is(0));
+		assertThat(orders.size(), is(2));
 		orderService.getOrderById(1L);
 	}
 }

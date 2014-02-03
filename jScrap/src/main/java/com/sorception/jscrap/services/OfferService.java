@@ -83,11 +83,13 @@ public class OfferService extends AbstractService<OfferEntity> {
 	public OfferEntity updateOffer(Long offerId, OfferDTO offerToUpdate) {
 		OfferEntity offer = toOfferEntity(offerId, offerToUpdate);
 		update(offer);
-		if(offer.getLines().size() > 0)
+		if(!offer.isDeleted()) {
 			amqService.sendUpdateOffer(offer, tokenService.getValid());
-		else
+			return offer;
+		} else {
 			deleteOffer(offer);
-		return offer;
+			return null;
+		}
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
@@ -118,23 +120,27 @@ public class OfferService extends AbstractService<OfferEntity> {
 	private OfferEntity toOfferEntity(Long offerId, OfferDTO offerToUpdate) {
 		OfferEntity offer = getOfferById(offerId);
 		List<OfferLineEntity> lines = new ArrayList<>();
+		Boolean removeOffer = true;
 		for(OfferLineDTO lineDTO : offerToUpdate.lines) {
-			if(lineDTO.id == null) 
+			if(lineDTO.id == null) {
 				lines.add(toOfferLineEntity(lineDTO));
-			else {
+				removeOffer = false;
+			} else {
 				OfferLineEntity line = getOfferLine(lineDTO.id);
 				if(lineDTO.isDeleted()) {
 					line.setDeleted(true);
-					line.setOrderLine(null);
 				} else {
 					line.setDate(lineDTO.date);
 					line.setNotes(lineDTO.notes);
 					line.setPrice(lineDTO.price);
 					line.setQuantity(lineDTO.quantity);
+					removeOffer = false;
 				}
 				lines.add(line);
 			}
 		}
+		if(removeOffer)
+			offer.setDeleted(true);
 		offer.setLines(lines);
 		return offer;
 	}

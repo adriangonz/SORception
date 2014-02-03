@@ -15,16 +15,20 @@ public interface IOfferDAO extends IGenericDAO<OfferEntity>{
 	@Query("SELECT DISTINCT o "
 			+ "FROM OfferEntity AS o "
 				+ "JOIN o.lines AS l "
-				+ "JOIN l.acceptedOfferLine AS a "
-			+ "WHERE l.acceptedOfferLine IS NOT EMPTY ")
+				+ "JOIN l.orderLine AS ol "
+				+ "JOIN ol.order AS order "
+			+ "WHERE l.acceptedOfferLine IS NOT EMPTY "
+				+ "OR order.closed = TRUE")
 	public List<OfferEntity> getAcceptedOffers();
 	
 	@Query("SELECT DISTINCT o "
 			+ "FROM OfferEntity as o "
 				+ "JOIN o.lines AS l "
+				+ "JOIN l.orderLine AS ol "
+				+ "JOIN ol.order AS order "
 			+ "WHERE o.deleted = FALSE "
-				+ "AND l.deleted = FALSE "
-				+ "AND l.acceptedOfferLine IS EMPTY ")
+				+ "AND order.deleted = FALSE "
+				+ "AND order.closed = FALSE ")
 	public List<OfferEntity> getOpenedOffers();
 	
 	@Query("SELECT DISTINCT l "

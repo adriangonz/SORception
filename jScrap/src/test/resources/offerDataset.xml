@@ -154,7 +154,7 @@
 	<!-- Empty offer -->
 	<Offer
 	   	id="4" 
-	   	deleted="false" 
+	   	deleted="true" 
 	   	created="2013-12-23 12:30:00" 
 	   	updated="2013-12-23 12:30:00" />
 

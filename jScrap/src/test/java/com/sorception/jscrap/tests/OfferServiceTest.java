@@ -32,9 +32,9 @@ public class OfferServiceTest extends BaseTest {
 	}
 	
 	@Test
-	public void OfferService_GetAll_ShouldReturnOne() {
+	public void OfferService_GetAll_ShouldReturnTwo() {
 		List<OfferEntity> offers = offerService.getAllOffers();
-		assertThat(offers.size(), is(1));
+		assertThat(offers.size(), is(2));
 	}
 	
 	@Test
@@ -85,6 +85,21 @@ public class OfferServiceTest extends BaseTest {
 		OfferEntity modifiedOffer = offerService.updateOffer(1L, offer);
 		
 		assertThat(modifiedOffer.getLines().size(), is(2));
+	}
+	
+	@Test
+	public void OfferService_DeleteAllLines_ShouldModify() {
+		List<OfferLineDTO> lines = new ArrayList<>();
+		OfferLineDTO line = new OfferLineDTO();
+		line.id = 2L;
+		line.status = "DELETE";
+		lines.add(line);
+		OfferDTO offer = new OfferDTO();
+		offer.lines = lines;
+		OfferEntity modifiedOffer = offerService.updateOffer(1L, offer);
+		
+		assertThat(modifiedOffer, is(nullValue()));
+		assertThat(offerService.getAllOffers().size(), is(1));
 	}
 	
 	private List<OfferLineDTO> generateRandom() {

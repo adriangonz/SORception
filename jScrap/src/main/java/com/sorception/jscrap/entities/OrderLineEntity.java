@@ -1,12 +1,14 @@
 package com.sorception.jscrap.entities;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,9 +29,9 @@ public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
 	@JoinColumn(name = "orderId", nullable = false)
 	private OrderEntity order;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
 			mappedBy = "orderLine")
-	private OfferLineEntity offerLine;
+	private List<OfferLineEntity> offerLines;
 	
 	@Column(name = "deleted", nullable = false)
 	private Boolean deleted;
@@ -58,7 +60,11 @@ public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
 	}
 	
 	public OfferLineEntity getOfferLine() {
-		return offerLine;
+		for(OfferLineEntity line : offerLines) {
+			if(!line.isDeleted())
+				return line;
+		}
+		return null;
 	}
 	
 	@JsonIgnore
@@ -77,7 +83,10 @@ public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
 	}
 	
 	public void setOfferLine(OfferLineEntity offerLine) {
-		this.offerLine = offerLine;
+		for(OfferLineEntity line : offerLines) {
+			line.setDeleted(true);
+		}
+		this.offerLines.add(offerLine);
 	}
 
 	@Override

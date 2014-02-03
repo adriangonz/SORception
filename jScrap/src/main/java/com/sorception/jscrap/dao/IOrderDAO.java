@@ -13,12 +13,8 @@ import com.sorception.jscrap.entities.OrderLineEntity;
 public interface IOrderDAO extends IGenericDAO<OrderEntity> {
 	@Query("SELECT DISTINCT o "
 			+ "FROM OrderEntity AS o "
-				+ "JOIN o.lines AS l "
-				+ "LEFT JOIN l.offerLine AS offer "
 			+ "WHERE o.closed = FALSE "
 				+ "AND o.deleted = FALSE "
-				+ "AND l.deleted = FALSE "
-				+ "AND offer.acceptedOfferLine IS EMPTY "
 			+ "ORDER BY o.created DESC ")
 	public List<OrderEntity> getOpenedOrders();
 	
