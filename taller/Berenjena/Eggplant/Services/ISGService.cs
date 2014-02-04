@@ -15,5 +15,7 @@ namespace Eggplant.Services
         int addSolicitud(ExpSolicitud exSol);
 
         ExpSolicitud getSolicitud(int id);
+
+        List<ExpOferta> getOfertas(int idSolicitud);
     }
 }

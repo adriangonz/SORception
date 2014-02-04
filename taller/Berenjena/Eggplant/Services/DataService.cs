@@ -14,6 +14,8 @@ namespace Eggplant.Services
         private TokenRepository tokens;
         private SolicitudRespository solicitudes;
         private GenericRepository<LineaSolicitud> lineasSolicitud;
+        private GenericRepository<Pedido> pedidos;
+        private GenericRepository<LineaPedido> lineasPedido;
         
         public DataService()
         {
@@ -47,6 +49,25 @@ namespace Eggplant.Services
                 if (lineasSolicitud == null)
                     lineasSolicitud = new GenericRepository<LineaSolicitud>(context);
                 return lineasSolicitud;
+            }
+        }
+
+        public GenericRepository<Pedido> Pedidos
+        { 
+            get
+            {
+                if (pedidos == null)
+                    pedidos = new GenericRepository<Pedido>(context);
+                return pedidos;
+            }
+        }
+        public GenericRepository<LineaPedido> LineasPedido
+        {
+            get
+            {
+                if (lineasPedido == null)
+                    lineasPedido = new GenericRepository<LineaPedido>(context);
+                return lineasPedido;
             }
         }
 

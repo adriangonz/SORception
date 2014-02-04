@@ -10,6 +10,11 @@ namespace Eggplant.Entity
 {
     public class Pedido : AbstractEntity
     {
+        public Pedido()
+        {
+            rawLines = new List<LineaPedido>();
+        }
+
         [JsonIgnore]
         public ICollection<LineaPedido> rawLines { get; set; }
 

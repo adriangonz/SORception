@@ -33,5 +33,10 @@ namespace Eggplant.Services
         {
             return new ExpSolicitud();
         }
+
+        public List<ExpOferta> getOfertas(int idSolicitud)
+        {
+            return null;
+        }
     }
 }

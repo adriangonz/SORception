@@ -35,5 +35,10 @@ namespace Eggplant.Services
             return svcTaller.getSolicitud(id);
         }
 
+        public List<ExpOferta> getOfertas(int idSolicitud)
+        {
+            return svcTaller.getOfertas(idSolicitud).ToList();
+        }
+
     }
 }

@@ -12,7 +12,7 @@ namespace Eggplant.Controllers
     public class OfertaController : ApiController
     {
         //static BDBerenjenaContainer c_bd = EggplantContextFactory.getContext();
-        static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
+        //static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
 
 
 

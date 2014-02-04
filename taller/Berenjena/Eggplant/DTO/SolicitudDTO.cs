@@ -30,7 +30,7 @@ namespace Eggplant.DTO
         {
             LineaSolicitud linSol = new LineaSolicitud();
             linSol.cantidad = this.cantidad;
-            linSol.criterio = this.criterio.name;
+            linSol.criterio = this.criterio.code.ToString();
             linSol.descripcion = this.descripcion;
             linSol.status = LineaSolicitud.FAILED;
 

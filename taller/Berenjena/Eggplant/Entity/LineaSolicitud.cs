@@ -17,6 +17,11 @@ namespace Eggplant.Entity
         public static string EFFECT_DELETE = "DELETED";
         public static string EFFECT_NOEFECT = "NOEFECT";
 
+        public LineaSolicitud()
+        {
+            offers = new List<ServiceTaller.ExpOfertaLine>();
+        }
+
         public string descripcion { get; set; }
         public int cantidad { get; set; }
         public int sg_id { get; set; }
@@ -28,6 +33,9 @@ namespace Eggplant.Entity
         [Required]
         [ForeignKey("solicitudId")]
         public virtual Solicitud solicitud { get; set; }
+
+        [NotMappedAttribute]
+        public List<Eggplant.ServiceTaller.ExpOfertaLine> offers;
         
     }
 }
