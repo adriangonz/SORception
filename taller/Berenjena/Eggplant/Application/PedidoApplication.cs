@@ -14,7 +14,7 @@ namespace Eggplant.Application
 
         public object getById(int id, string userId)
         {
-            return dataService.Pedidos.GetFirstWithAll(x => x.solicitud.user_id == userId && x.id == id);
+            return dataService.Pedidos.GetFirstWithAllAndDescription(x => x.solicitud.user_id == userId && x.id == id);
             /*
             BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
             var userId = User.Identity.GetUserId();

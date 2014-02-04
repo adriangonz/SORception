@@ -20,5 +20,24 @@ namespace Eggplant.Repositories
         {
             return this.Get(filter, null, "rawLines").First();
         }
+
+        public Pedido GetFirstWithAllAndDescription(
+            Expression<Func<Pedido, bool>> filter = null)
+        {
+            var pedido =  this.Get(filter, null, "rawLines").First();
+            foreach (var line in pedido.lines)
+            {
+                var lineaSolicitud = context.Set<LineaSolicitud>().FirstOrDefault(x => x.sg_id == line.sg_lina_solicitud_id);
+                if (lineaSolicitud == null)
+                {
+                    line.description = "Descripcion";
+                }
+                else
+                {
+                    line.description = lineaSolicitud.descripcion;
+                }
+            }
+            return pedido;
+        }
     }
 }

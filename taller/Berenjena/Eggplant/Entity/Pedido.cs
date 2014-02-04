@@ -26,10 +26,12 @@ namespace Eggplant.Entity
                 return rawLines.Where(t => t.status != LineaPedido.DELETED);
             }
         }
+
         public int solicitudId { get; set; }
 
         [Required]
         [ForeignKey("solicitudId")]
         public virtual Solicitud solicitud { get; set; }
+
     }
 }

@@ -23,5 +23,8 @@ namespace Eggplant.Entity
         [Required]
         [ForeignKey("pedidoId")]
         public virtual Pedido pedido { get; set; }
+
+        [NotMapped]
+        public string description { get; set; }
     }
 }
