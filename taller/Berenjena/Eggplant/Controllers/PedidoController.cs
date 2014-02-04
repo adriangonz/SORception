@@ -21,23 +21,23 @@ namespace Eggplant.Controllers
         public static string DELETED = "DELETED";
         public static string REQUESTED = "REQUESTED";
 
-        private OfertaApplication sa;
+        private PedidoApplication pa;
         public PedidoController()
         {
-            sa = new OfertaApplication();
+            pa = new PedidoApplication();
         }
 
         // GET api/pedido
         public object Get()
         {
-            return sa.getAll(User.Identity.GetUserId());
+            return pa.getAll(User.Identity.GetUserId());
 
         }
 
         // GET api/pedido/5
         public object Get(int id)
         {
-            return sa.getById(id, User.Identity.GetUserId());
+            return pa.getById(id, User.Identity.GetUserId());
         }
 
         // POST api/pedido

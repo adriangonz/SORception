@@ -165,7 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\AbstractApplication.cs" />
-    <Compile Include="Application\OfertaApplication.cs" />
+    <Compile Include="Application\PedidoApplication.cs" />
     <Compile Include="Application\SettingsApplication.cs" />
     <Compile Include="Application\SolicitudApplication.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -220,6 +220,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\PedidoRepository.cs" />
     <Compile Include="Repositories\SolicitudRespository.cs" />
     <Compile Include="Repositories\TokenRepository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

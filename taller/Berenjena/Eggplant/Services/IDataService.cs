@@ -15,7 +15,7 @@ namespace Eggplant.Services
         SolicitudRespository Solicitudes { get; }
         GenericRepository<LineaSolicitud> LineasSolicitud { get; }
 
-        GenericRepository<Pedido> Pedidos { get; }
+        PedidoRepository Pedidos { get; }
         GenericRepository<LineaPedido> LineasPedido { get; }
 
         int SaveChanges();

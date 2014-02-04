@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Eggplant.Application
 {
-    public class OfertaApplication : AbstractApplication
+    public class PedidoApplication : AbstractApplication
     {
         public object getAll(string userId)
         {
@@ -14,7 +14,7 @@ namespace Eggplant.Application
 
         public object getById(int id, string userId)
         {
-            return dataService.Pedidos.GetByID(id);
+            return dataService.Pedidos.GetFirstWithAll(x => x.solicitud.user_id == userId && x.id == id);
             /*
             BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
             var userId = User.Identity.GetUserId();
