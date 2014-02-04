@@ -165,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\AbstractApplication.cs" />
+    <Compile Include="Application\OfertaApplication.cs" />
     <Compile Include="Application\SettingsApplication.cs" />
     <Compile Include="Application\SolicitudApplication.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

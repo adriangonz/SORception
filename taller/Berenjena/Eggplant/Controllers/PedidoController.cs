@@ -7,6 +7,7 @@ using System.Web.Http;
 using Eggplant.ServiceTaller;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Identity;
+using Eggplant.Application;
 
 namespace Eggplant.Controllers
 {
@@ -14,45 +15,29 @@ namespace Eggplant.Controllers
     public class PedidoController : ApiController
     {
         //static BDBerenjenaContainer c_bd = EggplantContextFactory.getContext();
-        static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
+        //static Eggplant.ServiceTaller.GestionTallerClient svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
 
         public static string FAILED = "FAILED";
         public static string DELETED = "DELETED";
         public static string REQUESTED = "REQUESTED";
 
+        private OfertaApplication sa;
+        public PedidoController()
+        {
+            sa = new OfertaApplication();
+        }
+
         // GET api/pedido
         public object Get()
         {
-            /*
-            BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
-            var userId = User.Identity.GetUserId();
-            var pedidos = c_bd.PedidoSet.AsQueryable().Where(p => p.Solicitud.user_id == userId).ToList();
-            return pedidos;
-             * */
-            return null;
+            return sa.getAll(User.Identity.GetUserId());
 
         }
 
         // GET api/pedido/5
         public object Get(int id)
-        {/*
-            BDBerenjenaContainer c_bd = new BDBerenjenaContainer();
-            var userId = User.Identity.GetUserId();
-            var pedido = c_bd.PedidoSet.AsQueryable().FirstOrDefault(x => x.Id == id && x.Solicitud.user_id == userId);
-            if (pedido == null) return Request.CreateResponse(HttpStatusCode.NotFound, "El pedido " + id + " no existe o no es el usuario");
-            foreach (var linea in pedido.LineaPedido)
-            {
-                var lineaSolicitud = c_bd.LineaSolicitudSet.FirstOrDefault(x => x.sg_id == linea.sg_id);
-                if (lineaSolicitud == null) { 
-                    linea.description = "Descripcion";
-                }
-                else
-                {
-                    linea.description = lineaSolicitud.descripcion;
-                }
-            }
-            return pedido; */
-            return null;
+        {
+            return sa.getById(id, User.Identity.GetUserId());
         }
 
         // POST api/pedido
@@ -96,12 +81,12 @@ namespace Eggplant.Controllers
         /// Igual esta Funcion deberia esta en el SG
         private ExpOfertaLine getLineaOferta(int idLineaOferta, int idSolicitud)
         {
-            var ofertas = svcTaller.getOfertas(idSolicitud);
-            foreach (var oferta in ofertas)
-            {
-                var linea = oferta.lineas.FirstOrDefault(x => x.id == idLineaOferta);
-                if (linea != null) return linea;
-            }
+            /* var ofertas = svcTaller.getOfertas(idSolicitud);
+             foreach (var oferta in ofertas)
+             {
+                 var linea = oferta.lineas.FirstOrDefault(x => x.id == idLineaOferta);
+                 if (linea != null) return linea;
+             }*/
             return null;
         }
 
