@@ -198,6 +198,7 @@
     </Compile>
     <Compile Include="Controllers\SolicitudController.cs" />
     <Compile Include="DataAcces\EggplantContext.cs" />
+    <Compile Include="DTO\PedidoDTO.cs" />
     <Compile Include="DTO\SolicitudDTO.cs" />
     <Compile Include="Entity\AbstractEntity.cs" />
     <Compile Include="Entity\LineaPedido.cs" />

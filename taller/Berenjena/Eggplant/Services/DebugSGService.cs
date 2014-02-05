@@ -38,5 +38,10 @@ namespace Eggplant.Services
         {
             return null;
         }
+
+        public int selectOferta(ExpPedido pedido)
+        {
+            return 0;
+        }
     }
 }
