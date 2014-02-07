@@ -6,13 +6,13 @@
 
 package com.sorception.jscrap.api;
 
-import com.sorception.jscrap.entities.SettingsEntity;
-import com.sorception.jscrap.services.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sorception.jscrap.entities.SettingsEntity;
+import com.sorception.jscrap.services.SettingsService;
 
 /**
  *
@@ -27,6 +27,12 @@ public class SettingsController {
     @RequestMapping("")
     @ResponseBody
     public SettingsEntity getSettings() {
+    	try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return settingsService.getExtendedSettings();
     }
 }
