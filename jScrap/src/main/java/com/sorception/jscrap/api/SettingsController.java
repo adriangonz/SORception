@@ -27,12 +27,6 @@ public class SettingsController {
     @RequestMapping("")
     @ResponseBody
     public SettingsEntity getSettings() {
-    	try {
-			Thread.sleep(60000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         return settingsService.getExtendedSettings();
     }
 }
