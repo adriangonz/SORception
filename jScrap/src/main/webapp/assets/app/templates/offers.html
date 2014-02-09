@@ -4,15 +4,15 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Creada</th>
-            <th>Modificado</th>
+            <th>Fecha de creación</th>
+            <th>Última modificación</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="offer in offers">
             <td>{{offer.id}}</td>
-            <td>{{offer.creationDate}}</td>
-            <td>{{offer.updatedDate}}<a class="fright" remove-offer-btn="offer"><i class="glyphicon glyphicon-remove"></i></a><a class="fright" view-offer-btn="offer"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td>{{offer.created | date:'short'}}</td>
+            <td>{{offer.updated | date:'short'}}<a class="fright" remove-offer-btn="offer"><i class="glyphicon glyphicon-remove"></i></a><a class="fright" view-offer-btn="offer"><i class="glyphicon glyphicon-eye-open"></i></a></td>
         </tr>
     </tbody>
 </table>

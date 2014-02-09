@@ -109,8 +109,8 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
             service.tmp_offer.id = service.actual_offer.id;
             service.tmp_offer.lines = service.actual_offer.lines;
             for (var i = 0; i < service.tmp_offer.lines.length; i++) {
-            	delete service.tmp_offer.lines[i].creationDate;
-            	delete service.tmp_offer.lines[i].updatedDate;
+            	delete service.tmp_offer.lines[i].created;
+            	delete service.tmp_offer.lines[i].updated;
             	delete service.tmp_offer.lines[i].offerId;
                 service.tmp_offer.lines[i].status = "UPDATED";
             }
