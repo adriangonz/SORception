@@ -14,10 +14,21 @@ namespace Eggplant.Repositories
         {
 
         }
+
+        public IEnumerable<Solicitud> getAllWithAll(
+            Expression<Func<Solicitud, bool>> filter = null)
+        {
+            return this.Get(filter, null, "rawLines");
+        }
+
         public Solicitud GetFirstWithAll(
             Expression<Func<Solicitud, bool>> filter = null)
         {
             return this.Get(filter, null, "rawLines").First();
+        }
+        public Solicitud GetFirstWithAllById(int id)
+        {
+            return this.Get(x => x.id == id, null, "rawLines").First();
         }
     }
 }

@@ -43,5 +43,10 @@ namespace Eggplant.Services
         {
             return 0;
         }
+
+        public int putSolicitud(ExpSolicitud solicitud)
+        {
+            return 0;
+        }
     }
 }

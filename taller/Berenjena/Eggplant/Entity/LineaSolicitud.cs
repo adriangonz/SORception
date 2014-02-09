@@ -11,6 +11,7 @@ namespace Eggplant.Entity
     {
         public static string FAILED = "FAILED";
         public static string DELETED = "DELETED";
+        public static string ADDED_AFTER = "ADDED AFTER";
 
         public static string EFFECT_NEW = "NEW";
         public static string EFFECT_UPDATED = "UPDATED";

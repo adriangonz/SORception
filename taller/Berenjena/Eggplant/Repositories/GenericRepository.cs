@@ -77,5 +77,10 @@ namespace Eggplant.Repositories
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+
+        public virtual IEnumerable<TEntity> RemoveRange(IEnumerable<TEntity> entities)
+        {
+            return dbSet.RemoveRange(entities);
+        }
     }
 }

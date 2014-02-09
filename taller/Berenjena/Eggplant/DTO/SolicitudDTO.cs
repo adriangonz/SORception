@@ -21,6 +21,12 @@ namespace Eggplant.DTO
         }
     }
     public class SolicitudLineDTO {
+        public static string NEW = "NEW";
+        public static string UPDATED = "UPDATED";
+        public static string DELETED = "DELETED";
+
+
+        public int id { get; set; }
         public int cantidad { get; set; }
         public SolicitudLineCriterioDTO criterio { get; set; }
         public string descripcion { get; set; }

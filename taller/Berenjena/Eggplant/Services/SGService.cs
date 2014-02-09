@@ -45,5 +45,11 @@ namespace Eggplant.Services
             return svcTaller.selectOferta(pedido);
         }
 
+
+        public int putSolicitud(ExpSolicitud solicitud)
+        {
+            return svcTaller.putSolicitud(solicitud);
+        }
+
     }
 }
