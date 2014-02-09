@@ -1,5 +1,4 @@
 package com.sorception.jscrap.webservices;
-
 import java.io.StringWriter;
 import java.util.GregorianCalendar;
 
@@ -26,9 +25,6 @@ import com.sorception.jscrap.generated.ArrayOfExpOfertaLine;
 import com.sorception.jscrap.generated.ExpOferta;
 import com.sorception.jscrap.generated.ExpOfertaLine;
 import com.sorception.jscrap.generated.ObjectFactory;
-import com.sorception.jscrap.services.OfferService;
-import com.sorception.jscrap.services.OrderService;
-import com.sorception.jscrap.services.TokenService;
 
 @Service
 public class OfertasSender {
@@ -43,13 +39,10 @@ public class OfertasSender {
 	
 	@Autowired
 	Jaxb2Marshaller marshaller;
-	
-	@Autowired
-	OfferService offerService;
 
 	private ExpOfertaLine toExposedLineaOferta(OfferLineEntity offerLine) {
 		Integer idEnDesguace = offerLine.getId().intValue();
-		Integer lineaSolicitudId = Integer.parseInt(offerService.getOrderLine(offerLine).getSgId());
+		Integer lineaSolicitudId = Integer.parseInt(offerLine.getOrderLine().getSgId());
 		JAXBElement<String> notes = 
 				objectFactory.createExpOfertaLineNotes(offerLine.getNotes());
 		Double price = offerLine.getPrice();

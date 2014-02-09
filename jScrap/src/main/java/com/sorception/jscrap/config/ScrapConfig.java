@@ -10,15 +10,13 @@ import com.sorception.jscrap.entities.SettingsEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 /**
  *
  * @author kaseyo
  */
 @Configuration
-public class GlobalConfig {
+public class ScrapConfig {
     @Value("${jscrap.name}")
     private String _name;
     

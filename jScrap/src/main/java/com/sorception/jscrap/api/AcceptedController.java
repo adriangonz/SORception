@@ -20,6 +20,6 @@ public class AcceptedController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody
 	public List<OfferEntity> getOffers() {
-		return offerService.getAccepted();
+		return offerService.getAcceptedOffers();
 	}
 }

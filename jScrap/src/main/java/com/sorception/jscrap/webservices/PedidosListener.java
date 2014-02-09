@@ -14,13 +14,10 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.xml.transform.StringSource;
 
-import antlr.collections.List;
-
 import com.sorception.jscrap.entities.AcceptedOfferLineEntity;
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
 import com.sorception.jscrap.generated.AMQPedidoMessage;
-import com.sorception.jscrap.generated.AMQSolicitudMessage;
 import com.sorception.jscrap.generated.ExpPedido;
 import com.sorception.jscrap.generated.ExpPedidoLine;
 import com.sorception.jscrap.services.OfferService;
@@ -67,7 +64,7 @@ public class PedidosListener implements MessageListener {
 			if(pedidoMessage.getDesguaceId().getValue().equals(tokenService.getValid().getToken())) {
 				logger.info("Saving accepted offer with id " + pedidoMessage.getPedido().getValue().getOfertaId());
 				OfferEntity offer = toOfferEntity(pedidoMessage);
-				offerService.updateOfferWithoutAMQ(offer.getId(), offer.getLines());
+				offerService.update(offer);
 			} else {
 				logger.info("Ignoring accepted offer for another junkyard");
 			}

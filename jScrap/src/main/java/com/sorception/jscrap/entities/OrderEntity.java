@@ -2,9 +2,7 @@ package com.sorception.jscrap.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,96 +13,91 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Where;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Orders")
-public class OrderEntity extends AbstractEntity {
-	@Column(name = "sgId")
-	private String _sgId;
+public class OrderEntity extends AbstractEntity implements ISoftDeletable {
+	@Column(name = "sgId", unique = true)
+	private String sgId;
 	
 	@Column(name = "closed")
-	private Boolean _closed = false;
+	private Boolean closed;
 	
-	@OneToMany(mappedBy = "_order", 
+	@OneToMany(mappedBy = "order", 
 			fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL)
-	private List<OrderLineEntity> _lines;
+	private List<OrderLineEntity> lines;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "deadline")
-    private Date _deadline;
+    private Date deadline;
 	
-	@Column(name = "deleted")
-	private Boolean _deleted;
+	@Column(name = "deleted", nullable = false)
+	private Boolean deleted;
 	
 	public OrderEntity() {}
 
 	public OrderEntity(String sgId,
 			List<OrderLineEntity> lines) {
-		this._sgId = sgId;
-		this._lines = lines;
+		this.sgId = sgId;
+		setLines(lines);
+		this.closed = false;
+		this.deleted = false;
+	}
+	
+	public Date getDeadline() {
+		return deadline;
+	}
+	
+	public String getSgId() {
+		return sgId;
+	}
+
+	public List<OrderLineEntity> getLines() {
+		List<OrderLineEntity> validLines = new ArrayList<>();
+		for(OrderLineEntity line : lines) {
+			if(!line.isDeleted())
+				validLines.add(line);
+		}
+		return validLines;
+	}
+	
+	@JsonIgnore
+	public Boolean isClosed() {
+		return closed;
+	}
+	
+	@JsonIgnore
+	@Override
+	public Boolean isDeleted() {
+		return deleted;
+	}
+	
+	@JsonIgnore
+	public OfferEntity getOffer() {
+		if(!lines.isEmpty() && lines.get(0).getOfferLine() != null)
+			return lines.get(0).getOfferLine().getOffer();
+		return null;
+	}
+	
+	public void setLines(List<OrderLineEntity> lines) {
+		this.lines = lines;
 		for(OrderLineEntity line : lines) {
 			line.setOrder(this);
 		}
 	}
 	
-	public Date getDeadline() {
-		return _deadline;
-	}
-	
-	public String getSgId() {
-		return _sgId;
-	}
-
-	@JsonIgnore
-	public List<OrderLineEntity> getNotAccepted() {
-		List<OrderLineEntity> lines = new ArrayList<>();
-		for(OrderLineEntity line : _lines) {
-			if(line.getOfferLine() == null || 
-					(line.getOfferLine() != null && line.getOfferLine().getAcceptedOffer() == null)) {
-				lines.add(line);
-			}
-		}
-		return lines;
-	}
-	
-	public List<OrderLineEntity> getLines() {
-		return _lines;
-	}
-	
-	public void setLines(List<OrderLineEntity> lines) {
-		_lines = lines;
-	}
-	
-	@JsonIgnore
-	public Boolean isClosed() {
-		return _closed != null ? _closed : false;
-	}
-	
-	@JsonIgnore
-	public Boolean isDeleted() {
-		return _deleted != null ? _deleted : false;
-	}
-	
 	public void setDeadline(Date deadline) {
-		this._deadline = deadline;
+		this.deadline = deadline;
 	}
 
 	public void setClosed(boolean closed) {
-		_closed = closed;
-	}
-	
-	@JsonIgnore
-	public OfferEntity getOffer() {
-		if(!_lines.isEmpty() && _lines.get(0).getOfferLine() != null)
-			return _lines.get(0).getOfferLine().getOffer();
-		return null;
+		this.closed = closed;
 	}
 
-	public void setDeleted(boolean deleted) {
-		_deleted = deleted;
+	@Override
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted; 
 	}
 }
