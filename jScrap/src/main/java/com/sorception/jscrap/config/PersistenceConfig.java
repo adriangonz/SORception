@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import com.mysql.jdbc.ConnectionPropertiesImpl;
+import com.sorception.jscrap.data.SoftDeleteEventListener;
 
 @Configuration
 @EnableTransactionManagement
@@ -38,6 +38,9 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	private String dialect;
 	@Value("${hibernate.hbm2ddl.auto}")
 	private String hbm2ddlAuto;
+	
+	@Autowired
+	SoftDeleteEventListener deleteEventListener;
 
 	@Bean
 	public DataSource dataSource() {
@@ -60,6 +63,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 		jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
 		jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, hbm2ddlAuto);
 		entityManagerFactoryBean.setJpaProperties(jpaProperties);
+		
 		
 		return entityManagerFactoryBean;
 	}

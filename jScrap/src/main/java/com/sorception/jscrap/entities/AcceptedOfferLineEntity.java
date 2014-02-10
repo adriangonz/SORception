@@ -15,7 +15,8 @@ public class AcceptedOfferLineEntity extends AbstractEntity {
 	private int quantity;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "offerLineId", unique = true)
+	@JoinColumn(name = "offerLineId",
+				unique = true)
 	private OfferLineEntity offerLine;
 	
 	public int getQuantity() {

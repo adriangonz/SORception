@@ -53,7 +53,7 @@ public class UserServiceTest extends BaseTest {
 	
 	@Test
 	public void UserService_Delete_ShouldReturnEmptyUser() {
-		userService.delete(2);
+		userService.removeUser(2L);
 		List<UserEntity> users = userService.getAllUsers();
 		assertThat(users.size(), is(1)); // Only admin
 	}

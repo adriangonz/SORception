@@ -45,7 +45,7 @@ public class OfferService extends AbstractService<OfferEntity> {
 	@Autowired
 	private TokenService tokenService;
 		
-	public List<OfferEntity> getAllOffers() {
+	public List<OfferEntity> getOpenedOffers() {
 		return getOfferDao().getOpenedOffers();
 	}
 	
@@ -67,7 +67,7 @@ public class OfferService extends AbstractService<OfferEntity> {
 	}
 	
 	public void deleteOffer(Long id) {
-		OfferEntity offer = this.findOne(id);
+		OfferEntity offer = this.getOfferById(id);
 		deleteOffer(offer);
 	}
 	
@@ -90,6 +90,11 @@ public class OfferService extends AbstractService<OfferEntity> {
 			deleteOffer(offer);
 			return null;
 		}
+	}
+	
+	public OfferEntity updateOfferWithoutAMQ(OfferEntity offer) {
+		update(offer);
+		return offer;
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
