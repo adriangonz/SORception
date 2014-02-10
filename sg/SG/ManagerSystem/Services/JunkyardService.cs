@@ -9,6 +9,8 @@ namespace ManagerSystem.Services
 {
     public class JunkyardService : BaseService
     {
+        public JunkyardService(UnitOfWork uow = null) : base(uow) { }
+
         public TokenResponse createJunkyard(ExpDesguace e_junkyard)
         {
             if (e_junkyard != null)
@@ -62,6 +64,24 @@ namespace ManagerSystem.Services
 
             unitOfWork.JunkyardRepository.Delete(junkyard);
             unitOfWork.Save();
+        }
+
+        public JunkyardEntity getJunkyardWithToken(string token_string)
+        {
+            return tokenService.getJunkyard(token_string);
+        }
+
+        public bool existsJunkyardWithToken(string token_string)
+        {
+            try
+            {
+                this.getJunkyardWithToken(token_string);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

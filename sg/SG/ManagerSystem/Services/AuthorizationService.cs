@@ -11,6 +11,8 @@ namespace ManagerSystem.Services
     {
         public AuthorizationService(UnitOfWork uow = null) : base(uow) { }
 
+        private string current_junkyard_token = "";
+
         public string getCurrentToken()
         {
             #if DEBUG
@@ -28,7 +30,7 @@ namespace ManagerSystem.Services
             }
         }
 
-        public bool isConnectionAuthorized()
+        public bool isGarageAuthorized()
         {
             string token_string = this.getCurrentToken();
 
@@ -41,6 +43,26 @@ namespace ManagerSystem.Services
             {
                 return false;
             }
+        }
+
+        public bool isJunkyardAuthorized()
+        {
+            string token_string = this.getCurrentToken();
+
+            try
+            {
+                return junkyardService.existsJunkyardWithToken(token_string)
+                    && tokenService.isValid(token_string);
+            }
+            catch (ArgumentNullException)
+            {
+                return false;
+            }
+        }
+
+        public void setJunkyardToken(string token)
+        {
+            current_junkyard_token = token;
         }
     }
 }

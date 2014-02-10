@@ -61,7 +61,19 @@ namespace ManagerSystem.Services
         private void offerSubscriber_OnMessageReceived(string message)
         {
             AMQOfertaMessage msg = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
-            // TODO
+            authorizationService.setJunkyardToken(msg.desguace_id);
+            switch (msg.code)
+            {
+                case AMQOfertaMessage.Code.New:
+                    offerService.addOffer(msg.oferta);
+                    break;
+                case AMQOfertaMessage.Code.Update:
+                    offerService.putOffer(msg.oferta);
+                    break;
+                case AMQOfertaMessage.Code.Delete:
+                    offerService.deleteOffer(msg.oferta.id);
+                    break;
+            }
         }
 
         private void scheduledJobSubscriber_OnMessageReceived(string message)

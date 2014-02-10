@@ -31,6 +31,21 @@ namespace ManagerSystem.Services
             return order.offers;
         }
 
+        public void addOffer(ExpOferta e_offer)
+        {
+
+        }
+
+        public void putOffer(ExpOferta e_offer)
+        {
+
+        }
+
+        public void deleteOffer(int offer_id)
+        {
+
+        }
+
         public ExpOferta toExposed(OfferEntity offer)
         {
             ExpOferta e_offer = new ExpOferta();

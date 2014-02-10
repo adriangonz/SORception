@@ -151,5 +151,25 @@ namespace ManagerSystem.Services
 
             return token.garage;
         }
+
+        public JunkyardEntity getJunkyard(string token_string)
+        {
+            if (token_string == null)
+                throw new ArgumentNullException();
+
+            JunkyardTokenEntity token;
+            try
+            {
+                token = unitOfWork.JunkyardTokenRepository.Get(t => t.token == token_string).First();
+            }
+            catch (Exception ex)
+            {
+                if (ex is ArgumentNullException || ex is InvalidOperationException)
+                    throw new ArgumentException();
+                throw;
+            }
+
+            return token.junkyard;
+        }
     }
 }

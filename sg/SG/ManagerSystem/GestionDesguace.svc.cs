@@ -49,6 +49,10 @@ namespace ManagerSystem
             return tokenService.validateJunkyardToken(token_string);
         }
 
-        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) { }
+        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) 
+        { 
+                
+        }
     }
 }
+a

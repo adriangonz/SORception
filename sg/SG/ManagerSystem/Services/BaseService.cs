@@ -67,6 +67,17 @@ namespace ManagerSystem.Services
             }
         }
 
+        private JunkyardService junkyard_service = null;
+        protected JunkyardService junkyardService
+        {
+            get
+            {
+                if (this.junkyard_service == null)
+                    this.junkyard_service = new JunkyardService(unitOfWork);
+                return this.junkyard_service;
+            }
+        }
+
         private JobService job_service = null;
         protected JobService jobService
         {
