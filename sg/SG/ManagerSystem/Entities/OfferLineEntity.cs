@@ -16,6 +16,12 @@ namespace ManagerSystem.Entities
 
     public class OfferLineEntity : BaseEntity
     {
+        public OfferLineEntity()
+        {
+            this.status = OfferLineStatus.NEW;
+            this.selected_ammount = 0;
+        }
+
         public OfferLineStatus status { get; set; }
 
         public int corresponding_id { get; set; }
@@ -24,17 +30,19 @@ namespace ManagerSystem.Entities
 
         public int quantity { get; set; }
 
+        public string notes { get; set; }
+
         public int offer_id { get; set; }
 
         [Required]
         [ForeignKey("offer_id")]
-        public OfferEntity offer { get; set; }
+        public virtual OfferEntity offer { get; set; }
 
         public int order_line_id { get; set; }
         
         [Required]
         [ForeignKey("order_line_id")]
-        public OrderLineEntity order_line { get; set; }
+        public virtual OrderLineEntity order_line { get; set; }
         
         public int selected_ammount { get; set; }
     }

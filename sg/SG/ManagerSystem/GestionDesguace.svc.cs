@@ -39,6 +39,17 @@ namespace ManagerSystem
             }
         }
 
+        private AMQService amq_service = null;
+        private AMQService amqService
+        {
+            get
+            {
+                if (this.amq_service == null)
+                    this.amq_service = new AMQService();
+                return this.amq_service;
+            }
+        }
+
         public TokenResponse signUp(ExpDesguace ed)
         {
             return junkyardService.createJunkyard(ed);
@@ -50,9 +61,28 @@ namespace ManagerSystem
         }
 
         public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) 
-        { 
-                
+        {
+            o = new AMQOfertaMessage
+            {
+                code = AMQOfertaMessage.Code.New,
+                desguace_id = "8urBZfCziU2f4V248M/t2w",
+                oferta = new ExpOferta
+                {
+                    id_en_desguace = 100,
+                    solicitud_id = 5,
+                    lineas = new List<ExpOferta.Line>()
+                }
+            };
+            o.oferta.lineas.Add(new ExpOferta.Line
+            {
+                id_en_desguace = 101,
+                linea_solicitud_id = 2,
+                notes = "una patata",
+                price = 1,
+                quantity = 5
+            });
+            
+            amqService.processOfferMessage(o);
         }
     }
 }
-a

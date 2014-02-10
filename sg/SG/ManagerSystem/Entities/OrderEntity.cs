@@ -20,6 +20,7 @@ namespace ManagerSystem.Entities
         public OrderEntity()
         {
             this.lines = new List<OrderLineEntity>();
+            this.status = OrderStatus.NEW;
         }
 
         public OrderStatus status { get; set; }
@@ -37,20 +38,19 @@ namespace ManagerSystem.Entities
         [InverseProperty("order")]
         public ICollection<OrderLineEntity> lines { get; set; }
 
-        public virtual List<OfferEntity> offers
-        {
-            get
+        public List<OfferEntity> getOffers() 
+        {       
+            HashSet<OfferEntity> offers = new HashSet<OfferEntity>();
+            foreach (var line in this.lines)
             {
-                HashSet<OfferEntity> offers = new HashSet<OfferEntity>();
-                foreach (var line in this.lines)
+                if (line.deleted)
+                    continue;
+                foreach (var line_offer in line.offers)
                 {
-                    foreach (var line_offer in line.offers)
-                    {
-                        offers.Add(line_offer.offer);
-                    }
+                    offers.Add(line_offer.offer);
                 }
-                return offers.ToList();
             }
-        }
+            return offers.ToList();
+         }
     }
 }

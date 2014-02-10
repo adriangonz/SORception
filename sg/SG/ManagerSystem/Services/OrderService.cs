@@ -52,6 +52,10 @@ namespace ManagerSystem.Services
             return orders;
         }
 
+        /*
+         * Esto estaba en el offerService, pero por cosas de EF lo he acabado dejando aqui
+         */
+
         public void putOrder(ExpSolicitud e_order)
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(e_order.id);
@@ -105,10 +109,12 @@ namespace ManagerSystem.Services
 
             if (line == null)
                 throw new ArgumentException();
-
+            /*
+             * No se si esto deberia quedarse comentado o anyadir una comprobacion 
+             * para que los desguaces puedan verlo.
             if (line.order.garage != garageService.getCurrentGarage())
                 throw new ArgumentException();
-
+            */
             return line;
         }
 

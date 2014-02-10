@@ -16,9 +16,10 @@ namespace ManagerSystem.Entities
 
     public class OfferEntity : BaseEntity
     {
-        OfferEntity()
+        public OfferEntity()
         {
             lines = new List<OfferLineEntity>();
+            this.status = OfferStatus.NEW;
         }
 
         public OfferStatus status { get; set; }

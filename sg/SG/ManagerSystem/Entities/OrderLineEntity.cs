@@ -28,6 +28,7 @@ namespace ManagerSystem.Entities
         public OrderLineEntity()
         {
             this.offers = new List<OfferLineEntity>();
+            this.status = OrderLineStatus.NEW;
         }
 
         public int corresponding_id { get; set; }
@@ -44,7 +45,7 @@ namespace ManagerSystem.Entities
 
         [Required]
         [ForeignKey("order_id")]
-        public OrderEntity order { get; set; }
+        public virtual OrderEntity order { get; set; }
         
         [InverseProperty("order_line")]
         public virtual ICollection<OfferLineEntity> offers { get; set; }
