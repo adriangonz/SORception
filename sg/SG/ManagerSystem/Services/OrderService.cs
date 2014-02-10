@@ -32,7 +32,7 @@ namespace ManagerSystem.Services
 
         public OrderEntity getOrder(int order_id)
         {
-            OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id);
+            OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id, "lines");
 
             if (order == null)
                 throw new ArgumentNullException();
@@ -99,6 +99,19 @@ namespace ManagerSystem.Services
             amqService.publishOrder(msg);
         }
 
+        public OrderLineEntity getOrderLine(int line_id)
+        {
+            OrderLineEntity line = unitOfWork.OrderLineRepository.GetByID(line_id);
+
+            if (line == null)
+                throw new ArgumentException();
+
+            if (line.order.garage != garageService.getCurrentGarage())
+                throw new ArgumentException();
+
+            return line;
+        }
+
         private void copyLineFromExposed(OrderLineEntity order_line, ExpSolicitud.Line e_order_line)
         {
             order_line.corresponding_id = e_order_line.id_en_taller;
@@ -113,20 +126,64 @@ namespace ManagerSystem.Services
             order.garage = garageService.getCurrentGarage();
             order.deadline = e_order.deadline;
             order.corresponding_id = e_order.id_en_taller;
-            // copiar las lineas
+            foreach (var e_line in e_order.lineas)
+            {
+                OrderLineEntity line;
+                switch (e_line.action)
+                {
+                    case "NEW":
+                        line = new OrderLineEntity();
+                        this.copyLineFromExposed(line, e_line);
+                        line.order = order;
+                        unitOfWork.OrderLineRepository.Insert(line);
+                        break;
+                    case "UPDATED":
+                        line = this.getOrderLine(e_line.id);
+                        if (line.order_id != order.id)
+                            throw new ArgumentException();
+                        this.copyLineFromExposed(line, e_line);
+                        unitOfWork.OrderLineRepository.Update(line);
+                        break;
+                    case "DELETED":
+                        line = this.getOrderLine(e_line.id);
+                        if (line.order != order)
+                            throw new ArgumentException();
+                        unitOfWork.OrderLineRepository.Delete(line);
+                        break;
+                }
+            }
         }
 
         public ExpSolicitud toExposed(OrderEntity order)
         {
             ExpSolicitud e_order = new ExpSolicitud();
 
-            e_order.deadline = order.deadline;
-            e_order.id = order.id;
+            e_order.deadline     = order.deadline;
+            e_order.id           = order.id;
             e_order.id_en_taller = order.corresponding_id;
-            e_order.status = order.status.ToString();
-            // copiar las lineas
+            e_order.status       = order.status.ToString();
+            e_order.lineas       = new List<ExpSolicitud.Line>();
+            foreach (var order_line in order.lines)
+            {
+                if (!order_line.deleted) // TODO
+                    e_order.lineas.Add(this.toExposed(order_line));
+            }
 
             return e_order;
+        }
+
+        public ExpSolicitud.Line toExposed(OrderLineEntity order_line)
+        {
+            ExpSolicitud.Line e_line = new ExpSolicitud.Line();
+
+            e_line.id = order_line.id;
+            e_line.description = order_line.description;
+            e_line.quantity = order_line.quantity;
+            e_line.status = order_line.status.ToString();
+            e_line.flag = order_line.flag.ToString();
+            e_line.id_en_taller = order_line.corresponding_id;
+
+            return e_line;
         }
     }
 }

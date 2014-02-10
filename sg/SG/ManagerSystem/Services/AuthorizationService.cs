@@ -14,7 +14,7 @@ namespace ManagerSystem.Services
         public string getCurrentToken()
         {
             #if DEBUG
-            return "Nv8nAmhXoEmmEQMWbCDD/w";
+            return "kSN5lFhNYEKRs01SZmqSg";
             #endif
 
             try

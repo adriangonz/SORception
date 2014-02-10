@@ -53,13 +53,14 @@ namespace ManagerSystem.DataAccess
             }
         }
 
-        public virtual TEntity GetByID(object id)
+        public virtual TEntity GetByID(object id,
+            string includeProperties = "")
         {
             //return dbSet.Find(id);
 
             try
             {
-                return this.Get(e => e.id == (int)id).First();
+                return this.Get(e => e.id == (int)id, null, includeProperties).First();
             }
             catch (InvalidOperationException)
             {
