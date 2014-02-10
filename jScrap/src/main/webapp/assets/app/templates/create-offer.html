@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>Fecha fin:</td>
-            <td>{{actual_order.deadline}}</td>
+            <td>{{actual_order.deadline | date:'short'}}</td>
         </tr>
     </tbody>
 </table>
@@ -61,7 +61,7 @@
             <td>{{line.notes}}</td>
             <td>{{line.quantity}}</td>
             <td>{{line.price}}</td>
-            <td>{{line.date}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
+            <td>{{line.date | date:'short'}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
             <td><input class="form-control full" type="number" id="idorder" ng-model="tmp_line.orderLineId" placeholder="1" /></td>
