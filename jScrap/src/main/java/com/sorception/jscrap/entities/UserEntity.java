@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author kaseyo
@@ -26,12 +28,16 @@ public class UserEntity extends AbstractEntity {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     
+    @Column(name = "password", nullable = false)
+    private String password;
+    
     public UserEntity() {}
 
-    public UserEntity(String username, String name) {
+    public UserEntity(String username, String name, String password) {
         this.username = username;
         this.name = name;
         this.admin = false;
+        this.password = password;
     }
 
     public String getName() {
@@ -44,5 +50,10 @@ public class UserEntity extends AbstractEntity {
     
     public Boolean getIsAdmin() {
         return admin;
+    }
+    
+    @JsonIgnore
+    public String getPassword() {
+    	return password;
     }
 }

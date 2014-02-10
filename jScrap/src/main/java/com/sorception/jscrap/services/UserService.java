@@ -6,33 +6,23 @@
 
 package com.sorception.jscrap.services;
 
+import java.util.List;
+
+import org.apache.commons.net.util.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.sorception.jscrap.dao.IGenericDAO;
 import com.sorception.jscrap.dao.IUserDAO;
 import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.error.AuthenticationException;
 import com.sorception.jscrap.error.ResourceNotFoundException;
-
-import org.apache.commons.net.util.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 /**
  *
  * @author kaseyo
@@ -47,9 +37,12 @@ public class UserService extends AbstractService<UserEntity> {
     
     @Autowired
     private IUserDAO dao;
+    
+    private PasswordEncoder encoder;
 	
     public UserService() {
 		super(UserEntity.class);
+		encoder = new BCryptPasswordEncoder(256);
 	}
     
 	@Override
@@ -61,8 +54,9 @@ public class UserService extends AbstractService<UserEntity> {
         return findAll();
     }
     
-    public UserEntity addUser(String username, String name) {
-        UserEntity user = new UserEntity(username, name);
+    public UserEntity addUser(String username, String name, String password) {    	
+    	password = encoder.encode(password);
+        UserEntity user = new UserEntity(username, name, password);
         create(user);
         return user;
     }
