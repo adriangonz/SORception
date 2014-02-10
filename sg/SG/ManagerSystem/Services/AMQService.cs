@@ -3,6 +3,7 @@ using ManagerSystem.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Web;
 using System.Web;
 
 
@@ -58,10 +59,12 @@ namespace ManagerSystem.Services
             topicSubscriber.Start(subscription_name);
         }
 
-        private void offerSubscriber_OnMessageReceived(string message)
+        public void processOfferMessage(AMQOfertaMessage msg)
         {
-            AMQOfertaMessage msg = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
             authorizationService.setJunkyardToken(msg.desguace_id);
+            if (!authorizationService.isJunkyardAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+
             switch (msg.code)
             {
                 case AMQOfertaMessage.Code.New:
@@ -74,6 +77,12 @@ namespace ManagerSystem.Services
                     offerService.deleteOffer(msg.oferta.id);
                     break;
             }
+        }
+
+        private void offerSubscriber_OnMessageReceived(string message)
+        {
+            AMQOfertaMessage msg = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
+            this.processOfferMessage(msg);
         }
 
         private void scheduledJobSubscriber_OnMessageReceived(string message)
