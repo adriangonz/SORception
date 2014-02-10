@@ -52,10 +52,10 @@ namespace ManagerSystem
                 out_l_oferta.price = l_oferta.price;
                 out_l_oferta.quantity = l_oferta.quantity;
                 if (l_oferta.LineaOfertaSeleccionada != null)
-                {
+                {/*
                     out_l_oferta.linea_solicitud = new ExpOferta.Line.RelatedSolicitud();
                     out_l_oferta.linea_solicitud.linea_solicitud_id = l_oferta.LineaSolicitudId;
-                    out_l_oferta.linea_solicitud.quantity = l_oferta.LineaOfertaSeleccionada.quantity;
+                    out_l_oferta.linea_solicitud.quantity = l_oferta.LineaOfertaSeleccionada.quantity;*/
                 }
                 out_oferta.lineas.Add(out_l_oferta);
             }
