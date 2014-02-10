@@ -144,15 +144,6 @@ namespace ManagerSystem
     {
         public class Line
         {
-            public class RelatedSolicitud
-            {
-                [DataMember(Name = "linea_solicitud_id")]
-                public int linea_solicitud_id;
-
-                [DataMember(Name = "quantity")]
-                public int quantity;
-            }
-
             [DataMember(Name = "id")]
             public int id;
 
@@ -171,8 +162,8 @@ namespace ManagerSystem
             [DataMember(Name = "price")]
             public double price;
 
-            [DataMember(Name = "linea_solicitud")]
-            public RelatedSolicitud linea_solicitud;
+            [DataMember(Name = "selected_ammount")]
+            public int selected_ammount;
         }
 
         [DataMember(Name = "id")]
