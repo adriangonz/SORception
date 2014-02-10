@@ -51,7 +51,7 @@ namespace ManagerSystem.Services
 
             unitOfWork.Save();
 
-            return new TokenResponse(token.token, code);
+            return new TokenResponse(new_token.token, code);
         }
 
         public TokenResponse validateGarageToken(string token_string)
@@ -94,7 +94,7 @@ namespace ManagerSystem.Services
 
             unitOfWork.Save();
 
-            return new TokenResponse(token.token, code);
+            return new TokenResponse(new_token.token, code);
         }
 
         public JunkyardTokenEntity createJunkyardToken(TokenType type = TokenType.TEMPORAL)
