@@ -52,7 +52,7 @@ namespace ManagerSystem.Services
 
         public GarageEntity getCurrentGarage()
         {
-            string token_string = authorizationService.getCurrentToken();
+            string token_string = authorizationService.getCurrentGarageToken();
 
             return this.getGarageWithToken(token_string);
         }

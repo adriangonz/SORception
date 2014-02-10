@@ -83,5 +83,12 @@ namespace ManagerSystem.Services
             }
             return true;
         }
+
+        public JunkyardEntity getCurrentJunkyard()
+        {
+            string token_string = authorizationService.getCurrentJunkyardToken();
+
+            return this.getJunkyardWithToken(token_string);
+        }
     }
 }
