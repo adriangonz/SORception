@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,33 +55,39 @@ public class UserService extends AbstractService<UserEntity> {
 	protected IGenericDAO<UserEntity> getDao() {
 		return dao;
 	}
-        
+    
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserEntity> getAllUsers() {
         return findAll();
     }
     
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserEntity addUser(UserInfoDTO userInfo) {
         UserEntity user = new UserEntity(userInfo.username, userInfo.name, userInfo.password);
         encodePassword(user);
         create(user);
         return user;
     }
-
+	
+	//TODO: Only owner or admin
     public UserEntity getUser(Long userId) {
         return findOne(userId);
     }
     
+    //TODO: Only owner or admin
     public UserEntity getUserByUsername(String username) {
         UserEntity user = ((IUserDAO)getDao()).findByUsername(username);
         if(null == user)
             throw new ResourceNotFoundException("User " + username + " was not found");
         return user;
     }
-
+    
+    //TODO: Only owner or admin
     public void removeUser(Long userId) {
     	delete(userId);
     }
     
+    @PreAuthorize("isAnonymous() || hasRole('ROLE_ADMIN')")
     public String authenticateUser(String username, String password) {
         try {
             logger.info("Generating auth token for user "+ username + "...");

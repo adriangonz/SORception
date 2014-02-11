@@ -21,6 +21,7 @@ public class UserServiceTest extends BaseTest {
     public void setup() {
         // workaround for autowiring problem
         userService = (UserService)applicationContext.getBean("userService");
+        loginUser("admin");
     }
 	
 	@Test

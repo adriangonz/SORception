@@ -1,4 +1,7 @@
 <dataset>
+	<!-- User -->
+	<ApplicationUser id="2" username="kaseyo" name="Adrián" password="password" isAdmin="false" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00" />
+	
 	<!-- Dummy token -->
 	<Token 
 		id="1" 

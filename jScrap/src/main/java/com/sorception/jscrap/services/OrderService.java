@@ -60,7 +60,7 @@ public class OrderService extends AbstractService<OrderEntity> {
 			throw new ResourceNotFoundException("Orderline with id " + Long.toString(orderLineId) + " was not found");
 		return line;
 	}
-
+	
 	public OrderEntity getOrderBySgId(String id) {
 		return getOrderDao().findBySgId(id);
 	}

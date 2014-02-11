@@ -25,6 +25,7 @@ public class OfferServiceTest extends BaseTest {
 	@Before
 	public void setup() {
 		offerService = (OfferService)applicationContext.getBean("offerService");
+		loginUser("kaseyo");
 	}
 	
 	@Test

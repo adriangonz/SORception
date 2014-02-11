@@ -7,11 +7,6 @@
 package com.sorception.jscrap.config;
 
 
-import com.sorception.jscrap.entities.TokenEntity;
-import com.sorception.jscrap.error.ResourceNotFoundException;
-import com.sorception.jscrap.services.SettingsService;
-import com.sorception.jscrap.services.TokenService;
-
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.MessageListener;
@@ -26,6 +21,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
+import com.sorception.jscrap.services.SettingsService;
+import com.sorception.jscrap.services.TokenService;
 
 /**
  *
@@ -103,7 +103,7 @@ public class ActiveMQConfig {
         jmsContainer.setMessageListener(listener);
         jmsContainer.setDestination(destination);
         try {
-            TokenEntity validToken = tokenService.getValid();
+            TokenEntity validToken = tokenService.getValidInit();
             enableJmsContainer(jmsContainer, validToken, destinationName);
         } catch(ResourceNotFoundException ex) {
             disableJmsContainer(jmsContainer);
