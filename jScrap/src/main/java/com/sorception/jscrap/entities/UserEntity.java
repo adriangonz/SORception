@@ -56,4 +56,8 @@ public class UserEntity extends AbstractEntity {
     public String getPassword() {
     	return password;
     }
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

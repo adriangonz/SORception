@@ -13,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.dao.SaltSource;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,11 +40,14 @@ public class UserService extends AbstractService<UserEntity> {
     @Autowired
     private IUserDAO dao;
     
-    private PasswordEncoder encoder;
-	
+    @Autowired
+    private SaltSource saltSource;
+    
+    @Autowired
+    private ShaPasswordEncoder passwordEncoder;
+    
     public UserService() {
 		super(UserEntity.class);
-		encoder = new BCryptPasswordEncoder(256);
 	}
     
 	@Override
@@ -55,8 +59,9 @@ public class UserService extends AbstractService<UserEntity> {
         return findAll();
     }
     
-    public UserEntity addUser(UserInfoDTO userInfo) {    	
+    public UserEntity addUser(UserInfoDTO userInfo) {
         UserEntity user = new UserEntity(userInfo.username, userInfo.name, userInfo.password);
+        encodePassword(user);
         create(user);
         return user;
     }
@@ -76,12 +81,6 @@ public class UserService extends AbstractService<UserEntity> {
     	delete(userId);
     }
     
-    private String getAuthentication(String username, String password) {
-		String creds = username + ":" + password;
-		creds = Base64.encodeBase64String(creds.getBytes()).trim();
-		return "Basic " + creds;
-    }
-    
     public String authenticateUser(String username, String password) {
         try {
             logger.info("Generating auth token for user "+ username + "...");
@@ -91,5 +90,20 @@ public class UserService extends AbstractService<UserEntity> {
         } catch (BadCredentialsException es) {
             throw new AuthenticationException("Bad credentials for user " + username);
         }
+    }
+    
+    private void encodePassword(UserEntity user) {
+    	CustomUserDetailsService userDetailsService = new CustomUserDetailsService();
+        UserDetails userDetails = userDetailsService.loadUserByCustomUser(user);
+        String encodedPassword = 
+        		passwordEncoder.encodePassword(
+        				user.getPassword(), saltSource.getSalt(userDetails));
+        user.setPassword(encodedPassword);
+    }
+    
+    private String getAuthentication(String username, String password) {
+		String creds = username + ":" + password;
+		creds = Base64.encodeBase64String(creds.getBytes()).trim();
+		return "Basic " + creds;
     }
 }
