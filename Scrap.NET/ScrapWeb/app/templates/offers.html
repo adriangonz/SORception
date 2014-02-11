@@ -11,8 +11,8 @@
     <tbody>
         <tr ng-repeat="offer in offers">
             <td>{{offer.id}}</td>
-            <td>{{offer.creationDate}}</td>
-            <td>{{offer.updatedDate}}<a class="fright" remove-offer-btn="offer"><i class="glyphicon glyphicon-remove"></i></a><a class="fright" view-offer-btn="offer"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td>{{offer.creationDate | date:'short'}}</td>
+            <td>{{offer.updatedDate | date:'short'}}<a class="fright" remove-offer-btn="offer"><i class="glyphicon glyphicon-remove"></i></a><a class="fright" view-offer-btn="offer"><i class="glyphicon glyphicon-eye-open"></i></a></td>
         </tr>
     </tbody>
 </table>

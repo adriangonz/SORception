@@ -18,7 +18,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
             if (line.status == 'NEW') {
                 service.tmp_offer.lines.splice(service.tmp_offer.lines.indexOf(line), 1);
             } else {
-                line.status = "DELETED";
+                line.status = "DELETE";
             }
             $rootScope.$broadcast('tmp_offer.update');
         },
@@ -112,7 +112,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
             	delete service.tmp_offer.lines[i].creationDate;
             	delete service.tmp_offer.lines[i].updatedDate;
             	delete service.tmp_offer.lines[i].offerId;
-                service.tmp_offer.lines[i].status = "UPDATED";
+                service.tmp_offer.lines[i].status = "UPDATE";
             }
             $rootScope.$broadcast('tmp_offer.update');
         },
