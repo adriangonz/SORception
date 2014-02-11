@@ -63,7 +63,7 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public UserEntity addUser(@RequestBody UserInfoDTO user) {
-        return userService.addUser(user.username, user.name, user.password);
+        return userService.addUser(user);
     }
     
     @RequestMapping(value="/{userId}", method=RequestMethod.DELETE)

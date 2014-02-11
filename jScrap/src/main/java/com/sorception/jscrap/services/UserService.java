@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sorception.jscrap.dao.IGenericDAO;
 import com.sorception.jscrap.dao.IUserDAO;
+import com.sorception.jscrap.dto.UserInfoDTO;
 import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.error.AuthenticationException;
 import com.sorception.jscrap.error.ResourceNotFoundException;
@@ -54,9 +55,8 @@ public class UserService extends AbstractService<UserEntity> {
         return findAll();
     }
     
-    public UserEntity addUser(String username, String name, String password) {    	
-    	password = encoder.encode(password);
-        UserEntity user = new UserEntity(username, name, password);
+    public UserEntity addUser(UserInfoDTO userInfo) {    	
+        UserEntity user = new UserEntity(userInfo.username, userInfo.name, userInfo.password);
         create(user);
         return user;
     }

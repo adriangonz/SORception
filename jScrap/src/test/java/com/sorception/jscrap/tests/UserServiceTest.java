@@ -39,7 +39,8 @@ public class UserServiceTest extends BaseTest {
 		UserInfoDTO userInfo = new UserInfoDTO();
 		userInfo.username = "test";
 		userInfo.name = "Test user";
-		UserEntity user = userService.addUser(userInfo.username, userInfo.name);
+		userInfo.password = "password";
+		UserEntity user = userService.addUser(userInfo);
 		assertThat(user.getName(), is(userInfo.name));
 		assertThat(user.getId(), is(notNullValue()));
 	}
