@@ -91,30 +91,37 @@ namespace ManagerSystem.Services
         {
             OfferLineEntity offer_line = this.getOfferLine(offer_line_id);
 
-            if (offer_line.status == OfferLineStatus.COMPLETE)
+            if (offer_line.status == OfferLineStatus.SELECTED)
                 throw new ArgumentException(String.Format(
                     "The OfferLine {0} is already complete",
                     offer_line_id));
 
             if (ammount <= 0)
-                throw new ArgumentException("Ammount has to be a positive integer");
-
+                throw new ArgumentException(String.Format(
+                    "Ammount {0} has to be greater than 0",
+                    ammount));
 
             offer_line.selected_ammount += ammount;
-            if (offer_line.selected_ammount >= offer_line.quantity)
-                offer_line.status = OfferLineStatus.COMPLETE;
-            else
-                offer_line.status = OfferLineStatus.SELECTED;
+            offer_line.status = OfferLineStatus.SELECTED;
+
+            orderService.updateOrderLineStatus(offer_line.order_line_id);
+
             unitOfWork.OfferLineRepository.Update(offer_line);
         }
 
         public void selectOffer(ExpPedido e_selected_offers)
         {
-            //e_selected_offers.
+            GarageEntity current_garage = garageService.getCurrentGarage();
 
             foreach (var e_selected_line in e_selected_offers.lineas)
             {
                 OfferLineEntity offer_line = this.getOfferLine(e_selected_line.linea_oferta_id);
+
+                if (offer_line.order_line.order.garage != current_garage)
+                    throw new ArgumentException(String.Format(
+                        "The OrderLine with id {0} does not belong to the Garage with token {1}",
+                        offer_line.order_line_id,
+                        authorizationService.getCurrentGarageToken()));
 
                 if (offer_line.offer_id != e_selected_offers.oferta_id)
                     throw new ArgumentException(String.Format(
@@ -123,8 +130,22 @@ namespace ManagerSystem.Services
                         e_selected_offers.oferta_id));
 
                 this.selectOfferLine(offer_line.id, e_selected_line.quantity);
+
+                // Change the id of the line to the one in the Junkyard
+                e_selected_line.linea_oferta_id = offer_line.corresponding_id;
             }
             unitOfWork.Save();
+
+            // Change the id of the offer to the one in the Junkyard
+            OfferEntity offer = this.getOffer(e_selected_offers.oferta_id);
+            e_selected_offers.oferta_id = offer.corresponding_id;
+
+            AMQPedidoMessage msg = new AMQPedidoMessage
+            {
+                pedido = e_selected_offers,
+                desguace_id = offer.junkyard.current_token
+            };
+            amqService.publishOrderConfirmation(msg);
         }
 
         public void copyFromExposed(OfferEntity offer, ExpOferta e_offer)

@@ -30,7 +30,7 @@ namespace ManagerSystem.Entities
 
         [Required]
         [ForeignKey("junkyard_id")]
-        public JunkyardEntity junkyard { get; set; }
+        public virtual JunkyardEntity junkyard { get; set; }
 
         [InverseProperty("offer")]
         public List<OfferLineEntity> lines { get; set; }

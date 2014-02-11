@@ -186,6 +186,11 @@ namespace ManagerSystem
 
         public int selectOferta(ExpPedido r)
         {
+            offerService.selectOffer(r);
+
+            return 0;
+
+            /*
             Taller t = getAuthorizedTaller();
 
             Oferta o = r_oferta.Find(r.oferta_id);
@@ -201,8 +206,8 @@ namespace ManagerSystem
                 LineaOferta lo = db_context.LineaOfertaSet.Find(l.linea_oferta_id);
                 if (lo.LineaOfertaSeleccionada != null)
                     throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-                /*if (!o.LineasOferta.Contains(lo))
-                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);*/
+                if (!o.LineasOferta.Contains(lo))
+                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
                     
                 LineaOfertaSeleccionada los = new LineaOfertaSeleccionada();
                 los.LineaOferta = lo;
@@ -223,7 +228,7 @@ namespace ManagerSystem
             message.pedido = amq_pedido;
             SendMessage(message);
 
-            return 0;
+            return 0;*/
         }
 
         private void SendMessage(AMQPedidoMessage sm)

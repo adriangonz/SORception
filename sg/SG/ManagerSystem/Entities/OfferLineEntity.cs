@@ -10,8 +10,7 @@ namespace ManagerSystem.Entities
     public enum OfferLineStatus
     {
         NEW,
-        SELECTED,
-        COMPLETE
+        SELECTED
     }
 
     public class OfferLineEntity : BaseEntity

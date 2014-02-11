@@ -118,6 +118,26 @@ namespace ManagerSystem.Services
             return line;
         }
 
+        public void updateOrderLineStatus(int order_line_id)
+        {
+            OrderLineEntity order_line = this.getOrderLine(order_line_id);
+
+            int selected_ammount = 0;
+            foreach (var offer_line in order_line.offers)
+            {
+                selected_ammount += offer_line.selected_ammount;
+            }
+
+            OrderLineStatus previous_status = order_line.status;
+            if (selected_ammount >= order_line.quantity)
+                order_line.status = OrderLineStatus.COMPLETE;
+            else if (selected_ammount >= 0)
+                order_line.status = OrderLineStatus.INCOMPLETE;
+
+            if (order_line.status != previous_status)
+                unitOfWork.OrderLineRepository.Update(order_line);
+        }
+
         private void copyLineFromExposed(OrderLineEntity order_line, ExpSolicitud.Line e_order_line)
         {
             order_line.corresponding_id = e_order_line.id_en_taller;
