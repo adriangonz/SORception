@@ -77,6 +77,56 @@ namespace ManagerSystem.Services
             unitOfWork.Save();
         }
 
+        public OfferLineEntity getOfferLine(int offer_line_id)
+        {
+            OfferLineEntity line = unitOfWork.OfferLineRepository.GetByID(offer_line_id);
+
+            if (line == null)
+                throw new ArgumentException(String.Format("There is not an OfferLine with id {0}", offer_line_id));
+
+            return line;
+        }
+
+        public void selectOfferLine(int offer_line_id, int ammount)
+        {
+            OfferLineEntity offer_line = this.getOfferLine(offer_line_id);
+
+            if (offer_line.status == OfferLineStatus.COMPLETE)
+                throw new ArgumentException(String.Format(
+                    "The OfferLine {0} is already complete",
+                    offer_line_id));
+
+            if (ammount <= 0)
+                throw new ArgumentException("Ammount has to be a positive integer");
+
+
+            offer_line.selected_ammount += ammount;
+            if (offer_line.selected_ammount >= offer_line.quantity)
+                offer_line.status = OfferLineStatus.COMPLETE;
+            else
+                offer_line.status = OfferLineStatus.SELECTED;
+            unitOfWork.OfferLineRepository.Update(offer_line);
+        }
+
+        public void selectOffer(ExpPedido e_selected_offers)
+        {
+            //e_selected_offers.
+
+            foreach (var e_selected_line in e_selected_offers.lineas)
+            {
+                OfferLineEntity offer_line = this.getOfferLine(e_selected_line.linea_oferta_id);
+
+                if (offer_line.offer_id != e_selected_offers.oferta_id)
+                    throw new ArgumentException(String.Format(
+                        "The OfferLine with id {0} does not belong to the Offer {1}", 
+                        e_selected_line.linea_oferta_id, 
+                        e_selected_offers.oferta_id));
+
+                this.selectOfferLine(offer_line.id, e_selected_line.quantity);
+            }
+            unitOfWork.Save();
+        }
+
         public void copyFromExposed(OfferEntity offer, ExpOferta e_offer)
         {
             offer.corresponding_id = e_offer.id_en_desguace;
