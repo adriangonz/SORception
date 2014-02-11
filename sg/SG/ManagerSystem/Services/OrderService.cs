@@ -133,6 +133,8 @@ namespace ManagerSystem.Services
                 order_line.status = OrderLineStatus.COMPLETE;
             else if (selected_ammount >= 0)
                 order_line.status = OrderLineStatus.INCOMPLETE;
+            else if (order_line.offers.Count > 0)
+                order_line.status = OrderLineStatus.HAS_RESPONSE;
 
             if (order_line.status != previous_status)
                 unitOfWork.OrderLineRepository.Update(order_line);
