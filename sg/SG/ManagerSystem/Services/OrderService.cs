@@ -118,26 +118,37 @@ namespace ManagerSystem.Services
             return line;
         }
 
-        public void updateOrderLineStatus(int order_line_id)
+        public void updateOrderStatus(int order_id)
         {
-            OrderLineEntity order_line = this.getOrderLine(order_line_id);
-
-            int selected_ammount = 0;
-            foreach (var offer_line in order_line.offers)
+            OrderEntity order = this.getOrder(order_id);
+            bool has_offers = false;
+            foreach (var order_line in order.lines)
             {
-                selected_ammount += offer_line.selected_ammount;
+                if (order_line.offers.Count > 0)
+                    has_offers = true;
+
+                int selected_ammount = 0;
+                foreach (var offer_line in order_line.offers)
+                {
+                    selected_ammount += offer_line.selected_ammount;
+                }
+
+                OrderLineStatus previous_status = order_line.status;
+                if (selected_ammount >= order_line.quantity)
+                    order_line.status = OrderLineStatus.COMPLETE;
+                else if (selected_ammount >= 0)
+                    order_line.status = OrderLineStatus.INCOMPLETE;
+                else if (order_line.offers.Count > 0)
+                    order_line.status = OrderLineStatus.HAS_RESPONSE;
+
+                if (order_line.status != previous_status)
+                    unitOfWork.OrderLineRepository.Update(order_line);
             }
 
-            OrderLineStatus previous_status = order_line.status;
-            if (selected_ammount >= order_line.quantity)
-                order_line.status = OrderLineStatus.COMPLETE;
-            else if (selected_ammount >= 0)
-                order_line.status = OrderLineStatus.INCOMPLETE;
-            else if (order_line.offers.Count > 0)
-                order_line.status = OrderLineStatus.HAS_RESPONSE;
-
-            if (order_line.status != previous_status)
-                unitOfWork.OrderLineRepository.Update(order_line);
+            if (has_offers)
+            {
+                order.status = OrderStatus.HAS_RESPONSE;
+            }
         }
 
         private void copyLineFromExposed(OrderLineEntity order_line, ExpSolicitud.Line e_order_line)
