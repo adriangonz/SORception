@@ -22,22 +22,25 @@ public class OfferEntity extends AbstractEntity implements ISoftDeletable  {
 	final static Logger logger = LoggerFactory.getLogger(OfferEntity.class);
 	
 	@OneToMany(mappedBy = "offer",
-			cascade = CascadeType.ALL,
-			fetch = FetchType.EAGER)
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL)
 	private List<OfferLineEntity> lines;
 	
 	@Column(name = "deleted", nullable = false)
-	private Boolean deleted = false;
+	private Boolean deleted;
 		
 	public OfferEntity() {}
 	
 	public OfferEntity(List<OfferLineEntity> lines) {
 		this.setLines(lines);
+		this.deleted = false;
 	}
 	
 	public String getOrderSgId() {
-		if(lines.size() > 0 && lines.get(0).getOrderLine() != null)
-			return lines.get(0).getOrderLine().getOrder().getSgId();
+		for(OfferLineEntity line : lines) {
+			if(line.getOrderLine() != null)
+				return line.getOrderLine().getOrder().getSgId();
+		}
 		return null;
 	}
 	

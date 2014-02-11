@@ -64,7 +64,7 @@ public class PedidosListener implements MessageListener {
 			if(pedidoMessage.getDesguaceId().getValue().equals(tokenService.getValid().getToken())) {
 				logger.info("Saving accepted offer with id " + pedidoMessage.getPedido().getValue().getOfertaId());
 				OfferEntity offer = toOfferEntity(pedidoMessage);
-				offerService.update(offer);
+				offerService.updateOfferWithoutAMQ(offer);
 			} else {
 				logger.info("Ignoring accepted offer for another junkyard");
 			}
