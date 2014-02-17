@@ -320,7 +320,7 @@ namespace Eggplant.Controllers
         }
 
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "ROLE_ADMIN")]
         [Route("register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
