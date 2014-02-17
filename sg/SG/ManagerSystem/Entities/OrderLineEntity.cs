@@ -54,7 +54,7 @@ namespace ManagerSystem.Entities
         {
             get
             {
-                return offers.Where(o => o.status == OfferLineStatus.SELECTED || o.status == OfferLineStatus.COMPLETE).ToList();
+                return offers.Where(o => o.status == OfferLineStatus.SELECTED).ToList();
             }
         }
 
