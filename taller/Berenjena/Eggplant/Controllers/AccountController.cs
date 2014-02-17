@@ -63,6 +63,7 @@ namespace Eggplant.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "ROLE_ADMIN")]
         [Route("users")]
         public object GetListUsers()
         {
