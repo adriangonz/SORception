@@ -18,7 +18,8 @@ public interface IOfferDAO extends IGenericDAO<OfferEntity>{
 				+ "JOIN l.orderLine AS ol "
 				+ "JOIN ol.order AS order "
 			+ "WHERE l.acceptedOfferLine IS NOT EMPTY "
-				+ "OR order.closed = TRUE")
+				+ "OR order.closed = TRUE "
+			+ "ORDER BY o.created DESC")
 	public List<OfferEntity> getAcceptedOffers();
 	
 	@Query("SELECT DISTINCT o "
@@ -28,7 +29,8 @@ public interface IOfferDAO extends IGenericDAO<OfferEntity>{
 				+ "JOIN ol.order AS order "
 			+ "WHERE o.deleted = FALSE "
 				+ "AND order.deleted = FALSE "
-				+ "AND order.closed = FALSE ")
+				+ "AND order.closed = FALSE "
+			+ "ORDER BY o.created DESC")
 	public List<OfferEntity> getOpenedOffers();
 	
 	@Query("SELECT DISTINCT l "

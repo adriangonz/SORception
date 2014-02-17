@@ -29,8 +29,9 @@ public class OrderLineEntity extends AbstractEntity implements ISoftDeletable {
 	@JoinColumn(name = "orderId", nullable = false)
 	private OrderEntity order;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-			mappedBy = "orderLine")
+	@OneToMany(fetch = FetchType.EAGER,
+			mappedBy = "orderLine",
+			cascade = CascadeType.ALL)
 	private List<OfferLineEntity> offerLines;
 	
 	@Column(name = "deleted", nullable = false)

@@ -29,7 +29,7 @@ public class OfferController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody
 	public List<OfferEntity> getOffers() {
-		return offerService.getAllOffers();
+		return offerService.getOpenedOffers();
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)

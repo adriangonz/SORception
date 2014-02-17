@@ -1,18 +1,22 @@
 <h2>Ofertas realizadas</h2>
 
-<table class="table table-striped table-bordered">
+<div class="alert alert-info" ng-show="offers.length == 0">
+    No se ha realizado ninguna oferta.
+</div>
+
+<table class="table table-striped table-bordered" ng-show="offers.length > 0">
     <thead>
         <tr>
             <th>#</th>
-            <th>Creada</th>
-            <th>Modificado</th>
+            <th>Fecha de creación</th>
+            <th>Última modificación</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="offer in offers">
-            <td>{{offer.id}}</td>
-            <td>{{offer.creationDate}}</td>
-            <td>{{offer.updatedDate}}<a class="fright" remove-offer-btn="offer"><i class="glyphicon glyphicon-remove"></i></a><a class="fright" view-offer-btn="offer"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td><a href="" view-offer-btn="offer">{{offer.id}}</a></td>
+            <td>{{offer.created | date:'short'}}</td>
+            <td>{{offer.updated | date:'short'}}<a href="" class="fright" remove-offer-btn="offer"><i class="glyphicon glyphicon-remove"></i></a><a class="fright" href="" view-offer-btn="offer"><i class="glyphicon glyphicon-eye-open"></i></a></td>
         </tr>
     </tbody>
 </table>

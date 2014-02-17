@@ -1,4 +1,4 @@
-var module = angular.module( "scrap.module", ['ngCookies'] );
+var module = angular.module( "scrap.module", ['ngCookies', 'notificationWidget'] );
 
 module.config(['$routeProvider',
   function($routeProvider) {

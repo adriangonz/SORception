@@ -21,6 +21,7 @@ public class UserServiceTest extends BaseTest {
     public void setup() {
         // workaround for autowiring problem
         userService = (UserService)applicationContext.getBean("userService");
+        loginUser("admin");
     }
 	
 	@Test
@@ -39,7 +40,8 @@ public class UserServiceTest extends BaseTest {
 		UserInfoDTO userInfo = new UserInfoDTO();
 		userInfo.username = "test";
 		userInfo.name = "Test user";
-		UserEntity user = userService.addUser(userInfo.username, userInfo.name);
+		userInfo.password = "password";
+		UserEntity user = userService.addUser(userInfo);
 		assertThat(user.getName(), is(userInfo.name));
 		assertThat(user.getId(), is(notNullValue()));
 	}
@@ -53,7 +55,7 @@ public class UserServiceTest extends BaseTest {
 	
 	@Test
 	public void UserService_Delete_ShouldReturnEmptyUser() {
-		userService.delete(2);
+		userService.removeUser(2L);
 		List<UserEntity> users = userService.getAllUsers();
 		assertThat(users.size(), is(1)); // Only admin
 	}

@@ -6,7 +6,15 @@ module.directive( "requestTokenButton", [ 'SettingsService', function( SettingsS
        element.bind( "click", SettingsService.postSettings);
      }
    }
- }]).directive( "postUserBtn", [ 'SettingsService', function( SettingsService ) {
+ }])
+.directive( "checkTokenStatusButton", ['SettingsService', function(SettingsService) {
+  return {
+    link: function(scope, element) {
+      element.bind( "click", SettingsService.getSettings);
+    }
+  }
+}])
+.directive( "postUserBtn", [ 'SettingsService', function( SettingsService ) {
    return {
      restrict: "A",
      scope: {

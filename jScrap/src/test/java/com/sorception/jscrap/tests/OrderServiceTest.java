@@ -23,6 +23,7 @@ public class OrderServiceTest extends BaseTest {
 	@Before
 	public void setup() {
 		orderService = (OrderService)applicationContext.getBean("orderService");
+		loginUser("kaseyo");
 	}
 	
 	@Test

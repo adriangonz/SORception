@@ -1,13 +1,12 @@
 <h2>{{settings.name}}</h2>
 
-
 <table class="table">
   <thead>
       <tr>
         <th>#</th>
-        <th>Username</th>
-        <th>Name</th>
-        <th>Creation Date</th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Fecha de inscripción</th>
       </tr>
     </thead>
     <tbody>
@@ -15,18 +14,18 @@
         <td>{{user.id}}</td>
         <td>{{user.username}}</td>
         <td>{{user.name}}</td>
-        <td>{{user.creationDate}}</td>
+        <td>{{user.created | date:'short'}}</td>
       </tr>
     </tbody>
 </table>
 
 <form class="form-inline" role="form" action="#" method="POST" accept-charset="utf-8">
   <div class="form-group">
-    <label class="sr-only" for="username">User</label>
+    <label class="sr-only" for="username">Usuario</label>
     <input class="form-control" type="text" id="username" ng-model="user.username" value="" placeholder="jperez">
   </div>
   <div class="form-group">
-    <label class="sr-only" for="name">Name</label>
+    <label class="sr-only" for="name">Nombre</label>
     <input class="form-control" type="text" id="name" ng-model="user.name" value="" placeholder="Jose Perez">
   </div>
   <input class="btn" type="submit" post-user-btn="user" value="Crear Usuario">
@@ -39,8 +38,8 @@
       <tr>
         <th>#</th>
         <th>Token</th>
-        <th>Status</th>
-        <th>Creation Date</th>
+        <th>Estado</th>
+        <th>Fecha de creación</th>
       </tr>
     </thead>
     <tbody>
@@ -48,9 +47,10 @@
         <td>{{token.id}}</td>
         <td>{{token.token}}</td>
         <td>{{token.status}}</td>
-        <td>{{token.creationDate}}</td>
+        <td>{{token.created | date:'short'}}</td>
       </tr>
     </tbody>
 </table>
 
-<button class="btn btn-success" request-token-button>Request Token</button>
+<button class="btn btn-success" request-token-button>Pedir nuevo token</button>
+<button class="btn btn-info" check-token-status-button>Comprobar estado</button>

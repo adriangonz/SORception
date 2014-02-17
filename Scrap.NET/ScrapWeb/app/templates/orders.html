@@ -9,10 +9,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="order in orders">
+        <tr ng-repeat="order in orders" ng-hide="order.offer!=null">
             <td>{{order.id}}</td>
-            <td>{{order.creationDate}}</td>
-            <td>{{order.updatedDate}}<a class="fright" view-order-btn="order"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td>{{order.creationDate | date:'short'}}</td>
+            <td>{{order.updatedDate | date:'short'}}<a class="fright" view-order-btn="order"><i class="glyphicon glyphicon-eye-open"></i></a></td>
         </tr>
     </tbody>
 </table>

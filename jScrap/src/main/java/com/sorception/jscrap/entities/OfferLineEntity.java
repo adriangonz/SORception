@@ -29,19 +29,20 @@ public class OfferLineEntity extends AbstractEntity implements ISoftDeletable {
 	@Column(name = "date")
 	private Date date;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "offerId")
 	private OfferEntity offer;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="orderLineId", unique = true)
 	private OrderLineEntity orderLine;
 	
 	@Column(name = "deleted", nullable = false)
-	private Boolean deleted = false;
+	private Boolean deleted;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-			mappedBy = "offerLine")
+	@OneToOne(fetch = FetchType.EAGER,
+			mappedBy = "offerLine",
+			cascade = CascadeType.ALL)
 	private AcceptedOfferLineEntity acceptedOfferLine;
 	
 	public OfferLineEntity() {}
@@ -57,6 +58,7 @@ public class OfferLineEntity extends AbstractEntity implements ISoftDeletable {
 		this.date = date;
 		this.orderLine = orderLine;
 		this.orderLine.setOfferLine(this);
+		this.deleted = false;
 	}
 	
 	public Double getPrice() {

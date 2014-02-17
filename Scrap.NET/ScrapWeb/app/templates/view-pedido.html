@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>Creado:</td>
-            <td>{{actual_pedido.updatedDate}}</td>
+            <td>{{actual_pedido.updatedDate | date:'short'}}</td>
         </tr>
     </tbody>
 </table>
@@ -63,7 +63,7 @@
             <td>{{line.notes}}</td>
             <td>{{line.acceptedOffer.quantity}}</td>
             <td>{{line.price}}</td>
-            <td>{{line.date}}</td>
+            <td>{{line.date | date:'short'}}</td>
         </tr>
     </tbody>
 </table>

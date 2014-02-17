@@ -7,6 +7,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,6 +27,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.sorception.jscrap.config.PersistenceConfig;
 import com.sorception.jscrap.config.RootConfig;
 import com.sorception.jscrap.config.SecurityConfig;
+import com.sorception.jscrap.services.CustomUserDetailsService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -29,7 +35,8 @@ import com.sorception.jscrap.config.SecurityConfig;
 		RootConfig.class,
 		TestConfig.class,
 		PersistenceConfig.class,
-		SecurityConfig.class
+		SecurityConfig.class,
+		CustomUserDetailsService.class
 })
 @TestExecutionListeners({ 
 	DependencyInjectionTestExecutionListener.class,
@@ -44,8 +51,17 @@ public class BaseTest {
 	@Autowired
 	protected ApplicationContext applicationContext;
 	
+	@Autowired
+	UserDetailsService userDetailsService;
+	
 	@Test
 	public void ApplicationContext_Autowired_ShouldNotBeNull() {
 		assertThat(applicationContext, is(notNullValue()));
+	}
+		
+	protected void loginUser(String username) {
+		UserDetails userDetails = userDetailsService.loadUserByUsername (username);
+		Authentication authToken = new UsernamePasswordAuthenticationToken (userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 	}
 }

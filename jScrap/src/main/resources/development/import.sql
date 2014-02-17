@@ -1,1 +1,1 @@
-INSERT INTO ApplicationUser (created, updated, isAdmin, name, username) VALUES (NOW(), NOW(), true, 'Administrador', 'admin');
+INSERT INTO ApplicationUser (created, updated, isAdmin, name, username, password) VALUES (NOW(), NOW(), true, 'Administrador', 'admin', '4bb43533b8ed0f6a3f762f5b8acfbc25535fb8a4c5e74f9165800cc12989b43d');

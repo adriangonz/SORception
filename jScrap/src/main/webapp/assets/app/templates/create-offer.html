@@ -3,7 +3,7 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>Informacion</th>
+            <th>Información</th>
             <th></th>
         </tr>
     </thead>
@@ -18,11 +18,11 @@
         </tr>
         <tr>
             <td>Modificado:</td>
-            <td>{{actual_order.updatedDate}}</td>
+            <td>{{actual_order.updated | date:'short'}}</td>
         </tr>
         <tr>
             <td>Fecha fin:</td>
-            <td>{{actual_order.deadline}}</td>
+            <td>{{actual_order.deadline | date:'short'}}</td>
         </tr>
     </tbody>
 </table>
@@ -30,7 +30,7 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Descripcion</th>
+                <th>Descripción</th>
                 <th>Cantidad</th>
             </tr>
         </thead>
@@ -61,7 +61,7 @@
             <td>{{line.notes}}</td>
             <td>{{line.quantity}}</td>
             <td>{{line.price}}</td>
-            <td>{{line.date}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
+            <td>{{line.date | date:'short'}}<a class="fright" remove-line-btn="line"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
             <td><input class="form-control full" type="number" id="idorder" ng-model="tmp_line.orderLineId" placeholder="1" /></td>

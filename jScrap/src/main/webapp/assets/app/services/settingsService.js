@@ -10,32 +10,11 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	    getSettings: function () {
 	        $http({method: 'GET', url: '/jScrap/api/settings'}).
 			  success(function(data, status, headers, config) {
-	       		service.settings=data;
+	       		angular.extend(service.settings, data);
 	       		$rootScope.$broadcast( 'settings.update' );
 			  }).
 			  error(function(data, status, headers, config) {
 			  	alert(status+" | "+data);
-			  	service.settings.name="DesguaceGET";
-			  	service.settings.tokenList = [
-				   {
-				        "id": 1,
-				        "token": "TOKEN_1",
-				        "status": "REQUESTED", // 'REQUESTED', 'VALID' o 'EXPIRED'
-				        "creationDate": "FECHA_1"
-				   },
-				   {
-				        "id": 2,
-				        "token": "TOKEN_2",
-				        "status": "EXPIRED", // 'REQUESTED', 'VALID' o 'EXPIRED'
-				        "creationDate": "FECHA_2"
-				   },
-				   {
-				        "id": 3,
-				        "token": "TOKEN_3",
-				        "status": "VALID", // 'REQUESTED', 'VALID' o 'EXPIRED'
-				        "creationDate": "FECHA_4"
-				   }
-				];
 	       		$rootScope.$broadcast( 'settings.update' );
 			  });    	
 	    },
@@ -58,29 +37,6 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 			  }).
 			  error(function(data, status, headers, config) {
 			  	alert(status+" | "+data);
-			  	service.settings.userList = [
-				   {
-				        "id": 1,
-				        "username": "Admin",
-				        "name": "su nombre",
-				        "isAdmin": true,
-				        "creationDate": "FECHA_1"
-				   },
-				   {
-				        "id": 2,
-				        "username": "Other",
-				        "name": "su nombre",
-				        "isAdmin": false,
-				        "creationDate": "FECHA_2"
-				   },
-				   {
-				        "id": 3,
-				        "username": "Other2",
-				        "name": "su nombre",
-				        "isAdmin": false,
-				        "creationDate": "FECHA_4"
-				   }
-				];
 	       		$rootScope.$broadcast( 'settings.update' );
 			  });    	
 	    },

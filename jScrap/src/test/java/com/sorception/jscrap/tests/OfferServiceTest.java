@@ -15,6 +15,7 @@ import com.sorception.jscrap.dto.OfferDTO;
 import com.sorception.jscrap.dto.OfferLineDTO;
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
+import com.sorception.jscrap.error.ResourceNotFoundException;
 import com.sorception.jscrap.services.OfferService;
 
 @DatabaseSetup("classpath:offerDataset.xml")
@@ -24,6 +25,7 @@ public class OfferServiceTest extends BaseTest {
 	@Before
 	public void setup() {
 		offerService = (OfferService)applicationContext.getBean("offerService");
+		loginUser("kaseyo");
 	}
 	
 	@Test
@@ -33,8 +35,16 @@ public class OfferServiceTest extends BaseTest {
 	
 	@Test
 	public void OfferService_GetAll_ShouldReturnTwo() {
-		List<OfferEntity> offers = offerService.getAllOffers();
+		List<OfferEntity> offers = offerService.getOpenedOffers();
 		assertThat(offers.size(), is(2));
+	}
+	
+	@Test(expected = ResourceNotFoundException.class)
+	public void OfferService_Delete_ShouldDelete() {
+		offerService.deleteOffer(1L);
+		List<OfferEntity> offers = offerService.getOpenedOffers();
+		assertThat(offers.size(), is(1));
+		offerService.getOfferById(1L);
 	}
 	
 	@Test
@@ -99,7 +109,7 @@ public class OfferServiceTest extends BaseTest {
 		OfferEntity modifiedOffer = offerService.updateOffer(1L, offer);
 		
 		assertThat(modifiedOffer, is(nullValue()));
-		assertThat(offerService.getAllOffers().size(), is(1));
+		assertThat(offerService.getOpenedOffers().size(), is(1));
 	}
 	
 	private List<OfferLineDTO> generateRandom() {

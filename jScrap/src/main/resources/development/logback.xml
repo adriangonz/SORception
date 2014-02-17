@@ -21,8 +21,8 @@
     	<logger name="org.apache.activemq" level="ALL" />
 	-->
 	<!-- 
-    	<logger name="org.hibernate" level="ALL" />
-	-->
+    	<logger name="org.hibernate.event.internal.DefaultDeleteEventListener" level="ALL" />
+	 -->
  	<!-- 
     	<logger name="org.springframework.web.servlet.mvc" level="ALL" />
 	-->

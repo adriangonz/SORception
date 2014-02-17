@@ -9,6 +9,7 @@ package com.sorception.jscrap.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,12 @@ public class TokenService extends AbstractService<TokenEntity> {
 	protected IGenericDAO<TokenEntity> getDao() {
 		return dao;
 	}
-        
+	
+	public TokenEntity getValidInit() {
+		return getValid();
+	}
+    
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public TokenEntity requestToken() {
         logger.info("New token requested. Disabling old ones...");
         getTokenDao().invalidateTokens();
@@ -54,6 +60,7 @@ public class TokenService extends AbstractService<TokenEntity> {
         return create(temporalToken);
     }
     
+	@PreAuthorize("hasRole('ROLE_USER')")
     public TokenEntity getValid() {
         TokenEntity tokenEntity = getTokenDao().findByStatus(TokenEntity.TokenStatus.VALID);
         if(null == tokenEntity) {
@@ -73,6 +80,7 @@ public class TokenService extends AbstractService<TokenEntity> {
         return tokenEntity;
     }
     
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<TokenEntity> list() {
         return getTokenDao().findAllOrderByCreated();
     }
