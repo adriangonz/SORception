@@ -77,7 +77,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="line in tmp_offer.lines" ng-hide="line.status=='DELETED'">
+        <tr ng-repeat="line in tmp_offer.lines" ng-hide="line.status=='DELETE'">
             <td><span contenteditable ng-model="line.orderLineId" strip-br="true" required /></td>
             <td><span contenteditable ng-model="line.notes" strip-br="true" required /></td>
             <td><span contenteditable ng-model="line.quantity" strip-br="true" required /></td>
