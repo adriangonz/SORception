@@ -104,8 +104,6 @@ namespace ManagerSystem.Services
             offer_line.selected_ammount += ammount;
             offer_line.status = OfferLineStatus.SELECTED;
 
-            orderService.updateOrderLineStatus(offer_line.order_line_id);
-
             unitOfWork.OfferLineRepository.Update(offer_line);
         }
 
@@ -116,7 +114,7 @@ namespace ManagerSystem.Services
             foreach (var e_selected_line in e_selected_offers.lineas)
             {
                 OfferLineEntity offer_line = this.getOfferLine(e_selected_line.linea_oferta_id);
-
+                
                 if (offer_line.order_line.order.garage != current_garage)
                     throw new ArgumentException(String.Format(
                         "The OrderLine with id {0} does not belong to the Garage with token {1}",
@@ -134,6 +132,7 @@ namespace ManagerSystem.Services
                 // Change the id of the line to the one in the Junkyard
                 e_selected_line.linea_oferta_id = offer_line.corresponding_id;
             }
+            orderService.updateOrderStatus(e_selected_offers.oferta_id);
             unitOfWork.Save();
 
             // Change the id of the offer to the one in the Junkyard

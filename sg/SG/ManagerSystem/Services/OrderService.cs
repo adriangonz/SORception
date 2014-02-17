@@ -148,6 +148,7 @@ namespace ManagerSystem.Services
             if (has_offers)
             {
                 order.status = OrderStatus.HAS_RESPONSE;
+                unitOfWork.OrderRepository.Update(order);
             }
         }
 
