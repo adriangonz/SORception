@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td>Modificado:</td>
-            <td>{{actual_pedido.timeStamp}}</td>
+            <td>{{actual_pedido.updatedDate}}</td>
         </tr>
     </tbody>
 </table>
@@ -33,11 +33,11 @@
             <th>Cantidad</th>
         </tr>
     </thead>
-    <tbody ng-repeat="linea in actual_pedido.lineaPedido">
+    <tbody ng-repeat="linea in actual_pedido.lines">
         <tr>
             <td>{{linea.id}}</td>
             <td>{{linea.description}}</td>
-            <td>{{linea.state}}</td>
+            <td>{{linea.status}}</td>
             <td>{{linea.quantity}}</td>
         </tr>
     </tbody>

@@ -22,7 +22,11 @@
         </tr>
         <tr>
             <td>Modificado:</td>
-            <td>{{actual_order.timeStamp}}</td>
+            <td>{{actual_order.updatedDate}}</td>
+        </tr>
+        <tr>
+            <td>Creado:</td>
+            <td>{{actual_order.creationDate}}</td>
         </tr>
     </tbody>
 </table>
@@ -34,14 +38,16 @@
                 <th>#</th>
                 <th>Descripcion</th>
                 <th>Cantidad</th>
+                <th>Actualizado</th>
                 <th>Criterio</th>
             </tr>
         </thead>
-        <tbody ng-repeat="linea in actual_order.lineaSolicitud">
+        <tbody ng-repeat="linea in actual_order.lines">
             <tr>
                 <td>{{linea.id}}</td>
                 <td>{{linea.descripcion}}</td>
                 <td>{{linea.cantidad}}</td>
+                <td>{{linea.updatedDate}}</td>
                 <td ng-switch on="linea.criterio">
                     <span ng-switch-when="0">Seleccion Manual</span>
                     <span ng-switch-when="1">El primero en llegar</span>
@@ -50,7 +56,7 @@
                 </td>
             </tr>
             <tr ng-show="linea.offers">
-                <td colspan="4" class="active">
+                <td colspan="5" class="active">
                     <table class="table table-bordered">
                         <thead>
                             <tr>

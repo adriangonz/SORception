@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Eggplant.DataAcces;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Web;
 
 namespace Eggplant
 {
-    public class DataInitializer : DropCreateDatabaseIfModelChanges<IdentityDbContext<IdentityUser>>
+    public class DataInitializer : DropCreateDatabaseIfModelChanges<EggplantContext>
     {
-        protected override void Seed(IdentityDbContext<IdentityUser> context)
+        protected override void Seed(EggplantContext context)
         {
             var UserManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
 

@@ -36,14 +36,16 @@
       <tr>
         <th>Token</th>
         <th>Status</th>
+        <th>Updated</th>
         <th>Created</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="token in settings.tokens" ng-class="{'success': token.state == 'ACTIVE', 'danger': token.state == 'EXPIRED', 'warning': token.state == 'REQUESTED'}">
         <td>{{token.token}}</td>
-        <td>{{token.state}}</td>
-        <td>{{token.timeStamp}}</td>
+        <td>{{token.status}}</td>
+        <td>{{token.updatedDate}}</td>
+        <td>{{token.creationDate}}</td>
       </tr>
     </tbody>
 </table>

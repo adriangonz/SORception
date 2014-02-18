@@ -21,6 +21,7 @@ public class UserServiceTest extends BaseTest {
     public void setup() {
         // workaround for autowiring problem
         userService = (UserService)applicationContext.getBean("userService");
+        loginUser("admin");
     }
 	
 	@Test
@@ -39,7 +40,8 @@ public class UserServiceTest extends BaseTest {
 		UserInfoDTO userInfo = new UserInfoDTO();
 		userInfo.username = "test";
 		userInfo.name = "Test user";
-		UserEntity user = userService.addUser(userInfo.username, userInfo.name);
+		userInfo.password = "password";
+		UserEntity user = userService.addUser(userInfo);
 		assertThat(user.getName(), is(userInfo.name));
 		assertThat(user.getId(), is(notNullValue()));
 	}

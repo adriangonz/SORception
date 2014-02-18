@@ -6,29 +6,20 @@
 
 package com.sorception.jscrap.config;
 
-import com.sorception.jscrap.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.authentication.dao.ReflectionSaltSource;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.authentication.AuthenticationManagerFactoryBean;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  *
@@ -36,7 +27,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     UserDetailsService userDetailsService;
@@ -44,8 +35,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-        	.authenticationProvider(new DaoAuthenticationProvider())
-            .userDetailsService(userDetailsService);
+        	.authenticationProvider(daoAuthenticationProvider());
+    }
+    
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+    	DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+    	daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+    	daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+    	daoAuthenticationProvider.setSaltSource(saltSource());
+    	return daoAuthenticationProvider;
+    }
+    
+    @Bean
+    public ShaPasswordEncoder passwordEncoder() {
+    	return new ShaPasswordEncoder(256);
+    }
+    
+    @Bean
+    public ReflectionSaltSource saltSource() {
+    	ReflectionSaltSource saltSource = new ReflectionSaltSource();
+    	saltSource.setUserPropertyToUse("username");
+    	return saltSource;
     }
     
     @Bean
