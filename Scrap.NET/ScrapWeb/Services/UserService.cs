@@ -40,8 +40,9 @@ namespace ScrapWeb.Services
 
             IdentityResult result = UserManager.Create(user, model.password);
             if (!result.Succeeded)
+            {
                 throw new ServiceException(result.Errors);
-
+            }
             return new UserInfoDTO(user);
         }
 

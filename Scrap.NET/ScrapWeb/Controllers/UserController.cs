@@ -14,6 +14,7 @@ using System.Web.Http;
 
 namespace ScrapWeb.Controllers
 {
+    [Authorize(Roles = "ROLE_ADMIN")]
     [RoutePrefix("api/user")]
     public class UserController : ApiController
     {
@@ -37,6 +38,7 @@ namespace ScrapWeb.Controllers
         }
 
         // POST api/user
+        [Authorize(Roles = "ROLE_ADMIN")]
         public UserInfoDTO Post(DTO.UserRegisterDTO user)
         {
             return userService.registerUser(user);

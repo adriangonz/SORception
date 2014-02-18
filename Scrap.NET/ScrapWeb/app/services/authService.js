@@ -39,7 +39,37 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
                 return true;
             }
 	       	$location.path("/login");
-        },
+	    },
+
+
+	    getUsername: function () {
+	        SessionScrap = $cookies["SessionScrap"];
+	        if (SessionScrap) {
+	            SessionScrap = JSON.parse(SessionScrap);
+	            return SessionScrap.userName;
+	        }
+	        return "Sin conexion";
+	    },
+
+
+	    isPrivate: function () {
+	        SessionScrap = $cookies["SessionScrap"];
+	        if (SessionScrap) {
+	            SessionScrap = JSON.parse(SessionScrap);
+	            if (SessionScrap.userName != "admin") {
+	                $location.path("/orders");
+	            }
+	        }
+	    },
+
+	    getToken: function () {
+	        SessionScrap = $cookies["SessionScrap"];
+	        if (SessionScrap) {
+	            SessionScrap = JSON.parse(SessionScrap);
+	            return SessionScrap.access_token;
+	        }
+	        return undefined;
+	    },
    	}
  
    return service;

@@ -7,7 +7,8 @@ module.controller( "SettingsCtrl", [ '$scope', 'SettingsService','Auth', functio
     });
 
 	
-	Auth.isLoggedIn();
+    Auth.isLoggedIn();
+    Auth.isPrivate();
 	
 	SettingsService.getSettings();
 	SettingsService.getUsers();
