@@ -10,7 +10,7 @@ using Eggplant.Application;
 
 namespace Eggplant.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ROLE_ADMIN")]
     public class SettingsController : ApiController
     {
         internal SettingsApplication sa;
