@@ -38,19 +38,22 @@ namespace ManagerSystem.Entities
         [InverseProperty("order")]
         public ICollection<OrderLineEntity> lines { get; set; }
 
-        public List<OfferEntity> getOffers() 
-        {       
-            HashSet<OfferEntity> offers = new HashSet<OfferEntity>();
-            foreach (var line in this.lines)
+        public List<OfferEntity> offers
+        {
+            get
             {
-                if (line.deleted)
-                    continue;
-                foreach (var line_offer in line.offers)
+                HashSet<OfferEntity> offers = new HashSet<OfferEntity>();
+                foreach (var line in this.lines)
                 {
-                    offers.Add(line_offer.offer);
+                    if (line.deleted)
+                        continue;
+                    foreach (var line_offer in line.offers)
+                    {
+                        offers.Add(line_offer.offer);
+                    }
                 }
+                return offers.ToList();
             }
-            return offers.ToList();
          }
     }
 }
