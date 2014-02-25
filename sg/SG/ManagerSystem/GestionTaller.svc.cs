@@ -77,6 +77,17 @@ namespace ManagerSystem
             }
         }
 
+        private PurchaseService purchase_service = null;
+        protected PurchaseService purchaseService
+        {
+            get
+            {
+                if (this.purchase_service == null)
+                    this.purchase_service = new PurchaseService();
+                return this.purchase_service;
+            }
+        }
+
         // Esto va fuera
         private Taller getAuthorizedTaller()
         {
@@ -186,7 +197,7 @@ namespace ManagerSystem
 
         public int selectOferta(ExpPedido r)
         {
-            offerService.selectOffer(r);
+            purchaseService.selectOffer(r);
 
             return 0;
         }

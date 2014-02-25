@@ -61,35 +61,23 @@ namespace ManagerSystem.Services
 
         public void selectOffer(ExpPedido e_selected_offers)
         {
-            GarageEntity current_garage = garageService.getCurrentGarage();
-
             foreach (var e_selected_line in e_selected_offers.lineas)
             {
-                OfferLineEntity offer_line = this.getOfferLine(e_selected_line.linea_oferta_id);
+                OfferLineEntity offer_line = offerService.getOfferLine(e_selected_line.linea_oferta_id);
+                this.validateOfferLine(offer_line, e_selected_offers.oferta_id);
 
-                if (offer_line.order_line.order.garage != current_garage)
-                    throw new ArgumentException(String.Format(
-                        "The OrderLine with id {0} does not belong to the Garage with token {1}",
-                        offer_line.order_line_id,
-                        authorizationService.getCurrentGarageToken()));
+                offerService.selectOfferLine(offer_line.id, e_selected_line.quantity);
 
-                if (offer_line.offer_id != e_selected_offers.oferta_id)
-                    throw new ArgumentException(String.Format(
-                        "The OfferLine with id {0} does not belong to the Offer {1}",
-                        e_selected_line.linea_oferta_id,
-                        e_selected_offers.oferta_id));
-
-                this.selectOfferLine(offer_line.id, e_selected_line.quantity);
-
+                OrderLineEntity order_line = orderService.getOrderLine(offer_line.order_line_id);
+                orderService.updateOrderLineStatus(order_line);
+        
                 // Change the id of the line to the one in the Junkyard
                 e_selected_line.linea_oferta_id = offer_line.corresponding_id;
-                unitOfWork.Save();
             }
-            purcahseService.updateOrderStatus(e_selected_offers.oferta_id);
             unitOfWork.Save();
 
             // Change the id of the offer to the one in the Junkyard
-            OfferEntity offer = this.getOffer(e_selected_offers.oferta_id);
+            OfferEntity offer = offerService.getOffer(e_selected_offers.oferta_id);
             e_selected_offers.oferta_id = offer.corresponding_id;
 
             AMQPedidoMessage msg = new AMQPedidoMessage
@@ -98,6 +86,22 @@ namespace ManagerSystem.Services
                 desguace_id = offer.junkyard.current_token
             };
             amqService.publishOrderConfirmation(msg);
+        }
+
+        private void validateOfferLine(OfferLineEntity offer_line, int offer_id)
+        {
+            GarageEntity current_garage = garageService.getCurrentGarage();
+            if (offer_line.order_line.order.garage != current_garage)
+                throw new ArgumentException(String.Format(
+                    "The OrderLine with id {0} does not belong to the Garage with token {1}",
+                    offer_line.order_line_id,
+                    authorizationService.getCurrentGarageToken()));
+
+            if (offer_line.offer_id != offer_id)
+                throw new ArgumentException(String.Format(
+                    "The OfferLine with id {0} does not belong to the Offer {1}",
+                    offer_line.order_line_id,
+                    offer_id));
         }
     }
 }

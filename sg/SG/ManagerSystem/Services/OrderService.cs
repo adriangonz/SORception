@@ -146,7 +146,6 @@ namespace ManagerSystem.Services
             if (order_line.status != previous_status)
             {
                 unitOfWork.OrderLineRepository.Update(order_line);
-                unitOfWork.Save();
             }
 
         }
