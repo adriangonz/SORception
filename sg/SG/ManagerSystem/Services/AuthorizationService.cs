@@ -16,7 +16,7 @@ namespace ManagerSystem.Services
         public string getCurrentGarageToken()
         {
             #if DEBUG
-            return "kSN5lFhNYEKRs01SZmqSg";
+            return "XCVS5SB2qkuvXTN/u0T3rw";
             #endif
 
             try
@@ -33,7 +33,7 @@ namespace ManagerSystem.Services
         public string getCurrentJunkyardToken()
         {
             #if DEBUG
-            return "8urBZfCziU2f4V248M/t2w";
+            return "SDrMmE5BzEiq3fJeTCUwSw";
             #endif
 
 
@@ -64,8 +64,9 @@ namespace ManagerSystem.Services
 
             try
             {
-                return junkyardService.existsJunkyardWithToken(token_string)
-                    && tokenService.isValid(token_string);
+                bool junkyard_exists = junkyardService.existsJunkyardWithToken(token_string);
+                bool token_is_valid = tokenService.isValid(token_string);
+                return junkyard_exists && token_is_valid;
             }
             catch (ArgumentNullException)
             {

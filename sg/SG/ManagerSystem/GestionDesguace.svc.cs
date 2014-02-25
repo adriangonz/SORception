@@ -65,18 +65,18 @@ namespace ManagerSystem
             o = new AMQOfertaMessage
             {
                 code = AMQOfertaMessage.Code.New,
-                desguace_id = "8urBZfCziU2f4V248M/t2w",
+                desguace_id = "SDrMmE5BzEiq3fJeTCUwSw",
                 oferta = new ExpOferta
                 {
-                    id_en_desguace = 100,
-                    solicitud_id = 5,
+                    id_en_desguace = 200,
+                    solicitud_id = 4,
                     lineas = new List<ExpOferta.Line>()
                 }
             };
             o.oferta.lineas.Add(new ExpOferta.Line
             {
-                id_en_desguace = 101,
-                linea_solicitud_id = 2,
+                id_en_desguace = 201,
+                linea_solicitud_id = 1,
                 notes = "una patata",
                 price = 1,
                 quantity = 5

@@ -42,9 +42,10 @@ namespace ManagerSystem.Services
             OfferEntity offer = new OfferEntity();
 
             this.copyFromExposed(offer, e_offer);
-
             unitOfWork.OfferRepository.Insert(offer);
             unitOfWork.Save();
+
+            purchaseService.processAutomaticPurchase(offer.order.id);
         }
 
         public void putOffer(ExpOferta e_offer)
@@ -107,46 +108,6 @@ namespace ManagerSystem.Services
             unitOfWork.OfferLineRepository.Update(offer_line);
         }
 
-        public void selectOffer(ExpPedido e_selected_offers)
-        {
-            GarageEntity current_garage = garageService.getCurrentGarage();
-
-            foreach (var e_selected_line in e_selected_offers.lineas)
-            {
-                OfferLineEntity offer_line = this.getOfferLine(e_selected_line.linea_oferta_id);
-                
-                if (offer_line.order_line.order.garage != current_garage)
-                    throw new ArgumentException(String.Format(
-                        "The OrderLine with id {0} does not belong to the Garage with token {1}",
-                        offer_line.order_line_id,
-                        authorizationService.getCurrentGarageToken()));
-
-                if (offer_line.offer_id != e_selected_offers.oferta_id)
-                    throw new ArgumentException(String.Format(
-                        "The OfferLine with id {0} does not belong to the Offer {1}", 
-                        e_selected_line.linea_oferta_id, 
-                        e_selected_offers.oferta_id));
-
-                this.selectOfferLine(offer_line.id, e_selected_line.quantity);
-
-                // Change the id of the line to the one in the Junkyard
-                e_selected_line.linea_oferta_id = offer_line.corresponding_id;
-            }
-            orderService.updateOrderStatus(e_selected_offers.oferta_id);
-            unitOfWork.Save();
-
-            // Change the id of the offer to the one in the Junkyard
-            OfferEntity offer = this.getOffer(e_selected_offers.oferta_id);
-            e_selected_offers.oferta_id = offer.corresponding_id;
-
-            AMQPedidoMessage msg = new AMQPedidoMessage
-            {
-                pedido = e_selected_offers,
-                desguace_id = offer.junkyard.current_token
-            };
-            amqService.publishOrderConfirmation(msg);
-        }
-
         public void copyFromExposed(OfferEntity offer, ExpOferta e_offer)
         {
             offer.corresponding_id = e_offer.id_en_desguace;
@@ -160,13 +121,20 @@ namespace ManagerSystem.Services
             }
             offer.lines.Clear();
 
+            int order_id = -1;
             // Add the new ones
             foreach (var e_line in e_offer.lineas)
             {
                 OfferLineEntity line = new OfferLineEntity();
                 this.copyLineFromExposed(line, e_line);
+                order_id = line.order_line.order_id;
                 line.offer = offer;
                 unitOfWork.OfferLineRepository.Insert(line);
+            }
+
+            if (order_id != -1)
+            {
+                purchaseService.updateOrderStatus(order_id);
             }
         }
 

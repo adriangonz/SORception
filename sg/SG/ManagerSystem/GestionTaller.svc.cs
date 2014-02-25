@@ -189,46 +189,6 @@ namespace ManagerSystem
             offerService.selectOffer(r);
 
             return 0;
-
-            /*
-            Taller t = getAuthorizedTaller();
-
-            Oferta o = r_oferta.Find(r.oferta_id);
-            if (o.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-
-            ExpPedido amq_pedido = new ExpPedido();
-            amq_pedido.oferta_id = o.id_en_desguace;
-            amq_pedido.lineas = new List<ExpPedido.Line>();
-
-            foreach (var l in r.lineas)
-            {
-                LineaOferta lo = db_context.LineaOfertaSet.Find(l.linea_oferta_id);
-                if (lo.LineaOfertaSeleccionada != null)
-                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-                if (!o.LineasOferta.Contains(lo))
-                    throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
-                    
-                LineaOfertaSeleccionada los = new LineaOfertaSeleccionada();
-                los.LineaOferta = lo;
-                lo.status = "SELECTED";
-                los.quantity = l.quantity;
-                db_context.LineaOfertaSeleccionadaSet.Add(los);
-                lo.LineaSolicitud.status = l.quantity >= lo.LineaSolicitud.quantity ? "COMPLETE" : "SELECTED";
-
-                ExpPedido.Line lp = new ExpPedido.Line();
-                lp.linea_oferta_id = lo.id_en_desguace;
-                lp.quantity = l.quantity;
-                amq_pedido.lineas.Add(lp);
-            }
-            db_context.SaveChanges();
-
-            AMQPedidoMessage message = new AMQPedidoMessage();
-            message.desguace_id = o.Desguace.Tokens.First(token => token.is_valid == true).token;
-            message.pedido = amq_pedido;
-            SendMessage(message);
-
-            return 0;*/
         }
 
         private void SendMessage(AMQPedidoMessage sm)

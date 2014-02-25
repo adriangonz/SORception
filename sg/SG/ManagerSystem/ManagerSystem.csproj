@@ -189,6 +189,7 @@
     <Compile Include="Services\JunkyardService.cs" />
     <Compile Include="Services\OfferService.cs" />
     <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\PurchaseService.cs" />
     <Compile Include="Services\TokenService.cs" />
     <Compile Include="Solicitud.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>

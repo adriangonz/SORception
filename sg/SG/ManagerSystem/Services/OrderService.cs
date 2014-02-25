@@ -118,38 +118,37 @@ namespace ManagerSystem.Services
             return line;
         }
 
-        public void updateOrderStatus(int order_id)
+        public void updateOrderStatus(OrderEntity order)
         {
-            OrderEntity order = this.getOrder(order_id);
-            bool has_offers = false;
             foreach (var order_line in order.lines)
             {
-                if (order_line.offers.Count > 0)
-                    has_offers = true;
-
-                int selected_ammount = 0;
-                foreach (var offer_line in order_line.offers)
-                {
-                    selected_ammount += offer_line.selected_ammount;
-                }
-
-                OrderLineStatus previous_status = order_line.status;
-                if (selected_ammount >= order_line.quantity)
-                    order_line.status = OrderLineStatus.COMPLETE;
-                else if (selected_ammount >= 0)
-                    order_line.status = OrderLineStatus.INCOMPLETE;
-                else if (order_line.offers.Count > 0)
-                    order_line.status = OrderLineStatus.HAS_RESPONSE;
-
-                if (order_line.status != previous_status)
-                    unitOfWork.OrderLineRepository.Update(order_line);
+                this.updateOrderLineStatus(order_line);
             }
 
-            if (has_offers)
+            if (order.offers.Count > 0)
             {
                 order.status = OrderStatus.HAS_RESPONSE;
                 unitOfWork.OrderRepository.Update(order);
+                unitOfWork.Save();
             }
+        }
+
+        public void updateOrderLineStatus(OrderLineEntity order_line)
+        {
+            OrderLineStatus previous_status = order_line.status;
+            if (order_line.selected_ammount >= order_line.quantity)
+                order_line.status = OrderLineStatus.COMPLETE;
+            else if (order_line.selected_ammount >= 0)
+                order_line.status = OrderLineStatus.INCOMPLETE;
+            else if (order_line.offers.Count > 0)
+                order_line.status = OrderLineStatus.HAS_RESPONSE;
+
+            if (order_line.status != previous_status)
+            {
+                unitOfWork.OrderLineRepository.Update(order_line);
+                unitOfWork.Save();
+            }
+
         }
 
         private void copyLineFromExposed(OrderLineEntity order_line, ExpSolicitud.Line e_order_line)
@@ -190,6 +189,8 @@ namespace ManagerSystem.Services
                             throw new ArgumentException();
                         unitOfWork.OrderLineRepository.Delete(line);
                         break;
+                    default:
+                        throw new ArgumentException(String.Format("Action {0} for order line {1} not valid. Must be NEW, UPDATED or DELETED", e_line.action, e_line.id_en_taller));
                 }
             }
         }

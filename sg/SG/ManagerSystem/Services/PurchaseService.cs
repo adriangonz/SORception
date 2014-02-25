@@ -1,0 +1,103 @@
+﻿using ManagerSystem.DataAccess;
+using ManagerSystem.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace ManagerSystem.Services
+{
+    public class PurchaseService : BaseService
+    {
+        public PurchaseService(UnitOfWork uow = null) : base(uow) { }
+
+        public void processAutomaticPurchase(int offer_id)
+        {
+            OfferEntity offer = offerService.getOffer(offer_id);
+            ExpPedido e_order_confirmation = new ExpPedido();
+            e_order_confirmation.lineas = new List<ExpPedido.Line>();
+
+            foreach (var offer_line in offer.lines)
+            {
+                OrderLineEntity order_line = offer_line.order_line;
+                if (order_line.flag == OrderLineFlag.FIRST)
+                {
+                    this.updateOfferAndOrderLines(offer_line, order_line);
+
+                    e_order_confirmation.lineas.Add(new ExpPedido.Line
+                    {
+                        linea_oferta_id = offer_line.id,
+                        quantity = offer_line.selected_ammount
+                    });
+                }
+            }
+
+            if (e_order_confirmation.lineas.Count > 0)
+            {
+                e_order_confirmation.oferta_id = offer.id;
+                AMQPedidoMessage msg = new AMQPedidoMessage
+                {
+                    pedido = e_order_confirmation,
+                    desguace_id = offer.junkyard.current_token
+                };
+                amqService.publishOrderConfirmation(msg);
+            }
+        }
+
+        private void updateOfferAndOrderLines(OfferLineEntity offer_line, OrderLineEntity order_line)
+        {
+            offer_line.status = OfferLineStatus.SELECTED;
+            if (order_line.quantity > offer_line.quantity)
+            {
+                order_line.status = OrderLineStatus.INCOMPLETE;
+                offer_line.selected_ammount = offer_line.quantity;
+            }
+            else
+            {
+                order_line.status = OrderLineStatus.COMPLETE;
+                offer_line.selected_ammount = order_line.quantity;
+            }
+        }
+
+        public void selectOffer(ExpPedido e_selected_offers)
+        {
+            GarageEntity current_garage = garageService.getCurrentGarage();
+
+            foreach (var e_selected_line in e_selected_offers.lineas)
+            {
+                OfferLineEntity offer_line = this.getOfferLine(e_selected_line.linea_oferta_id);
+
+                if (offer_line.order_line.order.garage != current_garage)
+                    throw new ArgumentException(String.Format(
+                        "The OrderLine with id {0} does not belong to the Garage with token {1}",
+                        offer_line.order_line_id,
+                        authorizationService.getCurrentGarageToken()));
+
+                if (offer_line.offer_id != e_selected_offers.oferta_id)
+                    throw new ArgumentException(String.Format(
+                        "The OfferLine with id {0} does not belong to the Offer {1}",
+                        e_selected_line.linea_oferta_id,
+                        e_selected_offers.oferta_id));
+
+                this.selectOfferLine(offer_line.id, e_selected_line.quantity);
+
+                // Change the id of the line to the one in the Junkyard
+                e_selected_line.linea_oferta_id = offer_line.corresponding_id;
+                unitOfWork.Save();
+            }
+            purcahseService.updateOrderStatus(e_selected_offers.oferta_id);
+            unitOfWork.Save();
+
+            // Change the id of the offer to the one in the Junkyard
+            OfferEntity offer = this.getOffer(e_selected_offers.oferta_id);
+            e_selected_offers.oferta_id = offer.corresponding_id;
+
+            AMQPedidoMessage msg = new AMQPedidoMessage
+            {
+                pedido = e_selected_offers,
+                desguace_id = offer.junkyard.current_token
+            };
+            amqService.publishOrderConfirmation(msg);
+        }
+    }
+}

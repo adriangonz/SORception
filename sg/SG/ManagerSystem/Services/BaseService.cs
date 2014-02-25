@@ -111,6 +111,17 @@ namespace ManagerSystem.Services
             }
         }
 
+        private PurchaseService purchase_service = null;
+        protected PurchaseService purchaseService
+        {
+            get
+            {
+                if (this.purchase_service == null)
+                    this.purchase_service = new PurchaseService(unitOfWork);
+                return this.purchase_service;
+            }
+        }
+
         public BaseService(UnitOfWork uOW = null)
         {
             this.unit_of_work = uOW;
