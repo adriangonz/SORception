@@ -14,11 +14,8 @@ namespace ManagerSystem
         [DataMember(Name = "id_solicitud")]
         public int id_solicitud;
 
-        [DataMember(Name = "deadline")]
-        public DateTime deadline;
-
-        [DataMember(Name = "csrf")]
-        public string csrf;
+        [DataMember(Name = "xsrf_token")]
+        public string xsrf_token;
     }
 
     [DataContract(Namespace = Config.Namespace)]

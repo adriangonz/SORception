@@ -15,6 +15,6 @@ namespace ManagerSystem.Entities
         [ForeignKey("order_id")]
         public OrderEntity order;
 
-
+        public string xsrf_token;
     }
 }

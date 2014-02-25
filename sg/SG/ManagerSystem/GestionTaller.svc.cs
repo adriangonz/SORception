@@ -231,62 +231,6 @@ namespace ManagerSystem
             publisher.Dispose();*/
         }
 
-        public void checkAutoBuy(Oferta o)
-        {
-            if (o == null)
-                return;
-
-            List<LineaOfertaSeleccionada> pedidas_ahora = new List<LineaOfertaSeleccionada>();
-            foreach (var linea in o.LineasOferta)
-            {
-                if (linea.LineaSolicitud.flag == "FIRST" && linea.LineaSolicitud.status != "COMPLETE")
-                {
-                    LineaOfertaSeleccionada selec = new LineaOfertaSeleccionada();
-
-                    int ammount_left = linea.LineaSolicitud.quantity;
-                    List<LineaOfertaSeleccionada> ya_hechas = db_context.LineaOfertaSeleccionadaSet.Where(l => l.LineaOferta.LineaSolicitudId == linea.LineaSolicitud.Id).ToList();
-                    foreach (LineaOfertaSeleccionada l in ya_hechas)
-                    {
-                        ammount_left -= l.quantity;
-                    }
-                    if (ammount_left <= 0)
-                        continue;
-
-                    if (linea.quantity < ammount_left)
-                    {
-                        selec.quantity = linea.quantity;
-                        linea.LineaSolicitud.status = "INCOMPLETE";
-                    }
-                    else
-                    {
-                        selec.quantity = ammount_left;
-                        linea.LineaSolicitud.status = "COMPLETE";
-                    }
-                    linea.status = "SELECTED";
-                    
-                    selec.LineaOferta = linea;
-                    pedidas_ahora.Add(selec);
-                    db_context.LineaOfertaSeleccionadaSet.Add(selec);
-                }
-            }
-            db_context.SaveChanges();
-
-            ExpPedido pedido = new ExpPedido();
-            pedido.oferta_id = o.Id;
-            foreach (var linea in pedidas_ahora)
-            {
-                ExpPedido.Line linea_ped = new ExpPedido.Line();
-                linea_ped.quantity = linea.quantity;
-                linea_ped.linea_oferta_id = linea.LineaOferta.Id;
-                pedido.lineas.Add(linea_ped);
-            }
-
-            AMQPedidoMessage message = new AMQPedidoMessage();
-            message.pedido = pedido;
-            message.desguace_id = db_context.TokenSet.First(t => t.is_valid && t.DesguaceId == o.DesguaceId).token;
-            SendMessage(message);
-        }
-
         public void runJob(AMQScheduledJob job)
         {
             if (ValidateJob(job))
