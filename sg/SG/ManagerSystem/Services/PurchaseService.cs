@@ -23,24 +23,14 @@ namespace ManagerSystem.Services
                 if (order_line.flag == OrderLineFlag.FIRST)
                 {
                     this.updateOfferAndOrderLines(offer_line, order_line);
-
-                    e_order_confirmation.lineas.Add(new ExpPedido.Line
-                    {
-                        linea_oferta_id = offer_line.id,
-                        quantity = offer_line.selected_ammount
-                    });
+                    this.addExpPedidoLine(e_order_confirmation, offer_line);
                 }
             }
 
             if (e_order_confirmation.lineas.Count > 0)
             {
                 e_order_confirmation.oferta_id = offer.id;
-                AMQPedidoMessage msg = new AMQPedidoMessage
-                {
-                    pedido = e_order_confirmation,
-                    desguace_id = offer.junkyard.current_token
-                };
-                amqService.publishOrderConfirmation(msg);
+                this.notifyOrder(e_order_confirmation, offer.junkyard.current_token);
             }
         }
 
@@ -57,6 +47,15 @@ namespace ManagerSystem.Services
                 order_line.status = OrderLineStatus.COMPLETE;
                 offer_line.selected_ammount = order_line.quantity;
             }
+        }
+
+        private void addExpPedidoLine(ExpPedido e_order_confirmation, OfferLineEntity offer_line)
+        {
+            e_order_confirmation.lineas.Add(new ExpPedido.Line
+            {
+                linea_oferta_id = offer_line.id,
+                quantity = offer_line.selected_ammount
+            });
         }
 
         public void selectOffer(ExpPedido e_selected_offers)
@@ -80,12 +79,7 @@ namespace ManagerSystem.Services
             OfferEntity offer = offerService.getOffer(e_selected_offers.oferta_id);
             e_selected_offers.oferta_id = offer.corresponding_id;
 
-            AMQPedidoMessage msg = new AMQPedidoMessage
-            {
-                pedido = e_selected_offers,
-                desguace_id = offer.junkyard.current_token
-            };
-            amqService.publishOrderConfirmation(msg);
+            this.notifyOrder(e_selected_offers, offer.junkyard.current_token);
         }
 
         private void validateOfferLine(OfferLineEntity offer_line, int offer_id)
@@ -102,6 +96,16 @@ namespace ManagerSystem.Services
                     "The OfferLine with id {0} does not belong to the Offer {1}",
                     offer_line.order_line_id,
                     offer_id));
+        }
+
+        private void notifyOrder(ExpPedido e_order_confirmation, string junkyard_token)
+        {
+            AMQPedidoMessage msg = new AMQPedidoMessage
+            {
+                pedido = e_order_confirmation,
+                desguace_id = junkyard_token
+            };
+            amqService.publishOrderConfirmation(msg);
         }
     }
 }
