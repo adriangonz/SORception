@@ -88,7 +88,15 @@ namespace ManagerSystem.Services
         private void scheduledJobSubscriber_OnMessageReceived(string message)
         {
             AMQScheduledJob msg = (AMQScheduledJob)TopicSubscriber.FromXML(message, (new AMQScheduledJob()).GetType());
-            // TODO
+            this.processScheduledJob(msg);
+        }
+
+        private void processScheduledJob(AMQScheduledJob msg)
+        {
+            if (jobService.jobIsValid(msg.id_solicitud, msg.xsrf_token))
+            {
+                purchaseService.processOnDeadlinePurchases(msg.id_solicitud),
+            }
         }
 
         private string generateSubscriptionName(string machine_name)

@@ -38,10 +38,10 @@ namespace ManagerSystem.Services
         private string getXSRFToken(OrderEntity order)
         {
             string serialized_order = this.serializeOrder(order);
-            return hashString(serialized_order);
+            return this.hashString(serialized_order);
         }
 
-        private static string hashString(string data)
+        private string hashString(string data)
         {
             SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
 
@@ -69,6 +69,15 @@ namespace ManagerSystem.Services
             }
 
             return output.ToString();
+        }
+
+        public bool jobIsValid(int order_id, string xsrf_token)
+        {
+            OrderEntity order = orderService.getOrder(order_id);
+
+            string valid_xsrf_token = this.getXSRFToken(order);
+
+            return valid_xsrf_token == xsrf_token;
         }
     }
 }
