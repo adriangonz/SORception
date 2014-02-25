@@ -45,7 +45,7 @@ namespace ManagerSystem.Services
             unitOfWork.OfferRepository.Insert(offer);
             unitOfWork.Save();
 
-            purchaseService.processAutomaticPurchase(offer.order.id);
+            purchaseService.processOnOfferPurchase(offer.order.id);
         }
 
         public void putOffer(ExpOferta e_offer)

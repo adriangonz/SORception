@@ -225,5 +225,18 @@ namespace ManagerSystem.Services
 
             return e_line;
         }
+
+        public List<OfferLineEntity> getOrderedOfferLines(OrderLineEntity order_line)
+        {
+            switch (order_line.flag)
+            {
+                case OrderLineFlag.CHEAPEST:
+                    return order_line.offers.OrderBy(o_l => o_l.price).ToList();
+                /*case OrderLineFlag.NEWEST:
+                    return order_line.offers.OrderBy(o_l => o_l.year).ToList();*/
+                default:
+                    return order_line.offers.ToList();
+            }
+        }
     }
 }

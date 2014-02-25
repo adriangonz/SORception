@@ -11,11 +11,10 @@ namespace ManagerSystem.Services
     {
         public PurchaseService(UnitOfWork uow = null) : base(uow) { }
 
-        public void processAutomaticPurchase(int offer_id)
+        public void processOnOfferPurchase(int offer_id)
         {
             OfferEntity offer = offerService.getOffer(offer_id);
             ExpPedido e_order_confirmation = new ExpPedido();
-            e_order_confirmation.lineas = new List<ExpPedido.Line>();
 
             foreach (var offer_line in offer.lines)
             {
@@ -26,6 +25,7 @@ namespace ManagerSystem.Services
                     this.addExpPedidoLine(e_order_confirmation, offer_line);
                 }
             }
+            unitOfWork.Save();
 
             if (e_order_confirmation.lineas.Count > 0)
             {
@@ -34,28 +34,76 @@ namespace ManagerSystem.Services
             }
         }
 
-        private void updateOfferAndOrderLines(OfferLineEntity offer_line, OrderLineEntity order_line)
+        public void processOnDeadlinePurchases(int order_id)
         {
-            offer_line.status = OfferLineStatus.SELECTED;
-            if (order_line.quantity > offer_line.quantity)
+            OrderEntity order = orderService.getOrder(order_id);
+            List<OfferLineEntity> selected_offers = new List<OfferLineEntity>();
+
+            foreach (var order_line in order.lines)
             {
-                order_line.status = OrderLineStatus.INCOMPLETE;
-                offer_line.selected_ammount = offer_line.quantity;
+                List<OfferLineEntity> ordered_offers = orderService.getOrderedOfferLines(order_line);
+                selected_offers.AddRange(this.selectOfferLines(order_line, ordered_offers));
             }
-            else
+            unitOfWork.Save();
+
+            this.notifyMultipleOffers(selected_offers);
+        }
+
+        private void notifyMultipleOffers(List<OfferLineEntity> selected_offers)
+        {
+            var grouped_list = selected_offers.GroupBy(o_l => o_l.offer_id);
+            foreach (var group in grouped_list)
             {
-                order_line.status = OrderLineStatus.COMPLETE;
-                offer_line.selected_ammount = order_line.quantity;
+                List<OfferLineEntity> offer_lines = group.ToList();
+                OfferEntity offer = offer_lines[0].offer;
+
+                ExpPedido e_order_confirmation = new ExpPedido
+                {
+                    oferta_id = offer.corresponding_id,
+                    lineas = (from offer_line in offer_lines
+                              select new ExpPedido.Line
+                              {
+                                  linea_oferta_id = offer_line.id,
+                                  quantity = offer_line.quantity
+                              }).ToList()
+                };
+                this.notifyOrder(e_order_confirmation, offer.junkyard.current_token);
             }
         }
 
-        private void addExpPedidoLine(ExpPedido e_order_confirmation, OfferLineEntity offer_line)
+        private List<OfferLineEntity> selectOfferLines(OrderLineEntity order_line, List<OfferLineEntity> ordered_offers)
         {
-            e_order_confirmation.lineas.Add(new ExpPedido.Line
+            List<OfferLineEntity> selected_offers = new List<OfferLineEntity>();
+
+            foreach (var offer_line in ordered_offers)
             {
-                linea_oferta_id = offer_line.id,
-                quantity = offer_line.selected_ammount
-            });
+                if (order_line.status == OrderLineStatus.COMPLETE)
+                    break;
+
+                this.selectFromOrderLine(order_line, offer_line);
+                selected_offers.Add(offer_line);
+            }
+
+            return selected_offers;
+        }
+
+        private void selectFromOrderLine(OrderLineEntity order_line, OfferLineEntity offer_line)
+        {
+            int quantity_remaining = order_line.quantity - order_line.selected_ammount;
+            offer_line.status = OfferLineStatus.SELECTED;
+
+            if (offer_line.quantity < quantity_remaining)
+            {
+                offer_line.selected_ammount = offer_line.quantity;
+                order_line.status = OrderLineStatus.INCOMPLETE;
+            }
+            else
+            {
+                offer_line.selected_ammount = quantity_remaining;
+                order_line.status = OrderLineStatus.COMPLETE;
+            }
+            unitOfWork.OfferLineRepository.Update(offer_line);
+            unitOfWork.OrderLineRepository.Update(order_line);
         }
 
         public void selectOffer(ExpPedido e_selected_offers)
@@ -96,6 +144,32 @@ namespace ManagerSystem.Services
                     "The OfferLine with id {0} does not belong to the Offer {1}",
                     offer_line.order_line_id,
                     offer_id));
+        }
+
+        private void updateOfferAndOrderLines(OfferLineEntity offer_line, OrderLineEntity order_line)
+        {
+            offer_line.status = OfferLineStatus.SELECTED;
+            if (order_line.quantity > offer_line.quantity)
+            {
+                order_line.status = OrderLineStatus.INCOMPLETE;
+                offer_line.selected_ammount = offer_line.quantity;
+            }
+            else
+            {
+                order_line.status = OrderLineStatus.COMPLETE;
+                offer_line.selected_ammount = order_line.quantity;
+            }
+            unitOfWork.OrderLineRepository.Update(order_line);
+            unitOfWork.OfferLineRepository.Update(offer_line);
+        }
+
+        private void addExpPedidoLine(ExpPedido e_order_confirmation, OfferLineEntity offer_line)
+        {
+            e_order_confirmation.lineas.Add(new ExpPedido.Line
+            {
+                linea_oferta_id = offer_line.id,
+                quantity = offer_line.selected_ammount
+            });
         }
 
         private void notifyOrder(ExpPedido e_order_confirmation, string junkyard_token)

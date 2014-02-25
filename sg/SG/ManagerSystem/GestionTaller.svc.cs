@@ -273,7 +273,6 @@ namespace ManagerSystem
 
             ExpPedido pedido = new ExpPedido();
             pedido.oferta_id = o.Id;
-            pedido.lineas = new List<ExpPedido.Line>();
             foreach (var linea in pedidas_ahora)
             {
                 ExpPedido.Line linea_ped = new ExpPedido.Line();
@@ -369,7 +368,6 @@ namespace ManagerSystem
                     // Send a message to the Offer AMQTopic
                     ExpPedido pedido = new ExpPedido();
                     pedido.oferta_id = entry.Key;
-                    pedido.lineas = new List<ExpPedido.Line>();
                     foreach (var linea in entry.Value)
                     {
                         ExpPedido.Line linea_ped = new ExpPedido.Line();

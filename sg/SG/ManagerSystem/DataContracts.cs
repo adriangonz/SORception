@@ -121,6 +121,11 @@ namespace ManagerSystem
     [DataContract(Namespace = Config.Namespace)]
     public class ExpPedido
     {
+        public ExpPedido()
+        {
+            lineas = new List<Line>();
+        }
+
         public class Line
         {
             [DataMember(Name = "linea_oferta_id")]
