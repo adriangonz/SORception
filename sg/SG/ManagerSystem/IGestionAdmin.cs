@@ -13,10 +13,10 @@ namespace ManagerSystem
     public interface IGestionAdmin
     {
         [OperationContract]
-        List<JunkyardEntity> getDesguaces();
+        List<ExpDesguace> getDesguaces();
 
         [OperationContract]
-        List<GarageEntity> getTalleres();
+        List<ExpTaller> getTalleres();
 
         [OperationContract]
         int activeDesguace(int id, bool active);

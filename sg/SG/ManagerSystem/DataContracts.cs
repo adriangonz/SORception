@@ -188,6 +188,12 @@ namespace ManagerSystem
     {
         [DataMember(Name = "name")]
         public string name;
+
+        [DataMember(Name = "id")]
+        public int id;
+
+        [DataMember(Name = "active")]
+        public bool active;
     }
 
     [DataContract(Namespace = Config.Namespace)]
@@ -196,6 +202,11 @@ namespace ManagerSystem
         [DataMember(Name = "name")]
         public string name;
 
+        [DataMember(Name = "id")]
+        public int id;
+
+        [DataMember(Name = "active")]
+        public bool active;
     }
 
     [DataContract(Namespace = Config.Namespace)]

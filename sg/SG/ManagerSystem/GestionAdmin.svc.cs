@@ -35,15 +35,14 @@ namespace ManagerSystem
             }
         }
 
-        public List<JunkyardEntity> getDesguaces()
+        public List<ExpDesguace> getDesguaces()
         {
-            return junkyardService.getJunkyards();
+            return (from junkyard in junkyardService.getJunkyards() select junkyardService.toExposed(junkyard)).ToList();
         }
 
-        public List<GarageEntity> getTalleres()
+        public List<ExpTaller> getTalleres()
         {
-            List<GarageEntity> garages = garageService.getGarages();
-            return garages;
+            return (from garage in garageService.getGarages() select garageService.toExposed(garage)).ToList();
         }
 
         public int activeDesguace(int id, bool active)

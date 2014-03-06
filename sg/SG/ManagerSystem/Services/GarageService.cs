@@ -112,5 +112,15 @@ namespace ManagerSystem.Services
             unitOfWork.GarageRepository.Delete(garage);
             unitOfWork.Save();
         }
+
+        public ExpTaller toExposed(GarageEntity garage)
+        {
+            return new ExpTaller
+            {
+                name = garage.name,
+                id = garage.id,
+                active = garage.status == GarageStatus.ACTIVE
+            };
+        }
     }
 }

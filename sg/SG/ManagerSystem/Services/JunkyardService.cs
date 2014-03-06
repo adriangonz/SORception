@@ -90,5 +90,15 @@ namespace ManagerSystem.Services
 
             return this.getJunkyardWithToken(token_string);
         }
+
+        public ExpDesguace toExposed(JunkyardEntity junkyard)
+        {
+            return new ExpDesguace
+            {
+                name = junkyard.name,
+                id = junkyard.id,
+                active = junkyard.status == JunkyardStatus.ACTIVE
+            };
+        }
     }
 }
