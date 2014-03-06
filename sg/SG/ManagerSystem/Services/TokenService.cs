@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using ManagerSystem.Entities;
 using ManagerSystem.DataAccess;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ManagerSystem.Services
 {
@@ -116,15 +118,25 @@ namespace ManagerSystem.Services
         {
             GarageTokenEntity new_token = new GarageTokenEntity();
 
-            string token_string = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            token_string = token_string.Replace("=", "");
-            token_string = token_string.Replace("+", "");
-
-            new_token.token = token_string;
+            new_token.token = this.createToken();
             new_token.type = type;
             new_token.status = TokenStatus.VALID;
 
             return new_token;
+        }
+
+        private string createToken()
+        {
+            SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+
+            byte[] inputBytes = Guid.NewGuid().ToByteArray();
+            byte[] hashedBytes = provider.ComputeHash(inputBytes);
+
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < hashedBytes.Length; i++)
+                output.Append(hashedBytes[i].ToString("x2").ToLower());
+
+            return output.ToString();
         }
 
         public bool isValid(string token)

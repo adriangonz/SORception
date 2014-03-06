@@ -132,7 +132,6 @@
     <Compile Include="Entities\JunkyardEntity.cs" />
     <Compile Include="Entities\TokenEntity.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="RDesguace.cs" />
     <Compile Include="GestionAdmin.svc.cs">
       <DependentUpon>GestionAdmin.svc</DependentUpon>
     </Compile>
@@ -160,7 +159,6 @@
     <Compile Include="Log.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Logger.cs" />
     <Compile Include="ManagerSystemEntityModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -179,7 +177,6 @@
     <Compile Include="Oferta.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ROferta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AMQService.cs" />
     <Compile Include="Services\AuthorizationService.cs" />
@@ -194,15 +191,12 @@
     <Compile Include="Solicitud.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="RSolicitud.cs" />
     <Compile Include="Taller.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="RTaller.cs" />
     <Compile Include="Token.cs">
       <DependentUpon>ManagerSystemEntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="RToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ActiveMQHelper\ActiveMQHelper.csproj">

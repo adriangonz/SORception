@@ -17,10 +17,6 @@ namespace ManagerSystem
     {
         // Esto va fuera
         public static managersystemEntities db_context;
-        private RTaller r_taller;
-        private RSolicitud r_solicitud;
-        private ROferta r_oferta;
-        private RToken r_token;
 
         private TokenService token_service = null;
         private TokenService tokenService

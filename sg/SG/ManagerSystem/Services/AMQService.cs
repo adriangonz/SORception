@@ -95,7 +95,7 @@ namespace ManagerSystem.Services
         {
             if (jobService.jobIsValid(msg.id_solicitud, msg.xsrf_token))
             {
-                purchaseService.processOnDeadlinePurchases(msg.id_solicitud),
+                purchaseService.processOnDeadlinePurchases(msg.id_solicitud);
             }
         }
 

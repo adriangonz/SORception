@@ -29,7 +29,7 @@ namespace ManagerSystem.Services
             OrderEntity order = orderService.getOrder(order_id);
 
             List<OfferEntity> offers = new List<OfferEntity>();
-            foreach (var offer in order.getOffers())
+            foreach (var offer in order.offers)
             {
                 offers.Add(this.getOffer(offer.id));
             }
@@ -134,7 +134,8 @@ namespace ManagerSystem.Services
 
             if (order_id != -1)
             {
-                purchaseService.updateOrderStatus(order_id);
+                OrderEntity order = orderService.getOrder(order_id);
+                orderService.updateOrderStatus(order);
             }
         }
 

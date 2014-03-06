@@ -13,12 +13,6 @@ namespace ManagerSystem
 {
     public class GestionAdmin : IGestionAdmin
     {
-        private managersystemEntities db_context;
-        private RDesguace r_desguace;
-        private RTaller r_taller;
-
-
-
         private JunkyardService junkyard_service = null;
         private JunkyardService junkyardService
         {
