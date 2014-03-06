@@ -20,12 +20,8 @@ namespace ManagerSystem.Services
             unitOfWork.OrderRepository.Insert(order);
             unitOfWork.Save();
 
-            AMQSolicitudMessage msg = new AMQSolicitudMessage
-            {
-                code = AMQSolicitudMessage.Code.New,
-                solicitud = this.toExposed(order)
-            };
-            amqService.publishOrder(msg);
+            amqService.publishOrder(this.toExposed(order), AMQSolicitudMessage.Code.New);
+            jobService.createJob(order);
 
             return order.id;
         }
@@ -71,12 +67,8 @@ namespace ManagerSystem.Services
             unitOfWork.OrderRepository.Update(order);
             unitOfWork.Save();
 
-            AMQSolicitudMessage msg = new AMQSolicitudMessage
-            {
-                code = AMQSolicitudMessage.Code.Update,
-                solicitud = this.toExposed(order)
-            };
-            amqService.publishOrder(msg);
+            amqService.publishOrder(this.toExposed(order), AMQSolicitudMessage.Code.Update);
+            jobService.createJob(order);
         }
 
         public void deleteOrder(int order_id)
@@ -92,15 +84,7 @@ namespace ManagerSystem.Services
             unitOfWork.OrderRepository.Delete(order);
             unitOfWork.Save();
 
-            AMQSolicitudMessage msg = new AMQSolicitudMessage
-            {
-                code = AMQSolicitudMessage.Code.Delete,
-                solicitud = new ExpSolicitud
-                {
-                    id = order.id
-                }
-            };
-            amqService.publishOrder(msg);
+            amqService.publishOrder(this.toExposed(order), AMQSolicitudMessage.Code.Delete);
         }
 
         public OrderLineEntity getOrderLine(int line_id)

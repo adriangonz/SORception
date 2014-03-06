@@ -19,20 +19,7 @@ namespace ManagerSystem.Services
             job.order = order;
             job.xsrf_token = this.getXSRFToken(order);
 
-            this.publishJob(job);
-        }
-
-        private void publishJob(JobEntity job)
-        {
-            AMQScheduledJob msg = new AMQScheduledJob
-            {
-                id_solicitud = job.order.id,
-                xsrf_token = job.xsrf_token
-            };
-
-            TimeSpan delay = job.order.deadline - DateTime.Now;
-
-            amqService.scheduleJob(msg, (long) delay.TotalMilliseconds);
+            amqService.scheduleJob(job);
         }
 
         private string getXSRFToken(OrderEntity order)

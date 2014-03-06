@@ -30,7 +30,7 @@ namespace ManagerSystem.Services
             if (e_order_confirmation.lineas.Count > 0)
             {
                 e_order_confirmation.oferta_id = offer.id;
-                this.notifyOrder(e_order_confirmation, offer.junkyard.current_token);
+                amqService.publishOrderConfirmation(e_order_confirmation, offer.junkyard.current_token);
             }
         }
 
@@ -67,7 +67,7 @@ namespace ManagerSystem.Services
                                   quantity = offer_line.quantity
                               }).ToList()
                 };
-                this.notifyOrder(e_order_confirmation, offer.junkyard.current_token);
+                amqService.publishOrderConfirmation(e_order_confirmation, offer.junkyard.current_token);
             }
         }
 
@@ -127,7 +127,7 @@ namespace ManagerSystem.Services
             OfferEntity offer = offerService.getOffer(e_selected_offers.oferta_id);
             e_selected_offers.oferta_id = offer.corresponding_id;
 
-            this.notifyOrder(e_selected_offers, offer.junkyard.current_token);
+            amqService.publishOrderConfirmation(e_selected_offers, offer.junkyard.current_token);
         }
 
         private void validateOfferLine(OfferLineEntity offer_line, int offer_id)
@@ -170,16 +170,6 @@ namespace ManagerSystem.Services
                 linea_oferta_id = offer_line.id,
                 quantity = offer_line.selected_ammount
             });
-        }
-
-        private void notifyOrder(ExpPedido e_order_confirmation, string junkyard_token)
-        {
-            AMQPedidoMessage msg = new AMQPedidoMessage
-            {
-                pedido = e_order_confirmation,
-                desguace_id = junkyard_token
-            };
-            amqService.publishOrderConfirmation(msg);
         }
     }
 }

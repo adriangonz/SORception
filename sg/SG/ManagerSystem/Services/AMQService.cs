@@ -1,5 +1,6 @@
 ﻿using ActiveMQHelper;
 using ManagerSystem.DataAccess;
+using ManagerSystem.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,25 +19,43 @@ namespace ManagerSystem.Services
             this.subscribers = new List<TopicPublisher>();
         }
 
-        public void publishOrder(AMQSolicitudMessage msg)
+        public void publishOrder(ExpSolicitud order, AMQSolicitudMessage.Code code)
         {
+            AMQSolicitudMessage msg = new AMQSolicitudMessage
+            {
+                code = code,
+                solicitud = order
+            };
+
             TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.Orders);
 
-            publisher.SendMessage(TopicPublisher.ToXML((object) msg));
+            publisher.SendMessage((object) msg);
         }
 
-        public void publishOrderConfirmation(AMQPedidoMessage msg)
+        public void publishOrderConfirmation(ExpPedido order_confirmation, string junkyard_token)
         {
+            AMQPedidoMessage msg = new AMQPedidoMessage
+            {
+                pedido = order_confirmation,
+                desguace_id = junkyard_token
+            };
+
             TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.OfferConfirmations);
 
-            publisher.SendMessage(TopicPublisher.ToXML((object)msg));
+            publisher.SendMessage((object)msg);
         }
 
-        public void scheduleJob(AMQScheduledJob msg, long delay)
+        public void scheduleJob(JobEntity job)
         {
-            TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.ScheduledJobs);
+            AMQScheduledJob msg = new AMQScheduledJob
+            {
+                id_solicitud = job.order.id,
+                xsrf_token = job.xsrf_token
+            };
+            TimeSpan delay = job.order.deadline - DateTime.Now;
 
-            publisher.SendMessage(TopicPublisher.ToXML((object)msg), delay);
+            TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.ScheduledJobs);
+            publisher.SendMessage((object)msg, (long)delay.TotalMilliseconds);
         }
 
         public void createOfferSubscriber()
