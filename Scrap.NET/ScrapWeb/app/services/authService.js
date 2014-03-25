@@ -26,7 +26,7 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	       		$location.path("/login");
 	          }).
 	          error(function(data, status, headers, config) {
-	            alert(status+" | "+data);
+	            console.log(status+" | "+data);
 	          });
 	    },
 

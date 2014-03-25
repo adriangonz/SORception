@@ -14,7 +14,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	       		$rootScope.$broadcast( 'settings.update' );
 			  }).
 			  error(function(data, status, headers, config) {
-			  	alert(status+" | "+data);
+			  	console.log(status+" | "+data);
 			  	service.settings.name="DesguaceNET";
 			  	service.settings.tokenList = [
 				   {

@@ -35,6 +35,6 @@ module.config(['$routeProvider',
         controller: 'ViewPedidoCtrl'
       }).
       otherwise({
-        redirectTo: '/orders'
+        redirectTo: '/login'
       });
   }]);

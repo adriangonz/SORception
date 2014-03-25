@@ -10,7 +10,6 @@ module.controller( "ViewOfferCtrl", [ '$scope','$routeParams', 'Scrap','Auth', f
 		$scope.actual_order = Scrap.actual_order;
 	});
 
-
 	Auth.isLoggedIn();
 	Scrap.getActualOffer($routeParams.id);
 
