@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
+
 
 namespace Eggplant.DataAcces
 {
@@ -33,11 +35,17 @@ namespace Eggplant.DataAcces
                 {
                     item.Entity.creationDate = System.DateTime.Now;
                     item.Entity.updatedDate = System.DateTime.Now;
+
+                    item.Entity.createdBy = HttpContext.Current.User.Identity.GetUserId();
+                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+
                 }
 
                 foreach (var item in trackables.Where(t => t.State == EntityState.Modified))
                 {
                     item.Entity.updatedDate = System.DateTime.Now;
+                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+
                 }
             }
 

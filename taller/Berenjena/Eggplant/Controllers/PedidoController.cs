@@ -25,14 +25,14 @@ namespace Eggplant.Controllers
         // GET api/pedido
         public object Get()
         {
-            return pa.getAll(User.Identity.GetUserId());
+            return pa.getAll();
 
         }
 
         // GET api/pedido/5
         public object Get(int id)
         {
-            return pa.getById(id, User.Identity.GetUserId());
+            return pa.getById(id);
         }
 
         // POST api/pedido

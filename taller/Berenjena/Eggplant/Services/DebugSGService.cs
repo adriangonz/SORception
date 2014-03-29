@@ -36,7 +36,7 @@ namespace Eggplant.Services
 
         public List<ExpOferta> getOfertas(int idSolicitud)
         {
-            return null;
+            return new List<ExpOferta>();
         }
 
         public int selectOferta(ExpPedido pedido)
