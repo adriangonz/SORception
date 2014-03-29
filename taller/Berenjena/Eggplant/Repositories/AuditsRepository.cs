@@ -18,7 +18,7 @@ namespace Eggplant.Repositories
         {
             Audit ad = new Audit();
             ad.type = type;
-            ad.descriptcion = description;
+            ad.description = description;
             this.Insert(ad);
         }
     }
