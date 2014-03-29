@@ -81,6 +81,8 @@ namespace Eggplant.Application
             tr.lineas = lineasHelper.ToArray();
             sgService.selectOferta(tr);
             dataService.SaveChanges();
+            dataService.Audits.create(Audit.INFO, "Created pedido with id " + pedido.id);
+            dataService.SaveChanges();
         }
     }
 }

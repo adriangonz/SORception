@@ -23,6 +23,7 @@ namespace Eggplant.DataAcces
         public DbSet<LineaSolicitud> LineaSolicitudSet { get; set; }
         public DbSet<Pedido> PedidoSet { get; set; }
         public DbSet<LineaPedido> LineaPedidoSet { get; set; }
+        public DbSet<Audit> AuditSet { get; set; }
 
         // Override for created and modified dates
         public override int SaveChanges()

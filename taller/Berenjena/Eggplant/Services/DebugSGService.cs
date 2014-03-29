@@ -31,6 +31,8 @@ namespace Eggplant.Services
 
         public ExpSolicitud getSolicitud(int id)
         {
+            ExpSolicitud es = new ExpSolicitud();
+            es.lineas = new List<ExpSolicitudLine>().ToArray();
             return new ExpSolicitud();
         }
 

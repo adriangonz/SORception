@@ -18,6 +18,8 @@ namespace Eggplant.Services
         PedidoRepository Pedidos { get; }
         GenericRepository<LineaPedido> LineasPedido { get; }
 
+        AuditsRepository Audits { get; }
+
         int SaveChanges();
     }
 }
