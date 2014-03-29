@@ -51,3 +51,21 @@
 </table>
 
 <button class="btn btn-success" request-token-button>Request Token</button>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>User</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="audit in audits">
+            <td>{{audit.type}}</td>
+            <td>{{audit.descriptcion}}</td>
+            <td>{{audit.createdBy}}</td>
+        </tr>
+    </tbody>
+</table>
