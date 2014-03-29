@@ -1,4 +1,5 @@
-﻿using Eggplant.Exceptions;
+﻿using Eggplant.Entity;
+using Eggplant.Exceptions;
 using Eggplant.Services;
 using Eggplant.ServiceTaller;
 using System;
@@ -28,6 +29,8 @@ namespace Eggplant.Application
             setLastTokenAsExpired();
 
             dataService.Tokens.Insert(t);
+            dataService.Audits.create(Audit.INFO, "New token requested ");
+            dataService.SaveChanges();
             return dataService.SaveChanges();
         }
 
@@ -48,6 +51,7 @@ namespace Eggplant.Application
                     {
                         token.status = Entity.Token.ACTIVE;
                         token.token = tr.token;
+                        dataService.Audits.create(Audit.INFO, "Token activated: "+token.id);
                         dataService.SaveChanges();
                     }
                     else
