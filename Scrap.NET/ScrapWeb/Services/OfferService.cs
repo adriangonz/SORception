@@ -50,12 +50,16 @@ namespace ScrapWeb.Services
         public OfferEntity update(int id, DTO.OfferPostDTO offer)
         {
             OfferEntity offerEntity = this.getById(id);
+
+            new LogEntity("[UPDATE] Oferta con id " + offerEntity.id);
+
             foreach (var line in offer.lines.ToList())
             {
                 if (line.status == "DELETE")
                 {
                     deleteOfferLine(line.id);
                     offer.lines.Remove(line);
+
                 }
                 else if (line.status == "NEW") 
                 {
@@ -69,6 +73,7 @@ namespace ScrapWeb.Services
                     updatedLine.quantity = line.quantity;
                     updateOfferLine(updatedLine);
                 }
+                new LogEntity("[" + line.status + "] Linea con id " + line.id + " de la Oferta con id " + offerEntity.id);
             }
             scrapContext.SaveChanges();
             amqService.updateOffer(offerEntity);
@@ -79,9 +84,11 @@ namespace ScrapWeb.Services
         {
             List<OfferLineEntity> lines = new List<OfferLineEntity>();
 
+            new LogEntity("[NEW] Oferta");
             foreach (var line in offer.lines)
             {
                 lines.Add(toOfferLine(line));
+                new LogEntity("[NEW] Linea de la oferta");
             }
 
             OfferEntity offerEntity = new OfferEntity
@@ -108,6 +115,7 @@ namespace ScrapWeb.Services
         public void delete(int id)
         {
             var offerEntity = this.getById(id);
+        
             delete(offerEntity);
         }
 
@@ -119,13 +127,17 @@ namespace ScrapWeb.Services
             {
                 delete(line);
             }
+
+            new LogEntity("[DELETE] Oferta con id " + offerEntity.id);
             scrapContext.SaveChanges();
             amqService.deleteOffer(offerEntity);
         }
 
-        private void delete(OfferLineEntity offerLine) 
+        private void delete(OfferLineEntity offerLine)
         {
             delete(offerLine.id);
+            //TODO: igual?
+            new LogEntity("[DELETE] Linea con id " + offerLine.id + " de la Oferta con id " + offerLine.offerId);
         }
 
         public OfferLineEntity getOfferLine(int id)
@@ -147,6 +159,9 @@ namespace ScrapWeb.Services
         {
             var line = this.getOfferLine(id);
             line.deleted = true;
+            //TODO: igual?
+            new LogEntity("[DELETE] Linea con id " + line.id + " de la Oferta con id " + line.offerId);
+
             offerLineRepository.Update(line);
         }
 

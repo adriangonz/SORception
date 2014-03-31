@@ -6,8 +6,11 @@ module.controller( "SettingsCtrl", [ '$scope', 'SettingsService','Auth', functio
         $scope.userList = SettingsService.userList;
     });
 
+    console.log("Adri es un pesao");
+
 	
-	Auth.isLoggedIn();
+    Auth.isLoggedIn();
+    Auth.isPrivate();
 	
 	SettingsService.getSettings();
 	SettingsService.getUsers();

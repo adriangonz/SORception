@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -191,6 +193,7 @@
     <Compile Include="DataAccess\ScrapContext.cs" />
     <Compile Include="DTO\OfferDTO.cs" />
     <Compile Include="Entities\AcceptedOfferLineEntity.cs" />
+    <Compile Include="Entities\LogEntity.cs" />
     <Compile Include="Entities\OfferEntity.cs" />
     <Compile Include="Entities\OfferLineEntity.cs" />
     <Compile Include="Entities\OrderEntity.cs" />
@@ -256,12 +259,12 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\loader.gif" />
     <Content Include="Scripts\angular-locale_es-es.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <None Include="Properties\PublishProfiles\sorscrapnet %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorscrapnet.pubxml" />
     <None Include="Service References\Webservices\GestionDesguace.disco" />
     <None Include="Service References\Webservices\configuration91.svcinfo" />
@@ -314,7 +317,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="images\" />
     <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +360,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

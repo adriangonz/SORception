@@ -5,7 +5,7 @@ module.controller( "OrdersCtrl", [ '$scope', 'Scrap','Auth', function( $scope, S
 
 
 	Auth.isLoggedIn();
-	
+	console.log();
 	Scrap.getOrders();
   	$scope.orders;
 

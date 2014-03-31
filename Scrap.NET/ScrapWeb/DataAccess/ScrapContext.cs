@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Security.Principal;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Security;
 using System.Web;
+using System.Web.Http;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using ScrapWeb.Entities;
@@ -29,11 +33,16 @@ namespace ScrapWeb.DataAccess
                 {
                     item.Entity.creationDate = System.DateTime.Now;
                     item.Entity.updatedDate = System.DateTime.Now;
+
+                    item.Entity.createdBy = HttpContext.Current.User.Identity.GetUserId();
+                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+                    
                 }
 
                 foreach(var item in trackables.Where(t => t.State == EntityState.Modified))
                 {
                     item.Entity.updatedDate = System.DateTime.Now;
+                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
                 }
             }
 
