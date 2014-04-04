@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+          //.addFilterAfter(new CsrfTokenGeneratorFilter(), CsrfFilter.class)
           .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .enableSessionUrlRewriting(false)
@@ -76,7 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .antMatchers("/api/**").hasRole("USER")
             .anyRequest().permitAll()
             .and()
-          .csrf().disable()
           .httpBasic();
     }
 }
