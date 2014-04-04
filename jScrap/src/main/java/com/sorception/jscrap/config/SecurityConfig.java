@@ -14,6 +14,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.authentication.dao.ReflectionSaltSource;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,14 +27,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     UserDetailsService userDetailsService;
     
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-        	.authenticationProvider(daoAuthenticationProvider());
+    public void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+    	auth
+    		.authenticationProvider(daoAuthenticationProvider());
     }
     
     @Bean
@@ -71,7 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .enableSessionUrlRewriting(false)
             .and()
           .authorizeRequests()
-            .antMatchers("/*").permitAll()
+            .antMatchers("/api/**").hasRole("USER")
+            .anyRequest().permitAll()
             .and()
           .csrf().disable()
           .httpBasic();

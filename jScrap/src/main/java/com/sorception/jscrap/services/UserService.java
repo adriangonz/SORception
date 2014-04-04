@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -56,12 +55,10 @@ public class UserService extends AbstractService<UserEntity> {
 		return dao;
 	}
     
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserEntity> getAllUsers() {
         return findAll();
     }
     
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserEntity addUser(UserInfoDTO userInfo) {
         UserEntity user = new UserEntity(userInfo.username, userInfo.name, userInfo.password);
         encodePassword(user);
@@ -87,7 +84,6 @@ public class UserService extends AbstractService<UserEntity> {
     	delete(userId);
     }
     
-    @PreAuthorize("isAnonymous() || hasRole('ROLE_ADMIN')")
     public String authenticateUser(String username, String password) {
         try {
             logger.info("Generating auth token for user "+ username + "...");

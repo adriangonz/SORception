@@ -26,4 +26,5 @@
  	<!-- 
     	<logger name="org.springframework.web.servlet.mvc" level="ALL" />
 	-->
+	<!--logger name="org.springframework.security" level="ALL" /-->
 </configuration>

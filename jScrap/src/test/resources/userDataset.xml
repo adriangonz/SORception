@@ -1,4 +1,4 @@
 <dataset>
-    <ApplicationUser id="1" username="admin" name="Administrador" password="password" isAdmin="true" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00"/>
-    <ApplicationUser id="2" username="kaseyo" name="Adrián" password="password" isAdmin="false" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00" />
+    <ApplicationUser id="1" username="admin" name="Administrador" password="d90fffb982e33ad3d601dde5421bc05cdbd97f2d21cfcd52421b30bccdd61c18" isAdmin="true" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00"/>
+    <ApplicationUser id="2" username="kaseyo" name="Adrián" password="1deb9e2d2aa077decd78a7f4d3ca4d2501a5c3ece23cdd09cb8cf215eb14465c" isAdmin="false" created="2013-12-23 12:30:00" updated="2013-12-23 12:30:00" />
 </dataset>

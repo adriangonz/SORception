@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,6 +60,7 @@ public class UserController {
         return userService.getUser(userId);
     }
     
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="", method=RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -66,11 +68,11 @@ public class UserController {
         return userService.addUser(user);
     }
     
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/{userId}", method=RequestMethod.DELETE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable Long userId) {
-        logger.info("Ola ke ase");
         userService.removeUser(userId);
     }
 }
