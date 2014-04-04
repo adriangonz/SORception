@@ -12,6 +12,8 @@ namespace ScrapWeb.Services
 {
     public class OrderService
     {
+        private LogsRepository Logs;
+
         private GenericRepository<OrderEntity> orderRepository;
 
         private GenericRepository<OrderLineEntity> orderLineRepository;
@@ -27,6 +29,7 @@ namespace ScrapWeb.Services
             this.scrapContext = context;
             orderRepository = new GenericRepository<OrderEntity>(scrapContext);
             orderLineRepository = new GenericRepository<OrderLineEntity>(scrapContext);
+            Logs = new LogsRepository(scrapContext);
         }
 
         public IEnumerable<OrderEntity> getAll()
@@ -39,6 +42,7 @@ namespace ScrapWeb.Services
         public OrderEntity save(OrderEntity orderEntity)
         {
             orderRepository.Insert(orderEntity);
+            Logs.create(LogEntity.INFO, "Create Order with id " + orderEntity.id);
             scrapContext.SaveChanges();
             return orderEntity;
         }
@@ -47,14 +51,18 @@ namespace ScrapWeb.Services
         {
             orderRepository.Update(orderEntity);
             scrapContext.SaveChanges();
+            Logs.create(LogEntity.INFO, "Updated Order with id " + orderEntity.id);
             return orderEntity;
         }
 
         public OrderEntity getBySgId(string sgId)
         {
             var orderentity = orderRepository.Get(t => t.sgId == sgId, null, null).FirstOrDefault();
-            if(orderentity == null)
+            if (orderentity == null)
+            {
+                Logs.create(LogEntity.ERROR, "Error while trying to get order with remote id " + orderentity.id);
                 throw new ServiceException("Order with remote id " + sgId + " was not found", HttpStatusCode.NotFound);
+            }
             return orderentity;
         }
 
@@ -62,7 +70,10 @@ namespace ScrapWeb.Services
         {
             var orderEntity = orderRepository.Get(t => t.id == id, null, "rawLines").FirstOrDefault();
             if (orderEntity == null)
+            {
+                Logs.create(LogEntity.ERROR, "Error while trying to get order with id " + orderEntity.id);
                 throw new ServiceException("Order with id " + id.ToString() + " was not found", HttpStatusCode.NotFound);
+            }
             return orderEntity;
         }
 
@@ -70,7 +81,11 @@ namespace ScrapWeb.Services
         {
             var orderLine = orderLineRepository.GetByID(id);
             if (orderLine == null)
+            {
+                Logs.create(LogEntity.ERROR, "Error while trying to get order line with id " + orderLine.id);
                 throw new ServiceException("Orderline with id " + id.ToString() + " was not found", HttpStatusCode.NotFound);
+
+            }
             return orderLine;
         }
 
@@ -81,6 +96,7 @@ namespace ScrapWeb.Services
             var offerEntity = orderEntity.offer;
             if (offerEntity != null)
                 offerService.delete(offerEntity);
+            Logs.create(LogEntity.INFO, "Closed order with id " + orderEntity.id);
         }
 
         public void deleteOrder(OrderEntity orderEntity)
@@ -94,12 +110,14 @@ namespace ScrapWeb.Services
             var offerEntity = orderEntity.offer;
             if(offerEntity != null)
                 offerService.delete(offerEntity);
+            Logs.create(LogEntity.INFO, "Deleted order with id " + orderEntity.id);
         }
 
         public void deleteOrderLine(OrderLineEntity orderLine)
         {
             orderLine.deleted = true;
             orderLineRepository.Update(orderLine);
+            Logs.create(LogEntity.INFO, "Deleted order line with id " + orderLine.id);
             scrapContext.SaveChanges();
         }
     }

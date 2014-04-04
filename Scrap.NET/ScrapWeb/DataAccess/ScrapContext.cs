@@ -21,6 +21,7 @@ namespace ScrapWeb.DataAccess
         public DbSet<OfferEntity> Offer { get; set; }
         public DbSet<OfferLineEntity> OfferLine { get; set; }
         public DbSet<AcceptedOfferLineEntity> AcceptedOfferLine { get; set; }
+        public DbSet<LogEntity> Log { get; set; }
 
         // Override for created and modified dates
         public override int SaveChanges()
@@ -34,15 +35,26 @@ namespace ScrapWeb.DataAccess
                     item.Entity.creationDate = System.DateTime.Now;
                     item.Entity.updatedDate = System.DateTime.Now;
 
-                    item.Entity.createdBy = HttpContext.Current.User.Identity.GetUserId();
-                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+                    if (HttpContext.Current.User.Identity != null)
+                    {
+                        item.Entity.createdBy = HttpContext.Current.User.Identity.GetUserId();
+                        item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+                    }
+                    else
+                    {
+                        item.Entity.createdBy = "Anonymous";
+                        item.Entity.updatedBy = "Anonymous";
+                    }
                     
                 }
 
                 foreach(var item in trackables.Where(t => t.State == EntityState.Modified))
                 {
-                    item.Entity.updatedDate = System.DateTime.Now;
-                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+                    item.Entity.updatedDate = System.DateTime.Now; 
+                    if (HttpContext.Current.User.Identity != null)
+                        item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+                    else
+                        item.Entity.updatedBy = "Anonymous";
                 }
             }
 

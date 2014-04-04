@@ -11,11 +11,12 @@ namespace ScrapWeb.Entities
 {
     public class LogEntity : AbstractEntity
     {
-        public String action { get; set; }
+        public static string INFO = "INFO";
+        public static string ERROR = "ERROR";
+        public static string WARNING = "WARNING";
 
-        public LogEntity(String msg)
-        {
-           action = msg;
-        }
+        public String description { get; set; }
+        public String type { get; set; }
+
     }
 }

@@ -6,6 +6,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	     	"tokenList": {},
 	    },
 	    userList: [],
+	    logs: [],
 	 
 	    getSettings: function () {
 	        $http({method: 'GET', url: '/api/settings'}).
@@ -93,7 +94,20 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	          error(function(data, status, headers, config) {
 	              console.log(data);
 	          });
-	    },
+	   	},
+
+	   	getLogs: function () {
+	   	    $http({ method: 'GET', url: '/api/logs' }).
+                success(function (data, status, headers, config) {
+                    service.logs = data;
+                    console.log("logs:");
+                    console.log(data);
+                    $rootScope.$broadcast('logs.update');
+                }).
+                error(function (data, status, headers, config) {
+                    alert(status + " | " + data);
+                });
+	   	},
    	}
  
    return service;

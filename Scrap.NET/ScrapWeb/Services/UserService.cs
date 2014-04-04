@@ -4,6 +4,8 @@ using Microsoft.Owin.Security;
 using ScrapWeb.DataAccess;
 using ScrapWeb.DTO;
 using ScrapWeb.Exceptions;
+using ScrapWeb.Repositories;
+using ScrapWeb.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,14 @@ namespace ScrapWeb.Services
 {
     public class UserService
     {
+        protected LogsRepository Logs;
+        private ScrapContext scrapContext;
 
         public UserService()
             : this(Startup.UserManagerFactory(), Startup.OAuthOptions.AccessTokenFormat)
         {
+            scrapContext = new ScrapContext();
+            Logs = new LogsRepository(scrapContext);
         }
 
         public UserService(UserManager<IdentityUser> userManager,
@@ -26,6 +32,8 @@ namespace ScrapWeb.Services
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            scrapContext = new ScrapContext();
+            Logs = new LogsRepository(scrapContext);
         }
 
         public UserManager<IdentityUser> UserManager { get; private set; }
@@ -41,8 +49,11 @@ namespace ScrapWeb.Services
             IdentityResult result = UserManager.Create(user, model.password);
             if (!result.Succeeded)
             {
+                Logs.create(LogEntity.ERROR, "Failed to create a new user: "+result.Errors);
                 throw new ServiceException(result.Errors);
             }
+
+            Logs.create(LogEntity.INFO, "Created a new user with id "+user.Id);
             return new UserInfoDTO(user);
         }
 

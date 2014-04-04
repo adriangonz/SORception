@@ -185,6 +185,7 @@
     <Compile Include="Config\ScrapSettingsConfiguration.cs" />
     <Compile Include="Controllers\AcceptedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\LogsRepository.cs" />
     <Compile Include="Service References\Webservices\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -265,6 +267,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\sorscrapnet - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sorscrapnet - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sorscrapnet.pubxml" />
     <None Include="Service References\Webservices\GestionDesguace.disco" />
     <None Include="Service References\Webservices\configuration91.svcinfo" />

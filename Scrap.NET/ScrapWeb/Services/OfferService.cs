@@ -12,6 +12,7 @@ namespace ScrapWeb.Services
 {
     public class OfferService
     {
+        private LogsRepository Logs;
         private GenericRepository<OfferEntity> offerRepository;
         private GenericRepository<OfferLineEntity> offerLineRepository;
         private ScrapContext scrapContext;
@@ -28,6 +29,7 @@ namespace ScrapWeb.Services
             offerLineRepository = new GenericRepository<OfferLineEntity>(scrapContext);
             orderService = new OrderService(scrapContext);
             amqService = new AMQService();
+            Logs = new LogsRepository(scrapContext);
         }
 
         public IEnumerable<OfferEntity> getAll()
@@ -51,7 +53,7 @@ namespace ScrapWeb.Services
         {
             OfferEntity offerEntity = this.getById(id);
 
-            new LogEntity("[UPDATE] Oferta con id " + offerEntity.id);
+            Logs.create(LogEntity.INFO, "Updated offer with id " + offerEntity.id);
 
             foreach (var line in offer.lines.ToList())
             {
@@ -59,11 +61,12 @@ namespace ScrapWeb.Services
                 {
                     deleteOfferLine(line.id);
                     offer.lines.Remove(line);
-
+                    Logs.create(LogEntity.INFO, "Deleted offer line with id " + line.id+" inside order with id "+offerEntity.id);
                 }
                 else if (line.status == "NEW") 
                 {
                     offerEntity.rawLines.Add(toOfferLine(line));
+                    Logs.create(LogEntity.INFO, "Created offer line inside order with id "+offerEntity.id );
                 }
                 else if (line.status == "UPDATE") 
                 {
@@ -72,8 +75,8 @@ namespace ScrapWeb.Services
                     updatedLine.price = line.price;
                     updatedLine.quantity = line.quantity;
                     updateOfferLine(updatedLine);
+                    Logs.create(LogEntity.INFO, "Created offer line with id " + line.id + " inside order with id " + offerEntity.id);
                 }
-                new LogEntity("[" + line.status + "] Linea con id " + line.id + " de la Oferta con id " + offerEntity.id);
             }
             scrapContext.SaveChanges();
             amqService.updateOffer(offerEntity);
@@ -84,11 +87,9 @@ namespace ScrapWeb.Services
         {
             List<OfferLineEntity> lines = new List<OfferLineEntity>();
 
-            new LogEntity("[NEW] Oferta");
             foreach (var line in offer.lines)
             {
                 lines.Add(toOfferLine(line));
-                new LogEntity("[NEW] Linea de la oferta");
             }
 
             OfferEntity offerEntity = new OfferEntity
@@ -98,6 +99,7 @@ namespace ScrapWeb.Services
 
             offerRepository.Insert(offerEntity);
             scrapContext.SaveChanges();
+            Logs.create(LogEntity.INFO, "Created offer with id " + offerEntity.id);
 
             amqService.sendOffer(offerEntity);
 
@@ -128,7 +130,8 @@ namespace ScrapWeb.Services
                 delete(line);
             }
 
-            new LogEntity("[DELETE] Oferta con id " + offerEntity.id);
+
+            Logs.create(LogEntity.INFO, "Deleted offer with id " + offerEntity.id);
             scrapContext.SaveChanges();
             amqService.deleteOffer(offerEntity);
         }
@@ -137,7 +140,8 @@ namespace ScrapWeb.Services
         {
             delete(offerLine.id);
             //TODO: igual?
-            new LogEntity("[DELETE] Linea con id " + offerLine.id + " de la Oferta con id " + offerLine.offerId);
+
+            Logs.create(LogEntity.INFO, "Deleted offer line with id " + offerLine.id + " of the offer with " + offerLine.offerId);
         }
 
         public OfferLineEntity getOfferLine(int id)
@@ -160,7 +164,7 @@ namespace ScrapWeb.Services
             var line = this.getOfferLine(id);
             line.deleted = true;
             //TODO: igual?
-            new LogEntity("[DELETE] Linea con id " + line.id + " de la Oferta con id " + line.offerId);
+            Logs.create(LogEntity.INFO, "Deleted offer line with id " + line.id + " of the offer with " + line.offerId);
 
             offerLineRepository.Update(line);
         }
