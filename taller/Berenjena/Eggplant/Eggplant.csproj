@@ -315,8 +315,18 @@
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExpSolicitud.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <None Include="Service References\ServiceTaller\GestionTaller1.wsdl" />
-    <None Include="Service References\ServiceTaller\GestionTaller3.xsd">
+    <None Include="Service References\ServiceTaller\GestionTaller2.wsdl" />
+    <None Include="Service References\ServiceTaller\GestionTaller21.wsdl" />
+    <None Include="Service References\ServiceTaller\GestionTaller4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\GestionTaller41.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\GestionTaller42.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceTaller\GestionTaller43.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ServiceTaller\Reference.svcmap">
@@ -341,16 +351,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <None Include="Service References\ServiceTaller\GestionTaller.wsdl" />
-    <None Include="Service References\ServiceTaller\GestionTaller.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceTaller\GestionTaller1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceTaller\GestionTaller2.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
