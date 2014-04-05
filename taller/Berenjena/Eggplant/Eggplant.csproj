@@ -16,9 +16,9 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -286,7 +286,11 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <None Include="Properties\PublishProfiles\tallernet - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -311,6 +315,7 @@
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExpSolicitud.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <None Include="Service References\ServiceTaller\GestionTaller1.wsdl" />
     <None Include="Service References\ServiceTaller\GestionTaller3.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -23,14 +23,9 @@ namespace ActiveMQHelper
         public delegate void MessageReceivedDelegate(string message);
         public event MessageReceivedDelegate OnMessageReceived;
 
-        public static TopicSubscriber MakeSubscriber(string broker, string client_id, string topic)
+        public static TopicSubscriber MakeDefaultSubscriber(string topic)
         {
-            IConnectionFactory connectionFactory = new ConnectionFactory(broker, client_id + "@" + System.Environment.MachineName);
-            IConnection connection = connectionFactory.CreateConnection();
-            connection.Start();
-            ISession session = connection.CreateSession();
-
-            TopicSubscriber subscriber = new TopicSubscriber(session, topic);
+            TopicSubscriber subscriber = new TopicSubscriber(AMQConfig.Session, topic);
             return subscriber;
         }
 
@@ -43,6 +38,7 @@ namespace ActiveMQHelper
 
         public void Start(string consumerId)
         {
+            return;
             ConsumerId = consumerId;
             Consumer = _session.CreateDurableConsumer(_topic, consumerId, null, false);
             Consumer.Listener += NewMessageHandler;

@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sorception.jscrap.dao.IGenericDAO;
 import com.sorception.jscrap.dao.IUserDAO;
 import com.sorception.jscrap.dto.UserInfoDTO;
+import com.sorception.jscrap.entities.CustomUserDetails;
 import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.error.AuthenticationException;
 import com.sorception.jscrap.error.ResourceNotFoundException;
@@ -56,12 +56,10 @@ public class UserService extends AbstractService<UserEntity> {
 		return dao;
 	}
     
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserEntity> getAllUsers() {
         return findAll();
     }
     
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserEntity addUser(UserInfoDTO userInfo) {
         UserEntity user = new UserEntity(userInfo.username, userInfo.name, userInfo.password);
         encodePassword(user);
@@ -69,12 +67,10 @@ public class UserService extends AbstractService<UserEntity> {
         return user;
     }
 	
-	//TODO: Only owner or admin
     public UserEntity getUser(Long userId) {
         return findOne(userId);
     }
     
-    //TODO: Only owner or admin
     public UserEntity getUserByUsername(String username) {
         UserEntity user = ((IUserDAO)getDao()).findByUsername(username);
         if(null == user)
@@ -82,12 +78,10 @@ public class UserService extends AbstractService<UserEntity> {
         return user;
     }
     
-    //TODO: Only owner or admin
     public void removeUser(Long userId) {
     	delete(userId);
     }
     
-    @PreAuthorize("isAnonymous() || hasRole('ROLE_ADMIN')")
     public String authenticateUser(String username, String password) {
         try {
             logger.info("Generating auth token for user "+ username + "...");
@@ -101,7 +95,7 @@ public class UserService extends AbstractService<UserEntity> {
     
     private void encodePassword(UserEntity user) {
     	CustomUserDetailsService userDetailsService = new CustomUserDetailsService();
-        UserDetails userDetails = userDetailsService.loadUserByCustomUser(user);
+        UserDetails userDetails = new CustomUserDetails(user);
         String encodedPassword = 
         		passwordEncoder.encodePassword(
         				user.getPassword(), saltSource.getSalt(userDetails));

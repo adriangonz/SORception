@@ -7,7 +7,6 @@
 package com.sorception.jscrap.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.sorception.jscrap.entities.SettingsEntity;
@@ -18,7 +17,6 @@ import com.sorception.jscrap.entities.TokenEntity;
  * @author kaseyo
  */
 @Service
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class SettingsService {
 	@Autowired
     private SettingsEntity globalSettings;
@@ -26,12 +24,10 @@ public class SettingsService {
     @Autowired
     private TokenService tokenService;
     
-    @PreAuthorize("hasRole('ROLE_USER')")
     public SettingsEntity getGlobalSettings() {
         return globalSettings;
     }
     
-    @PreAuthorize("hasRole('ROLE_USER')")
     public SettingsEntity getExtendedSettings() {
         SettingsEntity settingsEntity = this.getGlobalSettings();
         try {

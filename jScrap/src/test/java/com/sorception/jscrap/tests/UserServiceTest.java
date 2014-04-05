@@ -47,6 +47,16 @@ public class UserServiceTest extends BaseTest {
 	}
 	
 	@Test
+	public void UserService_Register_PasswordGetsHashed() {
+		UserInfoDTO userInfo = new UserInfoDTO();
+		userInfo.username = "test";
+		userInfo.name = "Test user";
+		userInfo.password = "password";
+		UserEntity user = userService.addUser(userInfo);
+		assertThat(user.getPassword(), is(not(equalTo(userInfo.password))));
+	}
+	
+	@Test
 	public void UserService_Get_ShouldReturnUserAdmin() {
 		UserEntity admin = userService.getUser(1L);
 		assertThat(admin.getUsername(), is("admin"));
