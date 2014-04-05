@@ -34,27 +34,16 @@ namespace ScrapWeb.DataAccess
                 {
                     item.Entity.creationDate = System.DateTime.Now;
                     item.Entity.updatedDate = System.DateTime.Now;
-
-                    if (HttpContext.Current.User.Identity != null)
-                    {
                         item.Entity.createdBy = HttpContext.Current.User.Identity.GetUserId();
                         item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
-                    }
-                    else
-                    {
-                        item.Entity.createdBy = "Anonymous";
-                        item.Entity.updatedBy = "Anonymous";
-                    }
                     
                 }
 
                 foreach(var item in trackables.Where(t => t.State == EntityState.Modified))
                 {
                     item.Entity.updatedDate = System.DateTime.Now; 
-                    if (HttpContext.Current.User.Identity != null)
-                        item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
-                    else
-                        item.Entity.updatedBy = "Anonymous";
+                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+
                 }
             }
 

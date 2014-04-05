@@ -52,6 +52,7 @@ namespace ScrapWeb.Services
             orderRepository.Update(orderEntity);
             scrapContext.SaveChanges();
             Logs.create(LogEntity.INFO, "Updated Order with id " + orderEntity.id);
+            scrapContext.SaveChanges();
             return orderEntity;
         }
 
@@ -61,6 +62,7 @@ namespace ScrapWeb.Services
             if (orderentity == null)
             {
                 Logs.create(LogEntity.ERROR, "Error while trying to get order with remote id " + orderentity.id);
+                scrapContext.SaveChanges();
                 throw new ServiceException("Order with remote id " + sgId + " was not found", HttpStatusCode.NotFound);
             }
             return orderentity;
@@ -72,6 +74,7 @@ namespace ScrapWeb.Services
             if (orderEntity == null)
             {
                 Logs.create(LogEntity.ERROR, "Error while trying to get order with id " + orderEntity.id);
+                scrapContext.SaveChanges();
                 throw new ServiceException("Order with id " + id.ToString() + " was not found", HttpStatusCode.NotFound);
             }
             return orderEntity;
@@ -83,8 +86,8 @@ namespace ScrapWeb.Services
             if (orderLine == null)
             {
                 Logs.create(LogEntity.ERROR, "Error while trying to get order line with id " + orderLine.id);
+                scrapContext.SaveChanges();
                 throw new ServiceException("Orderline with id " + id.ToString() + " was not found", HttpStatusCode.NotFound);
-
             }
             return orderLine;
         }
@@ -97,6 +100,7 @@ namespace ScrapWeb.Services
             if (offerEntity != null)
                 offerService.delete(offerEntity);
             Logs.create(LogEntity.INFO, "Closed order with id " + orderEntity.id);
+            scrapContext.SaveChanges();
         }
 
         public void deleteOrder(OrderEntity orderEntity)
@@ -111,6 +115,7 @@ namespace ScrapWeb.Services
             if(offerEntity != null)
                 offerService.delete(offerEntity);
             Logs.create(LogEntity.INFO, "Deleted order with id " + orderEntity.id);
+            scrapContext.SaveChanges();
         }
 
         public void deleteOrderLine(OrderLineEntity orderLine)

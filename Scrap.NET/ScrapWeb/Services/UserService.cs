@@ -49,11 +49,12 @@ namespace ScrapWeb.Services
             IdentityResult result = UserManager.Create(user, model.password);
             if (!result.Succeeded)
             {
-                Logs.create(LogEntity.ERROR, "Failed to create a new user: "+result.Errors);
+                Logs.create(LogEntity.ERROR, "Failed to create a new user: " + result.Errors);
                 throw new ServiceException(result.Errors);
             }
 
-            Logs.create(LogEntity.INFO, "Created a new user with id "+user.Id);
+            Logs.create(LogEntity.INFO, "Created a new user with username " + user.UserName);
+            //scrapContext.SaveChanges();
             return new UserInfoDTO(user);
         }
 

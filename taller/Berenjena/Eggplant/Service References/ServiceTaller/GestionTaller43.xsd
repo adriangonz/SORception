@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://sorception.azurewebsites.net/" elementFormDefault="qualified" targetNamespace="http://sorception.azurewebsites.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
+  <xs:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
   <xs:complexType name="ExpTaller">
     <xs:sequence>
+      <xs:element minOccurs="0" name="active" type="xs:boolean" />
+      <xs:element minOccurs="0" name="id" type="xs:int" />
       <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>

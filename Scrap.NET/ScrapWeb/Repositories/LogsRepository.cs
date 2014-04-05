@@ -13,8 +13,8 @@ namespace ScrapWeb.Repositories
         public LogsRepository(DbContext context)
             : base(context)
         {
-
         }
+
         public void create(string type, string description)
         {
             LogEntity log = new LogEntity();

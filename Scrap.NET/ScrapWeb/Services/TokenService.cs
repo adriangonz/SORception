@@ -63,7 +63,6 @@ namespace ScrapWeb.Services
                     .FirstOrDefault();
                 if (tokenEntity == null)
                 {
-                    Logs.create(LogEntity.ERROR, "Not valid token or request was found");
                     throw new ServiceException("Not valid token or request was found", HttpStatusCode.NotFound);
                 }
                 // Check if token is available
@@ -74,12 +73,12 @@ namespace ScrapWeb.Services
                 // If not available, 404
                 if (tokenEntity.status != TokenStatus.VALID)
                 {
-                    Logs.create(LogEntity.ERROR, "Token request has not been accepted");
                     throw new ServiceException("Token request has not been accepted", HttpStatusCode.NotFound);                
                 }
                 // If we have a token, enable it here
 
-                Logs.create(LogEntity.INFO, "Topic subscribed "+tokenEntity.token+ "with status "+tokenEntity.status);
+                Logs.create(LogEntity.INFO, "Topic subscribed " + tokenEntity.token + "with status " + tokenEntity.status);
+                scrapContext.SaveChanges();
                 amqService.createTopicSubscribers(tokenEntity);
             }
             return tokenEntity;
