@@ -45,28 +45,33 @@ public class AuthTest extends BaseTest {
 	
 	@Test
 	public void createUser_notAuth_ShouldReturnError() throws Exception {
-		makeRequestAs(null).andExpect(status().isUnauthorized());
+		makeRequestAs(null, "/api/user", getSampleUserAsJSON()).andExpect(status().isUnauthorized());
 	}
 	
 	@Test
 	public void createUser_notAdmin_ShouldReturnError() throws Exception {
-		makeRequestAs("kaseyo").andExpect(status().isForbidden());
+		makeRequestAs("kaseyo", "/api/user", getSampleUserAsJSON()).andExpect(status().isForbidden());
 	}
 	
 	@Test
 	public void createUser_admin_ShouldWork() throws Exception {
-		makeRequestAs("admin").andExpect(status().isCreated());
+		makeRequestAs("admin", "/api/user", getSampleUserAsJSON()).andExpect(status().isCreated());
 	}
 	
-	private ResultActions makeRequestAs(String username) throws Exception {
+	@Test
+	public void authenticate_notAuth_ShouldWork() throws Exception {
+		makeRequestAs(null, "/api/authenticate", getCredentialsFor("kaseyo")).andExpect(status().isOk());
+	}
+	
+	private ResultActions makeRequestAs(String username, String url, String json) throws Exception {
 		CsrfToken csrfToken = getCsrfToken();
 		Map map = new HashMap();
         map.put("org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN",
         		csrfToken);
-		MockHttpServletRequestBuilder postRequest = post("/api/user")
+		MockHttpServletRequestBuilder postRequest = post(url)
 			.header("X-CSRF-TOKEN", csrfToken.getToken())
 			.contentType(MediaType.APPLICATION_JSON)
-			.content(getSampleUserAsJSON())
+			.content(json)
 			.sessionAttrs(map);
 		if(username != null)
 			postRequest.header("Authorization", getAuthorizationHeader(username));
@@ -79,6 +84,13 @@ public class AuthTest extends BaseTest {
 				+ "\"name\": \"Harry Potter\","
 				+ "\"username\": \"harry\","
 				+ "\"password\": \"mag1c\""
+			+ "}"; 
+	}
+	
+	private String getCredentialsFor(String username) {
+		return "{"
+				+ "\"username\": \"" + username + "\","
+				+ "\"password\": \"password\""
 			+ "}"; 
 	}
 	

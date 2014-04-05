@@ -9,6 +9,7 @@ package com.sorception.jscrap.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.dao.ReflectionSaltSource;
@@ -68,13 +69,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-          //.addFilterAfter(new CsrfTokenGeneratorFilter(), CsrfFilter.class)
           .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .enableSessionUrlRewriting(false)
             .and()
           .authorizeRequests()
-            .antMatchers("/api/**").hasRole("USER")
+          	.antMatchers(HttpMethod.POST, "/api/user/authenticate").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/user").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/api/user/[0-9]+").hasRole("ADMIN")
+            .antMatchers(HttpMethod.POST, "/api/token").hasRole("ADMIN")
+            .antMatchers("/api/user", "/api/order/**", "/api/offer/**", 
+            				"/api/accepted/**", "/api/token/**",
+            				"/api/settings/**").hasRole("USER")
             .anyRequest().permitAll()
             .and()
           .httpBasic();
