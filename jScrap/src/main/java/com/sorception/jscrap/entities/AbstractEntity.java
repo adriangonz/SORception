@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -57,6 +58,10 @@ public abstract class AbstractEntity implements Serializable {
     @ManyToOne
     private UserEntity createdBy;
     
+    @LastModifiedBy
+    @ManyToOne
+    private UserEntity lastModifiedBy;
+    
     protected AbstractEntity() {}
     
     public Date getCreated() {
@@ -68,6 +73,10 @@ public abstract class AbstractEntity implements Serializable {
     }
     
     public UserEntity getOwner() {
+    	return createdBy;
+    }
+    
+    public UserEntity getModifiedBy() {
     	return createdBy;
     }
     
