@@ -11,6 +11,8 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/core.css" rel="stylesheet">
+        <meta name="_csrf" content="${_csrf.token}"/>
+        <meta name="_csrf_header" content="${_csrf.headerName}"/>
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
