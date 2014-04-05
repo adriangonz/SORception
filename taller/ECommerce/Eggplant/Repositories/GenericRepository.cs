@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eggplant.Repository
+namespace Eggplant.Repositories
 {
-    class GenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> where TEntity : class
     {
         internal DbContext context;
         internal DbSet<TEntity> dbSet;
@@ -76,6 +76,11 @@ namespace Eggplant.Repository
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
+
+        public virtual IEnumerable<TEntity> RemoveRange(IEnumerable<TEntity> entities)
+        {
+            return dbSet.RemoveRange(entities);
         }
     }
 }

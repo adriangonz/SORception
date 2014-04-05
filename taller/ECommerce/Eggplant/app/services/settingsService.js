@@ -5,6 +5,7 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
      	"tokens": {}
      },
      userList: [],
+     audits: [],
  
      getSettings: function () {
               $http({ method: 'GET', url: '/api/settings' }).
@@ -70,24 +71,27 @@ module.service('SettingsService', ['$rootScope', '$http', '$timeout', function (
      },
 
      postUser: function (user_data) {
-         //He probado el registro externo y nada... :(
-         //$http({ method: 'POST', url: '/api/account/RegisterExternal', data: user_data }).
-         
          $http({ method: 'POST', url: '/api/account/register', data: user_data }).
          success(function (data, status, headers, config) {
-             //service.getUsers();
-             console.log("OK: " + status + " | " + data);
-             $("#err-reg").html("");
-             $("#suc-reg").html("Registrado! Ya puede loguearse.");
+             service.getUsers();
          }).
          error(function (data, status, headers, config) {
              console.log("Error: " + status + " | " + data);
-             $("#suc-reg").html("");
-             $("#err-reg").html("Error! Algun campo es incorrecto");
          });
+     },
+     getAudits: function () {
+         $http({ method: 'GET', url: '/api/audit' }).
+             success(function (data, status, headers, config) {
+                 service.audits = data;
+                 $rootScope.$broadcast('audits.update');
+             }).
+             error(function (data, status, headers, config) {
+                 alert(status + " | " + data);
+             });
      },
 
    }
+    
  
 
    return service;
