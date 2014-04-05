@@ -60,7 +60,7 @@ public class AuthTest extends BaseTest {
 	
 	@Test
 	public void authenticate_notAuth_ShouldWork() throws Exception {
-		makeRequestAs(null, "/api/authenticate", getCredentialsFor("kaseyo")).andExpect(status().isOk());
+		makeRequestAs(null, "/api/user/authenticate", getCredentialsFor("kaseyo")).andExpect(status().isOk());
 	}
 	
 	private ResultActions makeRequestAs(String username, String url, String json) throws Exception {

@@ -43,7 +43,7 @@ public class UserController {
     @ResponseBody
     public String authenticateUser(
             @RequestBody UserCredentialsDTO userCredentials) {
-        return userService.authenticateUser(
+    	return userService.authenticateUser(
                 userCredentials.username, userCredentials.password);
     }
     

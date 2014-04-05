@@ -23,39 +23,35 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	/**
 	 * Handle exceptions thrown by handlers.
 	 */
-        @ExceptionHandler(value = {
-            ResourceNotFoundException.class, 
-            ServiceUnavailableException.class, 
-            AuthenticationException.class,
-            BusinessException.class})
-        @ResponseBody
-        public ResponseEntity<Object> notFoundException(RuntimeException ex, WebRequest request) {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            String message = getJsonInfo(ex);
-            return this.handleExceptionInternal(
-                    ex, message, httpHeaders, HttpStatus.NOT_FOUND, request);
-        }
-        
-        @ExceptionHandler(Exception.class)
-        @ResponseBody
-        public ResponseEntity<Object> generalException(Exception ex, WebRequest request) {
-        	HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        	if(ex instanceof AuthenticationCredentialsNotFoundException)
-        		status = HttpStatus.UNAUTHORIZED;
-        	else if(ex instanceof AccessDeniedException)
-        		status = HttpStatus.FORBIDDEN;
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            String message = getJsonInfo(ex);
-            return this.handleExceptionInternal(
-                    ex, message, httpHeaders, status, request);
-        }
-        
-        private String getJsonInfo(Exception ex) {
-        	String message = "{" +
-            		"\"stacktrace\": \"" + Throwables.getStackTraceAsString(ex) + "\"" + 
-            		"\"message\": \"" + ex.getMessage() + "\"}";
-        	return message;
-        }
+    @ExceptionHandler(value={Exception.class, RuntimeException.class})
+    @ResponseBody
+    public ResponseEntity<Object> generalException(Exception ex, WebRequest request) {
+    	HttpStatus status = getStatus(ex);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        String message = getJsonInfo(ex);
+        return this.handleExceptionInternal(
+                ex, message, httpHeaders, status, request);
+    }
+    
+    private HttpStatus getStatus(Exception ex) {
+    	HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+    	if(ex instanceof AuthenticationCredentialsNotFoundException
+    			|| ex instanceof AuthenticationException)
+    		status = HttpStatus.UNAUTHORIZED;
+    	else if(ex instanceof AccessDeniedException)
+    		status = HttpStatus.FORBIDDEN;
+    	else if(ex instanceof ResourceNotFoundException)
+    		status = HttpStatus.NOT_FOUND;
+    	else if(ex instanceof ServiceUnavailableException)
+    		status = HttpStatus.SERVICE_UNAVAILABLE;
+    	return status;
+    }
+    
+    private String getJsonInfo(Exception ex) {
+    	String message = "{" +
+        		"\"stacktrace\": \"" + Throwables.getStackTraceAsString(ex) + "\"" + 
+        		"\"message\": \"" + ex.getMessage() + "\"}";
+    	return message;
+    }
 }

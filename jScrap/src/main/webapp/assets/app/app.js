@@ -2,9 +2,9 @@ var module = angular.module( "scrap.module", ['ngCookies', 'notificationWidget']
 
 module
 .run(function($http, $cookies) {
-  var header = angular.element('meta[name=_csrf_header]'),
-      token = angular.element('meta[name=_csrf]');
-  $http.defaults.headers[header] = token;
+  var header = angular.element('meta[name=_csrf_header]').attr('content'),
+      token = angular.element('meta[name=_csrf]').attr('content');
+  $http.defaults.headers.common[header] = token;
 })
 .config(['$routeProvider',
   function($routeProvider) {

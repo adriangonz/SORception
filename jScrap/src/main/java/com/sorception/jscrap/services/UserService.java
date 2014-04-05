@@ -66,12 +66,10 @@ public class UserService extends AbstractService<UserEntity> {
         return user;
     }
 	
-	//TODO: Only owner or admin
     public UserEntity getUser(Long userId) {
         return findOne(userId);
     }
     
-    //TODO: Only owner or admin
     public UserEntity getUserByUsername(String username) {
         UserEntity user = ((IUserDAO)getDao()).findByUsername(username);
         if(null == user)
@@ -79,7 +77,6 @@ public class UserService extends AbstractService<UserEntity> {
         return user;
     }
     
-    //TODO: Only owner or admin
     public void removeUser(Long userId) {
     	delete(userId);
     }
