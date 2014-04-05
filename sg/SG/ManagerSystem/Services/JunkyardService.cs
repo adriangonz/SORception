@@ -13,7 +13,7 @@ namespace ManagerSystem.Services
 
         public bool junkyardHasAccess(int junkyard_id)
         {
-            JunkyardEntity current_junkyard = this.getCurrentJunkyard();
+            JunkyardEntity current_junkyard = authService.currentJunkyard();
             return current_junkyard != null && current_junkyard.id == junkyard_id;
         }
 
@@ -88,13 +88,6 @@ namespace ManagerSystem.Services
                 return false;
             }
             return true;
-        }
-
-        public JunkyardEntity getCurrentJunkyard()
-        {
-            string token_string = authService.getCurrentJunkyardToken();
-
-            return this.getJunkyardWithToken(token_string);
         }
 
         public ExpDesguace toExposed(JunkyardEntity junkyard)

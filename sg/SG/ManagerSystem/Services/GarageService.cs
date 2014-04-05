@@ -15,7 +15,7 @@ namespace ManagerSystem.Services
 
         public bool garageHasAccess(int garage_id)
         {
-            GarageEntity current_garage = this.getCurrentGarage();
+            GarageEntity current_garage = authService.currentGarage();
             return current_garage != null && current_garage.id == garage_id;
         }
 
@@ -38,7 +38,7 @@ namespace ManagerSystem.Services
 
         public void putGarage(ExpTaller e_garage)
         {
-            GarageEntity garage = this.getCurrentGarage();
+            GarageEntity garage = authService.currentGarage();
 
             garage.name = e_garage.name;
             unitOfWork.GarageRepository.Update(garage);
@@ -48,19 +48,12 @@ namespace ManagerSystem.Services
 
         public void deleteCurrentGarage()
         {
-            GarageEntity garage = this.getCurrentGarage();
+            GarageEntity garage = authService.currentGarage();
 
             unitOfWork.GarageRepository.Get(g => g.id == garage.id, null, "tokens,orders");
             unitOfWork.GarageRepository.Delete(garage);
 
             unitOfWork.Save();
-        }
-
-        public GarageEntity getCurrentGarage()
-        {
-            string token_string = authService.getCurrentGarageToken();
-
-            return this.getGarageWithToken(token_string);
         }
 
         public GarageEntity getGarageWithToken(string token_string)

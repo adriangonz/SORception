@@ -141,7 +141,8 @@ namespace ManagerSystem.Services
 
         public bool isValid(string token)
         {
-            return true;// unitOfWork.TokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any();
+            return unitOfWork.JunkyardTokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any()
+                || unitOfWork.GarageTokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any();
         }
 
         public GarageEntity getGarage(string token_string)

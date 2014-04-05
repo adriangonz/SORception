@@ -11,9 +11,11 @@ using System.Text;
 using ManagerSystem.DataAccess;
 using ManagerSystem.Entities;
 using ManagerSystem.Services;
+using ManagerSystem.Dispatchers;
 
 namespace ManagerSystem
 {
+    [AuthInjector]
     [ServiceBehavior(Namespace = Config.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {

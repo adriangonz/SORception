@@ -1,5 +1,6 @@
 ﻿using ActiveMQHelper;
 using ManagerSystem.Services;
+using ManagerSystem.Dispatchers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -11,8 +12,11 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Text;
 
+
 namespace ManagerSystem
 {
+    [AuthInjector]
+    [ServiceBehavior(Namespace = Config.Namespace)]
     public class GestionTaller : IGestionTaller
     {
         private TokenService token_service = null;
@@ -93,9 +97,6 @@ namespace ManagerSystem
 
         public int putTaller(ExpTaller et)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             garageService.putGarage(et);
 
             return 0;
@@ -103,9 +104,6 @@ namespace ManagerSystem
 
         public int deleteTaller()
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             garageService.deleteCurrentGarage();
 
             return 0;
@@ -113,9 +111,6 @@ namespace ManagerSystem
 
         public ExpSolicitud getSolicitud(int id)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             try
             {
                 return orderService.toExposed(orderService.getOrder(id));
@@ -132,25 +127,16 @@ namespace ManagerSystem
 
         public List<ExpSolicitud> getSolicitudes()
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             return (from order in orderService.getOrders() select orderService.toExposed(order)).ToList(); ;
         }
 
         public int addSolicitud(ExpSolicitud es)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             return orderService.addOrder(es);
         }
 
         public int putSolicitud(ExpSolicitud es)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             orderService.putOrder(es);
 
             return 0;
@@ -158,9 +144,6 @@ namespace ManagerSystem
 
         public int deleteSolicitud(int order_id)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             orderService.deleteOrder(order_id);
 
             return 0;
@@ -168,25 +151,16 @@ namespace ManagerSystem
 
         public ExpOferta getOferta(int oferta_id)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             return offerService.toExposed(offerService.getOffer(oferta_id));
         }
 
         public List<ExpOferta> getOfertas(int solicitud_id)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             return (from offer in offerService.getOffers(solicitud_id) select offerService.toExposed(offer)).ToList(); ;
         }
 
         public int selectOferta(ExpPedido r)
         {
-            if (!authService.isGarageAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-
             purchaseService.selectOffer(r);
 
             return 0;

@@ -10,6 +10,7 @@ namespace ManagerSystem.DataAccess
     {
         private MSContext context = new MSContext();
 
+        private GenericRepository<UserEntity> user_repository;
         private GenericRepository<JunkyardTokenEntity> junkyard_token_repository;
         private GenericRepository<GarageTokenEntity> garage_token_repository;
         private GenericRepository<GarageEntity> garage_repository;
@@ -19,6 +20,18 @@ namespace ManagerSystem.DataAccess
         private GenericRepository<OfferEntity> offer_repository;
         private GenericRepository<OfferLineEntity> offer_line_repository;
         private GenericRepository<JobEntity> job_repository;
+
+        public GenericRepository<UserEntity> UserRepository
+        {
+            get
+            {
+                if (this.user_repository == null)
+                {
+                    this.user_repository = new GenericRepository<UserEntity>(context);
+                }
+                return user_repository;
+            }
+        }
 
         public GenericRepository<JunkyardTokenEntity> JunkyardTokenRepository
         {

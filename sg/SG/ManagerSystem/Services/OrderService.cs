@@ -31,41 +31,35 @@ namespace ManagerSystem.Services
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id, "lines");
 
-            authService.forbidGarageAccess(order.garage_id);
+            authService.restrictAccess(garage: order.garage);
 
             if (order == null)
                 throw new ArgumentNullException();
-
-            if (order.garage != garageService.getCurrentGarage())
-                throw new ArgumentException();
 
             return order;
         }
 
         public List<OrderEntity> getOrders()
         {
-            GarageEntity current_garage = garageService.getCurrentGarage();
+            GarageEntity current_garage = authService.currentGarage();
 
-            List<OrderEntity> orders = (from order in current_garage.orders where !order.deleted select order).ToList();
+            List<OrderEntity> orders = new List<OrderEntity>();
+            foreach (OrderEntity order in current_garage.orders)
+            {
+                orders.Add(orderService.getOrder(order.id));
+            }
 
             return orders;
         }
-
-        /*
-         * Esto estaba en el offerService, pero por cosas de EF lo he acabado dejando aqui
-         */
 
         public void putOrder(ExpSolicitud e_order)
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(e_order.id);
 
-            authService.forbidGarageAccess(order.garage_id);
+            authService.restrictAccess(garage: order.garage);
 
             if (order == null)
                 throw new ArgumentNullException();
-
-            if (order.garage != garageService.getCurrentGarage())
-                throw new ArgumentException();
 
             this.copyFromExposed(order, e_order);
 
@@ -80,12 +74,12 @@ namespace ManagerSystem.Services
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id);
 
-            authService.forbidGarageAccess(order.garage_id);
+            authService.restrictAccess(garage: order.garage);
 
             if (order == null)
                 throw new ArgumentNullException();
 
-            if (order.garage != garageService.getCurrentGarage())
+            if (order.garage != authService.currentGarage())
                 throw new ArgumentException();
 
             unitOfWork.OrderRepository.Delete(order);
@@ -152,7 +146,7 @@ namespace ManagerSystem.Services
 
         private void copyFromExposed(OrderEntity order, ExpSolicitud e_order)
         {
-            order.garage = garageService.getCurrentGarage();
+            order.garage = authService.currentGarage();
             order.deadline = e_order.deadline;
             order.corresponding_id = e_order.id_en_taller;
             foreach (var e_line in e_order.lineas)
