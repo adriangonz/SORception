@@ -25,7 +25,7 @@ namespace ManagerSystem.Services
 
         public string getToken()
         {
-            //return "f266a5de85f2ad36f5a5fe7ef583db957066429558d2215efae70764e07de5d3";
+            return "f266a5de85f2ad36f5a5fe7ef583db957066429558d2215efae70764e07de5d3";
             try
             {
                 return OperationContext.Current.IncomingMessageHeaders
@@ -34,21 +34,6 @@ namespace ManagerSystem.Services
             catch (MessageHeaderException)
             {
                 return this.current_junkyard_token;
-            }
-        }
-
-        public bool isJunkyardAuthenticated()
-        {
-            string token_string = this.getToken();
-            try
-            {
-                bool junkyard_exists = junkyardService.existsJunkyardWithToken(token_string);
-                bool token_is_valid = tokenService.isValid(token_string);
-                return junkyard_exists && token_is_valid;
-            }
-            catch (ArgumentNullException)
-            {
-                return false;
             }
         }
 

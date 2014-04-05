@@ -13,12 +13,6 @@ namespace ManagerSystem.Services
     {
         public GarageService(UnitOfWork uow = null) : base(uow) { }
 
-        public bool garageHasAccess(int garage_id)
-        {
-            GarageEntity current_garage = authService.currentGarage();
-            return current_garage != null && current_garage.id == garage_id;
-        }
-
         public TokenResponse createGarage(ExpTaller e_garage)
         {
             if (e_garage != null)
@@ -78,9 +72,7 @@ namespace ManagerSystem.Services
 
         public void activateGarage(int garage_id, bool is_active)
         {
-            GarageEntity garage = unitOfWork.GarageRepository.GetByID(garage_id);
-            if (garage == null)
-                throw new ArgumentException();
+            GarageEntity garage = this.getGarage(garage_id);
 
             garage.status = is_active ? GarageStatus.ACTIVE : GarageStatus.CREATED;
 
@@ -88,25 +80,9 @@ namespace ManagerSystem.Services
             unitOfWork.Save();
         }
 
-        public bool existsGarageWithToken(string token_string)
-        {
-            try
-            {
-                this.getGarageWithToken(token_string);
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public void removeGarage(int garage_id)
         {
-            GarageEntity garage = unitOfWork.GarageRepository.GetByID(garage_id);
-
-            if (garage == null)
-                throw new ArgumentNullException();
+            GarageEntity garage = this.getGarage(garage_id);
 
             unitOfWork.GarageRepository.Delete(garage);
             unitOfWork.Save();

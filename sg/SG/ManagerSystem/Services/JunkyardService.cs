@@ -11,12 +11,6 @@ namespace ManagerSystem.Services
     {
         public JunkyardService(UnitOfWork uow = null) : base(uow) { }
 
-        public bool junkyardHasAccess(int junkyard_id)
-        {
-            JunkyardEntity current_junkyard = authService.currentJunkyard();
-            return current_junkyard != null && current_junkyard.id == junkyard_id;
-        }
-
         public TokenResponse createJunkyard(ExpDesguace e_junkyard)
         {
             if (e_junkyard != null)
@@ -51,9 +45,7 @@ namespace ManagerSystem.Services
 
         public void activateJunkyard(int junkyard_id, bool is_active)
         {
-            JunkyardEntity junkyard = unitOfWork.JunkyardRepository.GetByID(junkyard_id);
-            if (junkyard == null)
-                throw new ArgumentException();
+            JunkyardEntity junkyard = this.getJunkyard(junkyard_id);
 
             junkyard.status = is_active ? JunkyardStatus.ACTIVE : JunkyardStatus.CREATED;
 
@@ -63,10 +55,7 @@ namespace ManagerSystem.Services
 
         public void removeJunkyard(int junkyard_id)
         {
-            JunkyardEntity junkyard = unitOfWork.JunkyardRepository.GetByID(junkyard_id);
-
-            if (junkyard == null)
-                throw new ArgumentNullException();
+            JunkyardEntity junkyard = this.getJunkyard(junkyard_id);
 
             unitOfWork.JunkyardRepository.Delete(junkyard);
             unitOfWork.Save();
@@ -75,19 +64,6 @@ namespace ManagerSystem.Services
         public JunkyardEntity getJunkyardWithToken(string token_string)
         {
             return tokenService.getJunkyard(token_string);
-        }
-
-        public bool existsJunkyardWithToken(string token_string)
-        {
-            try
-            {
-                this.getJunkyardWithToken(token_string);
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
-            return true;
         }
 
         public ExpDesguace toExposed(JunkyardEntity junkyard)
