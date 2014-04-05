@@ -15,9 +15,6 @@ namespace ManagerSystem
 {
     public class GestionTaller : IGestionTaller
     {
-        // Esto va fuera
-        public static managersystemEntities db_context;
-
         private TokenService token_service = null;
         private TokenService tokenService
         {
@@ -82,12 +79,6 @@ namespace ManagerSystem
                     this.purchase_service = new PurchaseService();
                 return this.purchase_service;
             }
-        }
-
-        // Esto va fuera
-        private Taller getAuthorizedTaller()
-        {
-            return null;
         }
 
         public TokenResponse signUp(ExpTaller et)

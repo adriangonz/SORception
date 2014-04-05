@@ -21,7 +21,7 @@ namespace ManagerSystem
     [DataContract(Namespace = Config.Namespace)]
     public class AMQSolicitudMessage
     {
-        public enum Code { New, Update, Delete };
+        public enum Code { New, Update, Delete, Closed };
 
         [DataMember(Name = "code")]
         public Code code;
@@ -166,6 +166,9 @@ namespace ManagerSystem
 
             [DataMember(Name = "selected_ammount")]
             public int selected_ammount;
+
+            [DataMember(Name = "date")]
+            public DateTime date;
         }
 
         [DataMember(Name = "id")]

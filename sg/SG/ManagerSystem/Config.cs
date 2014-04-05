@@ -8,11 +8,11 @@ namespace ManagerSystem
     public class Config
     {
         // Ensures consistency in the namespace declarations across services
-        public const string Namespace = "http://sorception.azurewebsites.net/";
+        public const string Namespace = "http://wensor.azurewebsites.net/";
 
         public class ActiveMQ
         {
-            public const string Broker = "failover:tcp://sorceptionjava.cloudapp.net:61616?maximumConnections=1000";
+            public const string Broker = "failover:tcp://wensorjava.cloudapp.net:61616?maximumConnections=1000";
             public const string Client_ID = "ManagerSystem";
 
             public class Topics

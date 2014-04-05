@@ -33,10 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Apache.NMS">
-      <HintPath>..\packages\Apache.NMS.1.6.0\lib\net40\Apache.NMS.dll</HintPath>
+      <HintPath>..\packages\Apache.NMS.1.6.0.3083\lib\net40\Apache.NMS.dll</HintPath>
     </Reference>
     <Reference Include="Apache.NMS.ActiveMQ">
-      <HintPath>..\packages\Apache.NMS.ActiveMQ.1.6.0\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
+      <HintPath>..\packages\Apache.NMS.ActiveMQ.1.6.2\lib\net40\Apache.NMS.ActiveMQ.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

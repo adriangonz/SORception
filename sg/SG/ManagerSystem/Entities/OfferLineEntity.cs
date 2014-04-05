@@ -31,6 +31,8 @@ namespace ManagerSystem.Entities
 
         public string notes { get; set; }
 
+        public DateTime date { get; set; }
+
         public int offer_id { get; set; }
 
         [Required]

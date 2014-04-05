@@ -146,6 +146,7 @@ namespace ManagerSystem.Services
             line.price = e_line.price;
             line.quantity = e_line.quantity;
             line.notes = e_line.notes;
+            line.date = e_line.date;
         }
 
         public ExpOferta toExposed(OfferEntity offer)
@@ -172,6 +173,7 @@ namespace ManagerSystem.Services
                 notes = line.notes,
                 price = line.price,
                 quantity = line.quantity,
+                date = line.date,
                 selected_ammount = line.selected_ammount
             };
 
