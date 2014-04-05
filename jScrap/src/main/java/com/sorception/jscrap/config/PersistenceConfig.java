@@ -38,6 +38,8 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 	private String dialect;
 	@Value("${hibernate.hbm2ddl.auto}")
 	private String hbm2ddlAuto;
+	@Value("${hibernate.hbm2ddl.import_files_sql_extractor}")
+	private String import_files_sql_extractor;
 	
 	@Autowired
 	SoftDeleteEventListener deleteEventListener;
@@ -62,6 +64,7 @@ public class PersistenceConfig implements TransactionManagementConfigurer {
 		Properties jpaProperties = new Properties();
 		jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
 		jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, hbm2ddlAuto);
+		jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_IMPORT_FILES_SQL_EXTRACTOR, import_files_sql_extractor);
 		entityManagerFactoryBean.setJpaProperties(jpaProperties);
 		
 		
