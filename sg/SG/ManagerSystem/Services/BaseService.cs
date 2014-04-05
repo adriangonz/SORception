@@ -23,6 +23,17 @@ namespace ManagerSystem.Services
          * Services offered by the application
          * */
 
+        private ConfigService config_service = null;
+        protected ConfigService configService
+        {
+            get
+            {
+                if (this.config_service == null)
+                    this.config_service = new ConfigService(unitOfWork);
+                return this.config_service;
+            }
+        }
+
         private TokenService token_service = null;
         protected TokenService tokenService
         {

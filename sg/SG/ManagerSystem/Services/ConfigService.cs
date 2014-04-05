@@ -24,5 +24,13 @@ namespace ManagerSystem.Services
                 unitOfWork.Save();
             }
         }
+
+        public TokenResponse addAESPair(TokenResponse response)
+        {
+            AppConfig config = unitOfWork.AppConfigRepository.GetAll().First();
+            response.aes_key = config.aes_pair.key;
+            response.aes_iv = config.aes_pair.iv;
+            return response;
+        }
     }
 }

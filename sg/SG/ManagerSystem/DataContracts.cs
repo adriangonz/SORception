@@ -235,6 +235,12 @@ namespace ManagerSystem
         [DataMember(Name = "status")]
         public Code status;
 
+        [DataMember(Name = "aes_key")]
+        public byte[] aes_key;
+
+        [DataMember(Name = "aes_iv")]
+        public byte[] aes_iv;
+
         public TokenResponse(string token, TokenResponse.Code status)
         {
             this.token = token;

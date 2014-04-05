@@ -19,6 +19,17 @@ namespace ManagerSystem
     [ServiceBehavior(Namespace = Config.Namespace)]
     public class GestionDesguace : IGestionDesguace
     {
+        private ConfigService config_service = null;
+        protected ConfigService configService
+        {
+            get
+            {
+                if (this.config_service == null)
+                    this.config_service = new ConfigService();
+                return this.config_service;
+            }
+        }
+
         private JunkyardService junkyard_service = null;
         private JunkyardService junkyardService
         {
@@ -59,7 +70,12 @@ namespace ManagerSystem
 
         public TokenResponse getState(string token_string)
         {
-            return tokenService.validateJunkyardToken(token_string);
+            TokenResponse response = tokenService.validateJunkyardToken(token_string);
+            if (response.status == TokenResponse.Code.CREATED)
+            {
+                response = configService.addAESPair(response);
+            }
+            return response;
         }
 
         public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) 
