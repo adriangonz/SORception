@@ -23,6 +23,17 @@ namespace ManagerSystem.Services
          * Services offered by the application
          * */
 
+        private ConfigService config_service = null;
+        protected ConfigService configService
+        {
+            get
+            {
+                if (this.config_service == null)
+                    this.config_service = new ConfigService(unitOfWork);
+                return this.config_service;
+            }
+        }
+
         private TokenService token_service = null;
         protected TokenService tokenService
         {
@@ -31,6 +42,17 @@ namespace ManagerSystem.Services
                 if (this.token_service == null)
                     this.token_service = new TokenService(unitOfWork);
                 return this.token_service;
+            }
+        }
+
+        private AESService aes_service = null;
+        protected AESService aesService
+        {
+            get
+            {
+                if (this.aes_service == null)
+                    this.aes_service = new AESService(unitOfWork);
+                return this.aes_service;
             }
         }
 

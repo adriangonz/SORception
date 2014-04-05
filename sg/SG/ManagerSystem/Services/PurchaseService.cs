@@ -110,7 +110,7 @@ namespace ManagerSystem.Services
         {
             OfferEntity offer = offerService.getOffer(e_selected_offers.oferta_id);
 
-            authService.forbidGarageAccess(offer.order.garage_id);
+            authService.restrictAccess(garage: offer.order.garage);
 
             // Change the id of the offer to the one in the Junkyard
             e_selected_offers.oferta_id = offer.corresponding_id;
@@ -135,12 +135,12 @@ namespace ManagerSystem.Services
 
         private void validateOfferLine(OfferLineEntity offer_line, int offer_id)
         {
-            GarageEntity current_garage = garageService.getCurrentGarage();
+            GarageEntity current_garage = authService.currentGarage();
             if (offer_line.order_line.order.garage != current_garage)
                 throw new ArgumentException(String.Format(
                     "The OrderLine with id {0} does not belong to the Garage with token {1}",
                     offer_line.order_line_id,
-                    authService.getCurrentGarageToken()));
+                    authService.getToken()));
 
             if (offer_line.offer_id != offer_id)
                 throw new ArgumentException(String.Format(

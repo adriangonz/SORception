@@ -10,6 +10,8 @@ namespace ManagerSystem.DataAccess
 {
     public class MSContext : DbContext
     {
+        DbSet<UserEntity> AppConfig { get; set; }
+        DbSet<UserEntity> User { get; set; }
         DbSet<TokenEntity> Token { get; set; }
         DbSet<GarageEntity> Garage { get; set; }
         DbSet<OrderEntity> Order { get; set; }
@@ -17,6 +19,7 @@ namespace ManagerSystem.DataAccess
         DbSet<JunkyardEntity> Junkyard { get; set; }
         DbSet<OfferEntity> Offer { get; set; }
         DbSet<OfferLineEntity> OfferLine { get; set; }
+        DbSet<AESPairEntity> AESPair { get; set; }
 
         // Override for created and modified dates
         public override int SaveChanges()

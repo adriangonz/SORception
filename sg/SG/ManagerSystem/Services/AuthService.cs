@@ -1,4 +1,5 @@
 ﻿using ManagerSystem.DataAccess;
+using ManagerSystem.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,63 +15,25 @@ namespace ManagerSystem.Services
 
         private string current_junkyard_token = null;
 
-        public string getCurrentGarageToken()
+        public void authenticateCall()
         {
-            #if DEBUG
-            return "XCVS5SB2qkuvXTN/u0T3rw";
-            #endif
+            if (!tokenService.isValid(this.getToken()))
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+            }
+        }
 
+        public string getToken()
+        {
+            return "f266a5de85f2ad36f5a5fe7ef583db957066429558d2215efae70764e07de5d3";
             try
             {
                 return OperationContext.Current.IncomingMessageHeaders
-                        .GetHeader<string>("Authorization", Config.Namespace);
+                            .GetHeader<string>("Authorization", Config.Namespace);
             }
             catch (MessageHeaderException)
             {
-                return null;
-            }
-        }
-
-        public string getCurrentJunkyardToken()
-        {
-            #if DEBUG
-            return "SDrMmE5BzEiq3fJeTCUwSw";
-            #endif
-
-
-            if (this.current_junkyard_token == null)
-                throw new ArgumentNullException();
-
-            return current_junkyard_token;
-        }
-
-        public bool isGarageAuthenticated()
-        {
-            string token_string = this.getCurrentGarageToken();
-
-            try
-            {
-                return garageService.existsGarageWithToken(token_string)
-                    && tokenService.isValid(token_string);
-            }
-            catch (ArgumentNullException)
-            {
-                return false;
-            }
-        }
-
-        public bool isJunkyardAuthenticated()
-        {
-            string token_string = this.getCurrentJunkyardToken();
-            try
-            {
-                bool junkyard_exists = junkyardService.existsJunkyardWithToken(token_string);
-                bool token_is_valid = tokenService.isValid(token_string);
-                return junkyard_exists && token_is_valid;
-            }
-            catch (ArgumentNullException)
-            {
-                return false;
+                return this.current_junkyard_token;
             }
         }
 
@@ -79,26 +42,21 @@ namespace ManagerSystem.Services
             current_junkyard_token = token;
         }
 
-        public void forbidAccess(int garage_id, int junkyard_id)
+        public GarageEntity currentGarage()
         {
-            if (!garageService.garageHasAccess(garage_id) &&
-                !junkyardService.junkyardHasAccess(junkyard_id))
-            {
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-            }
+            string token = this.getToken();
+            return garageService.getGarageWithToken(token);
         }
 
-        public void forbidGarageAccess(int garage_id)
+        public JunkyardEntity currentJunkyard()
         {
-            if (!garageService.garageHasAccess(garage_id))
-            {
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-            }
+            string token = this.getToken();
+            return junkyardService.getJunkyardWithToken(token);
         }
 
-        public void forbidJunkyardAccess(int junkyard_id)
+        public void restrictAccess(GarageEntity garage = null, JunkyardEntity junkyard = null)
         {
-            if (!junkyardService.junkyardHasAccess(junkyard_id))
+            if (this.currentGarage() != garage && this.currentJunkyard() != junkyard)
             {
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
             }

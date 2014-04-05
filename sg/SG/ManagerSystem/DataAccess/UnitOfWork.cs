@@ -10,6 +10,9 @@ namespace ManagerSystem.DataAccess
     {
         private MSContext context = new MSContext();
 
+        private GenericRepository<AppConfig> app_config_repository;
+        private GenericRepository<UserEntity> user_repository;
+        private GenericRepository<AESPairEntity> aes_pair_repository;
         private GenericRepository<JunkyardTokenEntity> junkyard_token_repository;
         private GenericRepository<GarageTokenEntity> garage_token_repository;
         private GenericRepository<GarageEntity> garage_repository;
@@ -19,6 +22,42 @@ namespace ManagerSystem.DataAccess
         private GenericRepository<OfferEntity> offer_repository;
         private GenericRepository<OfferLineEntity> offer_line_repository;
         private GenericRepository<JobEntity> job_repository;
+
+        public GenericRepository<AppConfig> AppConfigRepository
+        {
+            get
+            {
+                if (this.app_config_repository == null)
+                {
+                    this.app_config_repository = new GenericRepository<AppConfig>(context);
+                }
+                return app_config_repository;
+            }
+        }
+
+        public GenericRepository<UserEntity> UserRepository
+        {
+            get
+            {
+                if (this.user_repository == null)
+                {
+                    this.user_repository = new GenericRepository<UserEntity>(context);
+                }
+                return user_repository;
+            }
+        }
+
+        public GenericRepository<AESPairEntity> AESPairRepository
+        {
+            get
+            {
+                if (this.aes_pair_repository == null)
+                {
+                    this.aes_pair_repository = new GenericRepository<AESPairEntity>(context);
+                }
+                return aes_pair_repository;
+            }
+        }
 
         public GenericRepository<JunkyardTokenEntity> JunkyardTokenRepository
         {

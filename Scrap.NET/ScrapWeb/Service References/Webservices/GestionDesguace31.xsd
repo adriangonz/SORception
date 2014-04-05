@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://sorception.azurewebsites.net/" elementFormDefault="qualified" targetNamespace="http://sorception.azurewebsites.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
+  <xs:import schemaLocation="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
   <xs:element name="signUp">
     <xs:complexType>
       <xs:sequence>

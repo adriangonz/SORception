@@ -1,4 +1,5 @@
-﻿using ManagerSystem.Entities;
+﻿using ManagerSystem.Dispatchers;
+using ManagerSystem.Entities;
 using ManagerSystem.Services;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ using System.Text;
 
 namespace ManagerSystem
 {
+    [AuthInjector]
+    [ServiceBehavior(Namespace = Config.Namespace)]
     public class GestionAdmin : IGestionAdmin
     {
         private JunkyardService junkyard_service = null;

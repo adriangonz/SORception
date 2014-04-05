@@ -115,6 +115,7 @@
     <Compile Include="DataAccess\MSContext.cs" />
     <Compile Include="DataAccess\UnitOfWork.cs" />
     <Compile Include="DataContracts.cs" />
+    <Compile Include="Dispatchers\AuthAttribute.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\GarageEntity.cs" />
     <Compile Include="Entities\JobEntity.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Entities\OrderLineEntity.cs" />
     <Compile Include="Entities\JunkyardEntity.cs" />
     <Compile Include="Entities\TokenEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="GestionAdmin.svc.cs">
       <DependentUpon>GestionAdmin.svc</DependentUpon>
@@ -140,6 +142,7 @@
     <Compile Include="IGestionAdmin.cs" />
     <Compile Include="IGestionDesguace.cs" />
     <Compile Include="IGestionTaller.cs" />
+    <Compile Include="Dispatchers\AuthInjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AMQService.cs" />
     <Compile Include="Services\AuthService.cs" />

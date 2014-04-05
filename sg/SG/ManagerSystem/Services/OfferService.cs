@@ -14,14 +14,10 @@ namespace ManagerSystem.Services
         public OfferEntity getOffer(int offer_id)
         {
             OfferEntity offer = unitOfWork.OfferRepository.GetByID(offer_id, "lines");
-
-            authService.forbidAccess(offer.order.garage_id, offer.junkyard_id);
-
             if (offer == null)
                 throw new ArgumentNullException();
 
-            if (offer.order.garage != garageService.getCurrentGarage())
-                throw new ArgumentException();
+            authService.restrictAccess(garage: offer.order.garage, junkyard: offer.junkyard);
 
             return offer;
         }
@@ -30,7 +26,7 @@ namespace ManagerSystem.Services
         {
             OrderEntity order = orderService.getOrder(order_id);
 
-            authService.forbidGarageAccess(order.garage_id);
+            authService.restrictAccess(garage: order.garage);
 
             List<OfferEntity> offers = new List<OfferEntity>();
             foreach (var offer in order.offers)
@@ -59,7 +55,7 @@ namespace ManagerSystem.Services
             if (offer == null)
                 throw new ArgumentNullException();
 
-            authService.forbidJunkyardAccess(offer.junkyard_id);
+            authService.restrictAccess(junkyard: offer.junkyard);
 
             this.copyFromExposed(offer, e_offer);
 
@@ -74,7 +70,7 @@ namespace ManagerSystem.Services
             if (offer == null)
                 throw new ArgumentNullException();
 
-            authService.forbidJunkyardAccess(offer.junkyard_id);
+            authService.restrictAccess(junkyard: offer.junkyard);
 
             unitOfWork.OfferRepository.Delete(offer);
             unitOfWork.Save();
@@ -113,7 +109,7 @@ namespace ManagerSystem.Services
         public void copyFromExposed(OfferEntity offer, ExpOferta e_offer)
         {
             offer.corresponding_id = e_offer.id_en_desguace;
-            offer.junkyard         = junkyardService.getCurrentJunkyard();
+            offer.junkyard         = authService.currentJunkyard();
             offer.status           = OfferStatus.NEW;
 
             // Remove the old lines, if any
