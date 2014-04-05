@@ -19,14 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://sorception.azurewebsites.net/GestionDesguace.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://sorception.azurewebsites.net/GestionDesguace.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="GestionDesguace.xsd" MetadataType="Schema" ID="f633d8fc-c16c-48cf-96c0-c6a8045a2311" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd0" />
-    <MetadataFile FileName="GestionDesguace1.xsd" MetadataType="Schema" ID="b73fd3e2-7987-4897-b2e9-6e431b5b26ce" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd2" />
-    <MetadataFile FileName="GestionDesguace.wsdl" MetadataType="Wsdl" ID="b1694095-a48c-40d0-bf97-37f08137d41a" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?wsdl" />
-    <MetadataFile FileName="GestionDesguace.disco" MetadataType="Disco" ID="aee4ce81-0867-41f9-bf4b-e734d9f59768" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?disco" />
-    <MetadataFile FileName="GestionDesguace2.xsd" MetadataType="Schema" ID="9e064043-e35d-42e5-aa1c-e3df511cca70" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd1" />
+    <MetadataFile FileName="GestionDesguace3.xsd" MetadataType="Schema" ID="7e64caef-aa43-4544-b87c-4f8bfb8648f4" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd2" />
+    <MetadataFile FileName="GestionDesguace31.xsd" MetadataType="Schema" ID="4cff138b-5c12-40c7-8069-840808085087" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionDesguace32.xsd" MetadataType="Schema" ID="3820de93-e8ef-4b33-9a39-2a29fa259f97" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd1" />
+    <MetadataFile FileName="GestionDesguace1.wsdl" MetadataType="Wsdl" ID="540e183e-8ef0-4034-ad38-94cfc29c18c5" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionDesguace.svc?wsdl" />
+    <MetadataFile FileName="GestionDesguace1.disco" MetadataType="Disco" ID="4f36ed7b-10e9-4697-8c50-587bda48c181" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionDesguace.svc?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -272,9 +272,18 @@
     <None Include="Properties\PublishProfiles\sorscrapnet - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorscrapnet - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sorscrapnet.pubxml" />
-    <None Include="Service References\Webservices\GestionDesguace.disco" />
     <None Include="Service References\Webservices\configuration91.svcinfo" />
     <None Include="Service References\Webservices\configuration.svcinfo" />
+    <None Include="Service References\Webservices\GestionDesguace1.wsdl" />
+    <None Include="Service References\Webservices\GestionDesguace3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Webservices\GestionDesguace31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Webservices\GestionDesguace32.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\Webservices\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -294,6 +303,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
+    <None Include="Service References\Webservices\GestionDesguace1.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -308,16 +318,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <None Include="Service References\Webservices\GestionDesguace.wsdl" />
-    <None Include="Service References\Webservices\GestionDesguace.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Webservices\GestionDesguace1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Webservices\GestionDesguace2.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Service References\Webservices\ScrapWeb.Webservices.TokenResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
