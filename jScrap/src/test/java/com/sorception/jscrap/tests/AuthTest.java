@@ -71,6 +71,7 @@ public class AuthTest extends BaseTest {
 		MockHttpServletRequestBuilder postRequest = post(url)
 			.header("X-CSRF-TOKEN", csrfToken.getToken())
 			.contentType(MediaType.APPLICATION_JSON)
+			.secure(true)
 			.sessionAttrs(map);
 		if(username != null)
 			postRequest.header("Authorization", getAuthorizationHeader(username));
