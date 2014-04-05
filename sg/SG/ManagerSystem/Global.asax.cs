@@ -15,6 +15,9 @@ namespace ManagerSystem
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            ConfigService configService = new ConfigService();
+            configService.setAESConfig();
+
             AMQConfig.StartUp(Config.ActiveMQ.Broker, Config.ActiveMQ.Client_ID);
 
             AMQService amqService = new AMQService();

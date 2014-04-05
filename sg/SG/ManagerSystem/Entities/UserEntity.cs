@@ -17,7 +17,6 @@ namespace ManagerSystem.Entities
 
     public class UserEntity : BaseEntity
     {
-
         public DateTime last_access { get; set; }
 
         public UserType type;

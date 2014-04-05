@@ -8,6 +8,12 @@ namespace ManagerSystem
 {
     // ActiveMQ
 
+    public class AMQSecureMessage
+    {
+        public string junkyard_token;
+        public string data;
+    }
+
     [DataContract(Namespace = Config.Namespace)]
     public class AMQScheduledJob
     {
@@ -210,6 +216,12 @@ namespace ManagerSystem
 
         [DataMember(Name = "active")]
         public bool active;
+
+        [DataMember(Name = "aes_key")]
+        public byte[] aes_key;
+
+        [DataMember(Name = "aes_iv")]
+        public byte[] aes_iv;
     }
 
     [DataContract(Namespace = Config.Namespace)]

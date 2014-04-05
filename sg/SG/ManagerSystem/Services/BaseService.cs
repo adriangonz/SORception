@@ -34,6 +34,17 @@ namespace ManagerSystem.Services
             }
         }
 
+        private AESService aes_service = null;
+        protected AESService aesService
+        {
+            get
+            {
+                if (this.aes_service == null)
+                    this.aes_service = new AESService(unitOfWork);
+                return this.aes_service;
+            }
+        }
+
         private OfferService offer_service = null;
         protected OfferService offerService
         {
