@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ScrapWeb.Repositories
 {
-    class GenericRepository<TEntity> where TEntity : AbstractEntity
+    public class GenericRepository<TEntity> where TEntity : AbstractEntity
     {
         internal DbContext context;
         internal DbSet<TEntity> dbSet;

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNet.Identity;
 
 namespace ScrapWeb.Entities
 {
@@ -13,6 +14,7 @@ namespace ScrapWeb.Entities
         public OfferEntity()
         {
             rawLines = new List<OfferLineEntity>();
+           
         }
 
         public virtual string orderSgId
@@ -22,6 +24,7 @@ namespace ScrapWeb.Entities
                 return lines.Count() > 0 ? lines.First().orderLine.order.sgId : "-1";
             }
         }
+
 
         [JsonIgnore]
         [DefaultValue("false")]

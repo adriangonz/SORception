@@ -43,7 +43,7 @@ public class UserController {
     @ResponseBody
     public String authenticateUser(
             @RequestBody UserCredentialsDTO userCredentials) {
-        return userService.authenticateUser(
+    	return userService.authenticateUser(
                 userCredentials.username, userCredentials.password);
     }
     
@@ -70,7 +70,6 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable Long userId) {
-        logger.info("Ola ke ase");
         userService.removeUser(userId);
     }
 }

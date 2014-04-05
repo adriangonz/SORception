@@ -60,8 +60,13 @@ public class BaseTest {
 	}
 		
 	protected void loginUser(String username) {
+		Authentication authToken = getPrincipal(username);
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+	}
+	
+	protected Authentication getPrincipal(String username) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername (username);
-		Authentication authToken = new UsernamePasswordAuthenticationToken (userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+		Authentication authToken = new UsernamePasswordAuthenticationToken (userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        return authToken;
 	}
 }

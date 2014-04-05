@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace ScrapWeb.Controllers
 {
+    [Authorize(Roles = "ROLE_ADMIN")]
     [RoutePrefix("api/token")]
     public class TokenController : ApiController
     {

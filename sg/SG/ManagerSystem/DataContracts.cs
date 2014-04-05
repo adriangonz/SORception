@@ -8,20 +8,17 @@ namespace ManagerSystem
 {
     // ActiveMQ
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQScheduledJob
     {
         [DataMember(Name = "id_solicitud")]
         public int id_solicitud;
 
-        [DataMember(Name = "deadline")]
-        public DateTime deadline;
-
-        [DataMember(Name = "csrf")]
-        public string csrf;
+        [DataMember(Name = "xsrf_token")]
+        public string xsrf_token;
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQSolicitudMessage
     {
         public enum Code { New, Update, Delete, Closed };
@@ -41,7 +38,7 @@ namespace ManagerSystem
         public AMQSolicitudMessage() { }
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQOfertaMessage
     {
         public enum Code { New, Update, Delete };
@@ -63,7 +60,7 @@ namespace ManagerSystem
         public AMQOfertaMessage() { }
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQPedidoMessage
     {
         [DataMember(Name = "desguace_id")]
@@ -75,7 +72,7 @@ namespace ManagerSystem
 
     // Solicitud
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpSolicitud
     {
         public class Line
@@ -118,9 +115,14 @@ namespace ManagerSystem
         public DateTime deadline;
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpPedido
     {
+        public ExpPedido()
+        {
+            lineas = new List<Line>();
+        }
+
         public class Line
         {
             [DataMember(Name = "linea_oferta_id")]
@@ -139,20 +141,11 @@ namespace ManagerSystem
 
     // Oferta
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpOferta
     {
         public class Line
         {
-            public class RelatedSolicitud
-            {
-                [DataMember(Name = "linea_solicitud_id")]
-                public int linea_solicitud_id;
-
-                [DataMember(Name = "quantity")]
-                public int quantity;
-            }
-
             [DataMember(Name = "id")]
             public int id;
 
@@ -171,11 +164,11 @@ namespace ManagerSystem
             [DataMember(Name = "price")]
             public double price;
 
+            [DataMember(Name = "selected_ammount")]
+            public int selected_ammount;
+
             [DataMember(Name = "date")]
             public DateTime date;
-
-            [DataMember(Name = "linea_solicitud")]
-            public RelatedSolicitud linea_solicitud;
         }
 
         [DataMember(Name = "id")]
@@ -193,22 +186,33 @@ namespace ManagerSystem
 
     // Others
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpTaller
     {
         [DataMember(Name = "name")]
         public string name;
+
+        [DataMember(Name = "id")]
+        public int id;
+
+        [DataMember(Name = "active")]
+        public bool active;
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class ExpDesguace
     {
         [DataMember(Name = "name")]
         public string name;
 
+        [DataMember(Name = "id")]
+        public int id;
+
+        [DataMember(Name = "active")]
+        public bool active;
     }
 
-    [DataContract(Namespace = Constants.Namespace)]
+    [DataContract(Namespace = Config.Namespace)]
     public class TokenResponse
     {
         public enum Code : int { CREATED = 201, ACCEPTED = 202, NON_AUTHORITATIVE = 203, BAD_REQUEST = 400, NOT_FOUND = 404 };

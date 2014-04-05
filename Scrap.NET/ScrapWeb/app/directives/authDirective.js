@@ -20,4 +20,19 @@ module.directive( "loginBtn", [ 'Auth', function( Auth ) {
             });
         }
     }
-}]);
+ }]).directive("config", ['Auth', function (Auth) {
+     return {
+         restrict: "A",
+         scope: {},
+         link: function (scope, element, attrs) {
+             scope.$on('auth.login', function () {
+                 if (Auth.getUsername() == "admin") {
+                     element.html('<a href="#/config">Configuracion</a>');
+                 } else {
+                     element.html('');
+                 }
+             });
+         }
+     }
+ }]);
+

@@ -12,6 +12,7 @@ namespace ScrapWeb.Services
 {
     public class TokenService
     {
+        protected LogsRepository Logs;
         private ScrapContext scrapContext;
         private GenericRepository<TokenEntity> tokenRepository;
 
@@ -24,6 +25,7 @@ namespace ScrapWeb.Services
             tokenRepository = new GenericRepository<TokenEntity>(scrapContext);
             sgService = new SGService();
             amqService = new AMQService();
+            Logs = new LogsRepository(scrapContext);
         }
 
         public IEnumerable<TokenEntity> getAll() {
@@ -43,6 +45,7 @@ namespace ScrapWeb.Services
             tokenRepository.Insert(tokenEntity);
 
             // Save changes and return
+            Logs.create(LogEntity.INFO, "Topic subscribed " + tokenEntity.token + "with status " + tokenEntity.status);
             scrapContext.SaveChanges();
             return tokenEntity;
         }
@@ -59,7 +62,10 @@ namespace ScrapWeb.Services
                     .Get(t => (t.status == TokenStatus.REQUESTED || t.status == TokenStatus.TEMPORAL))
                     .FirstOrDefault();
                 if (tokenEntity == null)
+                {
+                    Logs.create(LogEntity.ERROR, "Not valid token or request was found");
                     throw new ServiceException("Not valid token or request was found", HttpStatusCode.NotFound);
+                }
                 // Check if token is available
                 tokenEntity = sgService.getState(tokenEntity.token);
                 tokenRepository.Insert(tokenEntity);
@@ -67,8 +73,13 @@ namespace ScrapWeb.Services
                 scrapContext.SaveChanges();
                 // If not available, 404
                 if (tokenEntity.status != TokenStatus.VALID)
-                    throw new ServiceException("Token request has not been accepted", HttpStatusCode.NotFound);
+                {
+                    Logs.create(LogEntity.ERROR, "Token request has not been accepted");
+                    throw new ServiceException("Token request has not been accepted", HttpStatusCode.NotFound);                
+                }
                 // If we have a token, enable it here
+
+                Logs.create(LogEntity.INFO, "Topic subscribed "+tokenEntity.token+ "with status "+tokenEntity.status);
                 amqService.createTopicSubscribers(tokenEntity);
             }
             return tokenEntity;

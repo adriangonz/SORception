@@ -5,8 +5,7 @@ module.service('Auth', ['$rootScope', '$http', '$location', '$cookies', function
 	        $http({method: 'POST', url: '/jScrap/api/user/authenticate', data: user}).
 			  success(function(data, status, headers, config) {
 			      $cookies["SessionScrap"] = data;
-			      console.log(data);
-			      $http.defaults.headers.common.Authorization = data;
+			      $http.defaults.headers.common['Authorization'] = data;
 			    $rootScope.$broadcast('auth.login');
 	       		$location.path("/orders");
 			  }).

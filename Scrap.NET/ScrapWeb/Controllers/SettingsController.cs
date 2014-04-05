@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace ScrapWeb.Controllers
 {
+    [Authorize]
     public class SettingsController : ApiController
     {
         private SettingsService settingsService;
