@@ -267,7 +267,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\sorscrapnet - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorscrapnet - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sorscrapnet - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorscrapnet - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sorscrapnet.pubxml" />
     <None Include="Service References\Webservices\GestionDesguace.disco" />
