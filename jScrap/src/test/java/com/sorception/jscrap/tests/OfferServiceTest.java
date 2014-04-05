@@ -64,6 +64,7 @@ public class OfferServiceTest extends BaseTest {
 		assertThat(newOffer.getId(), is(notNullValue()));
 		assertThat(newOffer.getLines().size(), is(3));
 		assertThat(newOffer.getOrder().getId(), is(2L));
+		assertThat(newOffer.getOwner().getUsername(), is("kaseyo"));
 	}
 	
 	@Test
