@@ -9,7 +9,8 @@ namespace Eggplant.ServiceTaller
     {
         public bool isPedida()
         {
-            return (this.linea_solicitud != null && this.linea_solicitud.quantity > 0);
+            return (this.CantidadPedida > 0);
+            //return (this.linea_solicitud != null && this.linea_solicitud.quantity > 0);
         }
     }
 }
