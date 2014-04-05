@@ -1,4 +1,5 @@
-﻿using Eggplant.ServiceTaller;
+﻿using Eggplant.Entity;
+using Eggplant.ServiceTaller;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,12 @@ namespace Eggplant.Services
 {
     public class SGService : ISGService
     {
+        protected IDataService dataService;
+
         private GestionTallerClient svcTaller;
         public SGService()
         {
+            dataService = ServicesFactory.getDataService();
             svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
         }
 
@@ -18,37 +22,94 @@ namespace Eggplant.Services
         {
             ExpTaller et = new ExpTaller();
             et.name = name;
-            return svcTaller.signUp(et);
+            try
+            {
+                return svcTaller.signUp(et);
+            }
+            catch (Exception ex)
+            {
+                dataService.Audits.create(Audit.ERROR, "SistemaGestor its not available. Returned a request exception: " + ex.Message);
+                throw;
+            }
         }
 
         public TokenResponse getState(string token)
         {
-            return svcTaller.getState(token);
+            try
+            {
+                return svcTaller.getState(token);
+            }
+            catch (Exception ex)
+            {
+                dataService.Audits.create(Audit.ERROR, "SistemaGestor its not available. Returned a request exception: " + ex.Message);
+                throw;
+            }
         }
         public int addSolicitud(ExpSolicitud exSol)
         {
-            return svcTaller.addSolicitud(exSol);
+            try
+            {
+                return svcTaller.addSolicitud(exSol);
+            }
+            catch (Exception ex)
+            {
+                dataService.Audits.create(Audit.ERROR, "SistemaGestor its not available. Returned a request exception: " + ex.Message);
+                throw;
+            }
+
         }
 
         public ExpSolicitud getSolicitud(int id)
         {
-            return svcTaller.getSolicitud(id);
+            try
+            {
+                return svcTaller.getSolicitud(id);
+            }
+            catch (Exception ex)
+            {
+                dataService.Audits.create(Audit.ERROR, "SistemaGestor its not available. Returned a request exception: " + ex.Message);
+                throw;
+            }
         }
 
         public List<ExpOferta> getOfertas(int idSolicitud)
         {
-            return svcTaller.getOfertas(idSolicitud).ToList();
+            try
+            {
+                return svcTaller.getOfertas(idSolicitud).ToList();
+            }
+            catch (Exception ex)
+            {
+                dataService.Audits.create(Audit.ERROR, "SistemaGestor its not available. Returned a request exception: " + ex.Message);
+                throw;
+            }
         }
 
         public int selectOferta(ExpPedido pedido)
         {
-            return svcTaller.selectOferta(pedido);
+            try
+            {
+                return svcTaller.selectOferta(pedido);
+            }
+            catch (Exception ex)
+            {
+                dataService.Audits.create(Audit.ERROR, "SistemaGestor its not available. Returned a request exception: " + ex.Message);
+                throw;
+            }
         }
 
 
         public int putSolicitud(ExpSolicitud solicitud)
         {
-            return svcTaller.putSolicitud(solicitud);
+            try
+            {
+                return svcTaller.putSolicitud(solicitud);
+            }
+            catch (Exception ex)
+            {
+                dataService.Audits.create(Audit.ERROR, "SistemaGestor its not available. Returned a request exception: " + ex.Message);
+                throw;
+            }
         }
 
     }

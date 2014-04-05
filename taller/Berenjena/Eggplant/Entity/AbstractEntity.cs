@@ -16,5 +16,10 @@ namespace Eggplant.Entity
         public DateTime creationDate { get; set; }
 
         public DateTime updatedDate { get; set; }
+
+        public String createdBy { get; set; }
+
+        public String updatedBy { get; set; }
+
     }
 }

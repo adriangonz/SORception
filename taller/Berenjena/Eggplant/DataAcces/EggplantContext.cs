@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
+
 
 namespace Eggplant.DataAcces
 {
@@ -21,6 +23,7 @@ namespace Eggplant.DataAcces
         public DbSet<LineaSolicitud> LineaSolicitudSet { get; set; }
         public DbSet<Pedido> PedidoSet { get; set; }
         public DbSet<LineaPedido> LineaPedidoSet { get; set; }
+        public DbSet<Audit> AuditSet { get; set; }
 
         // Override for created and modified dates
         public override int SaveChanges()
@@ -33,11 +36,17 @@ namespace Eggplant.DataAcces
                 {
                     item.Entity.creationDate = System.DateTime.Now;
                     item.Entity.updatedDate = System.DateTime.Now;
+
+                    item.Entity.createdBy = HttpContext.Current.User.Identity.GetUserId();
+                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+
                 }
 
                 foreach (var item in trackables.Where(t => t.State == EntityState.Modified))
                 {
                     item.Entity.updatedDate = System.DateTime.Now;
+                    item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
+
                 }
             }
 

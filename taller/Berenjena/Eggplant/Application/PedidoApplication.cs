@@ -11,14 +11,14 @@ namespace Eggplant.Application
 {
     public class PedidoApplication : AbstractApplication
     {
-        public object getAll(string userId)
+        public object getAll()
         {
-            return dataService.Pedidos.Get(x => x.solicitud.user_id == userId);
+            return dataService.Pedidos.Get();
         }
 
-        public object getById(int id, string userId)
+        public object getById(int id)
         {
-            return dataService.Pedidos.GetFirstWithAllAndDescription(x => x.solicitud.user_id == userId && x.id == id);
+            return dataService.Pedidos.GetFirstWithAllAndDescription(x => x.id == id);
         }
 
         public object request(PedidoDTO pedidoDTO)
@@ -80,6 +80,8 @@ namespace Eggplant.Application
             }
             tr.lineas = lineasHelper.ToArray();
             sgService.selectOferta(tr);
+            dataService.SaveChanges();
+            dataService.Audits.create(Audit.INFO, "Created pedido with id " + pedido.id);
             dataService.SaveChanges();
         }
     }

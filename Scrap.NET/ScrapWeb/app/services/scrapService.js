@@ -64,7 +64,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
 	              $rootScope.$broadcast('offers.update');
 	          }).
 	          error(function (data, status, headers, config) {
-	              alert(status + " | " + data);
+	              console.log(status + " | " + data);
 	          });
 	    },
 	    
@@ -76,7 +76,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
 	              $rootScope.$broadcast('orders.update');
 	          }).
 	          error(function (data, status, headers, config) {
-	              alert(status + " | " + data);
+	              console.log(status + " | " + data);
 	          });
 	    },
 	    
@@ -88,7 +88,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
 	              $rootScope.$broadcast('actual_order.update');
 	          }).
 	          error(function (data, status, headers, config) {
-	              alert(status + " | " + data);
+	              console.log(status + " | " + data);
 	          });
 	    },	
 
@@ -101,7 +101,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
 	              service.loadActualOffer();
 	          }).
 	          error(function (data, status, headers, config) {
-	              alert(status + " | " + data);
+	              console.log(status + " | " + data);
 	          });
 	    },
 
@@ -125,7 +125,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
 	              $rootScope.$broadcast('pedidos.update');
 	          }).
 	          error(function (data, status, headers, config) {
-	              alert(status + " | " + data);
+	              console.log(status + " | " + data);
 	          });
 	    },
 
@@ -137,7 +137,7 @@ module.service( 'Scrap', [ '$rootScope','$http', function( $rootScope, $http) {
 	              $rootScope.$broadcast('actual_pedido.update');
 	          }).
 	          error(function (data, status, headers, config) {
-	              alert(status + " | " + data);
+	              console.log(status + " | " + data);
 	          });
 	    },	
 

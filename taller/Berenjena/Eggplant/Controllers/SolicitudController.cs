@@ -30,19 +30,19 @@ namespace Eggplant.Controllers
         // GET api/solicitud
         public object Get()
         {
-            return sa.getByUser(User.Identity.GetUserId());
+            return sa.getByUser();
         }
 
         // GET api/solicitud/5
         public object Get(int id)
         {
-            return sa.getDetailById(User.Identity.GetUserId(), id);
+            return sa.getDetailById(id);
         }
 
         // POST api/solicitud
         public object Post(SolicitudPostDTO data)
         {
-            return sa.Request(data, User.Identity.GetUserId());
+            return sa.Request(data);
         }
 
         // PUT api/solicitud/5

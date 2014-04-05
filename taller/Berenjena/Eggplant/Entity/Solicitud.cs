@@ -19,7 +19,6 @@ namespace Eggplant.Entity
 
         public int sg_id { get; set; }
         public string status { get; set; }
-        public string user_id { get; set; }
 
         
         [JsonIgnore]

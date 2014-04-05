@@ -50,3 +50,20 @@
 </table>
 
 <button class="btn btn-success" request-token-button>Request Token</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>User</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="log in logs">
+            <td>{{log.type}}</td>
+            <td>{{log.description}}</td>
+            <td>{{log.createdBy}}</td>
+        </tr>
+    </tbody>
+</table>

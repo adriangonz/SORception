@@ -5,6 +5,7 @@
         <tr>
             <th>#</th>
             <th>Status</th>
+            <th>Creador</th>
             <th>Modificado</th>
         </tr>
     </thead>
@@ -12,7 +13,13 @@
         <tr ng-repeat="order in orders">
             <td>{{order.id}}</td>
             <td>{{order.status}}</td>
-            <td>{{order.updatedDate}}<a class="fright" remove-order-btn="order"><i class="glyphicon glyphicon-remove"></i></a> <a class="fright" edit-order-btn="order"><i class="glyphicon glyphicon-pencil"></i></a> <a class="fright" view-order-btn="order"><i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td>{{order.createdBy}}</td>
+            <td>
+                {{order.updatedDate}}
+                <a class="fright" remove-order-btn="order"><i class="glyphicon glyphicon-remove"></i></a> 
+                <a class="fright" edit-order-btn="order"><i class="glyphicon glyphicon-pencil"></i></a> 
+                <a class="fright" view-order-btn="order"><i class="glyphicon glyphicon-eye-open"></i></a>
+            </td>
         </tr>
     </tbody>
 </table>

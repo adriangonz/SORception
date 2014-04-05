@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ScrapWeb.Entities
 {
@@ -16,5 +18,9 @@ namespace ScrapWeb.Entities
         public DateTime creationDate { get; set; }
 
         public DateTime updatedDate { get; set; }
+
+        public String createdBy { get; set; }
+
+        public String updatedBy { get; set; }
     }
 }

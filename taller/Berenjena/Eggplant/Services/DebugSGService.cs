@@ -31,12 +31,14 @@ namespace Eggplant.Services
 
         public ExpSolicitud getSolicitud(int id)
         {
+            ExpSolicitud es = new ExpSolicitud();
+            es.lineas = new List<ExpSolicitudLine>().ToArray();
             return new ExpSolicitud();
         }
 
         public List<ExpOferta> getOfertas(int idSolicitud)
         {
-            return null;
+            return new List<ExpOferta>();
         }
 
         public int selectOferta(ExpPedido pedido)

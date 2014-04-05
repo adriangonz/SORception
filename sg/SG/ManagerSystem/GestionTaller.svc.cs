@@ -1,4 +1,5 @@
 ﻿using ActiveMQHelper;
+using ManagerSystem.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -14,190 +15,140 @@ namespace ManagerSystem
 {
     public class GestionTaller : IGestionTaller
     {
-        public static managersystemEntities db_context;
-        private RTaller r_taller;
-        private RSolicitud r_solicitud;
-        private ROferta r_oferta;
-        private RToken r_token;
-
-        public GestionTaller()
+        private TokenService token_service = null;
+        private TokenService tokenService
         {
-            init(new managersystemEntities());            
+            get
+            {
+                if (this.token_service == null)
+                    this.token_service = new TokenService();
+                return this.token_service;
+            }
         }
 
-        public GestionTaller(managersystemEntities context)
+        private GarageService garage_service = null;
+        private GarageService garageService
         {
-            init(context);
+            get
+            {
+                if (this.garage_service == null)
+                    this.garage_service = new GarageService();
+                return this.garage_service;
+            }
         }
 
-        private void init(managersystemEntities context)
+        private AuthorizationService authorization_service = null;
+        private AuthorizationService authorizationService
         {
-            db_context = context;
-            r_taller = new RTaller(db_context);
-            r_solicitud = new RSolicitud(db_context);
-            r_oferta = new ROferta(db_context);
-            r_token = new RToken(db_context);
+            get
+            {
+                if (this.authorization_service == null)
+                    this.authorization_service = new AuthorizationService();
+                return this.authorization_service;
+            }
         }
 
-        private Taller getAuthorizedTaller()
+        private OrderService order_service = null;
+        private OrderService orderService
         {
-            string token_string;
-            try
+            get
             {
-                token_string = OperationContext.Current.IncomingMessageHeaders
-                    .GetHeader<string>("Authorization", Constants.Namespace);
+                if (this.order_service == null)
+                    this.order_service = new OrderService();
+                return this.order_service;
             }
-            catch (Exception e)
-            {
-                token_string = "813f14e463abe904fa848fcd5bc4f2b3dfa6e61fea3192d7aaa6887677089dde";
-                //throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
-            }
+        }
 
-            Token token = r_token.Find(token_string);
-            if (token != null && token.is_valid && token.Taller != null)
+        private OfferService offer_service = null;
+        protected OfferService offerService
+        {
+            get
             {
-                return token.Taller;
+                if (this.offer_service == null)
+                    this.offer_service = new OfferService();
+                return this.offer_service;
             }
-            else
+        }
+
+        private PurchaseService purchase_service = null;
+        protected PurchaseService purchaseService
+        {
+            get
             {
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+                if (this.purchase_service == null)
+                    this.purchase_service = new PurchaseService();
+                return this.purchase_service;
             }
         }
 
         public TokenResponse signUp(ExpTaller et)
         {
-            if (et != null)
-            {
-                Taller tall = r_taller.FromExposed(et);
-                tall.active = false;
-
-                Token t = r_token.getToken();
-                tall.Tokens.Add(t);
-
-                r_taller.InsertOrUpdate(tall);
-                r_taller.Save();
-                return new TokenResponse(t.token, TokenResponse.Code.ACCEPTED);
-            }
-            return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
+            return garageService.createGarage(et);
         }
 
-        public TokenResponse getState(string token)
+        public TokenResponse getState(string token_string)
         {
-            string new_token = "";
-            TokenResponse.Code status;
-            if (token != null && token != "")
-            {
-                Token t = r_token.Find(token);
-                if (t != null)
-                {
-                    if (t.is_valid)
-                    {
-                        Taller tall = r_taller.Find(t.Taller.Id);
-                        if (tall.active)
-                        {
-                            // El taller ya esta activo
-                            status = TokenResponse.Code.CREATED;
-                        }
-                        else
-                        {
-                            // El taller no esta activo
-                            status = TokenResponse.Code.NON_AUTHORITATIVE;
-                        }
-                        new_token = r_token.RegenerateToken(t);
-                    }
-                    else
-                    {
-                        // El token ha expirado
-                        status = TokenResponse.Code.BAD_REQUEST;
-                    }
-                }
-                else
-                {
-                    // El token no existe
-                    status = TokenResponse.Code.NOT_FOUND;
-                }
-            }
-            else
-            {
-                // No se le ha pasado un token
-                status = TokenResponse.Code.BAD_REQUEST;
-            }
-
-            return new TokenResponse(new_token, status);
+            return tokenService.validateGarageToken(token_string);
         }
 
         public int putTaller(ExpTaller et)
         {
-            if (et == null)
-                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Taller t = getAuthorizedTaller();
-
-            if (et != null)
-            {
-                t = r_taller.FromExposed(et);
-                r_taller.InsertOrUpdate(t);
-                r_taller.Save();
-            }
+            garageService.putGarage(et);
 
             return 0;
         }
 
         public int deleteTaller()
         {
-            Taller t = getAuthorizedTaller();
-            r_taller.Delete(t.Id);
-            r_taller.Save();
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+
+            garageService.deleteCurrentGarage();
+
             return 0;
         }
 
         public ExpSolicitud getSolicitud(int id)
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Solicitud tmp = db_context.SolicitudSet.Find(id);
-            if (tmp == null || tmp.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-            ExpSolicitud s = r_solicitud.PrepareOutgoing(tmp);
-            return s;
+            try
+            {
+                return orderService.toExposed(orderService.getOrder(id));
+            }
+            catch (ArgumentNullException)
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.NotFound); ;
+            }
+            catch (ArgumentException)
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden); ;
+            }
         }
 
         public List<ExpSolicitud> getSolicitudes()
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            List<ExpSolicitud> solicitudes = new List<ExpSolicitud>();
-
-            foreach (var solicitud in t.Solicitudes)
-            {
-                if (!solicitud.deleted)
-                {
-                    solicitudes.Add(r_solicitud.PrepareOutgoing(solicitud));
-                }
-            }
-
-            return solicitudes;
+            return (from order in orderService.getOrders() select orderService.toExposed(order)).ToList(); ;
         }
 
         public int addSolicitud(ExpSolicitud es)
         {
-            if (es == null)
-                throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Taller t = getAuthorizedTaller();
-
-            Solicitud s = r_solicitud.GetIncoming(es);
-            s.TallerId = t.Id;
-            r_solicitud.InsertOrUpdate(s);
-            r_solicitud.Save();
-            ScheduleJob(s);
-
-            SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.New));
-            return s.Id;
+            return orderService.addOrder(es);
         }
 
         public int putSolicitud(ExpSolicitud es)
         {
+<<<<<<< HEAD
             if (es == null)
                 throw new WebFaultException(System.Net.HttpStatusCode.BadRequest);
 
@@ -206,61 +157,45 @@ namespace ManagerSystem
             Solicitud s = r_solicitud.Find(es.id);
             if (s == null || s.deleted)
                 throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
+=======
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+>>>>>>> sg_code_first
 
-            r_solicitud.UpdateFromExposed(s, es);
-            r_solicitud.Save();
-            SendMessage(new AMQSolicitudMessage(r_solicitud.PrepareOutgoing(s), AMQSolicitudMessage.Code.Update));
+            orderService.putOrder(es);
 
             return 0;
         }
 
-        public int deleteSolicitud(int id)
+        public int deleteSolicitud(int order_id)
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            r_solicitud.Delete(id);
-            r_solicitud.Save();
-            ExpSolicitud es = new ExpSolicitud();
-            es.id = id;
-            SendMessage(new AMQSolicitudMessage(es, AMQSolicitudMessage.Code.Delete));
+            orderService.deleteOrder(order_id);
+
             return 0;
         }
 
         public ExpOferta getOferta(int oferta_id)
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Oferta o = r_oferta.Find(oferta_id);
-            if (o == null || o.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-
-            ExpOferta eo = r_oferta.ToExposed(o);
-            return eo;
+            return offerService.toExposed(offerService.getOffer(oferta_id));
         }
 
         public List<ExpOferta> getOfertas(int solicitud_id)
         {
-            Taller t = getAuthorizedTaller();
+            if (!authorizationService.isGarageAuthorized())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
-            Solicitud s = db_context.SolicitudSet.Find(solicitud_id);
-            if (s == null || s.deleted)
-                throw new WebFaultException(System.Net.HttpStatusCode.NotFound);
-
-            List<Oferta> ofertas_mias = s.Ofertas.ToList();
-            List<ExpOferta> ofertas = new List<ExpOferta>();
-            foreach (var oferta in ofertas_mias)
-            {
-                if (!oferta.deleted)
-                {
-                    ofertas.Add(r_oferta.ToExposed(oferta));
-                }
-            }
-
-            return ofertas;
+            return (from offer in offerService.getOffers(solicitud_id) select offerService.toExposed(offer)).ToList(); ;
         }
 
         public int selectOferta(ExpPedido r)
         {
+<<<<<<< HEAD
             Taller t = getAuthorizedTaller();
 
             Dictionary<int, List<LineaOfertaSeleccionada>> pedidas_ahora = new Dictionary<int, List<LineaOfertaSeleccionada>>();
@@ -527,5 +462,11 @@ namespace ManagerSystem
             publisher.SendMessage(job, (long)delay.TotalMilliseconds);
             publisher.Dispose();
         }
+=======
+            purchaseService.selectOffer(r);
+
+            return 0;
+        }
+>>>>>>> sg_code_first
     }
 }

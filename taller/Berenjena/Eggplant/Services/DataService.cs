@@ -16,10 +16,21 @@ namespace Eggplant.Services
         private GenericRepository<LineaSolicitud> lineasSolicitud;
         PedidoRepository pedidos;
         private GenericRepository<LineaPedido> lineasPedido;
+        private AuditsRepository audits;
         
         public DataService()
         {
             context = new EggplantContext();
+        }
+
+        public AuditsRepository Audits
+        {
+            get
+            {
+                if (audits == null)
+                    audits = new AuditsRepository(context);
+                return audits;
+            }
         }
 
         public TokenRepository Tokens
