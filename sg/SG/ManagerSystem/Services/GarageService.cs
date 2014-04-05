@@ -13,6 +13,12 @@ namespace ManagerSystem.Services
     {
         public GarageService(UnitOfWork uow = null) : base(uow) { }
 
+        public bool garageHasAccess(int garage_id)
+        {
+            GarageEntity current_garage = this.getCurrentGarage();
+            return current_garage != null && current_garage.id == garage_id;
+        }
+
         public TokenResponse createGarage(ExpTaller e_garage)
         {
             if (e_garage != null)
@@ -52,7 +58,7 @@ namespace ManagerSystem.Services
 
         public GarageEntity getCurrentGarage()
         {
-            string token_string = authorizationService.getCurrentGarageToken();
+            string token_string = authService.getCurrentGarageToken();
 
             return this.getGarageWithToken(token_string);
         }

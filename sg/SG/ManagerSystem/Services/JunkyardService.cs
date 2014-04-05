@@ -11,6 +11,12 @@ namespace ManagerSystem.Services
     {
         public JunkyardService(UnitOfWork uow = null) : base(uow) { }
 
+        public bool junkyardHasAccess(int junkyard_id)
+        {
+            JunkyardEntity current_junkyard = this.getCurrentJunkyard();
+            return current_junkyard != null && current_junkyard.id == junkyard_id;
+        }
+
         public TokenResponse createJunkyard(ExpDesguace e_junkyard)
         {
             if (e_junkyard != null)
@@ -86,7 +92,7 @@ namespace ManagerSystem.Services
 
         public JunkyardEntity getCurrentJunkyard()
         {
-            string token_string = authorizationService.getCurrentJunkyardToken();
+            string token_string = authService.getCurrentJunkyardToken();
 
             return this.getJunkyardWithToken(token_string);
         }

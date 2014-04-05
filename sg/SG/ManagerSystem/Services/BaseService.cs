@@ -45,14 +45,14 @@ namespace ManagerSystem.Services
             }
         }
 
-        private AuthorizationService authorization_service = null;
-        protected AuthorizationService authorizationService
+        private AuthService auth_service = null;
+        protected AuthService authService
         {
             get
             {
-                if (this.authorization_service == null)
-                    this.authorization_service = new AuthorizationService(unitOfWork);
-                return this.authorization_service;
+                if (this.auth_service == null)
+                    this.auth_service = new AuthService(unitOfWork);
+                return this.auth_service;
             }
         }
 

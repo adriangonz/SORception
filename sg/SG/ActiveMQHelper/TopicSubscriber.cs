@@ -38,6 +38,7 @@ namespace ActiveMQHelper
 
         public void Start(string consumerId)
         {
+            return;
             ConsumerId = consumerId;
             Consumer = _session.CreateDurableConsumer(_topic, consumerId, null, false);
             Consumer.Listener += NewMessageHandler;

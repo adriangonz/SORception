@@ -3,6 +3,7 @@ using ManagerSystem.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Web;
 using System.Web;
 
 namespace ManagerSystem.Services
@@ -30,6 +31,8 @@ namespace ManagerSystem.Services
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id, "lines");
 
+            authService.forbidGarageAccess(order.garage_id);
+
             if (order == null)
                 throw new ArgumentNullException();
 
@@ -56,6 +59,8 @@ namespace ManagerSystem.Services
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(e_order.id);
 
+            authService.forbidGarageAccess(order.garage_id);
+
             if (order == null)
                 throw new ArgumentNullException();
 
@@ -74,6 +79,8 @@ namespace ManagerSystem.Services
         public void deleteOrder(int order_id)
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id);
+
+            authService.forbidGarageAccess(order.garage_id);
 
             if (order == null)
                 throw new ArgumentNullException();
