@@ -108,9 +108,6 @@
     <Content Include="GestionDesguace.svc" />
     <Content Include="GestionTaller.svc" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
@@ -165,6 +162,7 @@
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\sorception - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\sorception - Web Deploy.pubxml" />
+    <Content Include="Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
