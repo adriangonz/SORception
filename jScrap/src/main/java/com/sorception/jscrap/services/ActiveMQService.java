@@ -31,24 +31,29 @@ public class ActiveMQService {
     ActiveMQConfig amqConfig;
 	
     public void enableJmsContainers(TokenEntity tokenEntity) {
+    	logger.info("Enabling JMS containers.");
     	amqConfig.enableJmsContainer(pedidosContainer, tokenEntity, "Pedidos");
     	amqConfig.enableJmsContainer(solicitudesContainer, tokenEntity, "Solicitudes");
     }
     
     public void disableJmsContainers() {
+    	logger.info("Disabling JMS containers.");
     	amqConfig.disableJmsContainer(pedidosContainer);
     	amqConfig.disableJmsContainer(solicitudesContainer);
     }
     
     public void sendNewOffer(OfferEntity offer, TokenEntity token) {
+		logger.info("Sending a new offer to AMQ with local id " + offer.getId() + ".");
     	ofertasSender.sendNewOferta(offer, token);
     }
     
     public void sendDeleteOffer(OfferEntity offer, TokenEntity token) {
+    	logger.info("Deleting offer from AMQ with local id " + offer.getId() + ".");
     	ofertasSender.sendDeleteOferta(offer, token);
     }
     
     public void sendUpdateOffer(OfferEntity offer, TokenEntity token) {
+    	logger.info("Updating offer from AMQ with local id " + offer.getId() + ".");
     	ofertasSender.sendUpdateOferta(offer, token);
     }
 }

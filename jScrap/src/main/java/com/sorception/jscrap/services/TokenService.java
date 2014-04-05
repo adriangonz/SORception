@@ -43,12 +43,9 @@ public class TokenService extends AbstractService<TokenEntity> {
 		return dao;
 	}
 	
-	public TokenEntity getValidInit() {
-		return getValid();
-	}
-    
     public TokenEntity requestToken() {
-        logger.info("New token requested. Disabling old ones...");
+        logger.info("New token requested. Disabling current token and "
+        		+ "AMQ services and requesting new one from web service.");
         getTokenDao().invalidateTokens();
         // Access to web service
         TokenEntity temporalToken = sgClient.signUp();
@@ -59,25 +56,30 @@ public class TokenService extends AbstractService<TokenEntity> {
     }
     
     public TokenEntity getValid() {
+    	logger.info("Retrieving current token...");
         TokenEntity tokenEntity = getTokenDao().findByStatus(TokenEntity.TokenStatus.VALID);
         if(null == tokenEntity) {
             // Check if we have requested one
             tokenEntity = getRequestOrTemporal();
-            if(null == tokenEntity) // If not, throw 404
-                throw new ResourceNotFoundException("Not valid token or request found");
+            if(null == tokenEntity) { // If not, throw 404
+            	logger.info("Not valid token has been found.");
+                throw new ResourceNotFoundException("Not valid token or request found.");
+            }
             // Check if new token is available
             // Method getState will throw NotFound if not valid
             TokenEntity newToken = sgClient.getState(tokenEntity.getToken());
             tokenEntity = create(newToken);
-            if(!tokenEntity.isValid()) // If not, throw 404
-                throw new ResourceNotFoundException("Token request has not been accepted");
-            else // Enable JmsContainer
+            if(!tokenEntity.isValid()) { // If not, throw 404
+            	logger.info("Token request has not been accepted.");
+                throw new ResourceNotFoundException("Token request has not been accepted.");
+            } else // Enable JmsContainer
             	activeMQService.enableJmsContainers(tokenEntity);
         }
         return tokenEntity;
     }
     
     public List<TokenEntity> list() {
+    	logger.info("Retrieving all tokens.");
         return getTokenDao().findAllOrderByCreated();
     }
     

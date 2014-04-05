@@ -1,8 +1,6 @@
 package com.sorception.jscrap.webservices;
-import java.io.StringWriter;
 import java.util.GregorianCalendar;
 
-import javax.jms.Message;
 import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -111,17 +109,14 @@ public class OfertasSender {
 	}
 	
 	public void sendNewOferta(OfferEntity offer, TokenEntity token) {
-		logger.info("Sending a new offer to AMQ with local id " + offer.getId() + "...");
 		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.NEW));
 	}
 	
 	public void sendDeleteOferta(OfferEntity offer, TokenEntity token) {
-		logger.info("Deleting offer from AMQ with local id " + offer.getId() + "...");
 		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.DELETE));
 	}
 	
 	public void sendUpdateOferta(OfferEntity offer, TokenEntity token) {
-		logger.info("Updating offer from AMQ with local id " + offer.getId() + "...");
 		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.UPDATE));
 	}
 }

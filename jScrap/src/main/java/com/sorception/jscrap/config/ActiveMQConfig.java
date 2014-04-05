@@ -81,7 +81,7 @@ public class ActiveMQConfig {
     
     public void enableJmsContainer(DefaultMessageListenerContainer jmsContainer, TokenEntity validToken, String destination) {
     	logger.info("Valid token found! - Starting jmsContainer with token " + validToken.getToken() + 
-    			" and subscribing to topic " + destination + "...");
+    			" and subscribing to topic " + destination + ".");
         jmsContainer.setDurableSubscriptionName(settingsService.getGlobalSettings().getName());
         jmsContainer.setClientId(validToken.getToken() + "@" + destination);
         jmsContainer.setSubscriptionDurable(true);
@@ -91,7 +91,7 @@ public class ActiveMQConfig {
     }
     
     public void disableJmsContainer(DefaultMessageListenerContainer jmsContainer) {
-    	logger.info("Not valid token found - Disabling jmsContainer listening on " + jmsContainer.getDestinationName() + "...");
+    	logger.info("Not valid token found - Disabling jmsContainer listening on " + jmsContainer.getDestinationName() + ".");
     	jmsContainer.stop();
         jmsContainer.setAutoStartup(false);
     }
@@ -103,7 +103,7 @@ public class ActiveMQConfig {
         jmsContainer.setMessageListener(listener);
         jmsContainer.setDestination(destination);
         try {
-            TokenEntity validToken = tokenService.getValidInit();
+            TokenEntity validToken = tokenService.getValid();
             enableJmsContainer(jmsContainer, validToken, destinationName);
         } catch(ResourceNotFoundException ex) {
             disableJmsContainer(jmsContainer);

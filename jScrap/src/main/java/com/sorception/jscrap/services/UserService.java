@@ -57,10 +57,12 @@ public class UserService extends AbstractService<UserEntity> {
 	}
     
     public List<UserEntity> getAllUsers() {
+    	logger.info("Retrieving all users");
         return findAll();
     }
     
     public UserEntity addUser(UserInfoDTO userInfo) {
+    	logger.info("Registering new user with username " + userInfo.username  + ".");
         UserEntity user = new UserEntity(userInfo.username, userInfo.name, userInfo.password);
         encodePassword(user);
         create(user);
@@ -68,10 +70,12 @@ public class UserService extends AbstractService<UserEntity> {
     }
 	
     public UserEntity getUser(Long userId) {
+    	logger.info("Retrieving user with id " + userId + ".");
         return findOne(userId);
     }
     
     public UserEntity getUserByUsername(String username) {
+    	logger.info("Retrieving user with username " + username + ".");
         UserEntity user = ((IUserDAO)getDao()).findByUsername(username);
         if(null == user)
             throw new ResourceNotFoundException("User " + username + " was not found");
@@ -79,12 +83,13 @@ public class UserService extends AbstractService<UserEntity> {
     }
     
     public void removeUser(Long userId) {
+    	logger.info("Removing user with id " + userId + ".");
     	delete(userId);
     }
     
     public String authenticateUser(String username, String password) {
         try {
-            logger.info("Generating auth token for user "+ username + "...");
+            logger.info("Authenticating user with "+ username + ".");
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
             this.authenticationManager.authenticate(token);
             return this.getAuthentication(username, password);

@@ -1,5 +1,7 @@
 package com.sorception.jscrap.error;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,12 +22,15 @@ import com.google.common.base.Throwables;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+	final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	/**
 	 * Handle exceptions thrown by handlers.
 	 */
     @ExceptionHandler(value={Exception.class, RuntimeException.class})
     @ResponseBody
     public ResponseEntity<Object> generalException(Exception ex, WebRequest request) {
+    	logger.info("ERROR: " + ex.getMessage());
     	HttpStatus status = getStatus(ex);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
