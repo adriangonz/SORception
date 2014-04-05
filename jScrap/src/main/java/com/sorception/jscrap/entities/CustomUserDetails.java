@@ -15,9 +15,8 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(UserEntity user) {
         this.user = user;
-        this.grantedAuthorities = this.getAuthorities();
+        this.grantedAuthorities = this.buildAuthorities();
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -58,9 +57,9 @@ public class CustomUserDetails implements UserDetails {
         return user;
     }
     
-    private List<GrantedAuthority> buildAuthorities(UserEntity userEntity) {
+    private List<GrantedAuthority> buildAuthorities() {
         ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        if(userEntity.getIsAdmin()) {
+        if(user.getIsAdmin()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
