@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.Web;
 
 namespace ManagerSystem.Services
 {
-    public class AuthorizationService : BaseService
+    public class AuthService : BaseService
     {
-        public AuthorizationService(UnitOfWork uow = null) : base(uow) { }
+        public AuthService(UnitOfWork uow = null) : base(uow) { }
 
         private string current_junkyard_token = null;
 
@@ -43,7 +44,7 @@ namespace ManagerSystem.Services
             return current_junkyard_token;
         }
 
-        public bool isGarageAuthorized()
+        public bool isGarageAuthenticated()
         {
             string token_string = this.getCurrentGarageToken();
 
@@ -58,10 +59,9 @@ namespace ManagerSystem.Services
             }
         }
 
-        public bool isJunkyardAuthorized()
+        public bool isJunkyardAuthenticated()
         {
             string token_string = this.getCurrentJunkyardToken();
-
             try
             {
                 bool junkyard_exists = junkyardService.existsJunkyardWithToken(token_string);
@@ -77,6 +77,31 @@ namespace ManagerSystem.Services
         public void setJunkyardToken(string token)
         {
             current_junkyard_token = token;
+        }
+
+        public void forbidAccess(int garage_id, int junkyard_id)
+        {
+            if (!garageService.garageHasAccess(garage_id) &&
+                !junkyardService.junkyardHasAccess(junkyard_id))
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+            }
+        }
+
+        public void forbidGarageAccess(int garage_id)
+        {
+            if (!garageService.garageHasAccess(garage_id))
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+            }
+        }
+
+        public void forbidJunkyardAccess(int junkyard_id)
+        {
+            if (!junkyardService.junkyardHasAccess(junkyard_id))
+            {
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+            }
         }
     }
 }

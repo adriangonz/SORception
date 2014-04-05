@@ -80,8 +80,8 @@ namespace ManagerSystem.Services
 
         public void processOfferMessage(AMQOfertaMessage msg)
         {
-            authorizationService.setJunkyardToken(msg.desguace_id);
-            if (!authorizationService.isJunkyardAuthorized())
+            authService.setJunkyardToken(msg.desguace_id);
+            if (!authService.isJunkyardAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             switch (msg.code)

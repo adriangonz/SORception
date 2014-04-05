@@ -15,6 +15,8 @@ namespace ManagerSystem.Services
         {
             OfferEntity offer = unitOfWork.OfferRepository.GetByID(offer_id, "lines");
 
+            authService.forbidAccess(offer.order.garage_id, offer.junkyard_id);
+
             if (offer == null)
                 throw new ArgumentNullException();
 
@@ -27,6 +29,8 @@ namespace ManagerSystem.Services
         public List<OfferEntity> getOffers(int order_id)
         {
             OrderEntity order = orderService.getOrder(order_id);
+
+            authService.forbidGarageAccess(order.garage_id);
 
             List<OfferEntity> offers = new List<OfferEntity>();
             foreach (var offer in order.offers)
@@ -55,8 +59,7 @@ namespace ManagerSystem.Services
             if (offer == null)
                 throw new ArgumentNullException();
 
-            if (offer.junkyard != junkyardService.getCurrentJunkyard())
-                throw new ArgumentException();
+            authService.forbidJunkyardAccess(offer.junkyard_id);
 
             this.copyFromExposed(offer, e_offer);
 
@@ -71,8 +74,7 @@ namespace ManagerSystem.Services
             if (offer == null)
                 throw new ArgumentNullException();
 
-            if (offer.junkyard != junkyardService.getCurrentJunkyard())
-                throw new ArgumentException();
+            authService.forbidJunkyardAccess(offer.junkyard_id);
 
             unitOfWork.OfferRepository.Delete(offer);
             unitOfWork.Save();

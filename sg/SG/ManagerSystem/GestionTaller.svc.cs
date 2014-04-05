@@ -37,14 +37,14 @@ namespace ManagerSystem
             }
         }
 
-        private AuthorizationService authorization_service = null;
-        private AuthorizationService authorizationService
+        private AuthService auth_service = null;
+        private AuthService authService
         {
             get
             {
-                if (this.authorization_service == null)
-                    this.authorization_service = new AuthorizationService();
-                return this.authorization_service;
+                if (this.auth_service == null)
+                    this.auth_service = new AuthService();
+                return this.auth_service;
             }
         }
 
@@ -93,7 +93,7 @@ namespace ManagerSystem
 
         public int putTaller(ExpTaller et)
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             garageService.putGarage(et);
@@ -103,7 +103,7 @@ namespace ManagerSystem
 
         public int deleteTaller()
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             garageService.deleteCurrentGarage();
@@ -113,7 +113,7 @@ namespace ManagerSystem
 
         public ExpSolicitud getSolicitud(int id)
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             try
@@ -132,7 +132,7 @@ namespace ManagerSystem
 
         public List<ExpSolicitud> getSolicitudes()
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             return (from order in orderService.getOrders() select orderService.toExposed(order)).ToList(); ;
@@ -140,7 +140,7 @@ namespace ManagerSystem
 
         public int addSolicitud(ExpSolicitud es)
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             return orderService.addOrder(es);
@@ -148,7 +148,7 @@ namespace ManagerSystem
 
         public int putSolicitud(ExpSolicitud es)
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             orderService.putOrder(es);
@@ -158,7 +158,7 @@ namespace ManagerSystem
 
         public int deleteSolicitud(int order_id)
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             orderService.deleteOrder(order_id);
@@ -168,7 +168,7 @@ namespace ManagerSystem
 
         public ExpOferta getOferta(int oferta_id)
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             return offerService.toExposed(offerService.getOffer(oferta_id));
@@ -176,7 +176,7 @@ namespace ManagerSystem
 
         public List<ExpOferta> getOfertas(int solicitud_id)
         {
-            if (!authorizationService.isGarageAuthorized())
+            if (!authService.isGarageAuthenticated())
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
 
             return (from offer in offerService.getOffers(solicitud_id) select offerService.toExposed(offer)).ToList(); ;
@@ -184,6 +184,9 @@ namespace ManagerSystem
 
         public int selectOferta(ExpPedido r)
         {
+            if (!authService.isGarageAuthenticated())
+                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+
             purchaseService.selectOffer(r);
 
             return 0;
