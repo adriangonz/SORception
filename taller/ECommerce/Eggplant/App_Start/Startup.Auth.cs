@@ -8,6 +8,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Eggplant.Providers;
+using Eggplant.DataAcces;
 
 namespace Eggplant
 {
@@ -17,7 +18,7 @@ namespace Eggplant
         {
             PublicClientId = "self";
 
-            UserManagerFactory = () => new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+            UserManagerFactory = () => new UserManager<IdentityUser>(new UserStore<IdentityUser>(new EggplantContext()));
 
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
@@ -40,8 +41,8 @@ namespace Eggplant
         {
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+            ///app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Permitir que la aplicación use tokens portadores para autenticar usuarios
             app.UseOAuthBearerTokens(OAuthOptions);

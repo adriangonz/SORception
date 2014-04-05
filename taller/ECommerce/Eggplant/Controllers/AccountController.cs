@@ -63,6 +63,7 @@ namespace Eggplant.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "ROLE_ADMIN")]
         [Route("users")]
         public object GetListUsers()
         {
@@ -320,7 +321,7 @@ namespace Eggplant.Controllers
         }
 
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "ROLE_ADMIN")]
         [Route("register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
