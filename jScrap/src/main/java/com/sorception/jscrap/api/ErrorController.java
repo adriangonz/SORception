@@ -37,7 +37,7 @@ class ErrorController {
 			  requestUri = "Unknown";
 		  }
 		   
-		  String message = MessageFormat.format("{0} returned for {1} with message {3}", 
+		  String message = MessageFormat.format("{0} returned for {1} with message {2}", 
 				  statusCode, requestUri, exceptionMessage
 		  ); 
 		  

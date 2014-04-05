@@ -1,4 +1,4 @@
-var module = angular.module("taller.module", ['ngCookies']);
+var module = angular.module("taller.module", ['ngCookies', 'notificationWidget']);
 
 module.config(['$routeProvider',
   function($routeProvider) {

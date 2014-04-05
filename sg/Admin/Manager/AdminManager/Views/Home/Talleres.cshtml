@@ -1,4 +1,4 @@
-﻿@model List<AdminManager.ServiceAdmin.Taller>
+﻿@model List<AdminManager.ServiceAdmin.ExpTaller>
 
 @{
     ViewBag.Title = "Talleres";
@@ -28,17 +28,17 @@
           <tbody>
               @foreach (var item in Model)
                 {
-                    <tr id="row@(item.Id)">
-                      <td>@item.Id</td>
+                    <tr id="row@(item.id)">
+                      <td>@item.id</td>
                       <td>@item.name</td>
                       <td>@DateTime.Today</td>
                       <td>
                         <div class="btn-group" data-toggle="buttons" >
                             <label class="btn btn-default @(item.active ? "active" : "")">
-                                <input type="radio" name="options1@(item.Id)" id="option1@(item.Id)" value="true" onchange="changeStatus($(this),@item.Id)"> On
+                                <input type="radio" name="options1@(item.id)" id="option1@(item.id)" value="true" onchange="changeStatus($(this),@item.id)"> On
                             </label>
                             <label class="btn btn-default @(item.active ? "" : "active")">
-                            <input type="radio" name="options2@(item.Id)" id="option2@(item.Id)"  value="false" onchange="changeStatus($(this),@item.Id)"> Off
+                            <input type="radio" name="options2@(item.id)" id="option2@(item.id)"  value="false" onchange="changeStatus($(this),@item.id)"> Off
                             </label>
                         </div>
                       </td>

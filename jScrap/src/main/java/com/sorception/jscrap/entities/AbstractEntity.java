@@ -10,17 +10,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -52,6 +54,14 @@ public abstract class AbstractEntity implements Serializable {
     @LastModifiedDate
     protected Date updated;
     
+    @CreatedBy
+    @ManyToOne
+    private UserEntity createdBy;
+    
+    @LastModifiedBy
+    @ManyToOne
+    private UserEntity lastModifiedBy;
+    
     protected AbstractEntity() {}
     
     public Date getCreated() {
@@ -60,6 +70,14 @@ public abstract class AbstractEntity implements Serializable {
     
     public Date getUpdated() {
         return updated;
+    }
+    
+    public UserEntity getOwner() {
+    	return createdBy;
+    }
+    
+    public UserEntity getModifiedBy() {
+    	return createdBy;
     }
     
     public Long getId() {

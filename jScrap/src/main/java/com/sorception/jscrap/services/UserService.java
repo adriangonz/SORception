@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sorception.jscrap.dao.IGenericDAO;
 import com.sorception.jscrap.dao.IUserDAO;
 import com.sorception.jscrap.dto.UserInfoDTO;
+import com.sorception.jscrap.entities.CustomUserDetails;
 import com.sorception.jscrap.entities.UserEntity;
 import com.sorception.jscrap.error.AuthenticationException;
 import com.sorception.jscrap.error.ResourceNotFoundException;
@@ -94,7 +95,7 @@ public class UserService extends AbstractService<UserEntity> {
     
     private void encodePassword(UserEntity user) {
     	CustomUserDetailsService userDetailsService = new CustomUserDetailsService();
-        UserDetails userDetails = userDetailsService.loadUserByCustomUser(user);
+        UserDetails userDetails = new CustomUserDetails(user);
         String encodedPassword = 
         		passwordEncoder.encodePassword(
         				user.getPassword(), saltSource.getSalt(userDetails));

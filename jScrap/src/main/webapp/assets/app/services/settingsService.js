@@ -22,7 +22,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	    postSettings: function(){
 	     	  $http({method: 'POST', url: '/jScrap/api/token'}).
 	          success(function(data, status, headers, config) {
-	            service.getSettings();
+	          	service.settings.tokenList.push(data);
 	          }).
 	          error(function(data, status, headers, config) {
 	            alert(status+" | "+data);

@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     UserDetailsService userDetailsService;
     
     @Autowired
-    public void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
     	auth
     		.authenticationProvider(daoAuthenticationProvider());
     }
@@ -83,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             				"/api/settings/**").hasRole("USER")
             .anyRequest().permitAll()
             .and()
+           .csrf().disable()
           .httpBasic();
     }
 }

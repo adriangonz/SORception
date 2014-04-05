@@ -15,24 +15,18 @@ namespace AdminManager.ServiceAdmin {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Desguace", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpDesguace", Namespace="http://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
-    public partial class Desguace : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ExpDesguace : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Oferta[] OfertasField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Token[] TokensField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool activeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string nameField;
@@ -48,45 +42,6 @@ namespace AdminManager.ServiceAdmin {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Oferta[] Ofertas {
-            get {
-                return this.OfertasField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.OfertasField, value) != true)) {
-                    this.OfertasField = value;
-                    this.RaisePropertyChanged("Ofertas");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Token[] Tokens {
-            get {
-                return this.TokensField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TokensField, value) != true)) {
-                    this.TokensField = value;
-                    this.RaisePropertyChanged("Tokens");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
         public bool active {
             get {
                 return this.activeField;
@@ -95,6 +50,19 @@ namespace AdminManager.ServiceAdmin {
                 if ((this.activeField.Equals(value) != true)) {
                     this.activeField = value;
                     this.RaisePropertyChanged("active");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
                 }
             }
         }
@@ -124,982 +92,18 @@ namespace AdminManager.ServiceAdmin {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Oferta", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpTaller", Namespace="http://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
-    public partial class Oferta : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ExpTaller : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Desguace DesguaceField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int DesguaceIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaOferta[] LineasOfertaField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Solicitud SolicitudField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int SolicitudIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime dateField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int id_en_desguaceField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string stateField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Desguace Desguace {
-            get {
-                return this.DesguaceField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DesguaceField, value) != true)) {
-                    this.DesguaceField = value;
-                    this.RaisePropertyChanged("Desguace");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int DesguaceId {
-            get {
-                return this.DesguaceIdField;
-            }
-            set {
-                if ((this.DesguaceIdField.Equals(value) != true)) {
-                    this.DesguaceIdField = value;
-                    this.RaisePropertyChanged("DesguaceId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaOferta[] LineasOferta {
-            get {
-                return this.LineasOfertaField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineasOfertaField, value) != true)) {
-                    this.LineasOfertaField = value;
-                    this.RaisePropertyChanged("LineasOferta");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Solicitud Solicitud {
-            get {
-                return this.SolicitudField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SolicitudField, value) != true)) {
-                    this.SolicitudField = value;
-                    this.RaisePropertyChanged("Solicitud");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int SolicitudId {
-            get {
-                return this.SolicitudIdField;
-            }
-            set {
-                if ((this.SolicitudIdField.Equals(value) != true)) {
-                    this.SolicitudIdField = value;
-                    this.RaisePropertyChanged("SolicitudId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime date {
-            get {
-                return this.dateField;
-            }
-            set {
-                if ((this.dateField.Equals(value) != true)) {
-                    this.dateField = value;
-                    this.RaisePropertyChanged("date");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int id_en_desguace {
-            get {
-                return this.id_en_desguaceField;
-            }
-            set {
-                if ((this.id_en_desguaceField.Equals(value) != true)) {
-                    this.id_en_desguaceField = value;
-                    this.RaisePropertyChanged("id_en_desguace");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string state {
-            get {
-                return this.stateField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.stateField, value) != true)) {
-                    this.stateField = value;
-                    this.RaisePropertyChanged("state");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Token", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
-    [System.SerializableAttribute()]
-    public partial class Token : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Desguace DesguaceField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> DesguaceIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Taller TallerField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> TallerIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime createdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool is_validField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string tokenField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime updatedField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Desguace Desguace {
-            get {
-                return this.DesguaceField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DesguaceField, value) != true)) {
-                    this.DesguaceField = value;
-                    this.RaisePropertyChanged("Desguace");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> DesguaceId {
-            get {
-                return this.DesguaceIdField;
-            }
-            set {
-                if ((this.DesguaceIdField.Equals(value) != true)) {
-                    this.DesguaceIdField = value;
-                    this.RaisePropertyChanged("DesguaceId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Taller Taller {
-            get {
-                return this.TallerField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TallerField, value) != true)) {
-                    this.TallerField = value;
-                    this.RaisePropertyChanged("Taller");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> TallerId {
-            get {
-                return this.TallerIdField;
-            }
-            set {
-                if ((this.TallerIdField.Equals(value) != true)) {
-                    this.TallerIdField = value;
-                    this.RaisePropertyChanged("TallerId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime created {
-            get {
-                return this.createdField;
-            }
-            set {
-                if ((this.createdField.Equals(value) != true)) {
-                    this.createdField = value;
-                    this.RaisePropertyChanged("created");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool is_valid {
-            get {
-                return this.is_validField;
-            }
-            set {
-                if ((this.is_validField.Equals(value) != true)) {
-                    this.is_validField = value;
-                    this.RaisePropertyChanged("is_valid");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string token {
-            get {
-                return this.tokenField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.tokenField, value) != true)) {
-                    this.tokenField = value;
-                    this.RaisePropertyChanged("token");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime updated {
-            get {
-                return this.updatedField;
-            }
-            set {
-                if ((this.updatedField.Equals(value) != true)) {
-                    this.updatedField = value;
-                    this.RaisePropertyChanged("updated");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Solicitud", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
-    [System.SerializableAttribute()]
-    public partial class Solicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaSolicitud[] LineasSolicitudField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Oferta[] OfertasField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Taller TallerField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int TallerIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime dateField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int id_en_tallerField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string stateField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaSolicitud[] LineasSolicitud {
-            get {
-                return this.LineasSolicitudField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineasSolicitudField, value) != true)) {
-                    this.LineasSolicitudField = value;
-                    this.RaisePropertyChanged("LineasSolicitud");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Oferta[] Ofertas {
-            get {
-                return this.OfertasField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.OfertasField, value) != true)) {
-                    this.OfertasField = value;
-                    this.RaisePropertyChanged("Ofertas");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Taller Taller {
-            get {
-                return this.TallerField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TallerField, value) != true)) {
-                    this.TallerField = value;
-                    this.RaisePropertyChanged("Taller");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int TallerId {
-            get {
-                return this.TallerIdField;
-            }
-            set {
-                if ((this.TallerIdField.Equals(value) != true)) {
-                    this.TallerIdField = value;
-                    this.RaisePropertyChanged("TallerId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime date {
-            get {
-                return this.dateField;
-            }
-            set {
-                if ((this.dateField.Equals(value) != true)) {
-                    this.dateField = value;
-                    this.RaisePropertyChanged("date");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int id_en_taller {
-            get {
-                return this.id_en_tallerField;
-            }
-            set {
-                if ((this.id_en_tallerField.Equals(value) != true)) {
-                    this.id_en_tallerField = value;
-                    this.RaisePropertyChanged("id_en_taller");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string state {
-            get {
-                return this.stateField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.stateField, value) != true)) {
-                    this.stateField = value;
-                    this.RaisePropertyChanged("state");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LineaOferta", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
-    [System.SerializableAttribute()]
-    public partial class LineaOferta : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaOfertaSeleccionada LineaOfertaSeleccionadaField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaSolicitud LineaSolicitudField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int LineaSolicitudIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Oferta OfertaField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int OfertaIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int id_en_desguaceField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string notesField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private double priceField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int quantityField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaOfertaSeleccionada LineaOfertaSeleccionada {
-            get {
-                return this.LineaOfertaSeleccionadaField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineaOfertaSeleccionadaField, value) != true)) {
-                    this.LineaOfertaSeleccionadaField = value;
-                    this.RaisePropertyChanged("LineaOfertaSeleccionada");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaSolicitud LineaSolicitud {
-            get {
-                return this.LineaSolicitudField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineaSolicitudField, value) != true)) {
-                    this.LineaSolicitudField = value;
-                    this.RaisePropertyChanged("LineaSolicitud");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int LineaSolicitudId {
-            get {
-                return this.LineaSolicitudIdField;
-            }
-            set {
-                if ((this.LineaSolicitudIdField.Equals(value) != true)) {
-                    this.LineaSolicitudIdField = value;
-                    this.RaisePropertyChanged("LineaSolicitudId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Oferta Oferta {
-            get {
-                return this.OfertaField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.OfertaField, value) != true)) {
-                    this.OfertaField = value;
-                    this.RaisePropertyChanged("Oferta");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int OfertaId {
-            get {
-                return this.OfertaIdField;
-            }
-            set {
-                if ((this.OfertaIdField.Equals(value) != true)) {
-                    this.OfertaIdField = value;
-                    this.RaisePropertyChanged("OfertaId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int id_en_desguace {
-            get {
-                return this.id_en_desguaceField;
-            }
-            set {
-                if ((this.id_en_desguaceField.Equals(value) != true)) {
-                    this.id_en_desguaceField = value;
-                    this.RaisePropertyChanged("id_en_desguace");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string notes {
-            get {
-                return this.notesField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.notesField, value) != true)) {
-                    this.notesField = value;
-                    this.RaisePropertyChanged("notes");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public double price {
-            get {
-                return this.priceField;
-            }
-            set {
-                if ((this.priceField.Equals(value) != true)) {
-                    this.priceField = value;
-                    this.RaisePropertyChanged("price");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int quantity {
-            get {
-                return this.quantityField;
-            }
-            set {
-                if ((this.quantityField.Equals(value) != true)) {
-                    this.quantityField = value;
-                    this.RaisePropertyChanged("quantity");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LineaOfertaSeleccionada", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
-    [System.SerializableAttribute()]
-    public partial class LineaOfertaSeleccionada : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaOferta LineaOfertaField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaSolicitud LineaSolicitudField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int LineaSolicitudIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string quantityField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaOferta LineaOferta {
-            get {
-                return this.LineaOfertaField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineaOfertaField, value) != true)) {
-                    this.LineaOfertaField = value;
-                    this.RaisePropertyChanged("LineaOferta");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaSolicitud LineaSolicitud {
-            get {
-                return this.LineaSolicitudField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineaSolicitudField, value) != true)) {
-                    this.LineaSolicitudField = value;
-                    this.RaisePropertyChanged("LineaSolicitud");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int LineaSolicitudId {
-            get {
-                return this.LineaSolicitudIdField;
-            }
-            set {
-                if ((this.LineaSolicitudIdField.Equals(value) != true)) {
-                    this.LineaSolicitudIdField = value;
-                    this.RaisePropertyChanged("LineaSolicitudId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string quantity {
-            get {
-                return this.quantityField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.quantityField, value) != true)) {
-                    this.quantityField = value;
-                    this.RaisePropertyChanged("quantity");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LineaSolicitud", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
-    [System.SerializableAttribute()]
-    public partial class LineaSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaOferta[] LineasOfertaField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.LineaOfertaSeleccionada[] LineasOfertaSeleccionadaField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Solicitud SolicitudField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int SolicitudIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string descriptionField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int id_en_tallerField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int quantityField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaOferta[] LineasOferta {
-            get {
-                return this.LineasOfertaField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineasOfertaField, value) != true)) {
-                    this.LineasOfertaField = value;
-                    this.RaisePropertyChanged("LineasOferta");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.LineaOfertaSeleccionada[] LineasOfertaSeleccionada {
-            get {
-                return this.LineasOfertaSeleccionadaField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LineasOfertaSeleccionadaField, value) != true)) {
-                    this.LineasOfertaSeleccionadaField = value;
-                    this.RaisePropertyChanged("LineasOfertaSeleccionada");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Solicitud Solicitud {
-            get {
-                return this.SolicitudField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SolicitudField, value) != true)) {
-                    this.SolicitudField = value;
-                    this.RaisePropertyChanged("Solicitud");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int SolicitudId {
-            get {
-                return this.SolicitudIdField;
-            }
-            set {
-                if ((this.SolicitudIdField.Equals(value) != true)) {
-                    this.SolicitudIdField = value;
-                    this.RaisePropertyChanged("SolicitudId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string description {
-            get {
-                return this.descriptionField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
-                    this.descriptionField = value;
-                    this.RaisePropertyChanged("description");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int id_en_taller {
-            get {
-                return this.id_en_tallerField;
-            }
-            set {
-                if ((this.id_en_tallerField.Equals(value) != true)) {
-                    this.id_en_tallerField = value;
-                    this.RaisePropertyChanged("id_en_taller");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int quantity {
-            get {
-                return this.quantityField;
-            }
-            set {
-                if ((this.quantityField.Equals(value) != true)) {
-                    this.quantityField = value;
-                    this.RaisePropertyChanged("quantity");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Taller", Namespace="http://schemas.datacontract.org/2004/07/ManagerSystem")]
-    [System.SerializableAttribute()]
-    public partial class Taller : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Solicitud[] SolicitudesField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private AdminManager.ServiceAdmin.Token[] TokensField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool activeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string nameField;
@@ -1115,45 +119,6 @@ namespace AdminManager.ServiceAdmin {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Solicitud[] Solicitudes {
-            get {
-                return this.SolicitudesField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SolicitudesField, value) != true)) {
-                    this.SolicitudesField = value;
-                    this.RaisePropertyChanged("Solicitudes");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public AdminManager.ServiceAdmin.Token[] Tokens {
-            get {
-                return this.TokensField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TokensField, value) != true)) {
-                    this.TokensField = value;
-                    this.RaisePropertyChanged("Tokens");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
         public bool active {
             get {
                 return this.activeField;
@@ -1162,6 +127,19 @@ namespace AdminManager.ServiceAdmin {
                 if ((this.activeField.Equals(value) != true)) {
                     this.activeField = value;
                     this.RaisePropertyChanged("active");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
                 }
             }
         }
@@ -1194,16 +172,16 @@ namespace AdminManager.ServiceAdmin {
     public interface IGestionAdmin {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionAdmin/getDesguaces", ReplyAction="http://tempuri.org/IGestionAdmin/getDesguacesResponse")]
-        AdminManager.ServiceAdmin.Desguace[] getDesguaces();
+        AdminManager.ServiceAdmin.ExpDesguace[] getDesguaces();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionAdmin/getDesguaces", ReplyAction="http://tempuri.org/IGestionAdmin/getDesguacesResponse")]
-        System.Threading.Tasks.Task<AdminManager.ServiceAdmin.Desguace[]> getDesguacesAsync();
+        System.Threading.Tasks.Task<AdminManager.ServiceAdmin.ExpDesguace[]> getDesguacesAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionAdmin/getTalleres", ReplyAction="http://tempuri.org/IGestionAdmin/getTalleresResponse")]
-        AdminManager.ServiceAdmin.Taller[] getTalleres();
+        AdminManager.ServiceAdmin.ExpTaller[] getTalleres();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionAdmin/getTalleres", ReplyAction="http://tempuri.org/IGestionAdmin/getTalleresResponse")]
-        System.Threading.Tasks.Task<AdminManager.ServiceAdmin.Taller[]> getTalleresAsync();
+        System.Threading.Tasks.Task<AdminManager.ServiceAdmin.ExpTaller[]> getTalleresAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGestionAdmin/activeDesguace", ReplyAction="http://tempuri.org/IGestionAdmin/activeDesguaceResponse")]
         int activeDesguace(int id, bool active);
@@ -1257,19 +235,19 @@ namespace AdminManager.ServiceAdmin {
                 base(binding, remoteAddress) {
         }
         
-        public AdminManager.ServiceAdmin.Desguace[] getDesguaces() {
+        public AdminManager.ServiceAdmin.ExpDesguace[] getDesguaces() {
             return base.Channel.getDesguaces();
         }
         
-        public System.Threading.Tasks.Task<AdminManager.ServiceAdmin.Desguace[]> getDesguacesAsync() {
+        public System.Threading.Tasks.Task<AdminManager.ServiceAdmin.ExpDesguace[]> getDesguacesAsync() {
             return base.Channel.getDesguacesAsync();
         }
         
-        public AdminManager.ServiceAdmin.Taller[] getTalleres() {
+        public AdminManager.ServiceAdmin.ExpTaller[] getTalleres() {
             return base.Channel.getTalleres();
         }
         
-        public System.Threading.Tasks.Task<AdminManager.ServiceAdmin.Taller[]> getTalleresAsync() {
+        public System.Threading.Tasks.Task<AdminManager.ServiceAdmin.ExpTaller[]> getTalleresAsync() {
             return base.Channel.getTalleresAsync();
         }
         

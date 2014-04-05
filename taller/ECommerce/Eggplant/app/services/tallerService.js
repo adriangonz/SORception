@@ -84,7 +84,7 @@ module.service('Taller', ['$rootScope', '$http', '$timeout', function ($rootScop
 
         loadActualOrder: function () {
             service.tmp_order.id = service.actual_order.id;
-            service.tmp_order.data = service.actual_order.lineaSolicitud;
+            service.tmp_order.data = service.actual_order.lines;
             for (var i = 0; i < service.tmp_order.data.length; i++) {
                 service.tmp_order.data[i].update = "UPDATED";
                 service.tmp_order.data[i].criterio = service.criterios[parseInt(service.tmp_order.data[i].criterio)];
