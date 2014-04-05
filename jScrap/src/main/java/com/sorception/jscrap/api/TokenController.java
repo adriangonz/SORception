@@ -36,7 +36,8 @@ public class TokenController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public TokenEntity requestToken() {
-        return tokenService.requestToken();
+    	TokenEntity token = tokenService.requestToken();
+        return token;
     }
     
     @RequestMapping("/list")
