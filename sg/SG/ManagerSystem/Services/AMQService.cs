@@ -101,8 +101,7 @@ namespace ManagerSystem.Services
         public void processOfferMessage(AMQOfertaMessage msg)
         {
             authService.setJunkyardToken(msg.desguace_id);
-            if (!authService.isJunkyardAuthenticated())
-                throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
+            authService.authenticateCall();
 
             switch (msg.code)
             {

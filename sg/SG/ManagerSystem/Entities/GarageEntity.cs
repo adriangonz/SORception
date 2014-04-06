@@ -17,7 +17,7 @@ namespace ManagerSystem.Entities
 
         public GarageEntity()
         {
-            this.tokens = new List<GarageTokenEntity>();
+            this.tokens = new List<TokenEntity>();
         }
 
         public string name { get; set; }
@@ -25,7 +25,7 @@ namespace ManagerSystem.Entities
         public GarageStatus status { get; set; }
 
         [InverseProperty("garage")]
-        public virtual ICollection<GarageTokenEntity> tokens { get; set; }
+        public virtual ICollection<TokenEntity> tokens { get; set; }
 
         public virtual string current_token
         {

@@ -13,8 +13,7 @@ namespace ManagerSystem.DataAccess
         private GenericRepository<AppConfig> app_config_repository;
         private GenericRepository<UserEntity> user_repository;
         private GenericRepository<AESPairEntity> aes_pair_repository;
-        private GenericRepository<JunkyardTokenEntity> junkyard_token_repository;
-        private GenericRepository<GarageTokenEntity> garage_token_repository;
+        private GenericRepository<TokenEntity> token_repository;
         private GenericRepository<GarageEntity> garage_repository;
         private GenericRepository<OrderEntity> order_repository;
         private GenericRepository<OrderLineEntity> order_line_repository;
@@ -59,27 +58,15 @@ namespace ManagerSystem.DataAccess
             }
         }
 
-        public GenericRepository<JunkyardTokenEntity> JunkyardTokenRepository
+        public GenericRepository<TokenEntity> TokenRepository
         {
             get
             {
-                if (this.junkyard_token_repository == null)
+                if (this.token_repository == null)
                 {
-                    this.junkyard_token_repository = new GenericRepository<JunkyardTokenEntity>(context);
+                    this.token_repository = new GenericRepository<TokenEntity>(context);
                 }
-                return junkyard_token_repository;
-            }
-        }
-
-        public GenericRepository<GarageTokenEntity> GarageTokenRepository
-        {
-            get
-            {
-                if (this.garage_token_repository == null)
-                {
-                    this.garage_token_repository = new GenericRepository<GarageTokenEntity>(context);
-                }
-                return garage_token_repository;
+                return token_repository;
             }
         }
 
