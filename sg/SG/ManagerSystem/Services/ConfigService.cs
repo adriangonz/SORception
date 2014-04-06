@@ -32,5 +32,11 @@ namespace ManagerSystem.Services
             response.aes_iv = config.aes_pair.iv;
             return response;
         }
+
+        public AESPairEntity getAESPair()
+        {
+            AppConfig config = unitOfWork.AppConfigRepository.GetAll().First();
+            return config.aes_pair;
+        }
     }
 }

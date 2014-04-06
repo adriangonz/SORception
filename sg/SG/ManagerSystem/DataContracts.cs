@@ -8,9 +8,14 @@ namespace ManagerSystem
 {
     // ActiveMQ
 
+
+    [DataContract(Namespace = Config.Namespace)]
     public class AMQSecureMessage
     {
+        [DataMember(Name = "junkyard_token")]
         public string junkyard_token;
+
+        [DataMember(Name = "data")]
         public string data;
     }
 

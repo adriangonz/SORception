@@ -29,7 +29,20 @@ namespace ManagerSystem.Services
 
             TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.Orders);
 
-            publisher.SendMessage((object) msg);
+            AESPairEntity aes_pair = configService.getAESPair();
+            AMQSecureMessage secure_msg = this.getSecureMessage((object)msg, aes_pair);
+
+            publisher.SendMessage((object)secure_msg);
+        }
+
+        public AMQSecureMessage getSecureMessage(object msg, AESPairEntity aes_pair, string junkyard_token = "") {
+            string message = TopicPublisher.ToXML(msg);
+            string encrypted_msg = aesService.encryptMessage(message, aes_pair);
+            return new AMQSecureMessage()
+            {
+                data = encrypted_msg,
+                junkyard_token = junkyard_token
+            };
         }
 
         public void publishOrderConfirmation(ExpPedido order_confirmation, string junkyard_token)
@@ -42,7 +55,10 @@ namespace ManagerSystem.Services
 
             TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.OfferConfirmations);
 
-            publisher.SendMessage((object)msg);
+            //AESPairEntity aes_pair = configService.getAESPair();
+            //AMQSecureMessage secure_msg = this.getSecureMessage((object)msg, aes_pair);
+
+            //publisher.SendMessage((object)secure_msg);
         }
 
         public void scheduleJob(JobEntity job)
@@ -55,7 +71,11 @@ namespace ManagerSystem.Services
             TimeSpan delay = job.order.deadline - DateTime.Now;
 
             TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.ScheduledJobs);
-            publisher.SendMessage((object)msg, (long)delay.TotalMilliseconds);
+
+            AESPairEntity aes_pair = configService.getAESPair();
+            AMQSecureMessage secure_msg = this.getSecureMessage((object)msg, aes_pair);
+
+            publisher.SendMessage((object)secure_msg, (long)delay.TotalMilliseconds);
         }
 
         public void createOfferSubscriber()

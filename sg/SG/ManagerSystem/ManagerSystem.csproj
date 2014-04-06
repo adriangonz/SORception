@@ -116,6 +116,8 @@
     <Compile Include="DataAccess\UnitOfWork.cs" />
     <Compile Include="DataContracts.cs" />
     <Compile Include="Dispatchers\AuthAttribute.cs" />
+    <Compile Include="Entities\AESPairEntity.cs" />
+    <Compile Include="Entities\AppConfig.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\GarageEntity.cs" />
     <Compile Include="Entities\JobEntity.cs" />
@@ -144,9 +146,11 @@
     <Compile Include="IGestionTaller.cs" />
     <Compile Include="Dispatchers\AuthInjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AESService.cs" />
     <Compile Include="Services\AMQService.cs" />
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\GarageService.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\JunkyardService.cs" />

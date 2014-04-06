@@ -78,7 +78,7 @@ namespace ManagerSystem
             return response;
         }
 
-        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p) 
+        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p, AMQSecureMessage e) 
         {
             o = new AMQOfertaMessage
             {
