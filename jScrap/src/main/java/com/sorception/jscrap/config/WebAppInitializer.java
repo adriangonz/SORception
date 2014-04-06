@@ -1,15 +1,22 @@
 package com.sorception.jscrap.config;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.Set;
 
-import javax.servlet.*;
-import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.*;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
+
+import com.sorception.jscrap.filters.UserMDCFilter;
 
 public class WebAppInitializer implements WebApplicationInitializer {
 
@@ -27,6 +34,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		characterEncodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 		characterEncodingFilter.setInitParameter("encoding", "UTF-8");
 		characterEncodingFilter.setInitParameter("forceEncoding", "true");
+		
+		FilterRegistration.Dynamic userMDCFilter = servletContext.addFilter("userMDCFilter", new UserMDCFilter());
+		userMDCFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 		
 		servletContext.addListener(new ContextLoaderListener(context));
 		servletContext.setInitParameter("defaultHtmlEscape", "true");

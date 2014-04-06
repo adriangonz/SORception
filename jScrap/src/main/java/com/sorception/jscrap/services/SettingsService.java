@@ -6,6 +6,8 @@
 
 package com.sorception.jscrap.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ import com.sorception.jscrap.entities.TokenEntity;
  */
 @Service
 public class SettingsService {
+
+	final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
     private SettingsEntity globalSettings;
     
@@ -25,10 +30,12 @@ public class SettingsService {
     private TokenService tokenService;
     
     public SettingsEntity getGlobalSettings() {
+    	logger.info("Retrieving application settings." );
         return globalSettings;
     }
     
     public SettingsEntity getExtendedSettings() {
+    	logger.info("Retrieving application settings and token info." );
         SettingsEntity settingsEntity = this.getGlobalSettings();
         try {
         	TokenEntity tokenEntity = tokenService.getValid();

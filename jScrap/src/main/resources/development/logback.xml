@@ -2,30 +2,46 @@
 <configuration scan="true" scanPeriod="3 seconds">
 	<contextName>jScrap</contextName>
 
+	<property name="defaultPattern"
+        value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - [%X{userName:-system}] - %msg%n" />
+    <property resource="persistence.properties" />
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>
-				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n
-			</pattern>
-		</encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
 	</appender>
+	
+	<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+		  	<driverClass>${dataSource.driverClassName}</driverClass>
+      		<url>${dataSource.url}</url>
+      		<user>${dataSource.username}</user>
+      		<password>${dataSource.password}</password>
+		</connectionSource>
+  	</appender>
+  	
+  	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/jscrap.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>jscrap.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
 
 	<jmxConfigurator />
 	<root level="WARN">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DB" />
+		<appender-ref ref="FILE" />
 	</root>
 
 	<logger name="com.sorception.jscrap" level="ALL" />
     <logger name="org.springframework.ws.client.MessageTracing" level="ALL"/>
- 	<!-- 
-    	<logger name="org.apache.activemq" level="ALL" />
-	-->
-	<!-- 
-    	<logger name="org.hibernate.event.internal.DefaultDeleteEventListener" level="ALL" />
-	 -->
- 	<!--  
-    	<logger name="org.springframework.web.servlet.mvc" level="ALL" />
-	 -->
-	<!-- logger name="org.springframework.security" level="ALL" /-->
-	<!-- logger name="org.hibernate" level="ALL" /-->
 </configuration>

@@ -36,17 +36,20 @@ public class OrderService extends AbstractService<OrderEntity> {
 	}
 	
 	public List<OrderEntity> getAllOrders() {
+		logger.info("Retrieving all orders.");
 		List<OrderEntity> orders = getOrderDao().getOpenedOrders();
 		return orders;
 	}
 	
 	public OrderEntity addOrder(String sgId, 
 			List<OrderLineEntity> orderLines) {
+		logger.info("Adding new order with remote id " + sgId + ".");
 		OrderEntity orderEntity = new OrderEntity(sgId, orderLines);
 		return create(orderEntity);
 	}
 	
 	public OrderEntity addOrder(OrderEntity orderEntity) {
+		logger.info("Adding new order with remote id " + orderEntity.getSgId() + ".");
 		return create(orderEntity);
 	}
 	
@@ -55,6 +58,7 @@ public class OrderService extends AbstractService<OrderEntity> {
 	}
 
 	public OrderLineEntity getOrderLine(Long orderLineId) {
+		logger.info("Retrieving orderline with id " + orderLineId + ".");
 		OrderLineEntity line = getOrderDao().getOrderlineById(orderLineId);
 		if(line == null || line.isDeleted())
 			throw new ResourceNotFoundException("Orderline with id " + Long.toString(orderLineId) + " was not found");
@@ -62,15 +66,18 @@ public class OrderService extends AbstractService<OrderEntity> {
 	}
 	
 	public OrderEntity getOrderBySgId(String id) {
+//		logger.info("Retrieving order with remote id " + id + ".");
 		return getOrderDao().findBySgId(id);
 	}
 
 	public OrderEntity updateOrder(OrderEntity order) {
+		logger.info("Updating order with id " + order.getId() + ".");
 		update(order);
 		return order;
 	}
 	
 	public void closeOrder(OrderEntity order) {
+		logger.info("Closing order with id " + order.getId() + ".");
 		order.setClosed(true);
 		updateOrder(order);
 		// Delete related offer
@@ -79,10 +86,12 @@ public class OrderService extends AbstractService<OrderEntity> {
 	}
 
 	public void deleteOrder(OrderEntity order) {
+		logger.info("Deleting order with id " + order.getId() + ".");
 		delete(order);
 	}
 
 	public OrderLineEntity getOrderLineBySgId(String sgId) {
+		logger.info("Retrieving orderline with remote id " + sgId + ".");
 		return getOrderDao().findOrderLineBySgId(sgId);
 	}
 }

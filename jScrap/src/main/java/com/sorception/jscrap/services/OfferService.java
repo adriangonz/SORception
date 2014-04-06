@@ -46,16 +46,19 @@ public class OfferService extends AbstractService<OfferEntity> {
 	private TokenService tokenService;
 		
 	public List<OfferEntity> getOpenedOffers() {
+		logger.info("Retrieving all opened offers.");
 		return getOfferDao().getOpenedOffers();
 	}
 	
 	public List<OfferEntity> getAcceptedOffers() {
+		logger.info("Retrieving all accepted offers.");
 		return getOfferDao().getAcceptedOffers();
 	}
 	
 	public OfferEntity addOffer(OfferDTO offerDTO) {
+		logger.info("Adding new offer.");
 		if(offerDTO.lines.size() == 0)
-			throw new BusinessException("Cannot create offer with no lines");
+			throw new BusinessException("Cannot create offer with no lines.");
 		OfferEntity offerEntity = toOfferEntity(offerDTO);
 		offerEntity = create(offerEntity);
 		amqService.sendNewOffer(offerEntity, tokenService.getValid());
@@ -63,6 +66,7 @@ public class OfferService extends AbstractService<OfferEntity> {
 	}
 	
 	public OfferEntity getOfferById(Long id) {
+		logger.info("Retrieving offer with id " + id + ".");
 		return this.findOne(id);
 	}
 	
@@ -72,6 +76,7 @@ public class OfferService extends AbstractService<OfferEntity> {
 	}
 	
 	public void deleteOffer(OfferEntity offer) {
+		logger.info("Deleting offer with id " + offer.getId() + ".");
 		amqService.sendDeleteOffer(offer,  tokenService.getValid());
 		deleteOfferWithoutAMQ(offer);
 	}
@@ -81,6 +86,7 @@ public class OfferService extends AbstractService<OfferEntity> {
 	}
 	
 	public OfferEntity updateOffer(Long offerId, OfferDTO offerToUpdate) {
+		logger.info("Updating offer with id " + offerId + ".");
 		OfferEntity offer = toOfferEntity(offerId, offerToUpdate);
 		update(offer);
 		if(!offer.isDeleted()) {
@@ -98,6 +104,7 @@ public class OfferService extends AbstractService<OfferEntity> {
 	}
 	
 	public OfferLineEntity getOfferLine(Long id) {
+		logger.info("Retrieving offerline with id " + id + ".");
 		OfferLineEntity line = getOfferDao().getOfferlineById(id);
 		if(line == null || line.isDeleted())
 			throw new ResourceNotFoundException("Offerline with id " + Long.toString(id) + " was not found");
