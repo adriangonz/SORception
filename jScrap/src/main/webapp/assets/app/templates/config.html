@@ -54,3 +54,23 @@
 
 <button class="btn btn-success" request-token-button>Pedir nuevo token</button>
 <button class="btn btn-info" check-token-status-button>Comprobar estado</button>
+
+<br/>
+<hr>
+<h4>Auditoria</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Mensaje</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="log in settings.logs | limitTo: 10" ng-class="{'success': log.username == 'system', 'warning': log.username == 'admin'}">
+            <td>{{log.username}}</td>
+            <td>{{log.message}}</td>
+            <td>{{log.date | date: 'short'}}</td>
+        </tr>
+    </tbody>
+</table>
