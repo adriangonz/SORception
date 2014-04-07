@@ -47,6 +47,14 @@ namespace ActiveMQHelper
             Producer.Send(textMessage);
         }
 
+        public void SendMessage(string message, long delay = 0)
+        {
+            if (_disposed) throw new ObjectDisposedException(GetType().Name);
+            var textMessage = Producer.CreateTextMessage(message);
+            textMessage.Properties["AMQ_SCHEDULED_DELAY"] = delay;
+            Producer.Send(textMessage);
+        }
+
         public void Dispose()
         {
             if (_disposed) return;

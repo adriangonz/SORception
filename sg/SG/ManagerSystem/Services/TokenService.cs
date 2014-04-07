@@ -13,60 +13,27 @@ namespace ManagerSystem.Services
     {
         public TokenService(UnitOfWork uow = null) : base(uow) { }
 
-        public TokenResponse validateJunkyardToken(string token_string)
-        {
-            if (token_string == null || token_string == "")
-                return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
-
-            JunkyardTokenEntity token;
-            try
-            {
-                token = unitOfWork.JunkyardTokenRepository.Get(t => t.token == token_string).First();
-            }
-            catch (InvalidOperationException)
-            {
-                return new TokenResponse("", TokenResponse.Code.NOT_FOUND);
-            }
-
-            if (token.status == TokenStatus.EXPIRED)
-                return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
-
-            if (token.type == TokenType.FINAL)
-                return new TokenResponse(token.token, TokenResponse.Code.CREATED);
-
-            TokenResponse.Code code;
-
-            token.status = TokenStatus.EXPIRED;
-            JunkyardTokenEntity new_token;
-            if (token.junkyard.status == JunkyardStatus.ACTIVE)
-            {
-                new_token = this.createJunkyardToken(TokenType.FINAL);
-                code = TokenResponse.Code.CREATED;
-            }
-            else
-            {
-                new_token = this.createJunkyardToken(TokenType.TEMPORAL);
-                code = TokenResponse.Code.NON_AUTHORITATIVE;
-            }
-            new_token.junkyard = token.junkyard;
-            unitOfWork.JunkyardTokenRepository.Insert(new_token);
-
-            unitOfWork.Save();
-
-            return new TokenResponse(new_token.token, code);
-        }
-
         public TokenResponse validateGarageToken(string token_string)
         {
+            return validateToken(token_string, false);
+        }
+
+        public TokenResponse validateJunkyardToken(string token_string)
+        {
+            return validateToken(token_string, true);
+        }
+
+        public TokenResponse validateToken(string token_string, bool is_junkyard)
+        {
             if (token_string == null || token_string == "")
                 return new TokenResponse("", TokenResponse.Code.BAD_REQUEST);
 
-            GarageTokenEntity token;
+            TokenEntity token;
             try
             {
-                token = unitOfWork.GarageTokenRepository.Get(t => t.token == token_string).First();
+                token = this.getToken(token_string);
             }
-            catch (InvalidOperationException)
+            catch (ArgumentException)
             {
                 return new TokenResponse("", TokenResponse.Code.NOT_FOUND);
             }
@@ -77,55 +44,44 @@ namespace ManagerSystem.Services
             if (token.type == TokenType.FINAL)
                 return new TokenResponse(token.token, TokenResponse.Code.CREATED);
 
-            TokenResponse.Code code;
-
             token.status = TokenStatus.EXPIRED;
-            GarageTokenEntity new_token;
-            if (token.garage.status == GarageStatus.ACTIVE)
+
+            TokenResponse.Code code;
+            TokenEntity new_token = new TokenEntity()
             {
-                new_token = this.createGarageToken(TokenType.FINAL);
+                token = this.createTokenString(),
+                type = TokenType.FINAL,
+                junkyard = token.junkyard,
+                garage = token.garage
+            };
+            if (token.junkyard.status == JunkyardStatus.ACTIVE)
+            {
+                new_token.status = TokenStatus.VALID;
                 code = TokenResponse.Code.CREATED;
             }
             else
             {
-                new_token = this.createGarageToken(TokenType.TEMPORAL);
+                new_token.status = TokenStatus.VALID;
                 code = TokenResponse.Code.NON_AUTHORITATIVE;
             }
-            new_token.garage = token.garage;
-            unitOfWork.GarageTokenRepository.Insert(new_token);
+            unitOfWork.TokenRepository.Insert(new_token);
 
             unitOfWork.Save();
 
             return new TokenResponse(new_token.token, code);
+
         }
 
-        public JunkyardTokenEntity createJunkyardToken(TokenType type = TokenType.TEMPORAL)
+        public TokenEntity createTemporalToken()
         {
-            JunkyardTokenEntity new_token = new JunkyardTokenEntity();
-
-            string token_string = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            token_string = token_string.Replace("=", "");
-            token_string = token_string.Replace("+", "");
-
-            new_token.token = token_string;
-            new_token.type = type;
-            new_token.status = TokenStatus.VALID;
-
-            return new_token;
+            return new TokenEntity()
+            {
+                token = this.createTokenString(),
+                type = TokenType.TEMPORAL
+            };
         }
 
-        public GarageTokenEntity createGarageToken(TokenType type = TokenType.TEMPORAL)
-        {
-            GarageTokenEntity new_token = new GarageTokenEntity();
-
-            new_token.token = this.createToken();
-            new_token.type = type;
-            new_token.status = TokenStatus.VALID;
-
-            return new_token;
-        }
-
-        private string createToken()
+        private string createTokenString()
         {
             SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
 
@@ -141,25 +97,32 @@ namespace ManagerSystem.Services
 
         public bool isValid(string token)
         {
-            return unitOfWork.JunkyardTokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any()
-                || unitOfWork.GarageTokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any();
+            return unitOfWork.TokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any();
         }
 
-        public GarageEntity getGarage(string token_string)
+        public TokenEntity getToken(string token_string)
         {
             if (token_string == null)
                 throw new ArgumentNullException();
 
-            GarageTokenEntity token;
             try
             {
-                token = unitOfWork.GarageTokenRepository.Get(t => t.token == token_string).First();
+                return unitOfWork.TokenRepository.Get(t => t.token == token_string).First();
             }
             catch (Exception ex)
             {
                 if (ex is ArgumentNullException || ex is InvalidOperationException)
                     throw new ArgumentException();
                 throw;
+            }
+        }
+
+        public GarageEntity getGarage(string token_string)
+        {
+            TokenEntity token = this.getToken(token_string);
+            if (token.garage == null)
+            {
+                throw new ArgumentException();
             }
 
             return token.garage;
@@ -167,19 +130,10 @@ namespace ManagerSystem.Services
 
         public JunkyardEntity getJunkyard(string token_string)
         {
-            if (token_string == null)
-                throw new ArgumentNullException();
-
-            JunkyardTokenEntity token;
-            try
+            TokenEntity token = this.getToken(token_string);
+            if (token.junkyard == null)
             {
-                token = unitOfWork.JunkyardTokenRepository.Get(t => t.token == token_string).First();
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentNullException || ex is InvalidOperationException)
-                    throw new ArgumentException();
-                throw;
+                throw new ArgumentException();
             }
 
             return token.junkyard;

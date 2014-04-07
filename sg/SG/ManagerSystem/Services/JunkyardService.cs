@@ -18,7 +18,7 @@ namespace ManagerSystem.Services
                 JunkyardEntity junkyard = new JunkyardEntity();
                 junkyard.name = e_junkyard.name;
                 junkyard.aes_pair = aesService.createAESPair(e_junkyard.aes_key, e_junkyard.aes_iv);
-                junkyard.tokens.Add(tokenService.createJunkyardToken(TokenType.TEMPORAL));
+                junkyard.tokens.Add(tokenService.createTemporalToken());
 
                 unitOfWork.JunkyardRepository.Insert(junkyard);
 

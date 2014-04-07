@@ -18,6 +18,6 @@ namespace ManagerSystem
         TokenResponse getState(string id);
 
         [OperationContract]
-        void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p);
+        void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p, AMQSecureMessage e);
     }
 }

@@ -19,7 +19,7 @@ namespace ManagerSystem.Services
             {
                 GarageEntity garage  = new GarageEntity();
                 garage.name = e_garage.name;
-                garage.tokens.Add(tokenService.createGarageToken(TokenType.TEMPORAL));
+                garage.tokens.Add(tokenService.createTemporalToken());
 
                 unitOfWork.GarageRepository.Insert(garage);
 
