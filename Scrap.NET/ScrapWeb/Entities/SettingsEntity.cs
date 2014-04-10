@@ -11,5 +11,8 @@ namespace ScrapWeb.Entities
         public String name;
         public TokenEntity validToken;
         public IEnumerable<TokenEntity> tokenList;
+
+        public AESPairEntity myAES { get; set; }
+        public AESPairEntity sgAES { get; set; }
     }
 }

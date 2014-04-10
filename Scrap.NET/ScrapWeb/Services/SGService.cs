@@ -5,16 +5,30 @@ using System.Linq;
 using System.Web;
 using ScrapWeb.Webservices;
 using ScrapWeb.Exceptions;
+using ScrapWeb.DataAccess;
 
 namespace ScrapWeb.Services
 {
     public class SGService
     {
-        private ExpDesguace toExpDesguace(SettingsEntity settingsEntity)
+        private ScrapContext scrapContext;
+   
+
+        public SGService()
         {
+            scrapContext = new ScrapContext();
+            
+        }
+
+        private ExpDesguace toExpDesguace(SettingsEntity settingsEntity, ScrapContext scrapContext)
+        {
+            AESService aes_service = new AESService();
+            AESPairEntity myPair = aes_service.getMyPair(); 
             return new ExpDesguace
             {
-                name = settingsEntity.name
+                name = settingsEntity.name,
+                aes_key = myPair.key,
+                aes_iv = myPair.iv
             };
         }
 
@@ -46,7 +60,7 @@ namespace ScrapWeb.Services
         {
             GestionDesguaceClient client = new GestionDesguaceClient();
             var settingsService = new SettingsService();
-            var tokenResponse = client.signUp(toExpDesguace(settingsService.getSimpleSettings()));
+            var tokenResponse = client.signUp(toExpDesguace(settingsService.getSimpleSettings(), scrapContext));
             return toTokenEntity(tokenResponse);
         }
 
@@ -54,7 +68,16 @@ namespace ScrapWeb.Services
         {
             GestionDesguaceClient client = new GestionDesguaceClient();
             var tokenResponse = client.getState(token);
-            return toTokenEntity(tokenResponse);
+           
+            TokenEntity Token =  toTokenEntity(tokenResponse);
+
+            if (Token.status== TokenStatus.VALID)
+            {
+                var aes_service = new AESService(scrapContext);
+                aes_service.saveSGPair(tokenResponse.aes_key, tokenResponse.aes_iv);
+            }
+
+            return Token;
         }
     }
 }
