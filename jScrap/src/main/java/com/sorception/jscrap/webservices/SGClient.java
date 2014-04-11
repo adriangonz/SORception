@@ -6,28 +6,7 @@
 
 package com.sorception.jscrap.webservices;
 
-import com.sorception.jscrap.error.ServiceUnavailableException;
-import com.sorception.jscrap.entities.SettingsEntity;
-import com.sorception.jscrap.entities.TokenEntity;
-import com.sorception.jscrap.entities.TokenEntity.TokenStatus;
-import com.sorception.jscrap.error.ResourceNotFoundException;
-import com.sorception.jscrap.generated.ExpDesguace;
-import com.sorception.jscrap.generated.GetState;
-import com.sorception.jscrap.generated.GetStateResponse;
-import com.sorception.jscrap.generated.ObjectFactory;
-import com.sorception.jscrap.generated.SignUp;
-import com.sorception.jscrap.generated.SignUpResponse;
-import com.sorception.jscrap.generated.TokenResponse;
-import com.sorception.jscrap.generated.TokenResponseCode;
-import com.sorception.jscrap.services.SettingsService;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +15,20 @@ import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.SoapMessage;
+
+import com.sorception.jscrap.entities.AESKeyEntity;
+import com.sorception.jscrap.entities.SettingsEntity;
+import com.sorception.jscrap.entities.TokenEntity;
+import com.sorception.jscrap.error.ServiceUnavailableException;
+import com.sorception.jscrap.generated.ExpDesguace;
+import com.sorception.jscrap.generated.GetState;
+import com.sorception.jscrap.generated.GetStateResponse;
+import com.sorception.jscrap.generated.ObjectFactory;
+import com.sorception.jscrap.generated.SignUp;
+import com.sorception.jscrap.generated.SignUpResponse;
+import com.sorception.jscrap.generated.TokenResponse;
+import com.sorception.jscrap.services.CryptoService;
+import com.sorception.jscrap.services.SettingsService;
 
 /**
  *
@@ -48,6 +41,9 @@ public class SGClient extends WebServiceGatewaySupport {
     SettingsService settingsService;
     
     @Autowired
+    CryptoService cryptoService;
+    
+    @Autowired
     ObjectFactory objectFactory;
     
     @Autowired
@@ -55,8 +51,11 @@ public class SGClient extends WebServiceGatewaySupport {
     
     private ExpDesguace desguace() {
         SettingsEntity settings = settingsService.getGlobalSettings();
+        AESKeyEntity aesKey = cryptoService.generateAES();
         ExpDesguace desguace = objectFactory.createExpDesguace();
         desguace.setName(objectFactory.createExpDesguaceName(settings.getName()));
+        desguace.setAesIv(objectFactory.createExpDesguaceAesIv(aesKey.getIv()));
+        desguace.setAesKey(objectFactory.createExpDesguaceAesKey(aesKey.getKey()));
         return desguace;
     }
     
