@@ -1,16 +1,5 @@
 INSERT INTO ApplicationUser (created, updated, isAdmin, name, username, password) VALUES (NOW(), NOW(), true, 'Administrador', 'admin', '4bb43533b8ed0f6a3f762f5b8acfbc25535fb8a4c5e74f9165800cc12989b43d');
-
-# Logback: the reliable, generic, fast and flexible logging framework.
-# Copyright (C) 1999-2010, QOS.ch. All rights reserved.
-#
-# See http://logback.qos.ch/license.html for the applicable licensing 
-# conditions.
-
-# This SQL script creates the required tables by ch.qos.logback.classic.db.DBAppender.
-#
-# It is intended for MySQL databases. It has been tested on MySQL 5.1.37 
-# on Linux
-
+--INSERT INTO Token(created, updated, status, token) VALUES(NOW(), NOW(), 'VALID', 'asd');
 
 BEGIN;
 DROP TABLE IF EXISTS logging_event_property;

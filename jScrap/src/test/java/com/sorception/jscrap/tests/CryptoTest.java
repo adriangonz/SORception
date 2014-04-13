@@ -29,16 +29,18 @@ public class CryptoTest extends BaseTest {
 	public void retrieveAES_ShouldReturnObject() {
 		AESKeyEntity aesKey = cryptoService.generateAES();
 		AESKeyEntity retrievedKey = cryptoService.getScrapKey();
-		assertEquals(aesKey.getIv(), retrievedKey.getIv());
-		assertEquals(aesKey.getKey(), retrievedKey.getKey());
+		assertArrayEquals(aesKey.getIv(), retrievedKey.getIv());
+		assertArrayEquals(aesKey.getKey(), retrievedKey.getKey());
 	}
 	
 	@Test
-	public void retrieveAES_TwoCreated_ShouldReturnObject() {
+	public void retrieveAES_TwoCreated_ShouldReturnObject() throws InterruptedException {
 		cryptoService.generateAES();
+		Thread.sleep(1000);
 		AESKeyEntity aesKey = cryptoService.generateAES();
+		Thread.sleep(1000);
 		AESKeyEntity retrievedKey = cryptoService.getScrapKey();
-		assertEquals(aesKey.getIv(), retrievedKey.getIv());
-		assertEquals(aesKey.getKey(), retrievedKey.getKey());
+		assertArrayEquals(aesKey.getIv(), retrievedKey.getIv());
+		assertArrayEquals(aesKey.getKey(), retrievedKey.getKey());
 	}
 }

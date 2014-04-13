@@ -46,7 +46,7 @@ public class CryptoService extends AbstractService<AESKeyEntity> {
 	}
 	
 	private AESKeyEntity getKey(AESKeyType type) {
-		List<AESKeyEntity> keys = getCustomDao().findByTypeOrderByCreatedAsc(type);
+		List<AESKeyEntity> keys = getCustomDao().findByTypeOrderByCreated(type);
 		if(keys.isEmpty())
 			throw new ResourceNotFoundException(type.toString() + " key not found");
 		return keys.get(0);
