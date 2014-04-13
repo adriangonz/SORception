@@ -37,11 +37,19 @@ public class CryptoService extends AbstractService<AESKeyEntity> {
 	    return aes;
 	}
 	
+	public void saveSGKey(byte[] key, byte[] iv) {
+//		logger.info("Saving SG AES Key and IV.");
+		AESKeyEntity aes = new AESKeyEntity(iv, key, AESKeyType.SG);
+		this.create(aes);
+	}
+	
 	public AESKeyEntity getScrapKey() {
+		logger.info("Retrieving jScrap AES Key and IV.");
 		return getKey(AESKeyType.SCRAP);
 	}
 	
 	public AESKeyEntity getSGKey() {
+		logger.info("Retrieving SG AES Key and IV.");
 		return getKey(AESKeyType.SG);
 	}
 	

@@ -16,6 +16,7 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.SoapMessage;
 
+import com.google.common.base.Throwables;
 import com.sorception.jscrap.entities.AESKeyEntity;
 import com.sorception.jscrap.entities.SettingsEntity;
 import com.sorception.jscrap.entities.TokenEntity;
@@ -27,6 +28,7 @@ import com.sorception.jscrap.generated.ObjectFactory;
 import com.sorception.jscrap.generated.SignUp;
 import com.sorception.jscrap.generated.SignUpResponse;
 import com.sorception.jscrap.generated.TokenResponse;
+import com.sorception.jscrap.generated.TokenResponseCode;
 import com.sorception.jscrap.services.CryptoService;
 import com.sorception.jscrap.services.SettingsService;
 
@@ -86,6 +88,7 @@ public class SGClient extends WebServiceGatewaySupport {
                 this.marshalWithSoapActionHeader(signUpRequest, "IGestionDesguace/signUp");
         	return this.createTokenEntity(response.getSignUpResult().getValue());
         } catch(Exception ex) {
+        	logger.info(Throwables.getStackTraceAsString(ex));
         	throw new ServiceUnavailableException("Web Service not available");
         }
     }
@@ -97,6 +100,7 @@ public class SGClient extends WebServiceGatewaySupport {
         	GetStateResponse response = (GetStateResponse) 
                 this.marshalWithSoapActionHeader(getStateRequest, "IGestionDesguace/getState");
         	TokenResponse tokenResponse = response.getGetStateResult().getValue();
+        	this.saveAESKey(tokenResponse);
         	return this.createTokenEntity(tokenResponse);
         } catch(Exception ex) {
         	throw new ServiceUnavailableException("Web Service not available");
@@ -121,5 +125,13 @@ public class SGClient extends WebServiceGatewaySupport {
     	}
     	TokenEntity tokenEntity = new TokenEntity(token, tokenStatus);
     	return tokenEntity;
+    }
+    
+    private void saveAESKey(TokenResponse tokenResponse) {
+    	if(tokenResponse.getStatus() == TokenResponseCode.CREATED) {
+    		byte[] aesKey = tokenResponse.getAesKey().getValue();
+    		byte[] aesIv = tokenResponse.getAesIv().getValue();
+    		cryptoService.saveSGKey(aesKey, aesIv);
+    	}
     }
 }
