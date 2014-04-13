@@ -14,6 +14,7 @@ namespace ScrapWeb.Services
 {
     public class AMQService
     {
+        private AESService aes_service;
         private static readonly string originSolicitudes = "Solicitudes";
         private static readonly string originPedidos = "Pedidos";
         private static readonly string destination = "Ofertas";
@@ -22,6 +23,12 @@ namespace ScrapWeb.Services
         private TopicSubscriber topicSubscriberPedidos;
 
         private static TopicPublisher _topicPublisher;
+
+        public AMQService()
+        {
+            aes_service = new AESService();
+        }
+
         private static TopicPublisher topicPublisher 
         {
             get 
@@ -119,8 +126,18 @@ namespace ScrapWeb.Services
 
         void topicSubscriberSolicitudes_OnMessageReceived(string message)
         {
-            AMQSolicitudMessage solicitudMessage = 
-                (AMQSolicitudMessage)topicSubscriberSolicitudes.FromXML(message, (new AMQSolicitudMessage()).GetType());
+            //Obtengo el mensaje encriptado
+            AMQSecureMessage securityMessage =
+                (AMQSecureMessage)topicSubscriberSolicitudes.FromXML(message, (new AMQSecureMessage()).GetType());
+            
+            //Desencripto el mensaje encriptado con My pareja AES
+            string stringMessage = aes_service.decryptMessage_with_SGPair(securityMessage.data);
+
+            //Obtengo la Solicitud desencriptada
+            AMQSolicitudMessage solicitudMessage =
+                (AMQSolicitudMessage)topicSubscriberSolicitudes.FromXML(stringMessage, (new AMQSolicitudMessage()).GetType());
+
+
             Trace.WriteLine("Received order with remote id " + solicitudMessage.solicitud.id + " and code " + solicitudMessage.code);
             OrderService orderService = new OrderService();
             OrderEntity orderEntity;
@@ -185,20 +202,34 @@ namespace ScrapWeb.Services
         {
             TokenService tokenService = new TokenService();
             TokenEntity tokenEntity = tokenService.getValid();
-            AMQPedidoMessage pedidoMessage =
-                (AMQPedidoMessage)topicSubscriberPedidos.FromXML(message, (new AMQPedidoMessage()).GetType());
-            if(pedidoMessage.desguace_id == tokenEntity.token)
+
+            //Obtengo el mensaje encriptado
+            AMQSecureMessage securityMessage =
+                (AMQSecureMessage)topicSubscriberSolicitudes.FromXML(message, (new AMQSecureMessage()).GetType());
+
+            if(securityMessage.junkyard_token == tokenEntity.token) //Si es para mi...
             {
-                OfferService offerService = new OfferService();
-                Trace.WriteLine(
-                    "Saving accepted offer for me with remote id " + pedidoMessage.pedido.oferta_id.ToString() + "...");
-                offerService.update(toAcceptedOffers(pedidoMessage, offerService));
+                //Desencripto el mensaje encriptado con My pareja AES
+                string stringMessage = aes_service.decryptMessage_with_MyPair(securityMessage.data);
+
+                //Obtengo el Pedido desencriptado
+                AMQPedidoMessage pedidoMessage =
+                    (AMQPedidoMessage)topicSubscriberPedidos.FromXML(stringMessage, (new AMQPedidoMessage()).GetType());
+
+                if (pedidoMessage.desguace_id == tokenEntity.token)
+                {
+                    OfferService offerService = new OfferService();
+                    Trace.WriteLine(
+                        "Saving accepted offer for me with remote id " + pedidoMessage.pedido.oferta_id.ToString() + "...");
+                    offerService.update(toAcceptedOffers(pedidoMessage, offerService));
+                }
+                else
+                {
+                    Trace.WriteLine(
+                        "Ignoring accepted offer for another junkyard with remote id " + pedidoMessage.pedido.oferta_id.ToString() + "...");
+                }
             }
-            else 
-            {
-                Trace.WriteLine(
-                    "Ignoring accepted offer for another junkyard with remote id " + pedidoMessage.pedido.oferta_id.ToString()  + "...");
-            }
+
         }
 
         private List<OfferLineEntity> toAcceptedOffers(AMQPedidoMessage pedidoMessage, OfferService offerService) 

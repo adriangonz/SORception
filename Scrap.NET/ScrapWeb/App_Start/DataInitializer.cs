@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using ScrapWeb.DataAccess;
 using ScrapWeb.Entities;
 using ScrapWeb.Repositories;
+using ScrapWeb.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,6 +19,7 @@ namespace ScrapWeb
             var UserManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
             var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
+
             if (!RoleManager.RoleExists("ROLE_ADMIN"))
             {
                 RoleManager.Create(new IdentityRole("ROLE_ADMIN"));
@@ -29,7 +31,10 @@ namespace ScrapWeb
             {
                 UserManager.AddToRole(user.Id, "ROLE_ADMIN");
             }
-            
+
+            AESService aes_service = new AESService(context);
+            aes_service.generateMyPair();
+
             base.Seed(context);
         }
     }

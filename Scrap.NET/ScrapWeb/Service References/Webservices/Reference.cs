@@ -26,6 +26,12 @@ namespace ScrapWeb.Webservices {
         private bool activeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_ivField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_keyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -50,6 +56,32 @@ namespace ScrapWeb.Webservices {
                 if ((this.activeField.Equals(value) != true)) {
                     this.activeField = value;
                     this.RaisePropertyChanged("active");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_iv {
+            get {
+                return this.aes_ivField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_ivField, value) != true)) {
+                    this.aes_ivField = value;
+                    this.RaisePropertyChanged("aes_iv");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_key {
+            get {
+                return this.aes_keyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_keyField, value) != true)) {
+                    this.aes_keyField = value;
+                    this.RaisePropertyChanged("aes_key");
                 }
             }
         }
@@ -100,6 +132,12 @@ namespace ScrapWeb.Webservices {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_ivField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_keyField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private ScrapWeb.Webservices.TokenResponseCode statusField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -112,6 +150,32 @@ namespace ScrapWeb.Webservices {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_iv {
+            get {
+                return this.aes_ivField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_ivField, value) != true)) {
+                    this.aes_ivField = value;
+                    this.RaisePropertyChanged("aes_iv");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_key {
+            get {
+                return this.aes_keyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_keyField, value) != true)) {
+                    this.aes_keyField = value;
+                    this.RaisePropertyChanged("aes_key");
+                }
             }
         }
         
@@ -1023,6 +1087,67 @@ namespace ScrapWeb.Webservices {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="AMQSecureMessage", Namespace="http://sorception.azurewebsites.net/")]
+    [System.SerializableAttribute()]
+    public partial class AMQSecureMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string dataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string junkyard_tokenField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string data {
+            get {
+                return this.dataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.dataField, value) != true)) {
+                    this.dataField = value;
+                    this.RaisePropertyChanged("data");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string junkyard_token {
+            get {
+                return this.junkyard_tokenField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.junkyard_tokenField, value) != true)) {
+                    this.junkyard_tokenField = value;
+                    this.RaisePropertyChanged("junkyard_token");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://sorception.azurewebsites.net/", ConfigurationName="Webservices.IGestionDesguace")]
     public interface IGestionDesguace {
@@ -1040,10 +1165,10 @@ namespace ScrapWeb.Webservices {
         System.Threading.Tasks.Task<ScrapWeb.Webservices.TokenResponse> getStateAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sorception.azurewebsites.net/IGestionDesguace/dummy", ReplyAction="http://sorception.azurewebsites.net/IGestionDesguace/dummyResponse")]
-        void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p);
+        void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p, ScrapWeb.Webservices.AMQSecureMessage e);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sorception.azurewebsites.net/IGestionDesguace/dummy", ReplyAction="http://sorception.azurewebsites.net/IGestionDesguace/dummyResponse")]
-        System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p);
+        System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p, ScrapWeb.Webservices.AMQSecureMessage e);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1089,12 +1214,12 @@ namespace ScrapWeb.Webservices {
             return base.Channel.getStateAsync(id);
         }
         
-        public void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p) {
-            base.Channel.dummy(s, o, p);
+        public void dummy(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p, ScrapWeb.Webservices.AMQSecureMessage e) {
+            base.Channel.dummy(s, o, p, e);
         }
         
-        public System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p) {
-            return base.Channel.dummyAsync(s, o, p);
+        public System.Threading.Tasks.Task dummyAsync(ScrapWeb.Webservices.AMQSolicitudMessage s, ScrapWeb.Webservices.AMQOfertaMessage o, ScrapWeb.Webservices.AMQPedidoMessage p, ScrapWeb.Webservices.AMQSecureMessage e) {
+            return base.Channel.dummyAsync(s, o, p, e);
         }
     }
 }

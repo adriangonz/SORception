@@ -40,5 +40,6 @@ namespace ScrapWeb.Services
                 name = scrapSettings.Name
             };
         }
+
     }
 }

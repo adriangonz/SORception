@@ -5,6 +5,7 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 	     	"validToken":{},
 	     	"tokenList": {},
 	     	"userList": {},
+	     	"logs": [],
 	 		},
 	 
 	    getSettings: function () {
@@ -17,6 +18,13 @@ module.service( 'SettingsService', [ '$rootScope', '$http', function( $rootScope
 			  	alert(status+" | "+data);
 	       		$rootScope.$broadcast( 'settings.update' );
 			  });    	
+			$http({method: 'GET', url: '/jScrap/api/log'}).
+			  success(function(data, status, headers, config) {
+	       		service.settings.logs = data;
+			  }).
+			  error(function(data, status, headers, config) {
+			  	alert(status+" | "+data);
+			  });
 	    },
 
 	    postSettings: function(){
