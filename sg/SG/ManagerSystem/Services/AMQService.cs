@@ -45,20 +45,20 @@ namespace ManagerSystem.Services
             };
         }
 
-        public void publishOrderConfirmation(ExpPedido order_confirmation, string junkyard_token)
+        public void publishOrderConfirmation(ExpPedido order_confirmation, JunkyardEntity junkyard)
         {
             AMQPedidoMessage msg = new AMQPedidoMessage
             {
                 pedido = order_confirmation,
-                desguace_id = junkyard_token
+                desguace_id = junkyard.current_token
             };
 
             TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.OfferConfirmations);
 
-            //AESPairEntity aes_pair = configService.getAESPair();
-            //AMQSecureMessage secure_msg = this.getSecureMessage((object)msg, aes_pair);
+            AESPairEntity aes_pair = junkyard.aes_pair;
+            AMQSecureMessage secure_msg = this.getSecureMessage((object)msg, aes_pair);
 
-            //publisher.SendMessage((object)secure_msg);
+            publisher.SendMessage((object)secure_msg);
         }
 
         public void scheduleJob(JobEntity job)
@@ -98,28 +98,34 @@ namespace ManagerSystem.Services
             topicSubscriber.Start(subscription_name);
         }
 
-        public void processOfferMessage(AMQOfertaMessage msg)
+        public void processOfferMessage(AMQSecureMessage msg)
         {
-            authService.setJunkyardToken(msg.desguace_id);
+            JunkyardEntity junkyard = junkyardService.getJunkyardWithToken(msg.junkyard_token);
+            AESPairEntity aes_pair = junkyard.aes_pair;
+
+            string xml_msg = aesService.decryptMessage(msg.data, aes_pair);
+            AMQOfertaMessage decoded_msg = (AMQOfertaMessage)TopicSubscriber.FromXML(xml_msg, (new AMQOfertaMessage()).GetType());
+
+            authService.setJunkyardToken(decoded_msg.desguace_id);
             authService.authenticateCall();
 
-            switch (msg.code)
+            switch (decoded_msg.code)
             {
                 case AMQOfertaMessage.Code.New:
-                    offerService.addOffer(msg.oferta);
+                    offerService.addOffer(decoded_msg.oferta);
                     break;
                 case AMQOfertaMessage.Code.Update:
-                    offerService.putOffer(msg.oferta);
+                    offerService.putOffer(decoded_msg.oferta);
                     break;
                 case AMQOfertaMessage.Code.Delete:
-                    offerService.deleteOffer(msg.oferta.id);
+                    offerService.deleteOffer(decoded_msg.oferta.id);
                     break;
             }
         }
 
         private void offerSubscriber_OnMessageReceived(string message)
         {
-            AMQOfertaMessage msg = (AMQOfertaMessage)TopicSubscriber.FromXML(message, (new AMQOfertaMessage()).GetType());
+            AMQSecureMessage msg = (AMQSecureMessage)TopicSubscriber.FromXML(message, (new AMQSecureMessage()).GetType());
             this.processOfferMessage(msg);
         }
 

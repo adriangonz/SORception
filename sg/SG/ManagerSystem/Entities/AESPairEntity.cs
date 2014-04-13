@@ -9,7 +9,7 @@ namespace ManagerSystem.Entities
 {
     public class AESPairEntity : BaseEntity
     {
-        public byte[] key;
-        public byte[] iv;
+        public byte[] key { get; set; }
+        public byte[] iv { get; set; }
     }
 }

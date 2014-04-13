@@ -30,7 +30,7 @@ namespace ManagerSystem.Services
             if (e_order_confirmation.lineas.Count > 0)
             {
                 e_order_confirmation.oferta_id = offer.id;
-                amqService.publishOrderConfirmation(e_order_confirmation, offer.junkyard.current_token);
+                amqService.publishOrderConfirmation(e_order_confirmation, offer.junkyard);
             }
         }
 
@@ -67,7 +67,7 @@ namespace ManagerSystem.Services
                                   quantity = offer_line.quantity
                               }).ToList()
                 };
-                amqService.publishOrderConfirmation(e_order_confirmation, offer.junkyard.current_token);
+                amqService.publishOrderConfirmation(e_order_confirmation, offer.junkyard);
             }
         }
 
@@ -130,7 +130,7 @@ namespace ManagerSystem.Services
             }
             unitOfWork.Save();
 
-            amqService.publishOrderConfirmation(e_selected_offers, offer.junkyard.current_token);
+            amqService.publishOrderConfirmation(e_selected_offers, offer.junkyard);
         }
 
         private void validateOfferLine(OfferLineEntity offer_line, int offer_id)

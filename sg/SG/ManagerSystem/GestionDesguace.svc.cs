@@ -78,29 +78,29 @@ namespace ManagerSystem
             return response;
         }
 
-        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p, AMQSecureMessage e) 
+        public void dummy(AMQSolicitudMessage s, AMQOfertaMessage o, AMQPedidoMessage p, AMQSecureMessage e)
         {
-            o = new AMQOfertaMessage
-            {
-                code = AMQOfertaMessage.Code.New,
-                desguace_id = "SDrMmE5BzEiq3fJeTCUwSw",
-                oferta = new ExpOferta
-                {
-                    id_en_desguace = 200,
-                    solicitud_id = 4,
-                    lineas = new List<ExpOferta.Line>()
-                }
-            };
-            o.oferta.lineas.Add(new ExpOferta.Line
-            {
-                id_en_desguace = 201,
-                linea_solicitud_id = 1,
-                notes = "una patata",
-                price = 1,
-                quantity = 5
-            });
-            
-            amqService.processOfferMessage(o);
+            //o = new AMQOfertaMessage
+            //{
+            //    code = AMQOfertaMessage.Code.New,
+            //    desguace_id = "SDrMmE5BzEiq3fJeTCUwSw",
+            //    oferta = new ExpOferta
+            //    {
+            //        id_en_desguace = 200,
+            //        solicitud_id = 4,
+            //        lineas = new List<ExpOferta.Line>()
+            //    }
+            //};
+            //o.oferta.lineas.Add(new ExpOferta.Line
+            //{
+            //    id_en_desguace = 201,
+            //    linea_solicitud_id = 1,
+            //    notes = "una patata",
+            //    price = 1,
+            //    quantity = 5
+            //});
+
+            //amqService.processOfferMessage(o);
         }
     }
 }

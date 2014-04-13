@@ -10,7 +10,7 @@ namespace ManagerSystem.DataAccess
 {
     public class MSContext : DbContext
     {
-        DbSet<UserEntity> AppConfig { get; set; }
+        DbSet<AppConfig> AppConfig { get; set; }
         DbSet<UserEntity> User { get; set; }
         DbSet<TokenEntity> Token { get; set; }
         DbSet<GarageEntity> Garage { get; set; }
