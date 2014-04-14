@@ -288,9 +288,11 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <None Include="Properties\PublishProfiles\tallernet - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - FTP %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - FTP %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - Web Deploy %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -306,13 +308,13 @@
     <Content Include="Scripts\respond.min.js" />
     <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
     <None Include="Service References\ServiceTaller\configuration.svcinfo" />
-    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.TokenResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExpOferta.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExpSolicitud.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.TokenResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\ServiceTaller\GestionTaller2.wsdl" />
@@ -333,6 +335,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Service References\ServiceTaller\GestionTaller.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

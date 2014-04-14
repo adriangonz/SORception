@@ -1,8 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://sorception.azurewebsites.net/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:i0="http://tempuri.org/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sorception.azurewebsites.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-  <wsdl:import namespace="http://tempuri.org/" location="https://sorception.azurewebsites.net/GestionTaller.svc?wsdl" />
-  <wsdl:types />
-  <wsdl:binding name="BasicHttpBinding_IGestionTaller" type="i0:IGestionTaller">
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpBinding_IGestionTaller_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" namespace="https://sorception.azurewebsites.net/" />
+      <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGestionTaller_signUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:signUp" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_signUp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:signUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getState_InputMessage">
+    <wsdl:part name="parameters" element="tns:getState" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_putTaller_InputMessage">
+    <wsdl:part name="parameters" element="tns:putTaller" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_putTaller_OutputMessage">
+    <wsdl:part name="parameters" element="tns:putTallerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_deleteTaller_InputMessage">
+    <wsdl:part name="parameters" element="tns:deleteTaller" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_deleteTaller_OutputMessage">
+    <wsdl:part name="parameters" element="tns:deleteTallerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getSolicitud_InputMessage">
+    <wsdl:part name="parameters" element="tns:getSolicitud" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getSolicitud_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getSolicitudResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getSolicitudes_InputMessage">
+    <wsdl:part name="parameters" element="tns:getSolicitudes" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getSolicitudes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getSolicitudesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_addSolicitud_InputMessage">
+    <wsdl:part name="parameters" element="tns:addSolicitud" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_addSolicitud_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addSolicitudResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_putSolicitud_InputMessage">
+    <wsdl:part name="parameters" element="tns:putSolicitud" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_putSolicitud_OutputMessage">
+    <wsdl:part name="parameters" element="tns:putSolicitudResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_deleteSolicitud_InputMessage">
+    <wsdl:part name="parameters" element="tns:deleteSolicitud" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_deleteSolicitud_OutputMessage">
+    <wsdl:part name="parameters" element="tns:deleteSolicitudResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getOfertas_InputMessage">
+    <wsdl:part name="parameters" element="tns:getOfertas" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getOfertas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getOfertasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getOferta_InputMessage">
+    <wsdl:part name="parameters" element="tns:getOferta" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_getOferta_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getOfertaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_selectOferta_InputMessage">
+    <wsdl:part name="parameters" element="tns:selectOferta" />
+  </wsdl:message>
+  <wsdl:message name="IGestionTaller_selectOferta_OutputMessage">
+    <wsdl:part name="parameters" element="tns:selectOfertaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGestionTaller">
+    <wsdl:operation name="signUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/signUp" message="tns:IGestionTaller_signUp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/signUpResponse" message="tns:IGestionTaller_signUp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getState" message="tns:IGestionTaller_getState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getStateResponse" message="tns:IGestionTaller_getState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="putTaller">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/putTaller" message="tns:IGestionTaller_putTaller_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/putTallerResponse" message="tns:IGestionTaller_putTaller_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteTaller">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/deleteTaller" message="tns:IGestionTaller_deleteTaller_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/deleteTallerResponse" message="tns:IGestionTaller_deleteTaller_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getSolicitud">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getSolicitud" message="tns:IGestionTaller_getSolicitud_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getSolicitudResponse" message="tns:IGestionTaller_getSolicitud_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getSolicitudes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getSolicitudes" message="tns:IGestionTaller_getSolicitudes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getSolicitudesResponse" message="tns:IGestionTaller_getSolicitudes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="addSolicitud">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/addSolicitud" message="tns:IGestionTaller_addSolicitud_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/addSolicitudResponse" message="tns:IGestionTaller_addSolicitud_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="putSolicitud">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/putSolicitud" message="tns:IGestionTaller_putSolicitud_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/putSolicitudResponse" message="tns:IGestionTaller_putSolicitud_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteSolicitud">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/deleteSolicitud" message="tns:IGestionTaller_deleteSolicitud_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/deleteSolicitudResponse" message="tns:IGestionTaller_deleteSolicitud_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getOfertas">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getOfertas" message="tns:IGestionTaller_getOfertas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getOfertasResponse" message="tns:IGestionTaller_getOfertas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getOferta">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/getOferta" message="tns:IGestionTaller_getOferta_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/getOfertaResponse" message="tns:IGestionTaller_getOferta_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="selectOferta">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGestionTaller/selectOferta" message="tns:IGestionTaller_selectOferta_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGestionTaller/selectOfertaResponse" message="tns:IGestionTaller_selectOferta_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IGestionTaller" type="tns:IGestionTaller">
+    <wsp:PolicyReference URI="#BasicHttpBinding_IGestionTaller_policy" />
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="signUp">
       <soap:operation soapAction="http://tempuri.org/IGestionTaller/signUp" style="document" />

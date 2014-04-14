@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" namespace="http://sorception.azurewebsites.net/" />
+  <xs:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" namespace="https://sorception.azurewebsites.net/" />
   <xs:element name="signUp">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://sorception.azurewebsites.net/" minOccurs="0" name="et" nillable="true" type="q1:ExpTaller" />
+        <xs:element xmlns:q1="https://sorception.azurewebsites.net/" minOccurs="0" name="et" nillable="true" type="q1:ExpTaller" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="signUpResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://sorception.azurewebsites.net/" minOccurs="0" name="signUpResult" nillable="true" type="q2:TokenResponse" />
+        <xs:element xmlns:q2="https://sorception.azurewebsites.net/" minOccurs="0" name="signUpResult" nillable="true" type="q2:TokenResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -25,14 +25,14 @@
   <xs:element name="getStateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://sorception.azurewebsites.net/" minOccurs="0" name="getStateResult" nillable="true" type="q3:TokenResponse" />
+        <xs:element xmlns:q3="https://sorception.azurewebsites.net/" minOccurs="0" name="getStateResult" nillable="true" type="q3:TokenResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="putTaller">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://sorception.azurewebsites.net/" minOccurs="0" name="t" nillable="true" type="q4:ExpTaller" />
+        <xs:element xmlns:q4="https://sorception.azurewebsites.net/" minOccurs="0" name="t" nillable="true" type="q4:ExpTaller" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -65,7 +65,7 @@
   <xs:element name="getSolicitudResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://sorception.azurewebsites.net/" minOccurs="0" name="getSolicitudResult" nillable="true" type="q5:ExpSolicitud" />
+        <xs:element xmlns:q5="https://sorception.azurewebsites.net/" minOccurs="0" name="getSolicitudResult" nillable="true" type="q5:ExpSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -77,14 +77,14 @@
   <xs:element name="getSolicitudesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://sorception.azurewebsites.net/" minOccurs="0" name="getSolicitudesResult" nillable="true" type="q6:ArrayOfExpSolicitud" />
+        <xs:element xmlns:q6="https://sorception.azurewebsites.net/" minOccurs="0" name="getSolicitudesResult" nillable="true" type="q6:ArrayOfExpSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="addSolicitud">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://sorception.azurewebsites.net/" minOccurs="0" name="s" nillable="true" type="q7:ExpSolicitud" />
+        <xs:element xmlns:q7="https://sorception.azurewebsites.net/" minOccurs="0" name="s" nillable="true" type="q7:ExpSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -98,7 +98,7 @@
   <xs:element name="putSolicitud">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://sorception.azurewebsites.net/" minOccurs="0" name="s" nillable="true" type="q8:ExpSolicitud" />
+        <xs:element xmlns:q8="https://sorception.azurewebsites.net/" minOccurs="0" name="s" nillable="true" type="q8:ExpSolicitud" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -133,7 +133,7 @@
   <xs:element name="getOfertasResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://sorception.azurewebsites.net/" minOccurs="0" name="getOfertasResult" nillable="true" type="q9:ArrayOfExpOferta" />
+        <xs:element xmlns:q9="https://sorception.azurewebsites.net/" minOccurs="0" name="getOfertasResult" nillable="true" type="q9:ArrayOfExpOferta" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -147,14 +147,14 @@
   <xs:element name="getOfertaResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://sorception.azurewebsites.net/" minOccurs="0" name="getOfertaResult" nillable="true" type="q10:ExpOferta" />
+        <xs:element xmlns:q10="https://sorception.azurewebsites.net/" minOccurs="0" name="getOfertaResult" nillable="true" type="q10:ExpOferta" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="selectOferta">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://sorception.azurewebsites.net/" minOccurs="0" name="p" nillable="true" type="q11:ExpPedido" />
+        <xs:element xmlns:q11="https://sorception.azurewebsites.net/" minOccurs="0" name="p" nillable="true" type="q11:ExpPedido" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

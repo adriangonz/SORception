@@ -15,7 +15,7 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExpTaller", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpTaller", Namespace="https://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
     public partial class ExpTaller : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -92,12 +92,18 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TokenResponse", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TokenResponse", Namespace="https://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
     public partial class TokenResponse : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_ivField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_keyField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private Eggplant.ServiceTaller.TokenResponseCode statusField;
@@ -112,6 +118,32 @@ namespace Eggplant.ServiceTaller {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_iv {
+            get {
+                return this.aes_ivField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_ivField, value) != true)) {
+                    this.aes_ivField = value;
+                    this.RaisePropertyChanged("aes_iv");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_key {
+            get {
+                return this.aes_keyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_keyField, value) != true)) {
+                    this.aes_keyField = value;
+                    this.RaisePropertyChanged("aes_key");
+                }
             }
         }
         
@@ -173,7 +205,7 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExpSolicitud", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpSolicitud", Namespace="https://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
     public partial class ExpSolicitud : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -423,7 +455,7 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExpOferta", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpOferta", Namespace="https://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
     public partial class ExpOferta : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -673,7 +705,7 @@ namespace Eggplant.ServiceTaller {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExpPedido", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpPedido", Namespace="https://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
     public partial class ExpPedido : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
