@@ -19,14 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="https://sorception.azurewebsites.net/GestionTaller.svc?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://sorception.azurewebsites.net/GestionTaller.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="GestionTaller4.xsd" MetadataType="Schema" ID="0c839113-4189-4306-890e-74e2bbe0576b" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd3" />
-    <MetadataFile FileName="GestionTaller41.xsd" MetadataType="Schema" ID="55861b09-64ca-412c-abd4-78dd8f3730d4" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionTaller.disco" MetadataType="Disco" ID="1e95cc62-1322-4bac-a282-f4c4773f9cc9" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?disco" />
     <MetadataFile FileName="GestionTaller42.xsd" MetadataType="Schema" ID="69d3823f-d2c5-4279-ad93-8a049112fd87" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd1" />
     <MetadataFile FileName="GestionTaller43.xsd" MetadataType="Schema" ID="c4c4c945-55f5-41bd-9d8e-9fa188699ce1" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd2" />
     <MetadataFile FileName="GestionTaller2.wsdl" MetadataType="Wsdl" ID="1238dac5-1986-4f18-8ff5-0232537115c9" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?wsdl" />
+    <MetadataFile FileName="GestionTaller41.xsd" MetadataType="Schema" ID="55861b09-64ca-412c-abd4-78dd8f3730d4" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd0" />
     <MetadataFile FileName="GestionTaller21.wsdl" MetadataType="Wsdl" ID="c90386de-1088-4d18-a080-fc5f990d2a82" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionTaller.svc?wsdl=wsdl0" />
   </Metadata>
   <Extensions>

@@ -85,6 +85,7 @@ namespace Eggplant.Application
                 lin_externa.description = lin_interna.descripcion;
                 lin_externa.quantity = lin_interna.cantidad;
                 lin_externa.flag = ExpSolicitudLine.castToFlag(lin_interna.criterio);
+                lin_externa.action = SolicitudLineDTO.NEW;
                 lineas_externas.Add(lin_externa);
             }
             ExpSolicitud sol_externa = new ExpSolicitud();

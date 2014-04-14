@@ -26,7 +26,7 @@ namespace Eggplant.Filters
                 if (t != null)
                 {
                     MessageHeader header = MessageHeader.
-                           CreateHeader("Authorization", "http://sorception.azurewebsites.net/", t.token);
+                           CreateHeader("Authorization", "https://sorception.azurewebsites.net/", t.token);
                     request.Headers.Add(header);
                 }
             

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd2" namespace="http://sorception.azurewebsites.net/" />
+  <xs:import schemaLocation="https://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd2" namespace="https://sorception.azurewebsites.net/" />
   <xs:element name="getDesguaces">
     <xs:complexType>
       <xs:sequence />
@@ -9,7 +9,7 @@
   <xs:element name="getDesguacesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://sorception.azurewebsites.net/" minOccurs="0" name="getDesguacesResult" nillable="true" type="q1:ArrayOfExpDesguace" />
+        <xs:element xmlns:q1="https://sorception.azurewebsites.net/" minOccurs="0" name="getDesguacesResult" nillable="true" type="q1:ArrayOfExpDesguace" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -21,7 +21,7 @@
   <xs:element name="getTalleresResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://sorception.azurewebsites.net/" minOccurs="0" name="getTalleresResult" nillable="true" type="q2:ArrayOfExpTaller" />
+        <xs:element xmlns:q2="https://sorception.azurewebsites.net/" minOccurs="0" name="getTalleresResult" nillable="true" type="q2:ArrayOfExpTaller" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -248,8 +248,10 @@
     <None Include="Properties\PublishProfiles\soradmin - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\soradmin - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sorceptionadmin - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sorceptionadmin - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorceptionadmin - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\sorceptionadmin - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sorceptionadmin - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\sorceptionadmin - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\graficafalsa.png" />
@@ -278,15 +280,15 @@
     </Content>
     <None Include="Service References\ServiceAdmin\configuration91.svcinfo" />
     <None Include="Service References\ServiceAdmin\configuration.svcinfo" />
-    <None Include="Service References\ServiceAdmin\GestionAdmin.wsdl" />
-    <None Include="Service References\ServiceAdmin\GestionAdmin.xsd">
+    <None Include="Service References\ServiceAdmin\GestionAdmin2.wsdl" />
+    <None Include="Service References\ServiceAdmin\GestionAdmin21.wsdl" />
+    <None Include="Service References\ServiceAdmin\GestionAdmin3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceAdmin\GestionAdmin1.wsdl" />
-    <None Include="Service References\ServiceAdmin\GestionAdmin1.xsd">
+    <None Include="Service References\ServiceAdmin\GestionAdmin31.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceAdmin\GestionAdmin2.xsd">
+    <None Include="Service References\ServiceAdmin\GestionAdmin32.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ServiceAdmin\Reference.svcmap">

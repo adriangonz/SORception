@@ -15,7 +15,7 @@ namespace AdminManager.ServiceAdmin {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExpDesguace", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpDesguace", Namespace="https://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
     public partial class ExpDesguace : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -24,6 +24,12 @@ namespace AdminManager.ServiceAdmin {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool activeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_ivField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] aes_keyField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int idField;
@@ -50,6 +56,32 @@ namespace AdminManager.ServiceAdmin {
                 if ((this.activeField.Equals(value) != true)) {
                     this.activeField = value;
                     this.RaisePropertyChanged("active");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_iv {
+            get {
+                return this.aes_ivField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_ivField, value) != true)) {
+                    this.aes_ivField = value;
+                    this.RaisePropertyChanged("aes_iv");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] aes_key {
+            get {
+                return this.aes_keyField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.aes_keyField, value) != true)) {
+                    this.aes_keyField = value;
+                    this.RaisePropertyChanged("aes_key");
                 }
             }
         }
@@ -92,7 +124,7 @@ namespace AdminManager.ServiceAdmin {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ExpTaller", Namespace="http://sorception.azurewebsites.net/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExpTaller", Namespace="https://sorception.azurewebsites.net/")]
     [System.SerializableAttribute()]
     public partial class ExpTaller : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
