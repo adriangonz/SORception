@@ -98,7 +98,7 @@ public class SolicitudesListener implements MessageListener {
     public String decrypt(String securedXml) {
     	JAXBElement<AMQSecureMessage> securedRoot = 
 				(JAXBElement<AMQSecureMessage>) unmarshaller.unmarshal(new StringSource(securedXml));
-    	String encryptedData = securedRoot.getValue().getData().getValue();
+    	byte[] encryptedData = securedRoot.getValue().getData().getValue();
 		return cryptoService.decrypt(encryptedData, cryptoService.getSGKey());
 	}
     

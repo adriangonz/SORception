@@ -58,7 +58,7 @@ public class PedidosListener implements MessageListener {
 		return offerEntity;
 	}
 	
-	public String decrypt(String encryptedXml) {
+	public String decrypt(byte[] encryptedXml) {
 		return cryptoService.decrypt(encryptedXml, cryptoService.getScrapKey());
 	}
 	

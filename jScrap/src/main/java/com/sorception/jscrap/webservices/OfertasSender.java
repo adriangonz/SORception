@@ -118,7 +118,7 @@ public class OfertasSender {
 			AMQOfertaMessageCode code) {
 		StringResult stringResult = new StringResult();
 		String offerString = offerToString(offer, token, code);
-		String encryptedOffer = cryptoService.encrypt(offerString, cryptoService.getScrapKey());
+		byte[] encryptedOffer = cryptoService.encrypt(offerString, cryptoService.getScrapKey());
 		AMQSecureMessage secureMessage = objectFactory.createAMQSecureMessage();
 		secureMessage.setData(objectFactory.createAMQSecureMessageData(encryptedOffer));
 		secureMessage.setJunkyardToken(objectFactory.createAMQSecureMessageJunkyardToken(token.getToken()));

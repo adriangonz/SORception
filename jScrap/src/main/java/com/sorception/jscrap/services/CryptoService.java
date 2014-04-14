@@ -7,7 +7,6 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
-import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,21 +54,23 @@ public class CryptoService extends AbstractService<AESKeyEntity> {
 		return getKey(AESKeyType.SG);
 	}
 	
-	public String decrypt(String encrypted, AESKeyEntity keyEntity) {
+	public String decrypt(byte[] encrypted, AESKeyEntity keyEntity) {
 		try {
 			Cipher aes = getCipher(keyEntity, Cipher.DECRYPT_MODE);
-			byte[] original = aes.doFinal(encrypted.getBytes());
-			return original.toString();
+			byte[] original = aes.doFinal(encrypted);
+			String clear = new String(original);
+			logger.info("Decrypted " + clear);
+			return clear;
 		} catch (Exception e) {
 			throw new RuntimeException("Decrypting failure");
 		}
 	}
 	
-	public String encrypt(String clearText, AESKeyEntity keyEntity) {
+	public byte[] encrypt(String clearText, AESKeyEntity keyEntity) {
 		try {
+			logger.info("Encrypting " + clearText);
 			Cipher aes = getCipher(keyEntity, Cipher.ENCRYPT_MODE);
-			byte[] text = aes.doFinal(clearText.getBytes());
-			return Base64.encodeBase64String(text);
+			return aes.doFinal(clearText.getBytes());
 		} catch (Exception ex) {
 			throw new RuntimeException("Encrypting failure");
 		}

@@ -36,6 +36,8 @@ public class AESKeyEntity extends AbstractEntity {
 		this.type = type;
 	}
 	
+	public AESKeyEntity() {}
+	
 	public byte[] getKey() {
 		return aesKey;
 	}
