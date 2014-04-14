@@ -194,6 +194,7 @@
     <Compile Include="DataAccess\ScrapContext.cs" />
     <Compile Include="DTO\OfferDTO.cs" />
     <Compile Include="Entities\AcceptedOfferLineEntity.cs" />
+    <Compile Include="Entities\AESPairEntity.cs" />
     <Compile Include="Entities\LogEntity.cs" />
     <Compile Include="Entities\OfferEntity.cs" />
     <Compile Include="Entities\OfferLineEntity.cs" />
@@ -218,6 +219,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Services\AESService.cs" />
     <Compile Include="Services\AMQService.cs" />
     <Compile Include="Services\OfferService.cs" />
     <Compile Include="Services\OrderService.cs" />

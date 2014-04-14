@@ -1,5 +1,6 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ.Commands;
+using ScrapWeb.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,11 +27,16 @@ namespace ScrapWeb.AMQ
             Producer = session.CreateProducer(_topic);
         }
 
+        /*Creo que debo encryptar aqui*/
         public void SendMessage(object o, long delay = 0)
         {
+            AESService aes_service = new AESService();
+
             string message = ToXML(o);
+            string encryp_mesage = aes_service.encryptMessage_with_MyPair(message);
+
             if (_disposed) throw new ObjectDisposedException(GetType().Name);
-            var textMessage = Producer.CreateTextMessage(message);
+            var textMessage = Producer.CreateTextMessage(encryp_mesage);
             Producer.Send(textMessage);
         }
 
