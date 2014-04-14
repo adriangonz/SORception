@@ -23,10 +23,12 @@ import org.springframework.xml.transform.StringSource;
 
 import com.sorception.jscrap.entities.OrderEntity;
 import com.sorception.jscrap.entities.OrderLineEntity;
+import com.sorception.jscrap.generated.AMQSecureMessage;
 import com.sorception.jscrap.generated.AMQSolicitudMessage;
 import com.sorception.jscrap.generated.ExpSolicitud;
 import com.sorception.jscrap.generated.ExpSolicitudLine;
 import com.sorception.jscrap.generated.ObjectFactory;
+import com.sorception.jscrap.services.CryptoService;
 import com.sorception.jscrap.services.OrderService;
 
 /**
@@ -41,6 +43,9 @@ public class SolicitudesListener implements MessageListener {
     
     @Autowired
     Jaxb2Marshaller unmarshaller;
+    
+    @Autowired
+    CryptoService cryptoService;
     
     @Autowired
     ObjectFactory objectFactory;
@@ -90,10 +95,18 @@ public class SolicitudesListener implements MessageListener {
     	return order;
     }
     
+    public String decrypt(String securedXml) {
+    	JAXBElement<AMQSecureMessage> securedRoot = 
+				(JAXBElement<AMQSecureMessage>) unmarshaller.unmarshal(new StringSource(securedXml));
+    	String encryptedData = securedRoot.getValue().getData().getValue();
+		return cryptoService.decrypt(encryptedData, cryptoService.getSGKey());
+	}
+    
     @Override
     public void onMessage(Message message) {
         try {
-        	String xml = ((TextMessage)message).getText();
+        	String securedXml = ((TextMessage)message).getText();
+        	String xml = decrypt(securedXml);
 			// Deserializing response
 			JAXBElement<AMQSolicitudMessage> root = 
 					(JAXBElement<AMQSolicitudMessage>) unmarshaller.unmarshal(new StringSource(xml));

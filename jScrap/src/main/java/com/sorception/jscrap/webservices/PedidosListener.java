@@ -17,9 +17,12 @@ import org.springframework.xml.transform.StringSource;
 import com.sorception.jscrap.entities.AcceptedOfferLineEntity;
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
+import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.generated.AMQPedidoMessage;
+import com.sorception.jscrap.generated.AMQSecureMessage;
 import com.sorception.jscrap.generated.ExpPedido;
 import com.sorception.jscrap.generated.ExpPedidoLine;
+import com.sorception.jscrap.services.CryptoService;
 import com.sorception.jscrap.services.OfferService;
 import com.sorception.jscrap.services.TokenService;
 
@@ -30,6 +33,9 @@ public class PedidosListener implements MessageListener {
 	
 	@Autowired
 	OfferService offerService;
+	
+	@Autowired
+	CryptoService cryptoService;
 	
 	@Autowired
 	TokenService tokenService;
@@ -52,24 +58,34 @@ public class PedidosListener implements MessageListener {
 		return offerEntity;
 	}
 	
+	public String decrypt(String encryptedXml) {
+		return cryptoService.decrypt(encryptedXml, cryptoService.getScrapKey());
+	}
+	
 	@Override
 	public void onMessage(Message message) {
-		String xml;
 		try {
-			xml = ((TextMessage)message).getText();
-			// Deserializing response
-			JAXBElement<AMQPedidoMessage> root = 
-				(JAXBElement<AMQPedidoMessage>) unmarshaller.unmarshal(new StringSource(xml));
-			AMQPedidoMessage pedidoMessage = root.getValue();
-			if(pedidoMessage.getDesguaceId().getValue().equals(tokenService.getValid().getToken())) {
-				logger.info("Saving accepted offer with id " + pedidoMessage.getPedido().getValue().getOfertaId());
-				OfferEntity offer = toOfferEntity(pedidoMessage);
-				offerService.updateOfferWithoutAMQ(offer);
+			String securedXml = ((TextMessage)message).getText();
+			JAXBElement<AMQSecureMessage> securedRoot = 
+					(JAXBElement<AMQSecureMessage>) unmarshaller.unmarshal(new StringSource(securedXml));
+			TokenEntity currentToken = tokenService.getValid();
+			AMQSecureMessage secureMessage = securedRoot.getValue();
+			if(secureMessage.getJunkyardToken().getValue().equals(currentToken.getToken())) {
+				String xml = decrypt(secureMessage.getData().getValue());
+				// Deserializing response
+				JAXBElement<AMQPedidoMessage> root = 
+					(JAXBElement<AMQPedidoMessage>) unmarshaller.unmarshal(new StringSource(xml));
+				AMQPedidoMessage pedidoMessage = root.getValue();
+				if(pedidoMessage.getDesguaceId().getValue().equals(currentToken.getToken())) {
+					logger.info("Saving accepted offer with id " + pedidoMessage.getPedido().getValue().getOfertaId());
+					OfferEntity offer = toOfferEntity(pedidoMessage);
+					offerService.updateOfferWithoutAMQ(offer);
+				}
 			} else {
 				logger.info("Ignoring accepted offer for another junkyard");
 			}
 		} catch (JMSException e) {
-			logger.error("'text' field not found at message");
+			logger.error("'text' field not found at message.");
 		}
 	}
 	

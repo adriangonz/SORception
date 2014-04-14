@@ -1,5 +1,7 @@
 package com.sorception.jscrap.entities;
 
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -40,5 +42,13 @@ public class AESKeyEntity extends AbstractEntity {
 	
 	public byte[] getIv() {
 		return aesIv;
+	}
+
+	public SecretKeySpec toSecretKeySpec() {
+		return new SecretKeySpec(aesKey, "AES");
+	}
+	
+	public IvParameterSpec toIvParameterSpec() {
+		return new IvParameterSpec(aesIv);
 	}
 }

@@ -3,9 +3,11 @@ package com.sorception.jscrap.services;
 import java.security.SecureRandom;
 import java.util.List;
 
+import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.apache.commons.net.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,7 @@ public class CryptoService extends AbstractService<AESKeyEntity> {
 	}
 	
 	public void saveSGKey(byte[] key, byte[] iv) {
-//		logger.info("Saving SG AES Key and IV.");
+		logger.info("Saving SG AES Key and IV.");
 		AESKeyEntity aes = new AESKeyEntity(iv, key, AESKeyType.SG);
 		this.create(aes);
 	}
@@ -51,6 +53,32 @@ public class CryptoService extends AbstractService<AESKeyEntity> {
 	public AESKeyEntity getSGKey() {
 		logger.info("Retrieving SG AES Key and IV.");
 		return getKey(AESKeyType.SG);
+	}
+	
+	public String decrypt(String encrypted, AESKeyEntity keyEntity) {
+		try {
+			Cipher aes = getCipher(keyEntity, Cipher.DECRYPT_MODE);
+			byte[] original = aes.doFinal(encrypted.getBytes());
+			return original.toString();
+		} catch (Exception e) {
+			throw new RuntimeException("Decrypting failure");
+		}
+	}
+	
+	public String encrypt(String clearText, AESKeyEntity keyEntity) {
+		try {
+			Cipher aes = getCipher(keyEntity, Cipher.ENCRYPT_MODE);
+			byte[] text = aes.doFinal(clearText.getBytes());
+			return Base64.encodeBase64String(text);
+		} catch (Exception ex) {
+			throw new RuntimeException("Encrypting failure");
+		}
+	}
+	
+	private Cipher getCipher(AESKeyEntity key, int opmode) throws Exception {
+		Cipher aes = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		aes.init(opmode, key.toSecretKeySpec(), key.toIvParameterSpec());
+		return aes;
 	}
 	
 	private AESKeyEntity getKey(AESKeyType type) {
