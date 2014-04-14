@@ -1,16 +1,5 @@
 INSERT INTO ApplicationUser (created, updated, isAdmin, name, username, password) VALUES (GetDate(), GetDate(), 1, 'Administrador', 'admin', '4bb43533b8ed0f6a3f762f5b8acfbc25535fb8a4c5e74f9165800cc12989b43d');
 
--- Logback: the reliable, generic, fast and flexible logging framework.
--- Copyright (C) 1999-2010, QOS.ch. All rights reserved.
---
--- See http://logback.qos.ch/license.html for the applicable licensing 
--- conditions.
-
--- This SQL script creates the required tables by ch.qos.logback.classic.db.DBAppender
--- 
--- The event_id column type was recently changed from INT to DECIMAL(40)
--- without testing.
-
 DROP TABLE logging_event_property 
 DROP TABLE logging_event_exception 
 DROP TABLE logging_event 
