@@ -393,7 +393,7 @@
                 <version>2.1</version>
                 <configuration>
 					<url>http://sorceptionjava.cloudapp.net/manager/text</url>
-					<server>SORceptionJava</server>
+					<server>SORjScrap</server>
 					<path>/jScrap</path>
 				</configuration>
             </plugin>

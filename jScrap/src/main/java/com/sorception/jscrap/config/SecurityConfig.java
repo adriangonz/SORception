@@ -85,9 +85,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .anyRequest().permitAll()
             .and()
           .csrf().disable()
-          .requiresChannel()
+          /*.requiresChannel()
           	.anyRequest().requiresSecure()
-          	.and()
+          	.and()*/
           .httpBasic();
     }
 }
