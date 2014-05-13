@@ -80,41 +80,6 @@ namespace org.apache.juddi.client.sample
                 fb.name = new name[1];
                 fb.name[0] = new name(UDDIConstants.WILDCARD, "en");
                 businessList bl = inquiry.find_business(fb);
-                //bl.businessInfos[0].name[0].
-                //bl.businessInfos[0].serviceInfos[0].businessKey
-
-
-                /*find_business fb = new find_business();
-                fb.authInfo = clerk.getAuthToken(security.Url);
-                fb.findQualifiers = new string[] { UDDIConstants.APPROXIMATE_MATCH };
-                fb.name = new name[1];
-                fb.name[0] = new name(UDDIConstants.WILDCARD, "en");
-                businessList bl = inquiry.find_business(fb);
-                for (int i = 0; i < bl.businessInfos.Length; i++)
-                {
-                    Console.WriteLine(bl.businessInfos[i].name[0].Value);
-                    Console.WriteLine(bl.businessInfos[i].description[0].Value);
-                    if (bl.businessInfos[i].serviceInfos != null && bl.businessInfos[i].serviceInfos.Length > 0)
-                   {
-                       Console.WriteLine("Service: " + bl.businessInfos[i].serviceInfos[0].serviceKey);
-                       Console.WriteLine("Running find_endPontds");
-                       find_service fs = new find_service();
-                       fs.authInfo = fb.authInfo;
-                       fs.findQualifiers = new string[] { UDDIConstants.APPROXIMATE_MATCH };
-                       fs.name = new name[1];
-                       fs.name[0] = new name(UDDIConstants.WILDCARD, "en");
-                       serviceList sl = inquiry.find_service(fs);
-                       for (int j = 0; j < sl.serviceInfos.Length; j++)
-                       {
-                           Console.WriteLine("Running find_service");
-                       }
-                       
-                       break;
-                   }
-                }*/
-
-                //  serviceDetail s= clerk.getServiceDetail("uddi:mydomain.com:zerocoolsvc");
-                //   Console.Out.WriteLine(new PrintUDDI<serviceDetail>().print(s));
             }
             catch (Exception ex)
             {

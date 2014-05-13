@@ -12,10 +12,14 @@ namespace Eggplant.Services
         protected IDataService dataService;
 
         private GestionTallerClient svcTaller;
+
+        private UDDIService svcJUDDI;
+
         public SGService()
         {
             dataService = ServicesFactory.getDataService();
             svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
+            svcJUDDI.findEndpointAvailable();
         }
 
         public TokenResponse signUp(string name)
