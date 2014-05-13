@@ -42,7 +42,7 @@ namespace ScrapWeb.Services
         public OrderEntity save(OrderEntity orderEntity)
         {
             orderRepository.Insert(orderEntity);
-            Logs.create(LogEntity.INFO, "Create Order with id " + orderEntity.id);
+            Logs.create(LogEntity.INFO, "Create Order");
             scrapContext.SaveChanges();
             return orderEntity;
         }

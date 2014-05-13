@@ -94,7 +94,7 @@ namespace ScrapWeb.Services
             };
 
             offerRepository.Insert(offerEntity);
-            Logs.create(LogEntity.INFO, "Created offer with id " + offerEntity.id);
+            Logs.create(LogEntity.INFO, "Created offer");
             scrapContext.SaveChanges();
 
             amqService.sendOffer(offerEntity);

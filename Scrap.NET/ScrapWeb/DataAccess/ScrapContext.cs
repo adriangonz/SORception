@@ -36,7 +36,9 @@ namespace ScrapWeb.DataAccess
                 {
                     item.Entity.creationDate = System.DateTime.Now;
                     item.Entity.updatedDate = System.DateTime.Now;
-                    if (HttpContext.Current.User != null)
+                    if (HttpContext.Current == null)
+                        item.Entity.createdBy = item.Entity.updatedBy = "ActiveMQ";
+                    else if (HttpContext.Current.User != null)
                         item.Entity.createdBy = item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
                     else
                         item.Entity.createdBy = item.Entity.updatedBy = null;
@@ -46,7 +48,9 @@ namespace ScrapWeb.DataAccess
                 foreach(var item in trackables.Where(t => t.State == EntityState.Modified))
                 {
                     item.Entity.updatedDate = System.DateTime.Now;
-                    if (HttpContext.Current.User != null)
+                    if (HttpContext.Current == null)
+                        item.Entity.createdBy = item.Entity.updatedBy = "ActiveMQ";
+                    else if (HttpContext.Current.User != null)
                         item.Entity.updatedBy = HttpContext.Current.User.Identity.GetUserId();
                     else
                         item.Entity.updatedBy = null;

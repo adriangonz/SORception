@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://sorception.azurewebsites.net/" elementFormDefault="qualified" targetNamespace="http://sorception.azurewebsites.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:tns="https://sorception.azurewebsites.net/" elementFormDefault="qualified" targetNamespace="https://sorception.azurewebsites.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
   <xs:element name="signUp">
     <xs:complexType>
@@ -108,7 +108,7 @@
   <xs:element name="ExpPedido" nillable="true" type="tns:ExpPedido" />
   <xs:complexType name="AMQSecureMessage">
     <xs:sequence>
-      <xs:element minOccurs="0" name="data" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="data" nillable="true" type="xs:base64Binary" />
       <xs:element minOccurs="0" name="junkyard_token" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>

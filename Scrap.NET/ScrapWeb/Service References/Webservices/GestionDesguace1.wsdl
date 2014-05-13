@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://sorception.azurewebsites.net/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GestionDesguace" targetNamespace="http://sorception.azurewebsites.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="https://sorception.azurewebsites.net/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:i0="http://tempuri.org/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GestionDesguace" targetNamespace="https://sorception.azurewebsites.net/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://tempuri.org/" location="https://sorception.azurewebsites.net/GestionDesguace.svc?wsdl=wsdl0" />
   <wsdl:types>
-    <xsd:schema targetNamespace="http://sorception.azurewebsites.net/Imports">
-      <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd0" namespace="http://sorception.azurewebsites.net/" />
+    <xsd:schema targetNamespace="https://sorception.azurewebsites.net/Imports">
+      <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd0" namespace="https://sorception.azurewebsites.net/" />
       <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="https://sorception.azurewebsites.net/GestionDesguace.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
     </xsd:schema>
@@ -27,51 +28,21 @@
   </wsdl:message>
   <wsdl:portType name="IGestionDesguace">
     <wsdl:operation name="signUp">
-      <wsdl:input wsaw:Action="http://sorception.azurewebsites.net/IGestionDesguace/signUp" message="tns:IGestionDesguace_signUp_InputMessage" />
-      <wsdl:output wsaw:Action="http://sorception.azurewebsites.net/IGestionDesguace/signUpResponse" message="tns:IGestionDesguace_signUp_OutputMessage" />
+      <wsdl:input wsaw:Action="https://sorception.azurewebsites.net/IGestionDesguace/signUp" message="tns:IGestionDesguace_signUp_InputMessage" />
+      <wsdl:output wsaw:Action="https://sorception.azurewebsites.net/IGestionDesguace/signUpResponse" message="tns:IGestionDesguace_signUp_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="getState">
-      <wsdl:input wsaw:Action="http://sorception.azurewebsites.net/IGestionDesguace/getState" message="tns:IGestionDesguace_getState_InputMessage" />
-      <wsdl:output wsaw:Action="http://sorception.azurewebsites.net/IGestionDesguace/getStateResponse" message="tns:IGestionDesguace_getState_OutputMessage" />
+      <wsdl:input wsaw:Action="https://sorception.azurewebsites.net/IGestionDesguace/getState" message="tns:IGestionDesguace_getState_InputMessage" />
+      <wsdl:output wsaw:Action="https://sorception.azurewebsites.net/IGestionDesguace/getStateResponse" message="tns:IGestionDesguace_getState_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="dummy">
-      <wsdl:input wsaw:Action="http://sorception.azurewebsites.net/IGestionDesguace/dummy" message="tns:IGestionDesguace_dummy_InputMessage" />
-      <wsdl:output wsaw:Action="http://sorception.azurewebsites.net/IGestionDesguace/dummyResponse" message="tns:IGestionDesguace_dummy_OutputMessage" />
+      <wsdl:input wsaw:Action="https://sorception.azurewebsites.net/IGestionDesguace/dummy" message="tns:IGestionDesguace_dummy_InputMessage" />
+      <wsdl:output wsaw:Action="https://sorception.azurewebsites.net/IGestionDesguace/dummyResponse" message="tns:IGestionDesguace_dummy_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="BasicHttpBinding_IGestionDesguace" type="tns:IGestionDesguace">
-    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="signUp">
-      <soap:operation soapAction="http://sorception.azurewebsites.net/IGestionDesguace/signUp" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getState">
-      <soap:operation soapAction="http://sorception.azurewebsites.net/IGestionDesguace/getState" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="dummy">
-      <soap:operation soapAction="http://sorception.azurewebsites.net/IGestionDesguace/dummy" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
   <wsdl:service name="GestionDesguace">
-    <wsdl:port name="BasicHttpBinding_IGestionDesguace" binding="tns:BasicHttpBinding_IGestionDesguace">
-      <soap:address location="http://sorception.azurewebsites.net/GestionDesguace.svc" />
+    <wsdl:port name="BasicHttpBinding_IGestionDesguace" binding="i0:BasicHttpBinding_IGestionDesguace">
+      <soap:address location="https://sorception.azurewebsites.net/GestionDesguace.svc" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

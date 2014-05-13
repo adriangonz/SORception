@@ -82,24 +82,24 @@ namespace ScrapWeb.Services
             return this.createAESPair(myRijndael.Key, myRijndael.IV);
         }
 
-        public string encryptMessage_with_MyPair(string message)
+        public byte[] encryptMessage_with_MyPair(string message)
         {
             AESPairEntity aes_pair = getMyPair();
             byte[] encrypted_message = encrypt_function(message, aes_pair.key, aes_pair.iv);
-            return getString(encrypted_message);
+            return encrypted_message;
         }
 
-        public string decryptMessage_with_MyPair(string message)
+        public string decryptMessage_with_MyPair(byte[] message)
         {
             AESPairEntity aes_pair = getMyPair();
-            byte[] byte_message = getBytes(message);
+            byte[] byte_message = message;
             return decrypt_function(byte_message, aes_pair.key, aes_pair.iv);
         }
 
-        public string decryptMessage_with_SGPair(string message)
+        public string decryptMessage_with_SGPair(byte[] message)
         {
             AESPairEntity aes_pair = getSGPair();
-            byte[] byte_message = getBytes(message);
+            byte[] byte_message = message;
             return decrypt_function(byte_message, aes_pair.key, aes_pair.iv);
         }
 

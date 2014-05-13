@@ -14,7 +14,7 @@ namespace Eggplant.Services
 #if TESTING
             return (ISGService)new DebugSGService();
 #else
-            return (ISGService)new SGService();
+            return (ISGService)new UDDIService();
 #endif
         }
 
