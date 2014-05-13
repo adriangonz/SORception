@@ -17,9 +17,10 @@ namespace Eggplant.Services
 
         public SGService()
         {
+
             dataService = ServicesFactory.getDataService();
-            svcTaller = new Eggplant.ServiceTaller.GestionTallerClient();
-            svcJUDDI.findEndpointAvailable();
+            svcJUDDI = new UDDIService();
+            svcTaller = svcJUDDI.getAvailibleWFCService();
         }
 
         public TokenResponse signUp(string name)

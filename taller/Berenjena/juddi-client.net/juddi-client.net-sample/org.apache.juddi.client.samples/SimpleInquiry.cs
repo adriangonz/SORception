@@ -72,14 +72,10 @@ namespace org.apache.juddi.client.sample
                 for (int k = 0; k < lep.Count; k++)
                 {
                     Console.WriteLine("[" + k + "] " + lep[k]);
+                    var request = HttpWebRequest.Create(lep[k]);
+                    request.GetResponse();
                 }
 
-                find_business fb = new find_business();
-                fb.authInfo = clerk.getAuthToken(security.Url);
-                fb.findQualifiers = new string[] { UDDIConstants.APPROXIMATE_MATCH };
-                fb.name = new name[1];
-                fb.name[0] = new name(UDDIConstants.WILDCARD, "en");
-                businessList bl = inquiry.find_business(fb);
             }
             catch (Exception ex)
             {

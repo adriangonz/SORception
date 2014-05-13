@@ -14,8 +14,8 @@
           <property name="serverPort" value="80" />-->
 
           <!-- for a dev instance of jUDDI, use this url -->
-          <property name="serverName" value="sorceptionjava.cloudapp.net" />
-          <property name="serverPort" value="8143" />
+          <property name="serverName" value="localhost" />
+          <property name="serverPort" value="8080" />
 
           <!-- for UDDI nodes that use HTTP u/p, using the following 
 					<property name="basicAuthUsername" value="root" />
@@ -57,13 +57,13 @@
 					<property name="basicAuthPasswordCryptoProvider" value="org.apache.juddi.v3.client.crypto.AES128Cryptor (an example)" />-->
         </properties>
         <proxyTransport>org.apache.juddi.v3.client.transport.AspNetTransport</proxyTransport>
-        <custodyTransferUrl>http://${serverName}:${serverPort}/juddiv3/services/custody-transfer</custodyTransferUrl>
-        <inquiryUrl>http://${serverName}:${serverPort}/juddiv3/services/inquiry</inquiryUrl>
-        <publishUrl>http://${serverName}:${serverPort}/juddiv3/services/publish</publishUrl>
-        <securityUrl>http://${serverName}:${serverPort}/juddiv3/services/security</securityUrl>
-        <subscriptionUrl>http://${serverName}:${serverPort}/juddiv3/services/subscription</subscriptionUrl>
-        <subscriptionListenerUrl>http://${serverName}:${serverPort}/juddiv3/services/subscription-listener</subscriptionListenerUrl>
-        <juddiApiUrl>http://${serverName}:${serverPort}/juddiv3/services/juddi-api</juddiApiUrl>
+        <custodyTransferUrl>https://${serverName}:${serverPort}/juddiv3/services/custody-transfer</custodyTransferUrl>
+        <inquiryUrl>https://${serverName}:${serverPort}/juddiv3/services/inquiry</inquiryUrl>
+        <publishUrl>https://${serverName}:${serverPort}/juddiv3/services/publish</publishUrl>
+        <securityUrl>https://${serverName}:${serverPort}/juddiv3/services/security</securityUrl>
+        <subscriptionUrl>https://${serverName}:${serverPort}/juddiv3/services/subscription</subscriptionUrl>
+        <subscriptionListenerUrl>https://${serverName}:${serverPort}/juddiv3/services/subscription-listener</subscriptionListenerUrl>
+        <juddiApiUrl>https://${serverName}:${serverPort}/juddiv3/services/juddi-api</juddiApiUrl>
         <factoryInitial>not used</factoryInitial>
         <factoryURLPkgs>not used</factoryURLPkgs>
         <factoryNamingProvider>not used</factoryNamingProvider>
@@ -81,8 +81,8 @@
           <property name="serverPort" value="80" />-->
 
           <!-- for a dev instance of jUDDI, use this url -->
-          <property name="serverName" value="sorceptionjava.cloudapp.net" />
-          <property name="serverPort" value="8143" />
+          <property name="serverName" value="localhost" />
+          <property name="serverPort" value="8080" />
 
           <!-- for UDDI nodes that use HTTP u/p, using the following 
 					<property name="basicAuthUsername" value="root" />
@@ -114,7 +114,7 @@
     <clerks registerOnStartup="false">
       <!-- one clerk for each node is required-->
       <clerk name="default" node="default" publisher="root" password="root"  isPasswordEncrypted="false" cryptoProvider=""/>
-      <clerk name="default_non_root" node="default_non_root" publisher="root" password="root"  isPasswordEncrypted="false" cryptoProvider=""/>
+      <clerk name="default_non_root" node="default_non_root"     publisher="uddi" password="uddi"  isPasswordEncrypted="false" cryptoProvider=""/>
       <clerk name="uddiv2" node="default_non_root"     publisher="root" password="root"  isPasswordEncrypted="false" cryptoProvider=""/>
       <xregister>
         <!-- automatic registration on start. this only triggers when registerOnStartup=true-->
@@ -156,7 +156,7 @@
       <trustStorePassword>ignored</trustStorePassword>
 
       <checkTimestamps>true</checkTimestamps>
-      <checkTrust>true</checkTrust>
+      <checkTrust>false</checkTrust>
       <checkRevocationCRL>true</checkRevocationCRL>
       <checkRevocationOCSP>true</checkRevocationOCSP>
       <keyInfoInclusionSubjectDN>true</keyInfoInclusionSubjectDN>
