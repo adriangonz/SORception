@@ -16,7 +16,7 @@ namespace ManagerSystem
         public string junkyard_token;
 
         [DataMember(Name = "data")]
-        public string data;
+        public byte[] data;
     }
 
     [DataContract(Namespace = Config.Namespace)]

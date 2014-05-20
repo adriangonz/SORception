@@ -25,13 +25,16 @@ namespace ManagerSystem.Services
 
         public string getToken()
         {
-            return "f266a5de85f2ad36f5a5fe7ef583db957066429558d2215efae70764e07de5d3";
+            //return "f266a5de85f2ad36f5a5fe7ef583db957066429558d2215efae70764e07de5d3";
             try
             {
-                return OperationContext.Current.IncomingMessageHeaders
+                string token = OperationContext.Current.IncomingMessageHeaders
                             .GetHeader<string>("Authorization", Config.Namespace);
+                if (token == null || token == "")
+                    throw new Exception();
+                return token;
             }
-            catch (MessageHeaderException)
+            catch (Exception)
             {
                 return this.current_junkyard_token;
             }
@@ -51,6 +54,7 @@ namespace ManagerSystem.Services
         public JunkyardEntity currentJunkyard()
         {
             string token = this.getToken();
+            logService.Info(token);
             return junkyardService.getJunkyardWithToken(token);
         }
 
@@ -60,6 +64,11 @@ namespace ManagerSystem.Services
             {
                 throw new WebFaultException(System.Net.HttpStatusCode.Forbidden);
             }
+        }
+
+        public UserEntity getCurrentUser()
+        {
+            return null;
         }
     }
 }

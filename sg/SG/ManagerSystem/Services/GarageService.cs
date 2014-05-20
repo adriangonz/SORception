@@ -75,6 +75,10 @@ namespace ManagerSystem.Services
             GarageEntity garage = this.getGarage(garage_id);
 
             garage.status = is_active ? GarageStatus.ACTIVE : GarageStatus.CREATED;
+            if (is_active)
+            {
+                logService.Info(String.Format("Garage {0} was activated", garage_id));
+            }
 
             unitOfWork.GarageRepository.Update(garage);
             unitOfWork.Save();

@@ -50,18 +50,21 @@ namespace ManagerSystem.Services
             TokenEntity new_token = new TokenEntity()
             {
                 token = this.createTokenString(),
-                type = TokenType.FINAL,
                 junkyard = token.junkyard,
                 garage = token.garage
             };
-            if (token.junkyard.status == JunkyardStatus.ACTIVE)
+
+            if (token.junkyard != null && token.junkyard.status == JunkyardStatus.ACTIVE
+                || token.garage != null && token.garage.status == GarageStatus.ACTIVE)
             {
                 new_token.status = TokenStatus.VALID;
+                new_token.type = TokenType.FINAL;
                 code = TokenResponse.Code.CREATED;
             }
             else
             {
                 new_token.status = TokenStatus.VALID;
+                new_token.type = TokenType.TEMPORAL;
                 code = TokenResponse.Code.NON_AUTHORITATIVE;
             }
             unitOfWork.TokenRepository.Insert(new_token);
@@ -95,15 +98,16 @@ namespace ManagerSystem.Services
             return output.ToString();
         }
 
-        public bool isValid(string token)
+        public bool isValid(string token_string)
         {
-            return unitOfWork.TokenRepository.Get(t => t.token == token && t.status == TokenStatus.VALID).Any();
+            logService.Info("Checking if " + token_string + " is a valid token");
+            return unitOfWork.TokenRepository.Get(t => t.token == token_string && t.status == TokenStatus.VALID).Any();
         }
 
         public TokenEntity getToken(string token_string)
         {
             if (token_string == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("token_string must not be null");
 
             try
             {
@@ -112,7 +116,7 @@ namespace ManagerSystem.Services
             catch (Exception ex)
             {
                 if (ex is ArgumentNullException || ex is InvalidOperationException)
-                    throw new ArgumentException();
+                    throw new ArgumentException(token_string + " is not a valid token");
                 throw;
             }
         }
@@ -122,7 +126,7 @@ namespace ManagerSystem.Services
             TokenEntity token = this.getToken(token_string);
             if (token.garage == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException(token_string + " is not a valid garage token");
             }
 
             return token.garage;
@@ -130,10 +134,11 @@ namespace ManagerSystem.Services
 
         public JunkyardEntity getJunkyard(string token_string)
         {
+            logService.Info("Trying to get junkyard with token " + token_string);
             TokenEntity token = this.getToken(token_string);
             if (token.junkyard == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException(token_string + " is not a valid junkyard token");
             }
 
             return token.junkyard;

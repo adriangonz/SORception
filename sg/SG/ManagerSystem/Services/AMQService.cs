@@ -14,7 +14,8 @@ namespace ManagerSystem.Services
     {
         private List<TopicPublisher> subscribers;
 
-        public AMQService(UnitOfWork uow = null) : base(uow) 
+        public AMQService(UnitOfWork uow = null)
+            : base(uow)
         {
             this.subscribers = new List<TopicPublisher>();
         }
@@ -35,9 +36,10 @@ namespace ManagerSystem.Services
             publisher.SendMessage((object)secure_msg);
         }
 
-        public AMQSecureMessage getSecureMessage(object msg, AESPairEntity aes_pair, string junkyard_token = "") {
+        public AMQSecureMessage getSecureMessage(object msg, AESPairEntity aes_pair, string junkyard_token = "")
+        {
             string message = TopicPublisher.ToXML(msg);
-            string encrypted_msg = aesService.encryptMessage(message, aes_pair);
+            byte[] encrypted_msg = aesService.encryptMessage(message, aes_pair);
             return new AMQSecureMessage()
             {
                 data = encrypted_msg,
@@ -72,10 +74,10 @@ namespace ManagerSystem.Services
 
             TopicPublisher publisher = TopicPublisher.MakeDefaultPublisher(Config.ActiveMQ.Topics.ScheduledJobs);
 
-            AESPairEntity aes_pair = configService.getAESPair();
-            AMQSecureMessage secure_msg = this.getSecureMessage((object)msg, aes_pair);
+            //AESPairEntity aes_pair = configService.getAESPair();
+            //AMQSecureMessage secure_msg = this.getSecureMessage((object)msg, aes_pair);
 
-            publisher.SendMessage((object)secure_msg, (long)delay.TotalMilliseconds);
+            publisher.SendMessage((object)msg, (long)delay.TotalMilliseconds);
         }
 
         public void createOfferSubscriber()
@@ -86,6 +88,7 @@ namespace ManagerSystem.Services
             topicSubscriber.OnMessageReceived += offerSubscriber_OnMessageReceived;
 
             topicSubscriber.Start(subscription_name);
+            logService.Info("Connected to the Offer ActiveMQ queue");
         }
 
         public void createScheduledJobSubscriber()
@@ -96,19 +99,24 @@ namespace ManagerSystem.Services
             topicSubscriber.OnMessageReceived += scheduledJobSubscriber_OnMessageReceived;
 
             topicSubscriber.Start(subscription_name);
+            logService.Info("Connected to the Job ActiveMQ queue");
         }
 
         public void processOfferMessage(AMQSecureMessage msg)
         {
+            logService.Info("Started processing offer message");
             JunkyardEntity junkyard = junkyardService.getJunkyardWithToken(msg.junkyard_token);
             AESPairEntity aes_pair = junkyard.aes_pair;
 
             string xml_msg = aesService.decryptMessage(msg.data, aes_pair);
             AMQOfertaMessage decoded_msg = (AMQOfertaMessage)TopicSubscriber.FromXML(xml_msg, (new AMQOfertaMessage()).GetType());
-
+            logService.Info(xml_msg);
+            //logService.Info("Decrypted offer message with token " + decoded_msg.desguace_id);
             authService.setJunkyardToken(decoded_msg.desguace_id);
+            logService.Info(authService.getToken());
             authService.authenticateCall();
 
+            offerService.current_junkyard = decoded_msg.desguace_id;
             switch (decoded_msg.code)
             {
                 case AMQOfertaMessage.Code.New:
@@ -121,6 +129,7 @@ namespace ManagerSystem.Services
                     offerService.deleteOffer(decoded_msg.oferta.id);
                     break;
             }
+            logService.Info("Finished processing offer message");
         }
 
         private void offerSubscriber_OnMessageReceived(string message)

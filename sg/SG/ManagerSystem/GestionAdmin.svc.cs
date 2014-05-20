@@ -12,7 +12,6 @@ using System.Text;
 
 namespace ManagerSystem
 {
-    [AuthInjector]
     [ServiceBehavior(Namespace = Config.Namespace)]
     public class GestionAdmin : IGestionAdmin
     {

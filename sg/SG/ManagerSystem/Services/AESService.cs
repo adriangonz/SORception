@@ -32,30 +32,14 @@ namespace ManagerSystem.Services
             return this.createAESPair(myRijndael.Key, myRijndael.IV);
         }
 
-        public string encryptMessage(string message, AESPairEntity aes_pair)
+        public byte[] encryptMessage(string message, AESPairEntity aes_pair)
         {
-            byte[] encrypted_message = encrypt_function(message, aes_pair.key, aes_pair.iv);
-            return getString(encrypted_message);
+            return encrypt_function(message, aes_pair.key, aes_pair.iv);
         }
 
-        public string decryptMessage(string message, AESPairEntity aes_pair)
+        public string decryptMessage(byte[] message, AESPairEntity aes_pair)
         {
-            byte[] byte_message = getBytes(message);
-            return decrypt_function(byte_message, aes_pair.key, aes_pair.iv);
-        }
-
-        static byte[] getBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
-
-        static string getString(byte[] bytes)
-        {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
+            return decrypt_function(message, aes_pair.key, aes_pair.iv);
         }
 
         private static byte[] encrypt_function(string Plain_Text, byte[] Key, byte[] IV)

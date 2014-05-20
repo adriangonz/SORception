@@ -21,6 +21,7 @@ namespace ManagerSystem.DataAccess
         private GenericRepository<OfferEntity> offer_repository;
         private GenericRepository<OfferLineEntity> offer_line_repository;
         private GenericRepository<JobEntity> job_repository;
+        private GenericRepository<LogEntity> log_repository;
 
         public GenericRepository<AppConfig> AppConfigRepository
         {
@@ -151,6 +152,18 @@ namespace ManagerSystem.DataAccess
                     this.job_repository = new GenericRepository<JobEntity>(context);
                 }
                 return job_repository;
+            }
+        }
+
+        public GenericRepository<LogEntity> LogRepository
+        {
+            get
+            {
+                if (this.log_repository == null)
+                {
+                    this.log_repository = new GenericRepository<LogEntity>(context);
+                }
+                return log_repository;
             }
         }
 

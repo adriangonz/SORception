@@ -121,6 +121,7 @@
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\GarageEntity.cs" />
     <Compile Include="Entities\JobEntity.cs" />
+    <Compile Include="Entities\LogEntity.cs" />
     <Compile Include="Entities\OfferEntity.cs" />
     <Compile Include="Entities\OfferLineEntity.cs" />
     <Compile Include="Entities\OrderEntity.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Services\GarageService.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\JunkyardService.cs" />
+    <Compile Include="Services\LogService.cs" />
     <Compile Include="Services\OfferService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PurchaseService.cs" />

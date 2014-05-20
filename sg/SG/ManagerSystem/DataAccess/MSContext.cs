@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.Entity;
 using ManagerSystem.Entities;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using ManagerSystem.Services;
 
 namespace ManagerSystem.DataAccess
 {
@@ -20,6 +21,7 @@ namespace ManagerSystem.DataAccess
         DbSet<OfferEntity> Offer { get; set; }
         DbSet<OfferLineEntity> OfferLine { get; set; }
         DbSet<AESPairEntity> AESPair { get; set; }
+        DbSet<LogEntity> Log { get; set; }
 
         // Override for created and modified dates
         public override int SaveChanges()

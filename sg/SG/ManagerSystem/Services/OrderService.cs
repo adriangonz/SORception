@@ -14,6 +14,11 @@ namespace ManagerSystem.Services
 
         public int addOrder(ExpSolicitud e_order)
         {
+            if (this.orderIDExists(e_order.id))
+            {
+                throw new ArgumentException("There is already an order with id " + e_order.id);
+            }
+
             OrderEntity order = new OrderEntity();
 
             this.copyFromExposed(order, e_order);
@@ -27,11 +32,16 @@ namespace ManagerSystem.Services
             return order.id;
         }
 
+        private bool orderIDExists(int order_id)
+        {
+            return unitOfWork.OrderRepository.GetByID(order_id) != null;
+        }
+
         public OrderEntity getOrder(int order_id)
         {
             OrderEntity order = unitOfWork.OrderRepository.GetByID(order_id, "lines");
 
-            authService.restrictAccess(garage: order.garage);
+            //authService.restrictAccess(garage: order.garage);
 
             if (order == null)
                 throw new ArgumentNullException();
@@ -133,6 +143,7 @@ namespace ManagerSystem.Services
                 unitOfWork.OrderLineRepository.Update(order_line);
             }
 
+            logService.Info("Actualizado el estado de una linea");
         }
 
         private void copyLineFromExposed(OrderLineEntity order_line, ExpSolicitud.Line e_order_line)

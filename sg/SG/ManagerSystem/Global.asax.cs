@@ -15,6 +15,9 @@ namespace ManagerSystem
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            LogService logService = new LogService();
+            logService.Info("Started initializing");
+
             ConfigService configService = new ConfigService();
             configService.setAESConfig();
 
@@ -23,6 +26,8 @@ namespace ManagerSystem
             AMQService amqService = new AMQService();
             amqService.createOfferSubscriber();
             amqService.createScheduledJobSubscriber();
+
+            logService.Info("Finished initializing");
         }
 
         protected void Session_Start(object sender, EventArgs e)

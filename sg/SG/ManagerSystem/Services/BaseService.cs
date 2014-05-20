@@ -144,6 +144,17 @@ namespace ManagerSystem.Services
             }
         }
 
+        private LogService log_service = null;
+        protected LogService logService
+        {
+            get
+            {
+                if (this.log_service == null)
+                    this.log_service = new LogService(unitOfWork);
+                return this.log_service;
+            }
+        }
+
         public BaseService(UnitOfWork uOW = null)
         {
             this.unit_of_work = uOW;

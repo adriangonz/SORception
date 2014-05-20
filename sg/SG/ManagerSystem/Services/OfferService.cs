@@ -11,6 +11,8 @@ namespace ManagerSystem.Services
     {
         public OfferService(UnitOfWork uow = null) : base(uow) { }
 
+        public string current_junkyard = "";
+
         public OfferEntity getOffer(int offer_id)
         {
             OfferEntity offer = unitOfWork.OfferRepository.GetByID(offer_id, "lines");
@@ -39,13 +41,32 @@ namespace ManagerSystem.Services
 
         public void addOffer(ExpOferta e_offer)
         {
-            OfferEntity offer = new OfferEntity();
+            if (this.offerIdExists(e_offer.id))
+            {
+                throw new ArgumentException("There is already an offer with id " + e_offer.id);
+            }
+            
+            authService.setJunkyardToken(current_junkyard);
+            try
+            {
+                OfferEntity offer = new OfferEntity();
 
-            this.copyFromExposed(offer, e_offer);
-            unitOfWork.OfferRepository.Insert(offer);
-            unitOfWork.Save();
+                this.copyFromExposed(offer, e_offer);
+                unitOfWork.OfferRepository.Insert(offer);
+                unitOfWork.Save();
 
-            purchaseService.processOnOfferPurchase(offer.order.id);
+                purchaseService.processOnOfferPurchase(offer.order.id);
+            }
+            catch (Exception e)
+            {
+                logService.Info(e.ToString());
+                throw;
+            }
+        }
+
+        private bool offerIdExists(int offer_id)
+        {
+            return unitOfWork.OfferRepository.GetByID(offer_id) != null;
         }
 
         public void putOffer(ExpOferta e_offer)
@@ -108,6 +129,8 @@ namespace ManagerSystem.Services
 
         public void copyFromExposed(OfferEntity offer, ExpOferta e_offer)
         {
+            logService.Info("Empezando a copiar");
+
             offer.corresponding_id = e_offer.id_en_desguace;
             offer.junkyard         = authService.currentJunkyard();
             offer.status           = OfferStatus.NEW;
@@ -130,11 +153,14 @@ namespace ManagerSystem.Services
                 unitOfWork.OfferLineRepository.Insert(line);
             }
 
+            logService.Info("Copiadas las lineas para " + order_id);
             if (order_id != -1)
             {
                 OrderEntity order = orderService.getOrder(order_id);
                 orderService.updateOrderStatus(order);
             }
+            unitOfWork.Save();
+            logService.Info("Terminado de copiar " + order_id);
         }
 
         public void copyLineFromExposed(OfferLineEntity line, ExpOferta.Line e_line)

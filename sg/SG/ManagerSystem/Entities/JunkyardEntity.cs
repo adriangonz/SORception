@@ -23,9 +23,8 @@ namespace ManagerSystem.Entities
 
         public string name { get; set; }
 
-        public int aes_pair_id { get; set; }
+        public int? aes_pair_id { get; set; }
 
-        [Required]
         [ForeignKey("aes_pair_id")]
         public virtual AESPairEntity aes_pair{ get; set; }
 
