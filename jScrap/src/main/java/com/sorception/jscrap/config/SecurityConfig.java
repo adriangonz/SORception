@@ -84,10 +84,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             				"/api/settings/**").hasRole("USER")
             .anyRequest().permitAll()
             .and()
-           .csrf().disable()
-          .requiresChannel()
+          .csrf().disable()
+          /*.requiresChannel()
           	.anyRequest().requiresSecure()
-          	.and()
+          	.and()*/
           .httpBasic();
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<uddi xmlns="urn:juddi-apache-org:v3_client" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:juddi-apache-org:v3_client ..\..\juddi-client\src\main\resources\xsd\uddi-client.xsd">
+  <reloadDelay>5000</reloadDelay>
+  <client name="jscrap">
+    <nodes>
+      <node isHomeJUDDI="true">
+        <name>default</name>
+        <description>jUDDI node</description>  
+        <properties>
+          <property name="serverName"  value="sorceptionjava.cloudapp.net"/>
+          <property name="serverPort"  value="8143"/>
+        </properties>
+        <!-- InVM -->
+        <proxyTransport>org.apache.juddi.v3.client.transport.JAXWSTransport</proxyTransport>
+        <custodyTransferUrl>https://${serverName}:${serverPort}/juddiv3/services/custody-transfer</custodyTransferUrl>
+		<inquiryUrl>https://${serverName}:${serverPort}/juddiv3/services/inquiry</inquiryUrl>
+		<inquiryRESTUrl>https://${serverName}:${serverPort}/juddiv3/services/inquiryRest/XML/getDetail</inquiryRESTUrl>
+		<publishUrl>https://${serverName}:${serverPort}/juddiv3/services/publish</publishUrl>
+		<securityUrl>https://${serverName}:${serverPort}/juddiv3/services/security</securityUrl>
+		<subscriptionUrl>https://${serverName}:${serverPort}/juddiv3/services/subscription</subscriptionUrl>
+		<subscriptionListenerUrl>https://${serverName}:${serverPort}/juddiv3/services/subscription-listener</subscriptionListenerUrl>
+		<juddiApiUrl>https://${serverName}:${serverPort}/juddiv3/services/juddi-api</juddiApiUrl>
+      </node>
+    </nodes>
+    <signature>
+    	<trustStorePath>trustStore.jks</trustStorePath>
+    	<trustStoreType>JKS</trustStoreType>
+    	<trustStorePassword 
+    		isPasswordEncrypted="false" 
+    		cryptoProvider="org.apache.juddi.v3.client.crypto.AES128Cryptor">Macarron23</trustStorePassword>
+    </signature>
+  </client>	
+</uddi>

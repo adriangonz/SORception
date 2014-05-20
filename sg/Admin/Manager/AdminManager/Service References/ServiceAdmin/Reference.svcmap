@@ -19,14 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://sorception.azurewebsites.net/GestionAdmin.svc?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://sorception.azurewebsites.net/GestionAdmin.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="GestionAdmin.wsdl" MetadataType="Wsdl" ID="2756b2fa-f280-4be9-90d3-56c3395fe221" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionAdmin.svc?wsdl" />
-    <MetadataFile FileName="GestionAdmin.xsd" MetadataType="Schema" ID="aba01107-c86f-44a5-be8b-8724afbac2e9" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd0" />
-    <MetadataFile FileName="GestionAdmin1.xsd" MetadataType="Schema" ID="451b7e01-bbd7-4881-8cda-b731f07dc405" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd1" />
-    <MetadataFile FileName="GestionAdmin2.xsd" MetadataType="Schema" ID="f525d9e6-8fc2-4aaf-92e4-b8edf5de5df1" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd2" />
-    <MetadataFile FileName="GestionAdmin1.wsdl" MetadataType="Wsdl" ID="a54f8691-1271-44fe-bebc-f55ddb245a89" SourceId="1" SourceUrl="http://sorception.azurewebsites.net/GestionAdmin.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="GestionAdmin2.wsdl" MetadataType="Wsdl" ID="2eecaaed-45eb-4ef2-ad0e-147ac951dabd" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionAdmin.svc?wsdl" />
+    <MetadataFile FileName="GestionAdmin3.xsd" MetadataType="Schema" ID="09e8c12a-138a-44d9-b2ad-719d2f4848c9" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd1" />
+    <MetadataFile FileName="GestionAdmin31.xsd" MetadataType="Schema" ID="a82080ff-5447-407f-913b-35513eddc801" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd0" />
+    <MetadataFile FileName="GestionAdmin21.wsdl" MetadataType="Wsdl" ID="79443212-17b9-4d4e-8d8a-a03e60036725" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionAdmin.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="GestionAdmin32.xsd" MetadataType="Schema" ID="9a1fd607-803f-4c20-af4b-52fcb54f1702" SourceId="1" SourceUrl="https://sorception.azurewebsites.net/GestionAdmin.svc?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

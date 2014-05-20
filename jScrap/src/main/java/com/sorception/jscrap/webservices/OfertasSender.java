@@ -19,10 +19,12 @@ import com.sorception.jscrap.entities.OfferLineEntity;
 import com.sorception.jscrap.entities.TokenEntity;
 import com.sorception.jscrap.generated.AMQOfertaMessage;
 import com.sorception.jscrap.generated.AMQOfertaMessageCode;
+import com.sorception.jscrap.generated.AMQSecureMessage;
 import com.sorception.jscrap.generated.ArrayOfExpOfertaLine;
 import com.sorception.jscrap.generated.ExpOferta;
 import com.sorception.jscrap.generated.ExpOfertaLine;
 import com.sorception.jscrap.generated.ObjectFactory;
+import com.sorception.jscrap.services.CryptoService;
 
 @Service
 public class OfertasSender {
@@ -34,6 +36,9 @@ public class OfertasSender {
 	
 	@Autowired
 	ObjectFactory objectFactory;
+	
+	@Autowired
+	CryptoService cryptoService;
 	
 	@Autowired
 	Jaxb2Marshaller marshaller;
@@ -108,15 +113,30 @@ public class OfertasSender {
 		return stringResult.toString();
 	}
 	
+	private String offerToSecured(
+			OfferEntity offer, TokenEntity token, 
+			AMQOfertaMessageCode code) {
+		StringResult stringResult = new StringResult();
+		String offerString = offerToString(offer, token, code);
+		byte[] encryptedOffer = cryptoService.encrypt(offerString, cryptoService.getScrapKey());
+		AMQSecureMessage secureMessage = objectFactory.createAMQSecureMessage();
+		secureMessage.setData(objectFactory.createAMQSecureMessageData(encryptedOffer));
+		secureMessage.setJunkyardToken(objectFactory.createAMQSecureMessageJunkyardToken(token.getToken()));
+		marshaller.marshal(
+				objectFactory.createAMQSecureMessage(secureMessage),
+				stringResult);
+		return stringResult.toString();
+	}
+	
 	public void sendNewOferta(OfferEntity offer, TokenEntity token) {
-		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.NEW));
+		jmsTemplate.convertAndSend(offerToSecured(offer, token, AMQOfertaMessageCode.NEW));
 	}
 	
 	public void sendDeleteOferta(OfferEntity offer, TokenEntity token) {
-		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.DELETE));
+		jmsTemplate.convertAndSend(offerToSecured(offer, token, AMQOfertaMessageCode.DELETE));
 	}
 	
 	public void sendUpdateOferta(OfferEntity offer, TokenEntity token) {
-		jmsTemplate.convertAndSend(offerToString(offer, token, AMQOfertaMessageCode.UPDATE));
+		jmsTemplate.convertAndSend(offerToSecured(offer, token, AMQOfertaMessageCode.UPDATE));
 	}
 }

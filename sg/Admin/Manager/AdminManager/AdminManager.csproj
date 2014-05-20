@@ -280,15 +280,15 @@
     </Content>
     <None Include="Service References\ServiceAdmin\configuration91.svcinfo" />
     <None Include="Service References\ServiceAdmin\configuration.svcinfo" />
-    <None Include="Service References\ServiceAdmin\GestionAdmin.wsdl" />
-    <None Include="Service References\ServiceAdmin\GestionAdmin.xsd">
+    <None Include="Service References\ServiceAdmin\GestionAdmin2.wsdl" />
+    <None Include="Service References\ServiceAdmin\GestionAdmin21.wsdl" />
+    <None Include="Service References\ServiceAdmin\GestionAdmin3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceAdmin\GestionAdmin1.wsdl" />
-    <None Include="Service References\ServiceAdmin\GestionAdmin1.xsd">
+    <None Include="Service References\ServiceAdmin\GestionAdmin31.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceAdmin\GestionAdmin2.xsd">
+    <None Include="Service References\ServiceAdmin\GestionAdmin32.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ServiceAdmin\Reference.svcmap">

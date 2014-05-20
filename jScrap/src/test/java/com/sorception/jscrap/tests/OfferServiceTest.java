@@ -16,6 +16,7 @@ import com.sorception.jscrap.dto.OfferLineDTO;
 import com.sorception.jscrap.entities.OfferEntity;
 import com.sorception.jscrap.entities.OfferLineEntity;
 import com.sorception.jscrap.error.ResourceNotFoundException;
+import com.sorception.jscrap.services.CryptoService;
 import com.sorception.jscrap.services.OfferService;
 
 @DatabaseSetup("classpath:offerDataset.xml")
@@ -25,7 +26,9 @@ public class OfferServiceTest extends BaseTest {
 	@Before
 	public void setup() {
 		offerService = (OfferService)applicationContext.getBean("offerService");
+		CryptoService cryptoService = (CryptoService)applicationContext.getBean("cryptoService");
 		loginUser("kaseyo");
+		cryptoService.generateAES();
 	}
 	
 	@Test

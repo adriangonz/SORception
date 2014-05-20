@@ -1,24 +1,18 @@
-INSERT INTO ApplicationUser (created, updated, isAdmin, name, username, password) VALUES (GetDate(), GetDate(), 1, 'Administrador', 'admin', '4bb43533b8ed0f6a3f762f5b8acfbc25535fb8a4c5e74f9165800cc12989b43d');
+INSERT INTO ApplicationUser (created, updated, isAdmin, name, username, password) VALUES (NOW(), NOW(), true, 'Administrador', 'admin', '4bb43533b8ed0f6a3f762f5b8acfbc25535fb8a4c5e74f9165800cc12989b43d');
+--INSERT INTO Token(created, updated, status, token) VALUES(NOW(), NOW(), 'VALID', 'asd');
 
--- Logback: the reliable, generic, fast and flexible logging framework.
--- Copyright (C) 1999-2010, QOS.ch. All rights reserved.
---
--- See http://logback.qos.ch/license.html for the applicable licensing 
--- conditions.
+BEGIN;
+DROP TABLE IF EXISTS logging_event_property;
+DROP TABLE IF EXISTS logging_event_exception;
+DROP TABLE IF EXISTS logging_event;
+COMMIT;
 
--- This SQL script creates the required tables by ch.qos.logback.classic.db.DBAppender
--- 
--- The event_id column type was recently changed from INT to DECIMAL(40)
--- without testing.
 
-DROP TABLE logging_event_property 
-DROP TABLE logging_event_exception 
-DROP TABLE logging_event 
-
+BEGIN;
 CREATE TABLE logging_event 
-  ( 
-    timestmp         DECIMAL(20) NOT NULL,
-   	formatted_message  VARCHAR(4000) NOT NULL,
+  (
+    timestmp         BIGINT NOT NULL,
+    formatted_message  TEXT NOT NULL,
     logger_name       VARCHAR(254) NOT NULL,
     level_string      VARCHAR(254) NOT NULL,
     thread_name       VARCHAR(254),
@@ -31,24 +25,28 @@ CREATE TABLE logging_event
     caller_class      VARCHAR(254) NOT NULL,
     caller_method     VARCHAR(254) NOT NULL,
     caller_line       CHAR(4) NOT NULL,
-    event_id          DECIMAL(40) NOT NULL identity,
-    PRIMARY KEY(event_id) 
-  ) 
+    event_id          BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY
+  );
+COMMIT;
 
-CREATE TABLE logging_event_property 
-  ( 
-    event_id          DECIMAL(40) NOT NULL, 
-    mapped_key        VARCHAR(254) NOT NULL, 
-    mapped_value      VARCHAR(1024), 
-    PRIMARY KEY(event_id, mapped_key), 
-    FOREIGN KEY (event_id) REFERENCES logging_event(event_id) 
-  ) 
+BEGIN;
+CREATE TABLE logging_event_property
+  (
+    event_id	      BIGINT NOT NULL,
+    mapped_key        VARCHAR(254) NOT NULL,
+    mapped_value      TEXT,
+    PRIMARY KEY(event_id, mapped_key),
+    FOREIGN KEY (event_id) REFERENCES logging_event(event_id)
+  );
+COMMIT;
 
-CREATE TABLE logging_event_exception 
-  ( 
-    event_id         DECIMAL(40) NOT NULL, 
-    i                SMALLINT NOT NULL, 
-    trace_line       VARCHAR(254) NOT NULL, 
-    PRIMARY KEY(event_id, i), 
-    FOREIGN KEY (event_id) REFERENCES logging_event(event_id) 
-  ) 
+BEGIN;
+CREATE TABLE logging_event_exception
+  (
+    event_id         BIGINT NOT NULL,
+    i                SMALLINT NOT NULL,
+    trace_line       VARCHAR(254) NOT NULL,
+    PRIMARY KEY(event_id, i),
+    FOREIGN KEY (event_id) REFERENCES logging_event(event_id)
+  );
+COMMIT;

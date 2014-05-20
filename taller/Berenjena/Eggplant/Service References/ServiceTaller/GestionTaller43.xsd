@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://sorception.azurewebsites.net/" elementFormDefault="qualified" targetNamespace="http://sorception.azurewebsites.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:tns="https://sorception.azurewebsites.net/" elementFormDefault="qualified" targetNamespace="https://sorception.azurewebsites.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="https://sorception.azurewebsites.net/GestionTaller.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ManagerSystem" />
   <xs:complexType name="ExpTaller">
     <xs:sequence>
@@ -11,6 +11,8 @@
   <xs:element name="ExpTaller" nillable="true" type="tns:ExpTaller" />
   <xs:complexType name="TokenResponse">
     <xs:sequence>
+      <xs:element minOccurs="0" name="aes_iv" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="aes_key" nillable="true" type="xs:base64Binary" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ManagerSystem" minOccurs="0" name="status" type="q1:TokenResponse.Code" />
       <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
     </xs:sequence>

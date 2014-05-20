@@ -1,5 +1,6 @@
 ﻿using Apache.NMS;
 using Apache.NMS.ActiveMQ.Commands;
+using ScrapWeb.Entities;
 using ScrapWeb.Services;
 using System;
 using System.Collections.Generic;
@@ -31,12 +32,19 @@ namespace ScrapWeb.AMQ
         public void SendMessage(object o, long delay = 0)
         {
             AESService aes_service = new AESService();
+            TokenService tokenService = new TokenService();
+            TokenEntity tokenEntity = tokenService.getValid();
 
             string message = ToXML(o);
-            string encryp_mesage = aes_service.encryptMessage_with_MyPair(message);
+            byte[] encryp_mesage = aes_service.encryptMessage_with_MyPair(message);
+
+            Webservices.AMQSecureMessage secure_msg = new Webservices.AMQSecureMessage();
+
+            secure_msg.data = encryp_mesage;
+            secure_msg.junkyard_token = tokenEntity.token;
 
             if (_disposed) throw new ObjectDisposedException(GetType().Name);
-            var textMessage = Producer.CreateTextMessage(encryp_mesage);
+            var textMessage = Producer.CreateTextMessage(ToXML(secure_msg));
             Producer.Send(textMessage);
         }
 

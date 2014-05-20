@@ -51,6 +51,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -239,6 +240,7 @@
     <Compile Include="Services\ISGService.cs" />
     <Compile Include="Services\ServicesFactory.cs" />
     <Compile Include="Services\SGService.cs" />
+    <Compile Include="Services\UDDIService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -288,9 +290,11 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <None Include="Properties\PublishProfiles\tallernet - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - FTP %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - FTP %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\tallernet - Web Deploy %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\tallernet - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -306,13 +310,13 @@
     <Content Include="Scripts\respond.min.js" />
     <None Include="Service References\ServiceTaller\configuration91.svcinfo" />
     <None Include="Service References\ServiceTaller\configuration.svcinfo" />
-    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.TokenResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExpOferta.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.ExpSolicitud.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ServiceTaller\Eggplant.ServiceTaller.TokenResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\ServiceTaller\GestionTaller2.wsdl" />
@@ -333,6 +337,10 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Service References\ServiceTaller\GestionTaller.disco" />
+    <Content Include="uddi.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -370,6 +378,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ServiceTaller\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\juddi-client.net\juddi-client.net\juddi-client.net.csproj">
+      <Project>{c3d005cd-6c26-49fd-a4d8-08699b66af6f}</Project>
+      <Name>juddi-client.net</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
